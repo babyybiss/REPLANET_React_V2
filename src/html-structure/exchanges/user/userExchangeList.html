@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Replanet</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="../../../assets/css/reset.css">
+    <link rel="stylesheet" href="../../../assets/css/common.css">
+    <link rel="stylesheet" href="../../../assets/css/userexchange.css">
+</head>
+
+
+<body>
+
+    <!-- header -->
+    <div class="topnav-area">
+        <div class="topnav" id="myTopnav" style="max-width: 100%!important; padding: 0 2rem">
+            <a href="main.html" class="brand">Replanet</a>
+            <div class="menu">
+                <a href="campaign.html" class="active">기부하기</a>
+                <a href="#">캠페인후기</a>
+                <a href="#">기부영수증</a>
+                <a href="mypage-pointlist.html">userId</a>
+                <a href="#" class="user"><i class="fa fa-sign-in"></i></a>
+                <a href="javascript:void(0);" class="icon" onclick="responsiveHeader()">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- pages -->
+
+    <div class="header-mypage">
+        <div class="header-mypage-menu bg-primary"><h4>USER01님</h4></div>
+        <div class="header-mypage-menu">
+            <h5>총 기부 횟수</h5>
+            <h3 class="text-primary">13회</h3>
+        </div>
+        <div class="header-mypage-menu">
+            <h6>총 기부 액수</h6>
+            <h4 class="text-primary">143,4320원</h4>
+        </div>
+    </div>
+
+    <div class="container-mypage">
+        <div class="mypage-sidebar bg-light">
+            <div class="mypage-sidebar-menu">
+                <h6>소유 기부포인트</h6>
+                <h4 style="color: #1D7151">70,000P</h4>
+            </div>
+            <div class="mypage-sidebar-menu">기부(결제)내역</div>
+
+            <div class="mypage-sidebar-menu active" onclick="toggleSubmenu(this);">포인트 전환 및 관리</div>
+            <!-- onclick 속성은 임시 -->
+            <div class="sidebar-submenu" onclick="location.href='userPointList.html'">서비스 안내</div>
+            <div class="sidebar-submenu" onclick="location.href='userPointExchange.html'">전환 신청</div>
+            <div class="sidebar-submenu active">전환 신청 내역</div>
+
+            <div class="mypage-sidebar-menu">기부영수증 안내</div>
+            <div class="mypage-sidebar-menu">관심리스트</div>
+            <div class="mypage-sidebar-menu bg-light">회원정보 수정</div>
+            <div class="mypage-sidebar-menu bg-light">회원탈퇴</div>
+        </div>
+        <div class="mypage-main">
+            <div class="mypage-title">
+                <h1 style="color: #1D7151">포인트 전환 신청 내역</h1>
+            </div>
+            <p style="color: black; text-align: right">총 신청 수 : 27건</p>
+            <table>
+                <thead>
+                <th>순번</th>
+                <th>신청 날짜</th>
+                <th>제목</th>
+                <th>상태</th>
+                </thead>
+                <tbody>
+                <tr class="openModal">
+                    <td>1</td>
+                    <td>2023년 11월 2일</td>
+                    <td>연탄 나눔</td>
+                    <td style="color: #1D7151">대기</td>
+                </tr>
+                <tr class="openModal">
+                    <td>1</td>
+                    <td>2023년 11월 2일</td>
+                    <td>양로원 봉사</td>
+                    <td style="color: #C7302B">반려(1년 경과)</td>
+                </tr>
+                <tr class="openModal">
+                    <td>1</td>
+                    <td>2023년 11월 2일</td>
+                    <td>줍깅 2시간</td>
+                    <td style="color: #428BF9">승인(20,000p)</td>
+                </tr>
+                <tr class="openModal">
+                    <td>1</td>
+                    <td>2023년 11월 2일</td>
+                    <td>양로원 봉사</td>
+                    <td style="color: #C7302B">반려(1년 경과)</td>
+                </tr>
+                <tr class="openModal">
+                    <td>1</td>
+                    <td>2023년 11월 2일</td>
+                    <td>줍깅 2시간</td>
+                    <td style="color: #428BF9">승인(20,000p)</td>
+                </tr>
+                <tr class="openModal">
+                    <td>1</td>
+                    <td>2023년 11월 2일</td>
+                    <td>양로원 봉사</td>
+                    <td style="color: #C7302B">반려(1년 경과)</td>
+                </tr>
+                <tr class="openModal">
+                    <td>1</td>
+                    <td>2023년 11월 2일</td>
+                    <td>줍깅 2시간</td>
+                    <td style="color: #428BF9">승인(20,000p)</td>
+                </tr>
+                <tr class="openModal">
+                    <td>1</td>
+                    <td>2023년 11월 2일</td>
+                    <td>양로원 봉사</td>
+                    <td style="color: #C7302B">반려(1년 경과)</td>
+                </tr>
+                <tr class="openModal">
+                    <td>1</td>
+                    <td>2023년 11월 2일</td>
+                    <td>줍깅 2시간</td>
+                    <td style="color: #428BF9">승인(20,000p)</td>
+                </tr>
+                <tr class="openModal">
+                    <td>1</td>
+                    <td>2023년 11월 2일</td>
+                    <td>줍깅 2시간</td>
+                    <td style="color: #428BF9">승인(20,000p)</td>
+                </tr>
+                </tbody>
+            </table>
+
+            <ul class="pagination">
+                <li class="icon">
+                    <a href="#"><span class="fas fa-angle-left"></span></a>
+                </li>
+                <li><a href="#" class="active">1</a></li>
+                <li><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+                <li><a href="#">4</a></li>
+                <li><a href="#">5</a></li>
+                <li class="icon">
+                    <a href="#"><span class="fas fa-angle-right"></span></a>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+
+    <div id="fileModal" class="modal">
+        <div class="modal-content" align="center">
+            <h2>2023년 11월 2일</h2><br/>
+            <p>김장 나눔 봉사</p><br/>
+            <!-- 파일 확장자가 pdf일 때 -->
+            <iframe width="400px" height="600px" src="../../../assets/images/exchange/pdf_file_example.pdf"></iframe>
+            <!-- 파일 확장자가 img일 때 -->
+<!--            <img src="../../../assets/images/exchange/img_file_example.png" style="width: 400px; height: 600px">-->
+            <br/><br/>
+            <button class="modal-btn" id="closeModal">닫기</button>
+        </div>
+    </div>
+
+    <footer class="bg-dark">
+        <div class="container">
+            <div class="items-container ic1 text-center">
+                copyright
+            </div>
+        </div>
+    </footer>
+
+    <script src="../../../assets/header.js"></script>
+
+    <script src="../../../assets/default.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+
+    <script>
+        const elements = document.getElementsByClassName("openModal");
+        for (var i = 0; i< elements.length; i++){
+            elements[i].addEventListener("click", function (){
+                document.getElementById("fileModal").style.display="block";
+            });
+        }
+
+        document.getElementById("closeModal").addEventListener("click", function (){
+            document.getElementById("fileModal").style.display="none";
+        })
+
+        function toggleSubmenu(element) {
+            const allSubmenus = document.querySelectorAll(".sidebar-submenu");
+            for (const submenu of allSubmenus) {
+                if (submenu.style.display === "block") {
+                    submenu.style.display = "none";
+                } else {
+                    submenu.style.display = "block";
+                }
+            }
+        }
+    </script>
+
+</body>
+
+</html>

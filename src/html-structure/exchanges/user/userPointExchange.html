@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Replanet</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="../../../assets/css/reset.css">
+    <link rel="stylesheet" href="../../../assets/css/common.css">
+    <link rel="stylesheet" href="../../../assets/css/userexchange.css">
+</head>
+
+
+<body>
+
+<!-- header -->
+<div class="topnav-area">
+    <div class="topnav" id="myTopnav" style="max-width: 100%!important; padding: 0 2rem">
+        <a href="main.html" class="brand">Replanet</a>
+        <div class="menu">
+            <a href="campaign.html" class="active">기부하기</a>
+            <a href="#">캠페인후기</a>
+            <a href="#">기부영수증</a>
+            <a href="mypage-pointlist.html">userId</a>
+            <a href="#" class="user"><i class="fa fa-sign-in"></i></a>
+            <a href="javascript:void(0);" class="icon" onclick="responsiveHeader()">
+                <i class="fa fa-bars"></i>
+            </a>
+        </div>
+    </div>
+</div>
+
+
+<!-- pages -->
+
+<div class="header-mypage">
+    <div class="header-mypage-menu bg-primary"><h4>USER01님</h4></div>
+    <div class="header-mypage-menu">
+        <h5>총 기부 횟수</h5>
+        <h3 class="text-primary">13회</h3>
+    </div>
+    <div class="header-mypage-menu">
+        <h6>총 기부 액수</h6>
+        <h4 class="text-primary">143,4320원</h4>
+    </div>
+</div>
+
+<div class="container-mypage">
+    <div class="mypage-sidebar bg-light">
+        <div class="mypage-sidebar-menu">
+            <h6>소유 기부포인트</h6>
+            <h4 style="color: #1D7151">70,000P</h4>
+        </div>
+        <div class="mypage-sidebar-menu">기부(결제)내역</div>
+
+        <div class="mypage-sidebar-menu active" onclick="toggleSubmenu(this);">포인트 전환 및 관리</div>
+        <!-- onclick 속성은 임시 -->
+        <div class="sidebar-submenu" onclick="location.href='userPointList.html'">서비스 안내</div>
+        <div class="sidebar-submenu active">전환 신청</div>
+        <div class="sidebar-submenu" onclick="location.href='userExchangeList.html'">전환 신청 내역</div>
+
+        <div class="mypage-sidebar-menu">기부영수증 안내</div>
+        <div class="mypage-sidebar-menu">관심리스트</div>
+        <div class="mypage-sidebar-menu bg-light">회원정보 수정</div>
+        <div class="mypage-sidebar-menu bg-light">회원탈퇴</div>
+    </div>
+    <div class="mypage-main" align="center">
+        <div class="mypage-title" align="center" style="color: #1D7151;">
+            <h1>포인트 전환 신청</h1>
+        </div>
+
+        <div class="exchange" align="center">
+            <img src="../../../assets/images/exchange/exchange.jpg" class="exchange-img"><br/>
+            <h2>봉사활동 확인서 업로드</h2><br/>
+            <input class="title-input" placeholder="등록할 제목을 입력해주세요"><br/><br/><br/>
+            <label for="file">
+                <div class="exchange-file">
+                    <h5 style="color: #1D7151">파일 선택</h5>
+                <br/>
+                5MB 이하의 pdf 혹은 이미지 파일로 업로드 바랍니다.
+                </div>
+            </label>
+            <input type="file" id="file" style="display: none" accept=".jpg, .jpeg, .png, .pdf" onchange="showFileName()"><br/>
+            <p id="fileName"></p><br/>
+            <button type="submit" class="button button-lg button-primary-outline">포인트 전환 신청</button><br/><br/>
+        </div>
+
+    </div>
+</div>
+
+<footer class="bg-dark">
+    <div class="container">
+        <div class="items-container ic1 text-center">
+            copyright
+        </div>
+    </div>
+</footer>
+
+<script src="../../../assets/header.js"></script>
+
+<script src="../../../assets/default.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+
+<script>
+    function showFileName(){
+        const input = document.getElementById('file');
+        const fileName = input.files[0].name;
+        const label = document.getElementById('fileName');
+        label.textContent = fileName;
+    }
+
+    function toggleSubmenu(element) {
+        const allSubmenus = document.querySelectorAll(".sidebar-submenu");
+        for (const submenu of allSubmenus) {
+            if (submenu.style.display === "block") {
+                submenu.style.display = "none";
+            } else {
+                submenu.style.display = "block";
+            }
+        }
+    }
+</script>
+
+</body>
+
+</html>
