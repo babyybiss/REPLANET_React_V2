@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="../../../assets/css/reset.css">
     <link rel="stylesheet" href="../../../assets/css/common.css">
     <link rel="stylesheet" href="../../../assets/css/adminexchange.css">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
     <style>
         button {
             width: 70px;
@@ -71,28 +72,43 @@
             </div>
             <br/>
             <!-- 신청 처리 전 -->
-            <button class="button button-primary-outline">승인</button>&nbsp;&nbsp;
-            <button class="button button-primary-outline" style="">반려</button>
+            <div>
+                <label class="confirm-btn" for="approval">
+                    승인
+                </label>
+                <input type="radio" name="confirm" id="approval" style="display: none" onclick="showDiv(this);">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <label class="confirm-btn" for="rejection">
+                    반려
+                </label>
+                <input type="radio" name="confirm" id="rejection" style="display: none" onclick="showDiv(this);">
+            </div>
             <br/><br/>
             <!-- 승인 버튼 누를 시 -->
-            <!--<div style="border: black 1px solid; border-radius: 4px; width: 500px">
-                <p style="color: gray">전환 포인트</p>
-                <input type="text" style="text-align: right; width: 90px; border: none" placeholder="0">포인트
-            </div>-->
+            <div id="approvalContent" class="content">
+                <div style="border: black 1px solid; border-radius: 4px; width: 500px">
+                    <p style="color: gray">전환 포인트</p>
+                    <input type="text" style="text-align: right; width: 90px; border: none" placeholder="0">포인트
+                </div>
+                <br/>
+                <button type="submit" class="button button-primary">등록</button>
+            </div>
             <!-- 반려 버튼 누를 시-->
-            <div>
-                <p style="color: gray">반려 사유</p>
-                <div class="item">
-                    <select class="select">
-                        <option class="option">선택</option>
-                        <option class="option">1년 경과</option>
-                        <option class="option">다중 신청</option>
-                        <option class="option">잘못된 파일</option>
-                    </select>
+            <div id="rejectionContent" class="content">
+                <div>
+                    <p style="color: gray">반려 사유</p>
+                    <div class="item">
+                        <select class="select">
+                            <option class="option">선택</option>
+                            <option class="option">1년 경과</option>
+                            <option class="option">다중 신청</option>
+                            <option class="option">잘못된 파일</option>
+                        </select>
+                    </div>
+                    <br/>
+                    <button type="submit" class="button button-primary">등록</button>
                 </div>
             </div>
-            <br/>
-            <button type="submit" class="button button-primary">등록</button>
 <!--            &lt;!&ndash; 이미 승인된 신청 &ndash;&gt;-->
 <!--            &lt;!&ndash;<br/><br/>-->
 <!--            <div style="border: #1D7151 2px solid; border-radius: 8px; width: 500px; height: 90px;">-->
@@ -133,6 +149,19 @@
     <script src="../../../assets/default.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+
+    <script>
+        function showDiv(element){
+            const tag = document.getElementsByClassName("content");
+            for(var i = 0; i<tag.length; i++){
+                if(element.id+"Content" == tag[i].id){
+                    tag[i].style.display = "block";
+                }else {
+                    tag[i].style.display = "none";
+                }
+            }
+        }
+    </script>
 
 </body>
 

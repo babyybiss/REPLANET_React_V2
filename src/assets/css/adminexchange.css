@@ -70,18 +70,21 @@
 
 /*추가한 내용*/
 
-  #approval {
-    color: #C7302B;
-  }
-
-  #rejection {
-    color: #428BF9;
-  }
-
-  #waiting {
-    color: #1D7151;
-  }
-
   table thead, tbody{
     text-align: center;
+  }
+
+  #rejectionContent, #approvalContent {
+    display: none;
+  }
+
+  .confirm-btn {
+    background-color: white;
+    border: solid 1px #1D7151;
+    color: #1D7151;
+    height: 40px;
+    width: 70px;
+    cursor: pointer;
+    border-radius: 0.25rem;
+    line-height: 40px;
   }
