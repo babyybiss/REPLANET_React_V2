@@ -1,0 +1,16 @@
+/*footer*/
+footer {
+    background-color: var(--color-dark) !important;
+    color: var(--color-light);
+    line-height: 2;
+    text-align: left;
+  }
+
+  footer .item {
+    text-align: left!important;
+  }
+
+footer h3 {
+  font-family: 'Anton'!important;
+  font-weight: 400!important;
+}

@@ -1,0 +1,68 @@
+/* campaign */
+
+.campaign-banner {
+    width: 100%;
+    padding: 1rem;
+    border-radius: 0.25rem;
+    margin-bottom: 40px
+  }
+  
+  .campaign-button-area {
+    width: 100%;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.25rem;
+    margin-bottom: 60px;
+  }
+  
+  @media screen and (max-width: 992px) {
+    .campaign-button-area {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+  
+  
+  .campaign-button-area>button {
+    padding: 0 1rem;
+    width: 100%
+  }
+  
+  .campaign-list-container .item {
+    display: grid;
+    gap: 1rem;
+    word-wrap: break-word
+  }
+  
+  .campaign-progress-info span {
+    font-size: 1.25rem
+  }
+  
+  .campaign-progress-info span.percent {
+    font-weight: bold
+  }
+  
+  
+  /*progress*/
+  .progress {
+    height: 5px;
+    width: 100%;
+    border: 0;
+    border-radius: .5rem;
+  }
+  
+  progress {
+    -webkit-appearance: none;
+  }
+  
+  ::-webkit-progress-bar {
+    background-color: var(--color-light-hover);
+    border-radius: .5rem;
+  }
+  
+  ::-webkit-progress-value {
+    background-color: var(--color-primary-disabled);
+    border-radius: .5rem;
+  }
