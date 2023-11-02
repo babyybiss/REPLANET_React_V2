@@ -1,18 +1,21 @@
-import '../assets/styles/Pagination.css';
-import '../assets/styles/Tabs.css';
-import '../assets/styles/Campaign.css';
-import '../assets/styles/Forms.css';
-import CampaignContinue from './campaigns/CampaignContinue';
-import Tab from '../component/campaigns/items/Tab';
+import '../assets/css/reset.css'
+import '../assets/css/pagination.css';
+import '../assets/css/tabs.css';
+import '../assets/css/campaign.css';
+import '../assets/css/forms.css';
+import '../assets/css/common.css';
+
+import Campaign from './campaigns/Campaign'
 import CountBox from '../component/campaigns/items/CountBox';
+import Tab from '../component/campaigns/items/Tab';
 
 function Main() {
   
   return (
     <div className="container-first">
-      <Tab />
+      <Tab/>
       <CountBox/>
-      <CampaignContinue/>
+      <Campaign/>
     </div>
 
   )

@@ -1,18 +1,16 @@
-import { NavLink } from "react-router-dom";
-
-function CampaignContinue(){
+function Campaign (){
     return(
-        <div className="items-container ic3 g-gap3 campaign-list-container">
-            <div className="item">
-                <NavLink className="itemThumb rounded 3 mb1" to='/campaignDetail'>
-                    <img src='./1.jpg' />
-                </NavLink>
+        <div>
+            <div class="item">
+            <a class="item-thumb rounded-3 mb-1" href="campaign-detail.html">
+              <img src="img/campaign/1.jpg" />
+            </a>
             <h4>2,760명의 아동에게 영양 가득한 식사를 선물했습니다</h4>
             <h6>사단법인 굿월드 자선은행</h6>
-            <progress className="progress" value="95" max="100"></progress>
-            <div className="campaign-progress-info">
-              <span className="amount">342,5000원</span>
-              <span className="percent float-right">95%</span>
+            <progress class="progress" value="50" max="100"></progress>
+            <div class="campaign-progress-info">
+              <span class="amount">342,5000원</span>
+              <span class="percent float-right">50%</span>
             </div>
           </div>
           <div class="item">
@@ -42,4 +40,5 @@ function CampaignContinue(){
         </div>
     );
 }
-export default CampaignContinue;
+
+export default Campaign;
