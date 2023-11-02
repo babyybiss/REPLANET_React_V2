@@ -1,0 +1,39 @@
+/*pagination*/
+.pagination {
+    margin: 2rem 0 2rem 0;
+    gap: .25rem
+  }
+  .pagination,
+  .pagination li a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .pagination li {
+    background: var(--color-white);
+    list-style: none;
+  }
+  .pagination li a {
+    text-decoration: none;
+    color: var(color--primary);
+    height: 40px;
+    width: 40px;
+    font-size: .9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: .25rem;
+    border: 1px solid var(--color-secondary);
+  }
+  .pagination li:last-child a {
+    border-right-width: 1px;
+  }
+  .pagination li a.active,
+  .pagination li a:hover,
+  .pagination li a:focus,
+  .pagination li a:active {
+    background: var(--color-primary);
+    border: 1px solid var(--color-primary);
+    color: var(--color-white)
+  }

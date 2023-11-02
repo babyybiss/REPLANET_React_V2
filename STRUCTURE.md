@@ -1,0 +1,125 @@
+프론트 패키지
+
+- src
+    - **apis(service)**
+        - ChartAPI.js
+        - ReviewAPI.js
+        - CampaignAPI.js
+        - PointAPI.js
+        - PayAPI.js
+        - BookmarkAPI.js
+        - DonationAPI.js
+        - ChatbotAPI.js
+    - **components**
+        - campaigns
+            - items
+                - Campaign.js
+                - CampaignContent.js
+                - CampaignPlan.js (사용계획)
+                - Categories.js
+                - CurrentProgress.js (현재 모금상태)
+                - Participation.js (회원별 참여내역)
+                - TodayChart.js (일일 기부현황)
+            - lists
+                - CampaignList.js
+                - ParticipationDetails.js (참여내역 리스트)
+        - charts
+            - CategoryCampaign.js
+            - GoalCampaign.js
+            - RegistedCampaign.js
+        - common
+            - Error.js
+            - Footer.js
+            - Header.js
+            - SideBar.js
+            - textEditor
+                - TextEditor.js
+        - mypage
+            - item
+                - Donation.js
+                - Bookmark.js
+            - lists
+                - BookmarkList.js
+                - DonationList.js
+        - pays
+            - Pay.js
+        - chatbots
+        - points
+            - items
+                - PointDetail.js(마이페이지에서 보여주는 제출한 파일)
+                - ExchangeDetail.js(관리자 상세조회-신청내용)
+                - ExchangeFile.js(관리자 상세조회-첨부파일뷰어)
+            - lists
+                - PointExchangeList.js(포인트전환신청리스트/권한구분)
+                - MyPointsList.js(마이페이지포인트내역)
+        - reviews
+            - items
+                - Reviews.js
+                - Comments.js
+                - Statistics.js
+            - list
+                - ReviewList.js
+                - CommentList.js
+        - users
+            - LoginMenuAsAuth.js
+            - LoginComponent.js
+            - SignupComponent.js
+            - FindComponent.js
+    - **layouts**
+        - Layout.js
+    - **modules**
+        - index.js
+        - ReviewModule.js
+        - CampaignModule.js
+        - PointModule.js
+        - ChartModule.js
+        - PayModule.js
+        - BookmarkModule.js
+        - DonationModule.js
+    - **pages**
+        - campaigns
+            - Main.js
+            - CampaignDetails.js
+            - CampaignRegist.js
+            - CampaignModify.js
+        - charts
+            - Charts.js
+        - pays
+            - Pay.js
+        - points
+            - MyPoints.js(유저)
+            - ExchangePoint.js(유저)
+            - MyExchanges.js(유저)
+            - AllExchanges.js(관리자)
+            - ExchangeDetails.js(관리자)
+        - reviews
+            - ReviewList.js
+            - ReviewDetails.js
+            - ReviewModify.js
+            - ReviewRegist.js
+        - chatbots
+            
+            
+        - users
+            - Login.js
+            - Signup.js
+            - Find.js
+            - Mypage.js
+    - **assets**
+        - images
+            - 파일있다
+        - fonts
+            - 파일있다
+        - css
+            - css1
+            - css2
+            - css3
+            - css4
+            - …
+    - **hooks**
+    
+    **App.js**
+    
+    **Store.js**
+    
+    **index.js**
