@@ -1,0 +1,28 @@
+.accordion-item__title {
+    display: block;
+    padding: 20px;
+    cursor: pointer;
+    background: #eee;
+    color: #333;
+    position: relative;
+}
+.accordion-item__title:after {
+    content: '+';
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    font-size: 2rem;
+    line-height: 2rem;
+    margin-top: -1rem;
+    font-weight: bold;
+}
+.accordion-item:nth-of-type(2n) .accordion-item__title {
+    background: #ddd;
+}
+.accordion-item__content {
+    display: none;
+    padding: 20px;
+}
+.accordion-item__content:target {
+    display: block;
+}

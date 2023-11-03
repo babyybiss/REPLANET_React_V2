@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Replanet</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="../../../assets/css/reset.css">
+    <link rel="stylesheet" href="../../../assets/css/common.css">
+    <link rel="stylesheet" href="../../../assets/css/adminexchange.css">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+    <style>
+        table {
+            width: 100%;
+        }
+        tbody tr {
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+
+<body>
+
+    <!-- header -->
+    <div class="topnav-area">
+        <div class="topnav" id="myTopnav" style="max-width: 100%!important; padding: 0 2rem">
+            <a href="main.html" class="brand">Replanet</a>
+            <div class="menu">
+                <a href="campaign.html" class="active">기부하기</a>
+                <a href="#">캠페인후기</a>
+                <a href="#">기부영수증</a>
+                <a href="mypage-pointlist.html">userId</a>
+                <a href="#" class="user"><i class="fa fa-sign-in"></i></a>
+                <a href="javascript:void(0);" class="icon" onclick="responsiveHeader()">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- pages -->
+
+    <div class="container-admin" style="margin-top: 3.375rem;">
+        <div class="admin-sidebar">
+            <div class="admin-sidebar-menu bg-primary">
+                <h6>관리자</h6>
+                <h4>Admin1234</h4>
+            </div>
+            <div class="admin-sidebar-menu">캠페인 관리</div>
+            <div class="admin-sidebar-menu active">포인트 전환 관리</div>
+            <div class="admin-sidebar-menu">후기 관리</div>
+            <div class="admin-sidebar-menu">기부현황 통계</div>
+        </div>
+        <div class="admin-main">
+            <div class="admin-title">
+                <h1 style="color: #1D7151">포인트 전환 관리</h1>
+            </div>
+            <p style="color: black; text-align: right">총 신청 수 : 108건</p>
+            <table>
+                <thead>
+                    <th>순번</th>
+                    <th>신청일</th>
+                    <th>아이디</th>
+                    <th>제목</th>
+                    <th>상태</th>
+                </thead>
+                <tbody>
+                <tr onclick="location.href='adminExchangeDetail.html.html'">
+
+                        <td>1</td>
+                        <td>date</td>
+                        <td>userid</td>
+                        <td>봉사활동정보</td>
+                        <td style="color: #1D7151">대기</td>
+                    </tr>
+                    <tr onclick="location.href='adminExchangeDetail.html.html'">
+
+                        <td>1</td>
+                        <td>date</td>
+                        <td>userid</td>
+                        <td>봉사활동정보</td>
+                        <td style="color: #1D7151">대기</td>
+                    </tr>
+                    <tr>
+
+                        <td>1</td>
+                        <td>date</td>
+                        <td>userid</td>
+                        <td>봉사활동정보</td>
+                        <td style="color: #428BF9">반려</td>
+                    </tr>
+                    <tr>
+
+                        <td>1</td>
+                        <td>date</td>
+                        <td>userid</td>
+                        <td>봉사활동정보</td>
+                        <td style="color: #428BF9">반려</td>
+                    </tr>
+                    <tr>
+
+                        <td>1</td>
+                        <td>date</td>
+                        <td>userid</td>
+                        <td>봉사활동정보</td>
+                        <td style="color: #428BF9">반려</td>
+                    </tr>
+                    <tr>
+
+                        <td>1</td>
+                        <td>date</td>
+                        <td>userid</td>
+                        <td>봉사활동정보</td>
+                        <td style="color: #428BF9">반려</td>
+                    </tr>
+                    <tr>
+
+                        <td>1</td>
+                        <td>date</td>
+                        <td>userid</td>
+                        <td>봉사활동정보</td>
+                        <td style="color: #C7302B">승인</td>
+                    </tr>
+                    <tr>
+
+                        <td>1</td>
+                        <td>date</td>
+                        <td>userid</td>
+                        <td>봉사활동정보</td>
+                        <td style="color: #C7302B">승인</td>
+                    </tr>
+                    <tr>
+
+                        <td>1</td>
+                        <td>date</td>
+                        <td>userid</td>
+                        <td>봉사활동정보</td>
+                        <td style="color: #C7302B">승인</td>
+                    </tr>
+                    <tr>
+
+                        <td>1</td>
+                        <td>date</td>
+                        <td>userid</td>
+                        <td>봉사활동정보</td>
+                        <td style="color: #C7302B">승인</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <ul class="pagination">
+                <li class="icon">
+                  <a href="#"><span class="fas fa-angle-left"></span></a>
+                </li>
+                <li><a href="#" class="active">1</a></li>
+                <li><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+                <li><a href="#">4</a></li>
+                <li><a href="#">5</a></li>
+                <li><a href="#">6</a></li>
+                <li><a href="#">7</a></li>
+                <li><a href="#">8</a></li>
+                <li><a href="#">9</a></li>
+                <li><a href="#">10</a></li>
+                <li class="icon">
+                  <a href="#"><span class="fas fa-angle-right"></span></a>
+                </li>
+              </ul>
+
+        </div>
+    </div>
+
+    <footer class="bg-dark">
+        <div class="container">
+            <div class="items-container ic1 text-center">
+                copyright
+            </div>
+        </div>
+    </footer>
+    
+    <script src="../../../assets/header.js"></script>
+    
+    <script src="../../../assets/default.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+
+</body>
+
+</html>

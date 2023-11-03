@@ -1,0 +1,46 @@
+/*table*/
+/* Style the table */
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    border: solid 1px var(--color-secondary);
+    border-left: 0;
+    border-right: 0;
+  }
+  
+  thead {
+    border-bottom: solid 2px var(--color-primary);
+    text-align: left;
+  }
+  
+  /* Style table headers and table data */
+  th,
+  td {
+    padding: 1rem;
+    border: solid 1px var(--color-secondary);
+    border-left: 0;
+    border-right: 0;
+  }
+  
+  th {
+    font-weight: 700;
+  }
+  
+  /* Zebra-striped table rows */
+  tr:nth-child(even) {
+    background-color: var(--color-light)
+  }
+  
+  tr:nth-child(even):hover {
+    background-color: var(--color-light-hover)
+  }
+  
+  
+  .fa-check {
+    color: green;
+  }
+  
+  .fa-remove {
+    color: red;
+  }
