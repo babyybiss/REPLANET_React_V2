@@ -1,0 +1,47 @@
+.pay-box {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.pay-box > input {
+  width: 23%;
+}
+
+.pay-container {
+  border: 1px solid #dbdbdb;
+  height: 110px;
+}
+
+.pay-backgroundColor {
+  background-color: #FAFAFA;
+}
+
+.pay-color-gray {
+  color: #8A8484;
+}
+
+.pay-color-green {
+  color: #1D7151;
+}
+
+.pay-anno{
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px;
+}
+
+.pay-anno div {
+  display: flex;
+}
+
+.pay-anno2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
