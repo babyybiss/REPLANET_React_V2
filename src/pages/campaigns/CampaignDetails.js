@@ -1,11 +1,11 @@
 function CampaignDetail() {
     return (
-        <div class="container-first">
-            <div class="items-container ic3 g-gap2 campaign-list-container">
-                <div class="item" style="	grid-column: 1 / 3;">
+        <div className="container-first">
+            <div className="items-container ic3 g-gap2 campaign-list-container">
+                <div className="item" style="	grid-column: 1 / 3;">
                     <h1>2,760명의 아동에게 영양 가득한 식사를 선물했습니다</h1>
 
-                    <div class="item-thumb rounded-3 mb-1">
+                    <div className="item-thumb rounded-3 mb-1">
                         <img src="img/campaign/1.jpg" />
                     </div>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
@@ -14,10 +14,10 @@ function CampaignDetail() {
                         pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
                         est laborum.</p>
                 </div>
-                <div class="item" style="display: block">
-                    <div class="text-right">
-                        <div class="toggle">
-                            <button id="btn" class="btn" onclick="">
+                <div className="item" style="display: block">
+                    <div className="text-right">
+                        <div className="toggle">
+                            <button id="btn" className="btn" onclick="">
                                 하트
                             </button>
                         </div>
@@ -25,17 +25,17 @@ function CampaignDetail() {
                         <h6>3,000,000,000원 목표</h6>
                     </div>
 
-                    <progress class="progress mt-1" value="81" max="100"></progress>
-                    <div class="campaign-progress-info mt-1 pt-1">
-                        <span class="amount">2023. 10. 02</span>
-                        <span class="percent float-right">81%</span>
+                    <progress className="progress mt-1" value="81" max="100"></progress>
+                    <div className="campaign-progress-info mt-1 pt-1">
+                        <span className="amount">2023. 10. 02</span>
+                        <span className="percent float-right">81%</span>
                     </div>
-                    <div class="items-container ic2 mt-1 pt-1">
-                        <button class="button button-primary" onclick="location.href='/campaignRegist.html'">후원하기</button>
-                        <button class="button button-primary-outline">공유하기</button>
+                    <div className="items-container ic2 mt-1 pt-1">
+                        <button className="button button-primary" onclick="location.href='/campaignRegist.html'">후원하기</button>
+                        <button className="button button-primary-outline">공유하기</button>
                     </div>
-                    <div class="items-container ic1">
-                        <div class="item p-2 border">
+                    <div className="items-container ic1">
+                        <div className="item p-2 border">
                             <p>
                                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
                                 dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
@@ -44,7 +44,7 @@ function CampaignDetail() {
                                 mollit anim id est laborum.
                             </p>
                         </div>
-                        <div class="item p-2 border">
+                        <div className="item p-2 border">
                             <p>
                                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
                                 dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
@@ -57,7 +57,7 @@ function CampaignDetail() {
                 </div>
             </div>
             <hr />
-            <div class="items-container ic1">
+            <div className="items-container ic1">
                 <h2>The standard Lorem Ipsum passage, used since the 1500s</h2>
                 <p>
                     Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem
@@ -71,28 +71,28 @@ function CampaignDetail() {
                 </p>
             </div>
 
-            <div class="items-container ic3">
+            <div className="items-container ic3">
 
-                <div class="item">
-                    <div class="card">
-                        <div class="card-body">
-                            <h3 class="text-primary">목표 금액</h3>
+                <div className="item">
+                    <div className="card">
+                        <div className="card-body">
+                            <h3 className="text-primary">목표 금액</h3>
                             <h6>3,000,000,000원</h6>
                         </div>
                     </div>
                 </div>
-                <div class="item">
-                    <div class="card">
-                        <div class="card-body">
-                            <h3 class="text-primary">마감일</h3>
+                <div className="item">
+                    <div className="card">
+                        <div className="card-body">
+                            <h3 className="text-primary">마감일</h3>
                             <h6>2020.01.01 ~ 2030.01.01</h6>
                         </div>
                     </div>
                 </div>
-                <div class="item">
-                    <div class="card">
-                        <div class="card-body">
-                            <h3 class="text-primary">단체명</h3>
+                <div className="item">
+                    <div className="card">
+                        <div className="card-body">
+                            <h3 className="text-primary">단체명</h3>
                             <h6>사회복지법인 효원(경산양로원)</h6>
                         </div>
                     </div>
