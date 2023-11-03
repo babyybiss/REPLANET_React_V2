@@ -4,6 +4,8 @@ import Layout from './layouts/Layout';
 import Main from './pages/Main';
 import CampaignDetail from './pages/campaigns/CampaignDetails';
 import Draft from './Draft';
+import Charts from './pages/charts/Charts';
+
 
 function App() {
   return (
@@ -13,14 +15,14 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Main />} />
-          <Route path="/" element={<Main />}>
-            <Route path="campaign">
-              <Route index element={<CampaignDetail />} />
-              <Route path=":campaignCode" element={<CampaignDetail />} />
-            </Route>
+          <Route path="/" element={<Main />}/>
+          <Route path="campaign">
+            <Route index element={<CampaignDetail />}/>
+            <Route path=":campaignCode" element={<CampaignDetail />}/>
           </Route>
+          <Route path="charts" element={<Charts/>}/>
         </Route>
-        </Routes>
+      </Routes>
       </BrowserRouter>
     </>
   );

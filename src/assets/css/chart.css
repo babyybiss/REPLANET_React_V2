@@ -1,0 +1,8 @@
+.chartMain {
+    display: flex;
+}
+
+.chart-section {
+    margin: auto;
+    width: 800px
+}
