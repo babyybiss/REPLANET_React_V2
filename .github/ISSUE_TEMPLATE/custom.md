@@ -13,8 +13,8 @@ assignees: ''
 
 ## Progress
 
-- [x] todo1 : 
-- [x] todo2 : 
-- [x] todo3 : 
+- [ ] todo1 : 
+- [ ] todo2 : 
+- [ ] todo3 : 
 
 ## Screen Shot
