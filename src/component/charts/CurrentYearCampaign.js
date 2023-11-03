@@ -41,7 +41,8 @@ function CurrentYearCampaign() {
       monthly: 12, campaings: 25, label: ""
     }
   ];
-  
+
+
   const eventHandlerCustomData = [
     {
       target: "data",
@@ -61,7 +62,7 @@ function CurrentYearCampaign() {
         onMouseOver: () => {
           return [{
             mutation: (eventProps) => {
-              //console.log(eventProps);
+              console.log(eventProps);
               return {style: Object.assign({}, eventProps.style, {fill:"#03CB7F"})};
             }
           }]
