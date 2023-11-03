@@ -5,6 +5,7 @@ import Main from './pages/Main';
 import CampaignDetail from './pages/campaigns/CampaignDetails';
 import Draft from './Draft';
 import Charts from './pages/charts/Charts';
+import Pay from './pages/pays/Pay';
 
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
             </Route>
           </Route>
           <Route path="charts" element={<Charts/>}/>
+          <Route path="donations" element={<Pay/>}/>
         </Route>
       </Routes>
       </BrowserRouter>

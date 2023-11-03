@@ -19,14 +19,29 @@ function PayForm() {
     }
 
     const onChangeHandler = (e) => {
-        const newDonationAmount = {
+        const inputValue = e.target.value;
+
+        if (/^[1-9]\d*$|^0$/.test(inputValue)) {
+            const intValue = parseInt(inputValue, 10);
+            const cashAmount = e.target.name === "cashAmount" ? intValue : donationAmount.cashAmount;
+            const pointAmount = e.target.name === "pointAmount" ? intValue : donationAmount.pointAmount;
+            const finalAmount = cashAmount - pointAmount;
+        
+            if (finalAmount < 0) {
+            alert("기부금액을 초과하는 포인트 사용은 불가합니다.");
+            return;
+            }
+        
+            const newDonationAmount = {
             ...donationAmount,
-            [e.target.name]: parseInt(e.target.value),
-            finalAmount: e.target.name === "cashAmount" ?
-                parseInt(e.target.value) - donationAmount.pointAmount :
-                donationAmount.cashAmount - parseInt(e.target.value),
-        };
-        setDonationAmount(newDonationAmount);
+            [e.target.name]: intValue,
+            finalAmount: e.target.name === "cashAmount" ? intValue - donationAmount.pointAmount : donationAmount.cashAmount - intValue,
+            };
+            setDonationAmount(newDonationAmount);
+        } else {
+            const newDonationAmount = { ...donationAmount };
+            setDonationAmount(newDonationAmount);
+        }
     }
 
     useEffect(() => {
@@ -39,7 +54,7 @@ function PayForm() {
             <div className="container-centered pay-container">
                 <div className="pay-box">
                     <h4>기부금액</h4>
-                    <input type="number" name="cashAmount" value={ donationAmount.cashAmount } onChange={onChangeHandler} className="input"/>
+                    <input type="number" name="cashAmount" value={ donationAmount.cashAmount } onChange={onChangeHandler} className="input" inputMode="numeric" min="0" onClick={(e) => e.target.select()}/>
                     <h4>원</h4>
                 </div>
                 <span className="pay-color-gray">금액을 입력해주세요. 최소 기부 가능 금액 : 1,000원</span>
@@ -47,16 +62,18 @@ function PayForm() {
             <div className="container-centered pay-container">
                 <div className="pay-box">
                     <h4>포인트사용</h4>
-                    <input type="number" name="pointAmount" value={ donationAmount.pointAmount } onChange={onChangeHandler} className="input"/>
+                    <input type="number" name="pointAmount" value={ donationAmount.pointAmount } onChange={onChangeHandler} className="input" inputMode="numeric" min="0" onClick={(e) => e.target.select()}/>
                     <h4>포인트</h4>
                 </div>
                 
                 <div className="pay-box">
                     <div className="pay-anno2">
                         <input id="c1" type="checkbox" />
-                        <label for="c1"><span className="pay-color-gray">전체사용</span></label>
+                        <label htmlFor="c1"><span className="pay-color-gray">전체사용</span></label>
+                        {/* 전체 사용 누르면 user의 포인트 다 입력되게하기! (단, 기부금액을 초과하지 않아야함.) */}
                         <span className="pay-color-gray">가용포인트 : </span>
                         <span className="pay-color-green">5,000</span>
+                        {/* user의 포인트 끌어오기! */}
                         <br/>
                         <span className="pay-color-gray">최소 기부 가능 포인트: 1,000 포인트 </span>
                     </div>
@@ -85,13 +102,13 @@ function PayForm() {
                     </pre>
                 </div>
                 <input id="c2" type="checkbox" className="mb-1" />
-                <label for="c2">(필수) RE-PLANET 이용약관에 동의합니다.</label>
+                <label htmlFor="c2">(필수) RE-PLANET 이용약관에 동의합니다.</label>
             </div>
             
             <div className="container-centered pay-container">
                 <div className="pay-box">
                     <h3>결제금액 : </h3>
-                    <h3 name="finalAmount" value={ donationAmount.finalAmount } className="pay-color-green"></h3>
+                    <h3 name="finalAmount" value={ donationAmount.finalAmount } className="pay-color-green">{ donationAmount.finalAmount.toLocaleString() }</h3>
                     <h3>원</h3>
                 </div>
                     <span className="pay-color-gray">금액을 입력해주세요. 최소 기부 가능 금액 : 1,000원</span>
