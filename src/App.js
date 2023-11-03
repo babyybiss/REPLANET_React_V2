@@ -4,6 +4,8 @@ import Layout from './layouts/Layout';
 import Main from './pages/Main';
 import CampaignDetail from './pages/campaigns/CampaignDetails';
 import Draft from './Draft';
+import Charts from './pages/charts/Charts';
+
 
 function App() {
   return (
@@ -17,8 +19,9 @@ function App() {
             <Route path="/campaign/:campaignCode" element={<CampaignDetail />}>
             </Route>
           </Route>
+          <Route path="charts" element={<Charts/>}/>
         </Route>
-        </Routes>
+      </Routes>
       </BrowserRouter>
     </>
   );
