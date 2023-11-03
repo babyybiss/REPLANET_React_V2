@@ -19,8 +19,8 @@ function ExchangePoint(){
     }
 
     return(
-        <div style={{alignItems:center}}>
-            <div>
+        <div class="mypage-main" style={{alignItems:center}}>
+            <div class="mypage-title">
                 <h1>포인트 전환 신청</h1>
             </div>
             <div className="exchange">

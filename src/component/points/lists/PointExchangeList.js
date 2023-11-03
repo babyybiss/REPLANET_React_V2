@@ -1,32 +1,35 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import "../../assets/css/reset.css";
+import "../../assets/css/common.css";
+import "../../assets/css/adminexchange.css";
+import { useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-dom";
 
+
 function PointExchangeList(){
+
+    const [state, setState] = useState();
 
     const result = useSelector(state => state.exchangeReducer);
     const exchanges = result.exchanges;
     const navigate = useNavigate();
-    const dispatch = useDispatch();
-
-    const [exchange, setExchange] = useState([]);
-
-    
-    useEffect(
-        () => {
-            dispatch(callGetPointAPI());
-        },
-        []
-    );
 
     const showDetail = () => {
         navigate("/ExchangeDetail.js");
     };
 
+    const statusColor = item.status === 'waiting' ? '#1D7151' :
+                        item.status === 'approval' ? '#428BF9' : '#C7302B';
+    
+
+    const statusStyle = {
+        color: statusColor
+    };
+
     return(
         exchanges && (
             <div>
-                <p>총 신청 수 : {result.count}</p>
+                <p style={{color:"black", textAlign:"right"}}>총 신청 수 : {result.count}</p>
                 <table>
                     <thead>
                         <th>순번</th>
@@ -41,7 +44,7 @@ function PointExchangeList(){
                             <td>{item.exchangeDate}</td>
                             <td>{item.memberId}</td>
                             <td>{item.title}</td>
-                            <td>{item.status}</td>
+                            <td style={statusStyle}>{item.status}</td>
                         </tr>
                     </tbody>
                 </table>

@@ -60,6 +60,7 @@
     align-items: center;
     justify-content: center;
     margin-bottom: 2rem;
+    color: #1D7151;
 }
 
 .mypage-title > * {
@@ -139,7 +140,7 @@ table thead, tbody{
 }
 
 .modal {
-    display: none;
+    display: block;
     position: fixed;
     z-index: 1;
     left: 0;
@@ -155,6 +156,7 @@ table thead, tbody{
     width: 60%;
     border: 1px solid lightgray;
     border-radius: 10px;
+    align-items: center;
 }
 
 .modal-btn {
@@ -165,4 +167,10 @@ table thead, tbody{
     border: solid 1px #DB524E;
     border-radius: 0.25rem;
     cursor: pointer;
+}
+
+.externalLink {
+    color: #428BF9; 
+    cursor: pointer; 
+    text-decoration: underline;
 }
