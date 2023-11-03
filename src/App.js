@@ -14,9 +14,7 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Main />} />
           <Route path="/" element={<Main />}>
-            <Route path="campaign">
-              <Route index element={<CampaignDetail />} />
-              <Route path=":campaignCode" element={<CampaignDetail />} />
+            <Route path="/campaign/:campaignCode" element={<CampaignDetail />}>
             </Route>
           </Route>
         </Route>
