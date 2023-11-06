@@ -12,16 +12,16 @@ function App() {
     <>
 
       <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Main />} />
-          <Route path="/" element={<Main />}>
-            <Route path="/campaign/:campaignCode" element={<CampaignDetail />}>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Main />} />
+            <Route path="/" element={<Main />}>
+              <Route path="/campaign/:campaignCode" element={<CampaignDetail />}>
+              </Route>
             </Route>
+            <Route path="charts" element={<Charts />} />
           </Route>
-          <Route path="charts" element={<Charts/>}/>
-        </Route>
-      </Routes>
+        </Routes>
       </BrowserRouter>
     </>
   );

@@ -1,41 +1,23 @@
-## PR Checklist
-Please check if your PR fulfills the following requirements:
+## PR 유형 분류
 
-- [ ] Tests for the changes have been added (for bug fixes / features)
-- [ ] Docs have been added / updated (for bug fixes / features)
+- [ ]  버그픽스
+- [ ]  기능 추가 또는 수정
+- [ ]  코드 작성 방식 또는 변수명 수정
+- [ ]  리팩토링(기능, API 변경 없음)
+- [ ]  빌드 관련 수정
+- [ ]  설정파일 관련 수정
+- [ ]  docs 관련 수정
+- [ ]  기타 유형
 
-
-## PR Type
-What kind of change does this PR introduce?
-
-<!-- Please check the one that applies to this PR using "x". -->
-
-- [ ] Bugfix
-- [ ] Feature
-- [ ] Code style update (formatting, local variables)
-- [ ] Refactoring (no functional changes, no api changes)
-- [ ] Build related changes
-- [ ] CI related changes
-- [ ] Documentation content changes
-- [ ] Other... Please describe:
-
-
-## What is the current behavior?
-<!-- Please describe the current behavior that you are modifying, or link to a relevant issue. -->
+## 이번 PR의 주요 변경 사항(직접 서술 또는 링크 첨부)
 
 Issue Number: N/A
 
+## 변경사항 관련 서술
 
-## What is the new behavior?
+## 본 PR에 대규모 변경이 포함되어 있는지 여부(있을 경우 관련 서술)
 
+- [ ]  Yes
+- [x]  No
 
-## Does this PR introduce a breaking change?
-
-- [ ] Yes
-- [x] No
-
-
-<!-- If this PR contains a breaking change, please describe the impact and migration path for existing applications below. -->
-
-
-## Other information
+## 기타

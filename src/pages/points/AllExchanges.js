@@ -1,9 +1,14 @@
 import PointExchangeList from "../../component/points/lists/PointExchangeList";
+import "../../assets/css/reset.css";
+import "../../assets/css/common.css";
+import "../../assets/css/adminexchange.css";
 
 function AllExchanges(){
     return(
-        <div>
-            <h1>포인트 전환 관리</h1>
+        <div className="admin-main">
+            <div className="admin-title">
+                <h1>포인트 전환 관리</h1>
+            </div>
             <PointExchangeList/>
         </div>
     );

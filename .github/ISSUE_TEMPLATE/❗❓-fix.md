@@ -1,5 +1,5 @@
 ---
-name: Custom issue template
+name: "❗❓ FIX"
 about: Describe this issue template's purpose here.
 title: ''
 labels: ''
@@ -10,11 +10,5 @@ assignees: ''
 ## Description 
 
 > description  상황 설명~
-
-## Progress
-
-- [ ] todo1 : 
-- [ ] todo2 : 
-- [ ] todo3 : 
 
 ## Screen Shot
