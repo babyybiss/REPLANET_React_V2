@@ -1,25 +1,24 @@
-import { useDispatch,useSelector } from "react-redux";
 import { useEffect } from "react";
-import Campaign from "../items/Campaign";
-import { CampaignAPI } from "../../../apis/CampaignAPI";
+import { useDispatch,useSelector } from "react-redux";
+import CampaignItem from "../items/CampaignItem";
+import { CampaignListAPI } from "../../../apis/CampaignListAPI";
 
 function CampaignList() {
-    const data = useSelector(state => state.campaignReducer)
+    const result = useSelector(state => state.campaignReducer)
+
+    const campaignList = result.campaignlist || result.campaignDoneList;
     const dispatch = useDispatch();
 
-    const campaigns = data.data;
-    console.log(campaigns,'result 리스트1');
-    console.log(data,'result 리스트2');
     useEffect(
         () => {
-            dispatch(CampaignAPI);
+            dispatch(CampaignListAPI());
         },
         []
     );
     return (
-        campaigns && (
-        <div>
-            {campaigns.map(campaign => <Campaign key={campaign.id} campaign={campaign} />)}
+        campaignList && (
+        <div className="items-container ic3 g-gap3 campaign-list-container">
+            {campaignList.map(campaign => <CampaignItem key={campaign.id} campaign={campaign} />)}
         </div>
         )
     );
