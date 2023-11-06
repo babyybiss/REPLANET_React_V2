@@ -12,22 +12,25 @@ function App() {
   return (
     <>
 
-      <BrowserRouter>
+    <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route index element={<Main />} />
-          <Route path="reviews">
-            <Route index element={<Reviews />} />
-            <Route path=":campaignRevCode" element={<ReviewDetails />}/>
-          </Route>
-          <Route path="/" element={<Main />}>
+            <Route index element={<Main />} />
             
-            <Route path="/campaign/:campaignRevCode" element={<CampaignDetail />}>
-            </Route>
+              <Route path="reviews">
+                <Route index element={<Reviews />} />
+                <Route path=":campaignRevCode" element={<ReviewDetails />}/>
+              </Route>
+
+              <Route path="/" element={<Main />}>
+                <Route path="/campaign/:campaignCode" element={<CampaignDetail />}>
+              </Route>  
+  
+              <Route path="/regist" element={<CampaignRegist/>}/>
+              <Route path="charts" element={<Charts />} />
+
           </Route>
-          <Route path="charts" element={<Charts/>}/>
-        </Route>
-      </Routes>
+        </Routes>
       </BrowserRouter>
     </>
   );

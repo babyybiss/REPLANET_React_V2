@@ -1,5 +1,7 @@
-import img from "../../../assets/images/exchange/img_file_example.png"
-import pdf from "../../../assets/images/exchange/pdf_file_example.pdf"
+import "../../assets/css/reset.css";
+import "../../assets/css/common.css";
+import "../../assets/css/adminexchange.css";
+
 
 function ExchangeFile(){
 
@@ -9,10 +11,10 @@ function ExchangeFile(){
 
     const fileExtension = getFileExtension(filename);
     
-    if(fileExtension === 'jpg' || fileExtension === 'png' || fileExtension === 'jpeg'){
-        return <img src={img}/>;
-    } else if(fileExtension === 'pdf'){
-        return <iframe src={pdf}/>;
+    if(fileExtension === 'pdf'){
+        return <div style={{alignItems:"center"}}><br/><iframe src={filename} className="infoFile"/><br/></div>;
+    } else{
+        return <div style={{alignItems:"center"}}><br/><img src={filename} className="infoFile"/><br/></div>;
     }
 }
 

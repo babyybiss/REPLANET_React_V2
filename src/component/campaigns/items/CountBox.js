@@ -1,3 +1,5 @@
+import { NavLink } from "react-router-dom";
+
 function CountBox(){
     return(
         <>
@@ -15,7 +17,7 @@ function CountBox(){
             <button className="button button-primary-outline">categoryName</button>
             <button className="button button-primary-outline">categoryName</button>
             <button className="button button-primary-outline">categoryName</button>
-            <button className="button button-primary" id="button-registCampaign">캠페인 등록</button>
+            <button className="button button-primary" id="button-registCampaign" ><NavLink to={"/regist"}>캠페인 등록</NavLink></button>
           </div>
         </div>
         </>
