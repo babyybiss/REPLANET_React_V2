@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useEffect } from "react";
+import axios, { Axios } from "axios";
 
 function PayForm() {
 
@@ -16,6 +17,22 @@ function PayForm() {
 
     const payHandler = () => {
         console.log('(PayForm) payHandler 동작...');
+
+        const data = {
+            cashAmount: donationAmount.cashAmount,
+            pointAmount: donationAmount.pointAmount,
+            finalAmount: donationAmount.finalAmount
+        };
+
+        axios.post('http://localhost:8001/kakaoPay', data)
+            .then((response) => {
+                console.log('서버 응답 : ', response.data);
+                const redirectURL = response.data.replace('redirect:', '');
+                window.location.href = redirectURL;
+            })
+            .catch((error) => {
+                console.error('요청 실패 : ', error);
+            });
     }
 
     const onChangeHandler = (e) => {
