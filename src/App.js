@@ -28,7 +28,7 @@ function App() {
   
               <Route path="/regist" element={<CampaignRegist/>}/>
               <Route path="charts" element={<Charts />} />
-
+            </Route>
           </Route>
         </Routes>
       </BrowserRouter>
