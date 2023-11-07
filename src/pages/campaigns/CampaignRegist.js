@@ -1,3 +1,5 @@
+import DraftEditor from "../../component/common/DraftEditor";
+
 function CampaignRegist() {
     return (
         <>
@@ -9,7 +11,7 @@ function CampaignRegist() {
                     <option>카테고리3</option>
                 </select>
                 <input type="text" placeholder="제목 입력" />
-                <div id="summernote"></div>
+                <DraftEditor/>
             </div>
             <div class="container" id="container-user">
                 <h3 class="text-center">기부금 사용 계획 </h3>

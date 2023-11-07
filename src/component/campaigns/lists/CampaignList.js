@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch,useSelector } from "react-redux";
 import CampaignItem from "../items/CampaignItem";
 import { CampaignListAPI } from "../../../apis/CampaignListAPI";
@@ -15,10 +15,11 @@ function CampaignList() {
         },
         []
     );
+
     return (
         campaignList && (
         <div className="items-container ic3 g-gap3 campaign-list-container">
-            {campaignList.map(campaign => <CampaignItem key={campaign.id} campaign={campaign} />)}
+            {campaignList.map(campaign => <CampaignItem key={campaign.campaignCode} campaign={campaign} />)}
         </div>
         )
     );
