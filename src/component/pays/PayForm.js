@@ -61,9 +61,7 @@ function PayForm() {
         }
     }
 
-    useEffect(() => {
-        console.log(donationAmount);
-    }, [donationAmount.cashAmount, donationAmount.pointAmount]);
+    useEffect(() => {}, [donationAmount.cashAmount, donationAmount.pointAmount]);
 
     return(
         <>
