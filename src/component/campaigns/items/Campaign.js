@@ -18,33 +18,36 @@ function Campaign() {
     const campaignInfo = result.campaigninfo;
     const dispatch = useDispatch();
 
-    console.log('campaingn: ', campaignCode);
+    console.log('campaingn: ', result);
 
     useEffect(
         () => {
             dispatch(GetCampaignAPI(campaignCode));
+            
         },
         []
     );
 
     return (
-        <div className="container-first">
-            <h1> 제목 들어갈 자리</h1>
-            <div className="container-content">
-                <div>
-                    <CampaignContent campaignInfo={campaignInfo} />
-                    <CampaignPicture campaignInfo={campaignInfo} />
-                    <CampaignPlan campaignInfo={campaignInfo} />
-                    <h2 style={{ textAlign: "center" }}>참여 내역 </h2>
-                    <div className="items-container ic3">
-                        참여내역
+        campaignInfo && (
+            <div className="container-first">
+                <h1>{campaignInfo.campaignTitle} </h1>
+                <div className="container-content">
+                    <div>
+                        <CampaignContent campaignInfo={campaignInfo} />
+                        <CampaignPicture campaignInfo={campaignInfo} />
+                        <CampaignPlan campaignInfo={campaignInfo} />
+                        <h2 style={{ textAlign: "center" }}>참여 내역 </h2>
+                        <div className="items-container ic3">
+                            참여내역
+                        </div>
                     </div>
+                    <CampaignSidebar campaignInfo={campaignInfo} />
+
                 </div>
-                <CampaignSidebar />
 
             </div>
-
-        </div>
+        )
     );
 }
 export default Campaign;

@@ -2,10 +2,7 @@ function CampaignPicture({campaignInfo}) {
     return (
         campaignInfo && (
         <div>
-            <h2>{campaignInfo && campaignInfo.name} </h2>
-            <p>
-                사진 리스트
-            </p>
+            <h2>사진 리스트 </h2>
         </div>
         )
 
