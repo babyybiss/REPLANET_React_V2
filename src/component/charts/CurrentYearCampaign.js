@@ -1,4 +1,5 @@
-import {VictoryBar, VictoryChart, VictoryAxis} from 'victory';
+import {VictoryContainer, VictoryBar, VictoryChart, VictoryAxis} from 'victory';
+import "../../assets/css/chart.css";
 
 function CurrentYearCampaign() {
 
@@ -32,7 +33,7 @@ function CurrentYearCampaign() {
       monthly: 9, campaings: 320, label: ""
     },
     {
-      monthly: 10, campaings: 700, label: ""
+      monthly: 10, campaings: 552, label: ""
     },
     {
       monthly: 11, campaings: 100, label: ""
@@ -41,37 +42,48 @@ function CurrentYearCampaign() {
       monthly: 12, campaings: 25, label: ""
     }
   ];
-  
+
+
   const eventHandlerCustomData = [
     {
       target: "data",
       eventHandlers: {
-        onClick: () => {
+        onMouseOver: () => {
           return [{
+            mutation: ({style}) => {
+              const strokeWidth = style && style.strokeWidth
+              return strokeWidth === 1 ? {style: {fill:"#FFF8A8", stroke: "#10573C", strokeWidth: 3}} : {style:{fill:"#FFF8A8", stroke: "#FFEB00", strokeWidth: 3}};
+            }
+          }]
+        },
+        onMouseOut: () => {
+          return [{
+            mutation: ({style}) => {
+              const stroke = style && style.stroke
+              return stroke === "#FFEB00" ? {style:{fill:"#FFF8A8", stroke: "#FFEB00", strokeWidth: 3}} : null;
+            }
+          }]
+        },
+        onClick: () => {
+          return [
+            {
             target: "labels",
             mutation: ({data, index, text}) => {
               // const {data, index, text} = eventProps;
               const campaings = data[index].campaings
               // console.log(e);
               // console.log(e.data[e.index].campaings);
-              return text !== `${campaings}` ? { text: `${campaings}` } : null 
+              return text !== `${campaings}건` ? { text: `${campaings}건` } : null 
             }
-          }];
-        },
-        onMouseOver: () => {
-          return [{
-            mutation: (eventProps) => {
-              //console.log(eventProps);
-              return {style: Object.assign({}, eventProps.style, {fill:"#03CB7F"})};
+          },
+          {
+            target: "data",
+            mutation: ({style}) => {
+              const stroke = style && style.stroke;
+              return stroke === "#10573C" ? {style:{fill:"#FFF8A8", stroke: "#FFEB00", strokeWidth: 3}} : null;
             }
-          }]
-        },
-        onMouseOut: () => {
-          return [{
-            mutation: () => {
-              return null;
-            }
-          }]
+          }
+        ];
         }
       }
     }
@@ -86,7 +98,7 @@ function CurrentYearCampaign() {
     },
     labels: {
       fill: "#10573C",
-      fontSize: 12,
+      fontSize: 20
       //fill: ({ index }) => + index % 2 === 0 ? "#10573C" : "#000000" 
     }
   }
@@ -94,21 +106,28 @@ function CurrentYearCampaign() {
   const monthlyChartStyle = {
     background: {
       fill: "#8DFDFF",
-      fillOpacity: 0.7,
+      fillOpacity: 0.7
     }
   }
 
   const axisStyle = {
     axis: {stroke: "#10573C", strokeWidth: 3},
-    axisLabel: {fontSize: 9, padding: 35, fill: "#10573C"},
-    tickLabels: {fontSize: 11, padding: 4, fill: "#10573C"}
+    axisLabel: {fontSize: 14, padding: 36, fill: "#10573C"},
+    tickLabels: {fontSize: 18, padding: 4, fill: "#10573C"}
   } 
   
 
 
   return(
-      <div>
-          <VictoryChart domainPadding={20} style={monthlyChartStyle} width={400} height={400}> 
+      <div className='chartbox'>
+          <h4>당해 등록된 캠페인 수</h4>
+          <VictoryChart 
+          domainPadding={50} 
+          style={monthlyChartStyle}
+          width={1200} height={500}
+          containerComponent={
+          <VictoryContainer style={{width: 1000, height: 500}}/>
+          }> 
             <VictoryAxis
               tickValues={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]}
               tickFormat={["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"]}
@@ -116,13 +135,13 @@ function CurrentYearCampaign() {
             />
             <VictoryAxis 
             dependentAxis
-            label="단위 : 수"
+            label="단위 : 건"
             tickFormat={(x) => (`${x}`)}
             style={axisStyle}
             />
 
             <VictoryBar data={monthlyData} 
-            barRatio={0.8}
+            barWidth={40}
             events={eventHandlerCustomData} 
             style={monthlyDataStyle}
             x="monthly" 

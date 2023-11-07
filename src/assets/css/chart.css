@@ -1,8 +1,19 @@
-.chartMain {
-    display: flex;
+.pageContainer {
+    display: grid;
+    grid-auto-flow: dense;
+    grid-template-columns: 1fr 16fr;
+    grid-gap: 0.625rem;
+    margin-bottom: 0.625rem;
+    padding-top: calc(3rem + 80px);
 }
 
-.chart-section {
-    margin: auto;
-    width: 800px
+.chartbox {
+    margin-left: 3.6em;
+}
+.chartbox h4 {
+    margin-left: 19em;
+}
+
+.chartbox svg {
+    margin-left: 3.6em;
 }
