@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { GET_REVIEWS } from "../modules/ReviewModule";
 import { getReviews } from "../modules/ReviewModule";
 import { getReview } from "../modules/ReviewModule";
+import { postReview } from "../modules/ReviewModule";
 
 const DOMAIN = 'http://localhost:8001'
 
@@ -58,6 +59,21 @@ export function callGetSpecificReviewAPI(campaignRevCode) {
     }
 }
 
+export function callPostReview(reviewTitle, convertedContent, campaignCampaignCode) {
+    const description = convertedContent;
+    console.log('callPostReview ... : ' , reviewTitle, '    and?!?!?!   ', description, '    and?!?!?!   ', campaignCampaignCode);
+    
+    return async (dispatch, getState) => {
 
+        const data = {
+            reviewTitle,
+            description,
+            campaignCampaignCode
+        };
 
+        const result = await request('POST', `/reviews`, data);
+        console.log(data);
 
+        dispatch(getReview(result));
+    }
+}

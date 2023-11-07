@@ -4,27 +4,33 @@ import { useSelector, useDispatch } from "react-redux";
 import { callGetSpecificReviewAPI } from "../../apis/ReviewAPI";
 import { ReviewDetailsIntroductionBox } from "../../component/reviews/items/ReviewDetailsIntroductionBox";
 import { ReviewContent } from "../../component/reviews/items/ReviewContent";
+import { Link } from "react-router-dom";
 
 export function ReviewDetails() {
+  const { campaignRevCode } = useParams();
+  const dispatch = useDispatch();
+  const result = useSelector(state => state.reviewReducer);
+  const review = result.review;
+  const isLoading = result.isLoading; // Add an isLoading property to your Redux state
 
-    const {campaignRevCode} = useParams();
-    const dispatch = useDispatch();
-    const result = useSelector(state => state.reviewReducer);
-    const review = result.review;
+  console.log('(ReviewDetailsPage) : ', review);
 
-    console.log('(ReviewDetailsPage) : ', review.reviewTitle);
+  useEffect(() => {
+    dispatch(callGetSpecificReviewAPI(campaignRevCode));
+  }, [campaignRevCode]); // Include campaignRevCode in the dependencies array
 
-    useEffect(
-        () => {
-            dispatch(callGetSpecificReviewAPI(campaignRevCode));
-        },
-        []
-    );
+  if (isLoading) {
+    // Render a loading indicator while the data is being fetched
+    return <div>Loading...</div>;
+  }
 
+  if (!review) {
+    // Handle the case where the data fetch is complete but review is still undefined
+    return <div>No data available</div>;
+  }
      return (
         <div className="container-first">
-            <h1 class="py-3 container-centered">{review.reviewTitle}</h1>
-            
+
             <ReviewDetailsIntroductionBox review={review}/>
         <div>
             <ReviewContent review={review}/>
