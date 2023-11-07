@@ -32,7 +32,7 @@ function App() {
                   </Route>
               </Route>
   
-              <Route path="/campaign/:campaignCode" element={<CampaignDetail />}>
+              <Route path="/campaign/:campaignCode" element={<CampaignDetail />}/>
               <Route path="regist" element={<CampaignRegist/>}/>
               <Route path="charts" element={<Charts />} />
               <Route path="exchange" element={<ExchangePoint />} />
