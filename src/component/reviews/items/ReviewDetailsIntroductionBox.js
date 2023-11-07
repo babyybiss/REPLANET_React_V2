@@ -1,7 +1,13 @@
+import { Link } from "react-router-dom"
+
 export function ReviewDetailsIntroductionBox({review}) {
 
     return (
+      
         <div class="items-container ic3 g-gap2 campaign-list-container">
+
+<h1 class="py-3 container-centered">{review.reviewTitle}</h1>
+            <Link to={`/reviews/reviewRegist/${review.campaignRevCode}`}>리뷰 등록하기</Link>
                 
         <div class="item">
             
@@ -20,7 +26,7 @@ export function ReviewDetailsIntroductionBox({review}) {
           <hr/>
         
         <div class="item p-2 border">
-          <h5>{review.campaignOrgName}</h5>
+          <h5>{review.campaignOrgName}/</h5>
           <p>{review.campaignOrgDescription}</p>
         </div>
         

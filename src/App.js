@@ -29,7 +29,7 @@ function App() {
                     <Route path=":campaignRevCode" element={<ReviewRegist/> }/>
                   </Route>
               </Route>
-              <Route path="/regist" element={<CampaignRegist/>}/>
+              <Route path="regist" element={<CampaignRegist/>}/>
               <Route path="charts" element={<Charts />} />
               <Route path="exchange" element={<ExchangePoint />} />
             </Route>
