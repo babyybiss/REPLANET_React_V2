@@ -8,7 +8,7 @@ function Header() {
                 <a href="main.html" className="brand">Replanet</a>
                 <div className="menu">
                     <NavLink  to="/">기부하기</NavLink>
-                    <a href="#">캠페인후기</a>
+                    <NavLink to="/reviews">캠페인후기</NavLink>
                     <a href="#">기부영수증</a>
                     <a href="mypage.html">userId</a>
                     <a href="#" className="user"><i className="fa fa-sign-in"></i></a>
