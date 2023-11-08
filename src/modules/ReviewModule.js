@@ -7,12 +7,14 @@ const initialState = {};
 export const GET_REVIEWS = 'review/GET_REVIEWS';
 export const GET_REVIEW = 'review/GET_REVIEW';
 export const POST_REVIEW = 'review/POST_REVIEW';
+export const GET_SEARCH_RESULT = 'review/GET_SEARCH_RESULT';
 
  //declare action function
-export const { review: {getReviews,getReview, postReview} } = createActions({
+export const { review: {getReviews,getReview, postReview, getSearchResult} } = createActions({
     [GET_REVIEWS] : (res) => ({ reviewList: res }),
     [GET_REVIEW] : (res) => ({ review : res }),
-    [POST_REVIEW] : (res) => ({ postReview: res })
+    [POST_REVIEW] : (res) => ({ regist: res }),
+    [GET_SEARCH_RESULT] : (res) => ({ searchResult: res})
 });
 
 // declare reducer function
@@ -30,7 +32,13 @@ const reviewReducer = handleActions(
         },
         [POST_REVIEW] : (state, {payload}) => {
             console.log('(Review reducer: POST_REVIEW) 들어옴');
+            return payload;
+        },
+        [GET_SEARCH_RESULT] : (state, {payload}) => {
+            console.log('Review reducer: GET_SEARCH_RESULT 들어옴');
+            return payload;
         }
+
     },
     initialState
 );

@@ -28,7 +28,7 @@ function App() {
                 <Route index element={<Reviews />} />
                 <Route path=":campaignRevCode" element={<ReviewDetails />}/>
                   <Route path="reviewRegist">
-                    <Route path=":campaignRevCode" element={<ReviewRegist/> }/>
+                    <Route path=":campaignCode" element={<ReviewRegist/> }/>
                   </Route>
               </Route>
   

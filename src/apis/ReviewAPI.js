@@ -5,6 +5,7 @@ import { GET_REVIEWS } from "../modules/ReviewModule";
 import { getReviews } from "../modules/ReviewModule";
 import { getReview } from "../modules/ReviewModule";
 import { postReview } from "../modules/ReviewModule";
+import { getSearchResult } from "../modules/ReviewModule";
 
 const DOMAIN = 'http://localhost:8001'
 
@@ -47,33 +48,46 @@ export function callGetReviewsAPI() {
 }
 */
 
-export function callGetSpecificReviewAPI(campaignRevCode) {
+export function callGetSpecificReviewAPI(campaignCode) {
     console.log('getSpecificReview call...');
 
     return async (dispatch, getState) => {
 
-        const result = await request('GET', `/reviews/${campaignRevCode}`);
+        const result = await request('GET', `/reviews/${campaignCode}`);
         console.log('getSpecificReview result: ', result);
 
         dispatch(getReview(result));
     }
 }
 
-export function callPostReview(reviewTitle, convertedContent, campaignCampaignCode) {
+export function callPostReview(reviewTitle, convertedContent, campaignCode) {
     const description = convertedContent;
-    console.log('callPostReview ... : ' , reviewTitle, '    and?!?!?!   ', description, '    and?!?!?!   ', campaignCampaignCode);
+
+    console.log('callPostReview ... : ' , reviewTitle, '    and?!?!?!   ', description, '    and?!?!?!   ', campaignCode);
     
     return async (dispatch, getState) => {
 
         const data = {
             reviewTitle,
             description,
-            campaignCampaignCode
+            campaignCode
         };
 
-        const result = await request('POST', `/reviews`, data);
+        const result = await request('POST', `/reviews/`, data);
         console.log(data);
 
-        dispatch(getReview(result));
+        dispatch(postReview(result));
+    }
+}
+
+export function callGetReviewsBySearchFilter(searchFilter) {
+
+    console.log('callGetReviewsBySearchResultFilter : ', searchFilter);
+
+    return async (dispatch, getState) => {
+        
+        const result = await request('GET', `/reviews?sort=${searchFilter}`);
+
+        dispatch(getSearchResult(result));
     }
 }
