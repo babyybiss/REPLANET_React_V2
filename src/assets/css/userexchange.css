@@ -77,10 +77,13 @@
     border-bottom: solid 1px var(--color-light-hover);
     background-color: var(--color-white);
     cursor: pointer;
-    color: #27AE60;
     text-align: center;
 }
-.sidebar-submenu.active {
+.sidebar-submenu > a {
+    color: #27AE60;
+}
+
+.sidebar-submenu > a.active {
     text-decoration: underline;
 }
 
@@ -112,6 +115,8 @@ table thead, tbody{
     border-radius: 8px;
     border: none;
     box-shadow: 3px 3px 3px 3px lightgray;
+    margin: 0 auto;
+    text-align: center;
 }
 
 .exchange-img{
@@ -137,6 +142,7 @@ table thead, tbody{
     color: gray;
     text-align: left;
     padding-left: 10px;
+    margin: 0 auto;
 }
 
 .modal {
