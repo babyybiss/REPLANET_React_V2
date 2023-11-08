@@ -3,12 +3,6 @@ import { useNavigate } from "react-router-dom";
 import AuthContext from "../../component/auth/AuthContext";
 import '../../assets/css/user.css';
 
-//   {/* <Route path="/signup/" element={authCtx.isLoggedIn ? <Navigate to='/' /> : <Signup />} />
-//   <Route path="/login/*"
-//     element={authCtx.isLoggedIn ? <Navigate to='/' /> : <Login />}
-//   /> */}
-//오류해결하면 app.js 수정
-
 const Login = () => {
     const emailInputRef = useRef(null);
     const passwordInputRef = useRef(null);
@@ -27,24 +21,34 @@ const Login = () => {
         authCtx.login(enteredEmail, enteredPassword);
         setIsLoading(false);
 
-        if (authCtx.isSuccess) {
-            navigate("/", { replace: true })
+        if (authCtx.isSuccess === true) {
+            alert('로그인됨');
+            navigate("/", { replace: true });
         }
     }
+
+    const REST_API_KEY = '5a90ac83e3e59ba52ef0c472bc65e3e0';
+    const REDIRECT_URI = 'http://localhost:8001/login/oauth2/code/kakao';
+    const link = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+  
+    const socialSubmitHandler = () => {
+        window.open(link, "_blank", "noopener, noreferrer");
+    };
 
     return (
 
         <div className="container-first container-centered">
             <h2>로그인이 필요한 서비스입니다.</h2>
             <div id="container-user">
-                <div className="tabs">
-                    <input id="tab1" type="radio" name="tab_item" defaultChecked />
-                    <label className="tab_item ti2" htmlFor="tab1">일반 로그인</label>
-                    <input id="tab2" type="radio" name="tab_item" />
-                    <label className="tab_item ti2" htmlFor="tab2">소셜 로그인</label>
+                <div className="items-container ic1">
+                    <div className="tabs">
+                    <div className="tab_item ti2 active" >일반 로그인</div>
+                    <div className="tab_item ti2" onClick={socialSubmitHandler}>소셜 로그인</div>
+                    </div>
 
-                    <div className="tab_content" id="tab1_content">
-                        <form onSubmit={submitHandler}>
+
+                    <div className="">
+                            
                             <div className="items-container ic1">
 
                                 <input className="input" type="text" id="email" required ref={emailInputRef} placeholder="id" />
@@ -55,10 +59,11 @@ const Login = () => {
                                     ref={passwordInputRef}
                                     placeholder="pw"
                                 />
-                                <button type="submit" className="button button-primary">로그인</button>
+                                <button className="button button-primary" onClick={submitHandler}>로그인</button>
+                                {isLoading && <p>Loading</p>}
                                 <button className="button button-primary-outline">회원가입</button>
                             </div>
-                        </form>
+                            
                         <div className="items-container ic3 pt-2">
                             <a href="signup.html" className="login-option">
                                 <div className="join-social"><i className="fa fa-comment"></i></div> 회원가입
@@ -66,14 +71,6 @@ const Login = () => {
                             <a href="#!" className="login-option">아이디 찾기</a>
                             <a href="#!" className="login-option">비밀번호 찾기</a>
                         </div>
-
-                    </div>
-
-                    <div className="tab_content" id="tab2_content">
-                        <div className="items-container ic1">
-                            api 새창
-                        </div>
-
 
                     </div>
 

@@ -1,64 +1,53 @@
-import axios from "axios"
-
-const fetchAuth = async fetchData => {
-  const method = fetchData.method
-  const url = fetchData.url
-  const data = fetchData.data
-  const header = fetchData.header
-
-  try {
-    const response =
-      (method === "get" && (await axios.get(url, header))) ||
-      (method === "post" && (await axios.post(url, data, header))) ||
-      (method === "put" && (await axios.put(url, data, header))) ||
-      (method === "delete" && (await axios.delete(url, header)))
-
-    if (response && response.data.error) {
-      console.log(response.data.error)
-      alert("Wrong ID or Password")
-      return null
+import axios from 'axios';
+const fetchAuth = async (fetchData) => {
+    const method = fetchData.method;
+    const url = fetchData.url;
+    const data = fetchData.data;
+    const header = fetchData.header;
+    try {
+        const response = (method === 'get' && (await axios.get(url, header))) ||
+            (method === 'post' && (await axios.post(url, data, header))) ||
+            (method === 'put' && (await axios.put(url, data, header))) ||
+            (method === 'delete' && (await axios.delete(url, header)));
+        if (response && response.data.error) {
+            console.log(response.data.error);
+            alert("Wrong ID or Password");
+            return null;
+        }
+        if (!response) {
+            alert("false!");
+            return null;
+        }
+        return response;
     }
-
-    if (!response) {
-      alert("false!")
-      return null
+    catch (err) {
+        if (axios.isAxiosError(err)) {
+            const serverError = err;
+            if (serverError && serverError.response) {
+                console.log(serverError.response.data);
+                alert("failed!");
+                return null;
+            }
+        }
+        console.log(err);
+        alert("failed!");
+        return null;
     }
-
-    return response
-  } catch (err) {
-    if (axios.isAxiosError(err)) {
-      const serverError = err
-      if (serverError && serverError.response) {
-        console.log(serverError.response.data)
-        alert("자격증명 실패!")
-        return null
-      }
-    }
-
-    console.log(err)
-    alert("알 수 없는 오류로 로그인에 실패하였습니다.")
-    return null
-  }
-}
-
+};
 const GET = (url, header) => {
-  const response = fetchAuth({ method: "get", url, header })
-  return response
-}
-
+    const response = fetchAuth({ method: 'get', url, header });
+    return response;
+};
 const POST = (url, data, header) => {
-  const response = fetchAuth({ method: "post", url, data, header })
-  return response
-}
-
+    const response = fetchAuth({ method: 'post', url, data, header });
+    return response;
+};
 const PUT = async (url, data, header) => {
-  const response = fetchAuth({ method: "put", url, data, header })
-  return response
-}
-
+    const response = fetchAuth({ method: 'put', url, data, header });
+    return response;
+};
 const DELETE = async (url, header) => {
-  const response = fetchAuth({ method: "delete", url, header })
-  return response
-}
-
-export { GET, POST, PUT, DELETE }
+    const response = fetchAuth({ method: 'delete', url, header });
+    return response;
+};
+export { GET, POST, PUT, DELETE };

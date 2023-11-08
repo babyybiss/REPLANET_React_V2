@@ -1336,7 +1336,7 @@
   }
   
   /* 선택자 - active */
-  .tabs input:checked+.tab_item {
+  .tabs input:checked+.tab_item, .tab_item.active {
     border-bottom: solid 2px var(--color-primary);
     color: var(--color-dark);
     font-weight: 600;
