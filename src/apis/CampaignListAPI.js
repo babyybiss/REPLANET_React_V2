@@ -23,7 +23,7 @@ export function CampaignListDoneAPI() {
 
     return async (dispatch, getState) => {
         try {
-            const result = await axios.get(requestURL+'/done');
+            const result = await axios.get(requestURL + '/done');
             console.log(result.data, '여기가 api 리절트');
             dispatch(getComplete(result.data))
 
@@ -39,13 +39,20 @@ export function GetCampaignAPI(campaignCode) {
 
     return async (dispatch, getState) => {
         try {
-            const result = await axios.get(requestURL+`/campaign/${campaignCode}`);
+            const result = await axios.get(requestURL + `/campaign/${campaignCode}`);
             dispatch(getCampaign(result.data))
 
         } catch (error) {
             console.error('에러 발생:', error);
         }
     }
+}
+
+// 캠페인 등록 
+export async function PostCampaignAPI({notice, header}) {
+    return await axios.post('requestURL', notice, header).then((res) => {
+        window.location = "/notice";
+    }).catch((err) => { alert("엥?") })
 }
 
 

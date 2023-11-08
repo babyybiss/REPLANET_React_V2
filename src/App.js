@@ -1,5 +1,5 @@
 
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Layout from './layouts/Layout';
 import Main from './pages/Main';
 import CampaignDetail from './pages/campaigns/CampaignDetails';
@@ -17,22 +17,28 @@ import Pay from './pages/pays/Pay';
 import Success from './pages/pays/Success';
 import Cancel from './pages/pays/Cancel';
 import Fail from './pages/pays/Fail';
+import AuthContext from "./component/auth/AuthContext";
+import React, { useContext } from "react";
 
 function App() {
+
+  const authCtx = useContext(AuthContext);
+
   return (
       <AuthContextProvider>
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Layout />}>
-              <Route path="/login/" element={<Login />}/>
-              <Route path="/signup/" element={<Signup />}/>
+              <Route path="/login/*" 
+          element={authCtx.isLoggedIn ? <Navigate to='/' /> : <Login />}/>
+              <Route path="/signup/" element={authCtx.isLoggedIn ? <Navigate to='/' /> : <Signup />} />
               <Route index element={<Main />} />
              
               <Route path="reviews">
                 <Route index element={<Reviews />} />
                 <Route path=":campaignRevCode" element={<ReviewDetails />}/>
                   <Route path="reviewRegist">
-                    <Route path=":campaignRevCode" element={<ReviewRegist/> }/>
+                    <Route path=":campaignCode" element={<ReviewRegist/> }/>
                   </Route>
               </Route>
   

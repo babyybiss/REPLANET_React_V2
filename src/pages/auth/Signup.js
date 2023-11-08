@@ -14,18 +14,16 @@ const Signup = () => {
 
 
 
-  const submitHandler = event => {
+  const submitHandler = (e) => {
 
-    event.preventDefault();
+    e.preventDefault();
     const enteredEmail = emailInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
     const enteredMemberName = memberNameInputRef.current.value;
     const enteredPhone = phoneInputRef.current.value;
-
     authCtx.signup(enteredEmail, enteredPassword, enteredMemberName, enteredPhone);
-
     if (authCtx.isSuccess) {
-      return navigate("/login", { replace: true });
+      navigate("/login", { replace: true });
     } 
   }
 
@@ -58,7 +56,7 @@ const Signup = () => {
                   </pre>
                 </div>
                 <input id="c1" type="checkbox" className="mb-1" />
-                <label for="c1">이용약관에 동의합니다.</label>
+                <label htmlFor="c1">이용약관에 동의합니다.</label>
                 <div className="container-policy mb-1">
                   <pre>
                     <h4>이용약관</h4>
@@ -69,8 +67,8 @@ const Signup = () => {
                     2. 운영기관은 본 이용약관을 사전 고지 없이 변경할 수 있고, 변경된 약관은 가명정보 활용 종합지원플랫폼 내에 공지와 동시에 그 효력이 발생됩니다. 회원이 변경된 약관에 동의하지 않는 경우, 회원은 본인의 회원등록을 취소(회원탈퇴)할 수 있으며 계속 사용의 경우는 약관 변경에 대한 동의로 간주됩니다.
                   </pre>
                 </div>
-                <input id="c1" type="checkbox" className="mb-1" />
-                <label for="c1">이용약관에 동의합니다.</label>
+                <input id="c2" type="checkbox" className="mb-1" />
+                <label htmlFor="c2">이용약관에 동의합니다.</label>
               </div>
               <button className="button button-primary w-100" type="submit">회원가입</button>
             </div>

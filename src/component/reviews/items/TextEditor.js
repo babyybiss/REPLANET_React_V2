@@ -41,9 +41,9 @@ export function TextEditor({ onContentChange }) {
         {previewVisible ? "Close Preview" : "Show Preview"}
       </button>
       {previewVisible ? (
-        <div className="preview">
-          <div dangerouslySetInnerHTML={createMarkup(convertedContent)}></div>
-        </div>
+
+          <div className="preview" dangerouslySetInnerHTML={createMarkup(convertedContent)}></div>
+
       ) : (
         <div className="editor-container">
           <Editor
