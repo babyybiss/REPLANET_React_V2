@@ -7,7 +7,7 @@ export function ReviewDetailsIntroductionBox({review}) {
         <div class="items-container ic3 g-gap2 campaign-list-container">
 
 <h1 class="py-3 container-centered">{review.reviewTitle}</h1>
-            <Link to={`/reviews/reviewRegist/${review.campaignRevCode}`}>리뷰 등록하기</Link>
+           {/* <Link to={`/reviews/reviewRegist/${review.campaignRevCode}`}>리뷰 등록하기</Link> */}
                 
         <div class="item">
             
@@ -19,15 +19,15 @@ export function ReviewDetailsIntroductionBox({review}) {
 
         <div class="item" style={{display: "block"}}>
           <div class="text-right">
-            <h2>모금액 총 {review.campaignCurrentBudget} 원으로</h2>
+            <h2>모금액 총 {review.currentBudget} 원으로</h2>
               <h3>따뜻한 손길을 내어줄 수 있었습니다 </h3>
         </div>
         
           <hr/>
         
         <div class="item p-2 border">
-          <h5>{review.campaignOrgName}/</h5>
-          <p>{review.campaignOrgDescription}</p>
+          <h5>{review.orgName}</h5>
+          <p>{review.orgDescription}</p>
         </div>
         
           <ul>

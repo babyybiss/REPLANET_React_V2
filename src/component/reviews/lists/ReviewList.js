@@ -3,32 +3,47 @@ import { Review } from "../items/Review";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { callGetReviewsAPI } from "../../../apis/ReviewAPI";
-
-
-
-export function ReviewList () {
-
-    const result = useSelector(state => state.reviewReducer);
-
-    console.log('(reviewList) result : ', result);
+import { Link } from "react-router-dom";
+export function ReviewList({ reviewExists, searchFilter }) {
+    const result = useSelector((state) => state.reviewReducer);
     const dispatch = useDispatch();
 
-    const review = result.reviewList;
-    console.log('(ReviewList) review result: ', review);
+    useEffect(() => {
+        dispatch(callGetReviewsAPI());
+    }, []);
 
-    useEffect (
-        () => {
-            dispatch(callGetReviewsAPI())
-        },
-        []
-    );
+    console.log(result.reviewList);
+    console.log('searchFilter?? :' , searchFilter)
+
+    /*useEffect(() => {
+        dispatch(callGetReviewsAPI());
+    }, [searchFilter]);
+*/
 
 
+    // Check if result is an array, if not, initialize it as an empty array
+    const filteredCampaigns = Array.isArray(result.reviewList)
+    ? result.reviewList.filter((item) => {
+          if (reviewExists === true) {
+            console.log("what is rendered? : ", item);
+              // If reviewExists is true, return campaigns with non-null reviewCampaignCode
+              return item.reviewCampaignCode !== null;
+          } if (reviewExists === false) {
+            console.log("else???? : ", item.reviewCampaignCode !== null);
+              // If reviewExists is false, return campaigns with null reviewCampaignCode
+              return item.reviewCampaignCode === null;
+          }
+      })
+    : [];
+
+
+        console.log("filtered", filteredCampaigns)
     return (
-        review && (
-                <div>
-                    { review.map(review => <Review key={review.campaignRevCode} review={review}/>) }
-                </div>
-        )
+        <div>
+            {filteredCampaigns.map((filteredCampaign) => (
+                // Pass the filtered data to the Review component
+                <Review key={filteredCampaign.campaignCode} review={filteredCampaign} reviewExists={reviewExists} />
+            ))}
+        </div>
     );
 }

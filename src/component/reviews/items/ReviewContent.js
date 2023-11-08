@@ -1,6 +1,6 @@
 export function ReviewContent ({review}) {
 
     return (
-        <p>{review.description}</p>
+        <p>{review.reviewDescription}</p>
     );
 }
