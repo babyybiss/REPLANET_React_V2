@@ -4,14 +4,14 @@ const initialState = {};
 
 export const GET_DONATIONS = 'donations/GET_DONATIONS'
 export const GET_DONATIONS_BY_MEMBER = 'donations/GET_DONATIONS_BY_MEMBER'
-export const GET_DONATION_BY_TID = 'donations/GET_DONATION_BY_TID'
-// 필요에 따라 뭐 이런식으로 써야할듯? 
-// 전체(관리자용?),멤버에따른기부내역(사용자용), 방금기부한기부내역(성공페이지에서 보여줄거),
+export const GET_DONATION_BY_PAY_CODE = 'donations/GET_DONATION_BY_PAY_CODE'
+export const GET_POINT_OF_MEMBER = 'donations/GET_POINT_OF_MEMBER'
 
 const actions = createActions({
     [GET_DONATIONS]: () => {},
     [GET_DONATIONS_BY_MEMBER]: (memberCode) => ({ memberCode }),
-    [GET_DONATION_BY_TID]: (payTid) => ({ payTid })
+    [GET_DONATION_BY_PAY_CODE]: (payTid) => ({ payTid }),
+    [GET_POINT_OF_MEMBER]: (memberCode) => ({ memberCode }),
 });
 
 const donationReducer = handleActions(
@@ -24,8 +24,12 @@ const donationReducer = handleActions(
             console.log('(donationReducer) [GET_DONATIONS_BY_MEMBER] payload : ', payload);
             return payload;
         },
-        [GET_DONATION_BY_TID]: (state, { payload }) => {
-            console.log('(donationReducer) [GET_DONATION_BY_TID] payload : ', payload);
+        [GET_DONATION_BY_PAY_CODE]: (state, { payload }) => {
+            console.log('(donationReducer) [GET_DONATION_BY_PAY_CODE] payload : ', payload);
+            return payload;
+        },
+        [GET_POINT_OF_MEMBER]: (state, { payload }) => {
+            console.log('(donationReducer) [GET_POINT_OF_MEMBER] payload : ', payload);
             return payload;
         }
     },
