@@ -13,6 +13,10 @@ import { ReviewDetails } from "./pages/reviews/ReviewDetails";
 import { ReviewRegist } from "./pages/reviews/ReviewRegist";
 import CampaignRegist from "./pages/campaigns/CampaignRegist";
 import ExchangePoint from "./pages/points/ExchangePoint";
+import Pay from './pages/pays/Pay';
+import Success from './pages/pays/Success';
+import Cancel from './pages/pays/Cancel';
+import Fail from './pages/pays/Fail';
 
 function App() {
   return (
@@ -36,6 +40,12 @@ function App() {
               <Route path="regist" element={<CampaignRegist/>}/>
               <Route path="charts" element={<Charts />} />
               <Route path="exchange" element={<ExchangePoint />} />
+              <Route path="donations">
+                <Route index element={<Pay />}/>
+                <Route path="success" element={<Success />}/>
+                <Route path="cancel" element={<Cancel />}/>
+                <Route path="fail" element={<Fail />}/>
+              </Route>
             </Route>
           </Routes>
         </BrowserRouter>
