@@ -23,7 +23,7 @@ function Campaign() {
     useEffect(
         () => {
             dispatch(GetCampaignAPI(campaignCode));
-            
+
         },
         []
     );
@@ -43,9 +43,7 @@ function Campaign() {
                         </div>
                     </div>
                     <CampaignSidebar campaignInfo={campaignInfo} />
-
                 </div>
-
             </div>
         )
     );

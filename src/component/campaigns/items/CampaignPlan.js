@@ -13,7 +13,7 @@ function CampaignPlan({ campaignInfo }) {
                         <div className="card">
                             <div className="card-body">
                                 <h3 className="text-primary">총 목표 금액</h3>
-                                <h6>{campaignInfo.goalBudget}</h6>
+                                <h6>{campaignInfo.goalBudget.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</h6>
                             </div>
                         </div>
                     </div>

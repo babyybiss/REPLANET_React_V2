@@ -3,7 +3,7 @@ function CampaignItem( {campaign} ) {
 
   const currentBudget = campaign.currentBudget;
   const goalBudget = campaign.goalBudget;
-  const percentage = (currentBudget / goalBudget) * 100;
+  const percentage = ((currentBudget / goalBudget) * 100).toFixed(0);
 
 
   return (
@@ -15,7 +15,7 @@ function CampaignItem( {campaign} ) {
       <h6>{campaign.orgName}</h6>
       <progress className="progress" value={percentage} max="100"></progress>
       <div className="campaign-progress-info">
-        <span className="amount">{campaign.currentBudget}</span>
+        <span className="amount">{campaign.currentBudget.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</span>
         <span className="percent float-right">{percentage > 100? '목표금액 초과!!(감사)': percentage+'%'}</span>
       </div>
     </div>
