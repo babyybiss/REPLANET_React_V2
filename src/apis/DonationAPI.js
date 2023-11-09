@@ -1,19 +1,39 @@
-import { GET_DONATIONS, GET_DONATION_BY_PAY_CODE, GET_POINT_OF_MEMBER } from "../modules/DonationModule";
+import { GET_GET_PAYS, GET_PAYS_BY_DATE_RANGE, GET_DONATION_BY_PAY_CODE, GET_POINT_OF_MEMBER } from "../modules/DonationModule";
 import { GET_DONATIONS_BY_MEMBER } from "../modules/DonationModule";
 import axios from "axios";
 
-export function callGetAllDonationsAPI() {
+export function callGetAllPaysAPI() {
     
-    const requestURL = 'http://localhost:8001/donations'
+    const requestURL = 'http://localhost:8001/pays'
 
-    return async function getAllDonations(dispatch, getState) {
+    return async function getAllPays(dispatch, getState) {
         try {
             const response = await axios.get(requestURL);
-            const result = response.data;
-            console.log('(callGetDonationsAPI) result : ', result);
-            dispatch({ type: GET_DONATIONS, payload: result });
+            const result = response.data.reverse();
+            // 역순으로 불러오게 함
+            console.log('(callGetAllPaysAPI) result : ', result);
+            dispatch({ type: GET_GET_PAYS, payload: result });
         } catch (error) {
-            console.error('(callGetDonationsAPI) API 요청 실패! : ', error);
+            console.error('(callGetAllPaysAPI) API 요청 실패! : ', error);
+        }
+    }
+}
+
+export function callGetPaysByDateRangeAPI(startDate, endDate) {
+
+    console.log('callGetPaysByDateRangeAPI() startDate : ', startDate);
+    console.log('callGetPaysByDateRangeAPI() endDate : ', endDate);
+    
+    const requestURL = `http://localhost:8001/pays?startDate=${startDate}&endDate=${endDate}`
+
+    return async function getPaysByDateRange(dispatch, getState) {
+        try {
+            const response = await axios.get(requestURL);
+            const result = response.data.reverse();
+            console.log('(callGetPaysByDateRangeAPI) result : ', result);
+            dispatch({ type: GET_PAYS_BY_DATE_RANGE, payload: result });
+        } catch (error) {
+            console.error('(callGetPaysByDateRangeAPI) API 요청 실패! : ', error);
         }
     }
 }

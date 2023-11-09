@@ -76,7 +76,7 @@ function Success() {
                         <h3>기부금액 : {donationAmount} 원</h3>
                         <h4> - 결제금액 : {payAmount} 원</h4>
                         <h4> - 포인트기부 : {donationPoint} 포인트</h4>
-                        <h3>기부날짜 : {formattedDateTime}</h3>
+                        <h3>기부일자 : {formattedDateTime}</h3>
                         <br/>
                         <button>메인으로 돌아가기</button>
                     </div>
