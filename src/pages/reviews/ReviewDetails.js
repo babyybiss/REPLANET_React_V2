@@ -11,7 +11,7 @@ export function ReviewDetails() {
   const dispatch = useDispatch();
   const result = useSelector(state => state.reviewReducer);
   const review = result.review;
-  const isLoading = result.isLoading; // Add an isLoading property to your Redux state
+  //const isLoading = result.isLoading; // Add an isLoading property to your Redux state
 
   console.log('(ReviewDetailsPage) : ', review);
 
@@ -19,16 +19,9 @@ export function ReviewDetails() {
     dispatch(callGetSpecificReviewAPI(campaignRevCode));
   }, [campaignRevCode]); // Include campaignRevCode in the dependencies array
 
-  if (isLoading) {
-    // Render a loading indicator while the data is being fetched
-    return <div>Loading...</div>;
-  }
 
-  if (!review) {
-    // Handle the case where the data fetch is complete but review is still undefined
-    return <div>No data available</div>;
-  }
      return (
+      review && (
         <div className="container-first">
 
             <ReviewDetailsIntroductionBox review={review}/>
@@ -85,6 +78,7 @@ export function ReviewDetails() {
         </div>
         </div>
         </div></div>
+      )
 
         );
 }

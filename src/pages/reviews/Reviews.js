@@ -14,14 +14,15 @@ export function Reviews() {
     useEffect(
         () => {
             console.log(reviewExists);
-        },[reviewExists]
+            if(searchFilter == '') {
+                dispatch(callGetReviewsBySearchFilter(searchFilter));
+            }
+        },[searchFilter]
     );
 
-    const handleSearchKeyPress = (e) => {
-        if (e.key === 'Enter') {
+    const handleSearchKeyPress = () => {
             // Dispatch your action here with the searchFilter value
             dispatch(callGetReviewsBySearchFilter(searchFilter));
-        }
     }
 
     return (
@@ -35,7 +36,7 @@ export function Reviews() {
                         setSearchFilter={setSearchFilter}
                         reviewExists={reviewExists}
                         setReviewExists={setReviewExists}
-                        onSearchKeyPress={handleSearchKeyPress} // Pass the handler
+                        handleSearchKeyPress={handleSearchKeyPress} // Pass the handler
                     />
                 </div>
                 <div class="items-container ic3 g-gap3 campaign-list-container">
