@@ -1,4 +1,8 @@
+import moment from 'moment';
+import 'moment/locale/ko';
 function CampaignPlan({ campaignInfo }) {
+
+    const endDate = moment(campaignInfo.endDate).format('YYYY-MM-DD');
     return (
         campaignInfo && (
             <div>
@@ -21,7 +25,7 @@ function CampaignPlan({ campaignInfo }) {
                         <div className="card">
                             <div className="card-body">
                                 <h3 className="text-primary">캠페인 마감일</h3>
-                                <h6>{campaignInfo.endDate}</h6>
+                                <h6>{endDate}</h6>
                             </div>
                         </div>
                     </div>

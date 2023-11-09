@@ -3,8 +3,6 @@ import '../../assets/css/reset.css'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 import { Editor } from "react-draft-wysiwyg";
-import { PostCampaignAPI } from "../../apis/CampaignListAPI";
-
 
 
 function DraftEditor({editorState,setEditorState}) {
@@ -12,7 +10,6 @@ function DraftEditor({editorState,setEditorState}) {
     setEditorState(editorState);
   };
 
-  console.log(setEditorState,'셋');
 
   return (
       <Editor
