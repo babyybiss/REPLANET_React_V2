@@ -1,8 +1,8 @@
 import axios from "axios";
 import { getContinue, getComplete, getCampaign } from '../modules/CampaignModule';
+import { da } from "date-fns/locale";
 
-export const requestURL = 'http://localhost:8001';
-export const requestURL1 = 'https://jsonplaceholder.typicode.com/comments';
+export const requestURL = 'http://localhost:8001/';
 
 // 진행중 캠페인 조회
 export function CampaignListAPI() {
@@ -23,7 +23,7 @@ export function CampaignListDoneAPI() {
 
     return async (dispatch, getState) => {
         try {
-            const result = await axios.get(requestURL + '/done');
+            const result = await axios.get(requestURL + 'done');
             console.log(result.data, '여기가 api 리절트');
             dispatch(getComplete(result.data))
 
@@ -39,7 +39,7 @@ export function GetCampaignAPI(campaignCode) {
 
     return async (dispatch, getState) => {
         try {
-            const result = await axios.get(requestURL + `/campaign/${campaignCode}`);
+            const result = await axios.get(requestURL + `campaigns/${campaignCode}`);
             dispatch(getCampaign(result.data))
 
         } catch (error) {
@@ -49,9 +49,14 @@ export function GetCampaignAPI(campaignCode) {
 }
 
 // 캠페인 등록 
-export async function PostCampaignAPI({notice, header}) {
-    return await axios.post('requestURL', notice, header).then((res) => {
-        window.location = "/notice";
+export async function PostCampaignAPI(inputs, campaignContent,header) {
+        const data = {
+            inputs,
+            campaignContent
+        };
+console.log(data,'데이타');
+    return await axios.post(requestURL + 'campaigns',header, data).then((res) => {
+        window.location = "/";
     }).catch((err) => { alert("엥?") })
 }
 
