@@ -18,6 +18,8 @@ import Success from './pages/pays/Success';
 import Cancel from './pages/pays/Cancel';
 import Fail from './pages/pays/Fail';
 import AuthContext from "./component/auth/AuthContext";
+import TextMessage from "./pages/auth/TextMessage";
+import Find from "./pages/auth/Find";
 import React, { useContext } from "react";
 
 function App() {
@@ -32,6 +34,7 @@ function App() {
               <Route path="/login/*" 
           element={authCtx.isLoggedIn ? <Navigate to='/' /> : <Login />}/>
               <Route path="/signup/" element={authCtx.isLoggedIn ? <Navigate to='/' /> : <Signup />} />
+              <Route path="/find/" element={<Find/>}></Route>
               <Route index element={<Main />} />
              
               <Route path="reviews">
@@ -52,6 +55,7 @@ function App() {
                 <Route path="cancel" element={<Cancel />}/>
                 <Route path="fail" element={<Fail />}/>
               </Route>
+              {/* <Route path="textmessage" element={<TextMessage />}/> */}
             </Route>
           </Routes>
         </BrowserRouter>
