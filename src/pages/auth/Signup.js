@@ -2,6 +2,7 @@ import React, { useRef, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../component/auth/AuthContext";
 import '../../assets/css/user.css';
+import TextMessage from "./TextMessage";
 
 const Signup = () => {
   let navigate = useNavigate();
@@ -41,7 +42,7 @@ const Signup = () => {
                 <label htmlFor="phone"></label>
                 <div className="input-group">
                   <input className="input" type="text" id="phone" required ref={phoneInputRef} placeholder="phone" />
-                  <button className="button button-primary">인증</button>
+                  <button type="button" className="button button-primary" onClick={() => TextMessage}>인증</button>
                 </div>
               </div>
               <div className="item">

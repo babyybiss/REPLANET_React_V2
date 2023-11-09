@@ -27,13 +27,18 @@ const Login = () => {
         }
     }
 
-    const REST_API_KEY = '5a90ac83e3e59ba52ef0c472bc65e3e0';
+    const CLIENT_ID = '5a90ac83e3e59ba52ef0c472bc65e3e0';
     const REDIRECT_URI = 'http://localhost:8001/login/oauth2/code/kakao';
-    const link = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+    const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code`;
   
-    const socialSubmitHandler = () => {
-        window.open(link, "_blank", "noopener, noreferrer");
+    const KakaoLogin = () => {
+        window.open(KAKAO_AUTH_URL, "_blank", "noopener, noreferrer");
     };
+
+    const code = new URL(window.location.href).searchParams.get("code");
+
+    function toSignup(e) {window.location.href="/signup"};
+    function toFind(e) {window.location.href="/find"};
 
     return (
 
@@ -43,7 +48,7 @@ const Login = () => {
                 <div className="items-container ic1">
                     <div className="tabs">
                     <div className="tab_item ti2 active" >일반 로그인</div>
-                    <div className="tab_item ti2" onClick={socialSubmitHandler}>소셜 로그인</div>
+                    <div className="tab_item ti2" onClick={KakaoLogin}>소셜 로그인</div>
                     </div>
 
 
@@ -59,17 +64,18 @@ const Login = () => {
                                     ref={passwordInputRef}
                                     placeholder="pw"
                                 />
+                                
                                 <button className="button button-primary" onClick={submitHandler}>로그인</button>
                                 {isLoading && <p>Loading</p>}
-                                <button className="button button-primary-outline">회원가입</button>
+                                <button className="button button-primary-outline" onClick={toSignup}>회원가입</button>
                             </div>
                             
                         <div className="items-container ic3 pt-2">
-                            <a href="signup.html" className="login-option">
+                            <a href="./signup" className="login-option">
                                 <div className="join-social"><i className="fa fa-comment"></i></div> 회원가입
                             </a>
-                            <a href="#!" className="login-option">아이디 찾기</a>
-                            <a href="#!" className="login-option">비밀번호 찾기</a>
+                            <a href="./find" className="login-option">아이디 찾기</a>
+                            <a href="./find" className="login-option">비밀번호 찾기</a>
                         </div>
 
                     </div>
@@ -81,4 +87,5 @@ const Login = () => {
     )
 }
 
-export default Login
+
+export default Login;
