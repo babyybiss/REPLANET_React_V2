@@ -14,7 +14,7 @@ export const { review: {getReviews,getReview, postReview, getSearchResult} } = c
     [GET_REVIEWS] : (res) => ({ reviewList: res }),
     [GET_REVIEW] : (res) => ({ review : res }),
     [POST_REVIEW] : (res) => ({ regist: res }),
-    [GET_SEARCH_RESULT] : (res) => ({ searchResult: res})
+    [GET_SEARCH_RESULT] : (res) => ({ reviewList: res})
 });
 
 // declare reducer function

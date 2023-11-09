@@ -7,7 +7,7 @@ import { getReview } from "../modules/ReviewModule";
 import { postReview } from "../modules/ReviewModule";
 import { getSearchResult } from "../modules/ReviewModule";
 
-const DOMAIN = 'http://localhost:8001'
+const DOMAIN = 'http://localhost:8002'
 
 const request = async (method, url, data) => {
     return await axios({
@@ -60,23 +60,20 @@ export function callGetSpecificReviewAPI(campaignCode) {
     }
 }
 
-export function callPostReview(reviewTitle, convertedContent, campaignCode) {
-    const description = convertedContent;
+export function callPostReview({form}) {
 
-    console.log('callPostReview ... : ' , reviewTitle, '    and?!?!?!   ', description, '    and?!?!?!   ', campaignCode);
-    
+    console.log('callPostReview ... : ' ,form);
+    const requestURL = 'http://localhost:8002/reviews/';
+
     return async (dispatch, getState) => {
 
-        const data = {
-            reviewTitle,
-            description,
-            campaignCode
-        };
+        const result = await fetch(requestURL, {
+            method: "POST",
 
-        const result = await request('POST', `/reviews/`, data);
-        console.log(data);
-
-        dispatch(postReview(result));
+            body: form
+            });
+            
+            dispatch(postReview(result));
     }
 }
 

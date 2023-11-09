@@ -1,6 +1,6 @@
 export function ReviewContent ({review}) {
 
     return (
-        <p>{review.reviewDescription}</p>
+        <div dangerouslySetInnerHTML={{ __html: review.reviewDescription }} />
     );
 }

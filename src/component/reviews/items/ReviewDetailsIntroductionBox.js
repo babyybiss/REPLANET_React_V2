@@ -6,8 +6,8 @@ export function ReviewDetailsIntroductionBox({review}) {
       
         <div class="items-container ic3 g-gap2 campaign-list-container">
 
-<h1 class="py-3 container-centered">{review.reviewTitle}</h1>
-           {/* <Link to={`/reviews/reviewRegist/${review.campaignRevCode}`}>리뷰 등록하기</Link> */}
+      <h1 class="py-3 container-centered">{review.reviewTitle}</h1>
+           
                 
         <div class="item">
             
