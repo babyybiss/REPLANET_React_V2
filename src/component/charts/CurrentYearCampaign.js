@@ -1,4 +1,4 @@
-import {VictoryContainer, VictoryBar, VictoryChart, VictoryAxis} from 'victory';
+import {VictoryVoronoiContainer, VictoryBar, VictoryChart, VictoryAxis} from 'victory';
 import "../../assets/css/chart.css";
 
 function CurrentYearCampaign() {
@@ -126,7 +126,7 @@ function CurrentYearCampaign() {
           style={monthlyChartStyle}
           width={1200} height={500}
           containerComponent={
-          <VictoryContainer style={{width: 1000, height: 500}}/>
+          <VictoryVoronoiContainer style={{width: 1000, height: 500}}/>
           }> 
             <VictoryAxis
               tickValues={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]}
