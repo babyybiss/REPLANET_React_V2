@@ -1,5 +1,5 @@
 import '../../assets/css/reset.css'
-import '../../assets/css/editor.css'
+//import '../../assets/css/editor.css'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 import { Editor } from "react-draft-wysiwyg";

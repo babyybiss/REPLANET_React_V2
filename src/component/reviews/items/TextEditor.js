@@ -7,7 +7,7 @@ import draftToHtml from "draftjs-to-html";
 import DOMPurify from "dompurify";
 import '../../../assets/css/draft.css';
 
-export function TextEditor({ onContentChange }) {
+export function TextEditor({ onContentChange, uploadImageCallback}) {
   const [description, setDescription] = useState(() => EditorState.createEmpty());
   const [previewVisible, setPreviewVisible] = useState(false);
 
@@ -35,6 +35,7 @@ export function TextEditor({ onContentChange }) {
     setPreviewVisible(!previewVisible);
   };
 
+
   return (
     <div className="draft">
       <button onClick={togglePreview} className={`bookmark-button ${previewVisible ? "active" : ""}`}>
@@ -56,6 +57,7 @@ export function TextEditor({ onContentChange }) {
               textAlign: { inDropdown: true },
               link: { inDropdown: true },
               history: { inDropdown: true },
+              image: { uploadCallback: uploadImageCallback, alt: { present: true, mandatory: true }},
             }}
             localization={{
               locale: 'ko',

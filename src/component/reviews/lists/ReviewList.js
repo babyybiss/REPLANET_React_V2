@@ -4,21 +4,19 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { callGetReviewsAPI } from "../../../apis/ReviewAPI";
 import { Link } from "react-router-dom";
+
 export function ReviewList({ reviewExists, searchFilter }) {
+
     const result = useSelector((state) => state.reviewReducer);
+    
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(callGetReviewsAPI());
-    }, []);
+    }, [reviewExists]);
 
     console.log(result.reviewList);
     console.log('searchFilter?? :' , searchFilter)
-
-    /*useEffect(() => {
-        dispatch(callGetReviewsAPI());
-    }, [searchFilter]);
-*/
 
 
     // Check if result is an array, if not, initialize it as an empty array
@@ -37,7 +35,6 @@ export function ReviewList({ reviewExists, searchFilter }) {
     : [];
 
 
-        console.log("filtered", filteredCampaigns)
     return (
         <div>
             {filteredCampaigns.map((filteredCampaign) => (
