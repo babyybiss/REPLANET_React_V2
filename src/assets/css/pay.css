@@ -13,6 +13,7 @@
 .pay-container {
   border: 1px solid #dbdbdb;
   height: 110px;
+  gap: 4px;
 }
 
 .pay-backgroundColor {
@@ -44,4 +45,30 @@
   justify-content: center;
   align-items: center;
   gap: 5px;
+}
+
+#cashAmount, #pointAmount {
+  font-family: 'Pretendard Variable', sans-serif !important;
+  font-size: 1.60em;
+  color: #1D7151;
+  text-align: right;
+  font-weight: 500;
+}
+
+.search-section {
+  border: 1px solid #DBDBDB;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 1rem !important;
+}
+
+.search-section button {
+  height: 50px !important;
+}
+
+.total-amount {
+  justify-content: flex-end !important;
+  border-bottom: 1px solid #DBDBDB;
+  height: 30px;
+  margin-bottom: 1rem !important;
 }

@@ -94,28 +94,32 @@ function PayForm() {
             <div className="container-centered pay-container">
                 <div className="pay-box">
                     <h4>기부금액</h4>
-                    <input type="number" name="cashAmount" value={ donationAmount.cashAmount } onChange={onChangeHandler} className="input" inputMode="numeric" min="0" onClick={(e) => e.target.select()}/>
+                    <input id="cashAmount" type="number" name="cashAmount" value={ donationAmount.cashAmount } onChange={onChangeHandler} className="input" inputMode="numeric" min="0" onClick={(e) => e.target.select()}/>
                     <h4>원</h4>
                 </div>
-                <span className="pay-color-gray">금액을 입력해주세요. 최소 기부 가능 금액 : 1,000원</span>
+                <span className="pay-color-gray">기부 금액을 입력해주세요. 최소 기부 가능 금액 : 1,000원</span>
             </div>
             <div className="container-centered pay-container">
                 <div className="pay-box">
                     <h4>포인트사용</h4>
-                    <input type="number" name="pointAmount" value={ donationAmount.pointAmount } onChange={onChangeHandler} className="input" inputMode="numeric" min="0" onClick={(e) => e.target.select()}/>
+                    <input id="pointAmount" type="number" name="pointAmount" value={ donationAmount.pointAmount } onChange={onChangeHandler} className="input" inputMode="numeric" min="0" onClick={(e) => e.target.select()}/>
                     <h4>포인트</h4>
                 </div>
                 
                 <div className="pay-box">
                     <div className="pay-anno2">
-                        <input id="c1" type="checkbox" />
-                        <label htmlFor="c1"><span className="pay-color-gray">전체사용</span></label>
+                        <div>
+                            <span className="pay-color-gray">가용포인트 : </span>
+                            <span className="pay-color-green">5,000</span>
+                        </div>
+                        <div>
+                            <label htmlFor="c1"><span className="pay-color-gray">전체사용</span></label>&nbsp;&nbsp;
+                            <input id="c1" type="checkbox" />
+                        </div>
                         {/* 전체 사용 누르면 user의 포인트 다 입력되게하기! (단, 기부금액을 초과하지 않아야함.) */}
-                        <span className="pay-color-gray">가용포인트 : </span>
-                        <span className="pay-color-green">5,000</span>
                         {/* user의 포인트 끌어오기! */}
                         <br/>
-                        <span className="pay-color-gray">최소 기부 가능 포인트: 1,000 포인트 </span>
+                        <span className="pay-color-gray">(가능한 최소 기부포인트는 1,000 포인트입니다.)</span>
                     </div>
                 </div>
             </div>
