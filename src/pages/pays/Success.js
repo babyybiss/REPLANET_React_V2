@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { callGetDonationByPayCodeAPI } from '../../apis/DonationAPI';
 import { useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function Success() {
 
@@ -78,7 +79,9 @@ function Success() {
                         <h4> - 포인트기부 : {donationPoint} 포인트</h4>
                         <h3>기부일자 : {formattedDateTime}</h3>
                         <br/>
-                        <button>메인으로 돌아가기</button>
+                        <Link to="/">
+                            <button className="button button-lg button-primary-outline">메인으로</button>
+                        </Link>
                     </div>
                 </>
             )

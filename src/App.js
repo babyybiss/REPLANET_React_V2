@@ -21,6 +21,7 @@ import AuthContext from "./component/auth/AuthContext";
 import TextMessage from "./pages/auth/TextMessage";
 import Find from "./pages/auth/Find";
 import React, { useContext } from "react";
+import DonationDetailsListTest from './pages/pays/Test'
 
 function App() {
 
@@ -54,6 +55,7 @@ function App() {
                 <Route path="success" element={<Success />}/>
                 <Route path="cancel" element={<Cancel />}/>
                 <Route path="fail" element={<Fail />}/>
+                <Route path="list" element={<DonationDetailsListTest />}/>
               </Route>
               {/* <Route path="textmessage" element={<TextMessage />}/> */}
             </Route>
