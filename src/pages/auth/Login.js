@@ -2,6 +2,7 @@ import React, { useState, useRef, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../component/auth/AuthContext";
 import '../../assets/css/user.css';
+import KakaoLogin from "./KakaoLogin";
 
 const Login = () => {
     const emailInputRef = useRef(null);
@@ -27,15 +28,6 @@ const Login = () => {
         }
     }
 
-    const CLIENT_ID = '5a90ac83e3e59ba52ef0c472bc65e3e0';
-    const REDIRECT_URI = 'http://localhost:8001/login/oauth2/code/kakao';
-    const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code`;
-  
-    const KakaoLogin = () => {
-        window.open(KAKAO_AUTH_URL, "_blank", "noopener, noreferrer");
-    };
-
-    const code = new URL(window.location.href).searchParams.get("code");
 
     function toSignup(e) {window.location.href="/signup"};
     function toFind(e) {window.location.href="/find"};
@@ -48,7 +40,7 @@ const Login = () => {
                 <div className="items-container ic1">
                     <div className="tabs">
                     <div className="tab_item ti2 active" >일반 로그인</div>
-                    <div className="tab_item ti2" onClick={KakaoLogin}>소셜 로그인</div>
+                    <KakaoLogin/>
                     </div>
 
 
