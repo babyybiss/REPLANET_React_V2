@@ -1,6 +1,5 @@
 import axios from "axios";
 import { getContinue, getComplete, getCampaign } from '../modules/CampaignModule';
-import { da } from "date-fns/locale";
 
 export const requestURL = 'http://localhost:8001/';
 
@@ -50,12 +49,9 @@ export function GetCampaignAPI(campaignCode) {
 
 // 캠페인 등록 
 export async function PostCampaignAPI(inputs, campaignContent,header) {
-        const data = {
-            inputs,
-            campaignContent
-        };
-console.log(data,'데이타');
-    return await axios.post(requestURL + 'campaigns',header, data).then((res) => {
+
+console.log(inputs,'데이타');
+    return await axios.post(requestURL + 'campaigns',inputs).then((res) => {
         window.location = "/";
     }).catch((err) => { alert("엥?") })
 }

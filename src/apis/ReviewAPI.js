@@ -7,7 +7,7 @@ import { getReview } from "../modules/ReviewModule";
 import { postReview } from "../modules/ReviewModule";
 import { getSearchResult } from "../modules/ReviewModule";
 
-const DOMAIN = 'http://localhost:8002'
+const DOMAIN = 'http://localhost:8001'
 
 const request = async (method, url, data) => {
     return await axios({
@@ -63,7 +63,7 @@ export function callGetSpecificReviewAPI(campaignCode) {
 export function callPostReview({form}) {
 
     console.log('callPostReview ... : ' ,form);
-    const requestURL = 'http://localhost:8002/reviews/';
+    const requestURL = 'http://localhost:8001/reviews/';
 
     return async (dispatch, getState) => {
 
