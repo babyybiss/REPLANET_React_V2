@@ -12,7 +12,7 @@ function ExchangeInfo(){
         setConfirm(value);
     };
 
-    const submitConfirm = () => {
+    const submitConfirm = (value) => {
 
     }
     
@@ -59,7 +59,7 @@ function ExchangeInfo(){
                                     <input type="text" style={{textAlign:"right", width:"90px", border: "none"}} placeholder="0"/>포인트
                                 </div>
                                 <br/>
-                                <button onClick={submitConfirm} className="button button-primary">등록</button>
+                                <button onClick={submitConfirm('승인')} className="button button-primary">등록</button>
                             </div>
                             )
                         }
@@ -76,7 +76,7 @@ function ExchangeInfo(){
                                         </select>
                                     </div>
                                     <br/>
-                                    <button onClick={submitConfirm} className="button button-primary">등록</button>
+                                    <button onClick={submitConfirm('반려')} className="button button-primary">등록</button>
                                 </div>
                             </div>
                             )
