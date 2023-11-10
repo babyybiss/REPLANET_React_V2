@@ -3,23 +3,22 @@ import "../../assets/css/chart.css";
 
 
 function CustomFlyout(props) {
+  //console.log(props);
     const {x, y} = props;
-
-    const newY =  y - 35;
+    const newX = x - 45;
+    const newY = y - 42;
 
     return (
         <g>
-        <circle cx={x} cy={newY} r="25" stroke="#FFEB00" fill="none" strokeWidth={2}/>
-        <circle cx={x} cy={newY} r="28" stroke="#FFF8A8" fill="none" strokeWidth={2}/>
-        <circle cx={x} cy={newY} r="31" stroke="gold" fill="none" strokeWidth={2}/>
-      </g>
+        <rect width="92" height="42" x={newX} y={newY} rx={5} stroke="#4AB28B" fill="none" strokeWidth={1}/>
+        <rect width="91" height="41" x={newX} y={newY} rx={5} stroke="#1D7151" fill="none" strokeWidth={2}/>
+        <rect width="90" height="40" x={newX} y={newY} rx={5} stroke="#10573C" fill="none" strokeWidth={1}/>
+        </g>
+        
     );
 }
 
-
-
 function GoalCampaign() {
-
 
   const categoryData = [
     {
@@ -81,7 +80,7 @@ function GoalCampaign() {
                         const currentBudget = data[index].currentBudget
                         // console.log(e);
                         // console.log(e.data[e.index].campaings);
-                        return text !== `${currentBudget}원` ? { text: `${currentBudget}원` } : null 
+                        return text !== `${currentBudget/10000}만원` ? { text: `${currentBudget/10000}만원` } : null 
                     }
                 }
             ];
@@ -106,7 +105,7 @@ function GoalCampaign() {
 
   const monthlyChartStyle = {
     background: {
-      fill: "#8DFDFF",
+      fill: "none",
       fillOpacity: 0.7
     }
   }
@@ -114,11 +113,8 @@ function GoalCampaign() {
   const axisStyle = {
     axis: {stroke: "#10573C", strokeWidth: 3},
     axisLabel: {fontSize: 14, padding: 36, fill: "#10573C"},
-    tickLabels: {fontSize: 18, padding: 4, fill: "#10573C"}
+    tickLabels: {fontSize: 15, padding: 4, fill: "#10573C"}
   } 
-  
-  
-
 
   return(
       <div className='chartbox'>
@@ -129,20 +125,23 @@ function GoalCampaign() {
           width={1200} height={500}
           containerComponent={
             <VictoryVoronoiContainer style={{width: 1000, height: 500}}
-            labels={({ datum }) => `${datum.y}`}
+            labels={
+              ({ datum }) => `${datum.currentBudget/10000}만원`
+            }
             labelComponent={<VictoryTooltip
+            dx={0}
+            dy={6.6}
             flyoutComponent={<CustomFlyout/>}
             />}/>
           }> 
             <VictoryAxis
-              tickValues={["가", "나", "다", "라", "마"]}
-              tickFormat={["와우", "오우", "왜우", "ㅎ", "ㅋ"]}
+              tickValues={[1,2,3,4,5]}
+              tickFormat={["재난", "지구촌", "아동", "노인", "소외"]}
               style={axisStyle}
             />
             <VictoryAxis 
             dependentAxis
-            label="단위 : 원"
-            tickFormat={(x) => (`${x}`)}
+            tickFormat={(x) => `${x/10000}만원`}
             style={axisStyle}
             />
 
