@@ -1,11 +1,11 @@
 import { EditorState, convertToRaw } from "draft-js";
-import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useCallback, useEffect, useState } from "react";
 import { PostCampaignAPI } from "../../apis/CampaignListAPI";
+import { useDispatch, useSelector } from 'react-redux';
 
+import draftToHtml from 'draftjs-to-html';
 import DraftEditor from "../../component/common/DraftEditor";
-import draftToHtml from "draftjs-to-html";
-
+import '../../assets/css/editor.css';
 
 const categoryList = [
     { key: "0", name: "선택 해주세요" },
@@ -18,24 +18,19 @@ const categoryList = [
 
 function CampaignRegist() {
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
-    const [Thumbnail, setThumbnail] = useState('');
+    const [Thumbnail, setThumbnail] = useState(null);
+    const [inputs, setInputs] = useState([]);
 
-    
-    const [inputs, setInputs] = useState({
-        campaignTitle: '',
-        startDate: new Date(),
-        endDate: '',
-        campaignCategory: '',
-        goalBudget: "숫자만 입력해주세요",
-        orgName: '',
-        orgDescription: '',
-        orgTel: ''
-    });
+    const dispatch = useDispatch();
+
+   // const { contents } = useSelector(getGroup('writeField'));
 
     const header = {
         headers: {
-            Authorization: "Bearer " + sessionStorage.getItem("Authorization")
-        }
+            "Content-Type": "application/json",
+            "Accept": "*/*",
+            "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+        },
     };
 
     const onChange = (e) => {
@@ -49,7 +44,7 @@ function CampaignRegist() {
     // 가격 원화 설정 
     const priceChangeHandler = (event) => {
         let price = event.target.value;
-        const { value, name } = event.target;
+        const {  name } = event.target;
         price = Number(price.replaceAll(',', ''));
         if (isNaN(price)) {
             setInputs({
@@ -64,13 +59,27 @@ function CampaignRegist() {
         }
     }
 
+    const onChangeContent = useCallback((state) => {
+        const value = draftToHtml(convertToRaw(state.getCurrentContent()));
+    
+        setEditorState(state);
+    
+        /*dispatch(
+          changeWriteField({
+            name: 'contents',
+            value,
+          }),
+        );
+        */
+      }, [dispatch]);
+
+
+
     // db 전송
     const submitHandler = (event) => {
         event.preventDefault();
 
-        const campaignContent = draftToHtml(convertToRaw(editorState.getCurrentContent()));
-
-        PostCampaignAPI(inputs, campaignContent,header);
+        PostCampaignAPI(inputs,header);
     }
     return (
         <>
@@ -87,7 +96,7 @@ function CampaignRegist() {
                     </select>
                     {/* 제목 & 텍스트 에디터 */}
                     <input className="input" name="campaignTitle" maxLength="20"  placeholder="제목 입력." onChange={onChange} required />
-                    <DraftEditor editorState={editorState} setEditorState={setEditorState} />
+                    <DraftEditor onChange={onChangeContent} editorState={editorState} />
                     <input type="file" value={Thumbnail} onChange={(e) => setThumbnail(e.target.value)} placeholder="메인 이미지 1장을 업로드 해주세요" />
                 </div>
 
@@ -95,7 +104,7 @@ function CampaignRegist() {
                     <h3 className="text-center">기부금 사용 계획 </h3>
                     <div className="items-container ic1">
                         <label>목표금액<input className="input" type="text" maxLength="20" name="goalBudget"  placeholder="총 목표 금액을 입력하세요." value={inputs.goalBudget} onChange={priceChangeHandler} required /></label>
-                        <label htmlFor="endDate">캠페인 마감일 <input type="date" id="endDate" name="endDate" className="input" onChange={onChange} required /></label>
+                        <label htmlFor="endDate">캠페인 마감일 <input type="date" id="endDate" name="endDate" className="input" onChange={onChange}  /></label>
                         <label>단체명<input className="input" name="orgName" maxLength="50"  placeholder="단체명을 입력해주세요." onChange={onChange} required /></label>
                         <label>단체 한줄소개<input className="input" name="orgDescription" maxLength="50"  placeholder="단체 한줄소개를 입력해주세요." onChange={onChange} required /></label>
                         <label>단체 연락처<input className="input" name="orgTel" maxLength="13"  placeholder="전화번호를 입력해주세요." onChange={onChange} required /></label>
