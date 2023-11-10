@@ -3,7 +3,7 @@ import "../../assets/css/chart.css";
 
 
 function CustomFlyout(props) {
-  //console.log(props);
+  console.log(props);
     const {x, y} = props;
     const newX = x - 45;
     const newY = y - 42;
