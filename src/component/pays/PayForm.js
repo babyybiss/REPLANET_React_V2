@@ -1,9 +1,8 @@
 import { useNavigate, useLocation } from "react-router-dom";
-import { useState } from "react";
-import { useEffect } from "react";
-import axios from "axios";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { callGetPointByMemberAPI } from "../../apis/DonationAPI";
+import { callGetPointByMemberAPI, callPostKakaoPayAPI, callPostPointDonationAPI } from "../../apis/DonationAPI";
+import { Link } from "react-router-dom";
 
 function PayForm() {
 
@@ -12,17 +11,29 @@ function PayForm() {
     const location = useLocation();
 
     const searchParams = new URLSearchParams(location.search);
-    const memberCode = searchParams.get('memberCode');
-    console.log('PayForm() memberCode : ' + memberCode);
+    // const memberCode = searchParams.get('memberCode');
+    // console.log('PayForm() memberCode : ' + memberCode);
 
-    const member = useSelector((state) => state.donationReducer);
-    console.log('PayForm() member : ', member);
+    const result = useSelector((state) => state.donationReducer);
+
+    useEffect(() => {
+        console.log('PayForm() result updated : ', result);
+
+        const payCode = result.payCode;
+        console.log('PayForm() payCode : ', payCode);
+
+        if(payCode) {
+            window.location.href = `http://localhost:3000/donations/success?number=${payCode}`;
+        }
+    },
+    [result]
+    );
 
     const [donationAmount, setDonationAmount] = useState(
         {
-            cashAmount: 0,
+            finalAmount: 0,
             pointAmount: 0,
-            finalAmount: 0
+            cashAmount: 0
         }
     );
 
@@ -32,28 +43,40 @@ function PayForm() {
         console.log('(PayForm) payHandler 동작...');
 
         if (!isAgreedToTerms) {
-            console.log('이용약관 이슈');
+            console.log('약관동의 이슈');
             alert("약관 동의 후 기부를 하실 수 있습니다.");
         } else if (donationAmount.finalAmount < 1000) {
             console.log('최소금액 이슈');
             alert("최소 기부금액은 1,000원입니다.");
         } else {
             const data = {
-                cashAmount: donationAmount.cashAmount,
+                finalAmount: donationAmount.finalAmount,
                 pointAmount: donationAmount.pointAmount,
-                finalAmount: donationAmount.finalAmount
+                cashAmount: donationAmount.cashAmount
             };
-    
-            axios.post('http://localhost:8001/kakaoPay', data)
-                .then((response) => {
-                    console.log('서버 응답 : ', response.data);
-                    const redirectURL = response.data.replace('redirect:', '');
-                    window.location.href = redirectURL;
-                })
-                .catch((error) => {
-                    console.error('요청 실패 : ', error);
-                });
-                // 이거 나중에 API로 분리 할 수 있을듯.
+
+            
+            if (donationAmount.cashAmount >= 100) {
+                dispatch(callPostKakaoPayAPI(data));
+            } else if (donationAmount.cashAmount == 0 && donationAmount.pointAmount > 0){
+                // 포인트로만 기부
+                console.log('포인트로만 기부');
+                const isPointDonation = window.confirm("포인트로만 기부하시겠습니까?");
+
+                if(isPointDonation) {
+                    console.log("포인트로만 기부 승인");
+                    console.log("data : ", data);
+                    dispatch(callPostPointDonationAPI(data))
+                } else {
+                    console.log("포인트로만 기부 취소");
+                    return;
+                }
+
+            } else if (donationAmount.cashAmount < 100) {
+                alert('최소로 결제 할 수 있는 금액은 100원입니다.')
+                return;
+                // pointAmount로만 기부할 때
+            }
         }
     }
 
@@ -62,20 +85,29 @@ function PayForm() {
 
         if (/^[1-9]\d*$|^0$/.test(inputValue)) {
             const intValue = parseInt(inputValue, 10);
-            const cashAmount = e.target.name === "cashAmount" ? intValue : donationAmount.cashAmount;
-            const pointAmount = e.target.name === "pointAmount" ? intValue : donationAmount.pointAmount;
-            const finalAmount = cashAmount - pointAmount;
+            let finalAmount = donationAmount.finalAmount;
+            let pointAmount = donationAmount.pointAmount;
         
-            if (finalAmount < 0) {
-            alert("기부금액을 초과하는 포인트 사용은 불가합니다.");
-            return;
+            if (e.target.name === "finalAmount") {
+                finalAmount = intValue;
+            } else if (e.target.name === "pointAmount") {
+                if (intValue > finalAmount) {
+                    alert("기부금액을 초과할 수 없습니다");
+                    pointAmount = finalAmount;
+                } else {
+                    pointAmount = intValue;
+                }
             }
+
+            const cashAmount = finalAmount - pointAmount;
         
             const newDonationAmount = {
-            ...donationAmount,
-            [e.target.name]: intValue,
-            finalAmount: e.target.name === "cashAmount" ? intValue - donationAmount.pointAmount : donationAmount.cashAmount - intValue,
+                ...donationAmount,
+                finalAmount,
+                pointAmount,
+                cashAmount
             };
+            
             setDonationAmount(newDonationAmount);
         } else {
             const newDonationAmount = { ...donationAmount };
@@ -86,7 +118,7 @@ function PayForm() {
     // useEffect(
     //     () => {
     //         dispatch(callGetPointByMemberAPI(memberCode));
-    //     },[donationAmount.cashAmount, donationAmount.pointAmount]);
+    //     },[donationAmount.finalAmount, donationAmount.pointAmount]);
 
     return(
         <>
@@ -94,7 +126,7 @@ function PayForm() {
             <div className="container-centered pay-container">
                 <div className="pay-box">
                     <h4>기부금액</h4>
-                    <input id="cashAmount" type="number" name="cashAmount" value={ donationAmount.cashAmount } onChange={onChangeHandler} className="input" inputMode="numeric" min="0" onClick={(e) => e.target.select()}/>
+                    <input id="finalAmount" type="number" name="finalAmount" value={ donationAmount.finalAmount } onChange={onChangeHandler} className="input" inputMode="numeric" min="0" onClick={(e) => e.target.select()}/>
                     <h4>원</h4>
                 </div>
                 <span className="pay-color-gray">기부 금액을 입력해주세요. 최소 기부 가능 금액 : 1,000원</span>
@@ -150,7 +182,7 @@ function PayForm() {
             <div className="container-centered pay-container">
                 <div className="pay-box">
                     <h3>결제금액 : </h3>
-                    <h3 name="finalAmount" value={ donationAmount.finalAmount } className="pay-color-green">{ donationAmount.finalAmount.toLocaleString() }</h3>
+                    <h3 name="cashAmount" value={ donationAmount.cashAmount } className="pay-color-green">{ donationAmount.cashAmount.toLocaleString() }</h3>
                     <h3>원</h3>
                 </div>
                     <span className="pay-color-gray">금액을 입력해주세요. 최소 기부 가능 금액 : 1,000원</span>
@@ -158,7 +190,9 @@ function PayForm() {
             <div className="campaign-banner container-centered">
                 <div className="pay-box">
                     <button onClick={payHandler} className="button button-lg button-primary">기부하기</button>
-                    <button onClick={() => {navigate(-1)}} className="button button-lg button-primary-outline">돌아가기</button>
+                    <Link to="/">
+                        <button className="button button-lg button-primary-outline">돌아가기</button>
+                    </Link>
                 </div>
             </div>
         </div>
