@@ -8,13 +8,19 @@ export const GET_REVIEWS = 'review/GET_REVIEWS';
 export const GET_REVIEW = 'review/GET_REVIEW';
 export const POST_REVIEW = 'review/POST_REVIEW';
 export const GET_SEARCH_RESULT = 'review/GET_SEARCH_RESULT';
-
+export const GET_COMPLETED_CAMPAIGNS = 'review/GET_COMPLETED_CAMPAIGNS';
+export const GET_THUMBNAIL_PATH = 'review/GET_THUMBNAIL_PATH';
+export const PUT_REVIEW = 'review/PUT_REVIEW';
+ 
  //declare action function
-export const { review: {getReviews,getReview, postReview, getSearchResult} } = createActions({
+export const { review: {getReviews,getReview, postReview, getSearchResult, getCompletedCampaigns, getThumbnailPath, putReview} } = createActions({
     [GET_REVIEWS] : (res) => ({ reviewList: res }),
     [GET_REVIEW] : (res) => ({ review : res }),
     [POST_REVIEW] : (res) => ({ regist: res }),
-    [GET_SEARCH_RESULT] : (res) => ({ reviewList: res})
+    [GET_SEARCH_RESULT] : (res) => ({ reviewList: res}),
+    [GET_COMPLETED_CAMPAIGNS] : (res) => ({ completedCampaignList: res}),
+    [GET_THUMBNAIL_PATH] : (res) => ({ thumbnail : res}),
+    [PUT_REVIEW] : (res) => ({ update: res }),
 });
 
 // declare reducer function
@@ -36,6 +42,19 @@ const reviewReducer = handleActions(
         },
         [GET_SEARCH_RESULT] : (state, {payload}) => {
             console.log('Review reducer: GET_SEARCH_RESULT 들어옴');
+            return payload;
+        },
+        [GET_COMPLETED_CAMPAIGNS] : (state, {payload}) => {
+            console.log('Review reducer: GET_COMPLETED_CAMPAIGNS 들어옴');
+            return payload;
+        },
+        [GET_THUMBNAIL_PATH] : (state, {payload}) => {
+            console.log('Review reducer: GET_THUMBNAIL_PATH 들어옴');
+            console.log(payload)
+            return payload;
+        },
+        [PUT_REVIEW] : (state, {payload}) => {
+            console.log('Review reducer: PUT_REVIEW 들어옴');
             return payload;
         }
 

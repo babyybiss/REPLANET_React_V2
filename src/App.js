@@ -11,6 +11,7 @@ import { AuthContextProvider } from './component/auth/AuthContext';
 import { Reviews } from "./pages/reviews/Reviews";
 import { ReviewDetails } from "./pages/reviews/ReviewDetails";
 import { ReviewRegist } from "./pages/reviews/ReviewRegist";
+import { ReviewModify } from "./pages/reviews/ReviewModify";
 import CampaignRegist from "./pages/campaigns/CampaignRegist";
 import ExchangePoint from "./pages/points/ExchangePoint";
 import Pay from './pages/pays/Pay';
@@ -21,7 +22,9 @@ import AuthContext from "./component/auth/AuthContext";
 import TextMessage from "./pages/auth/TextMessage";
 import Find from "./pages/auth/Find";
 import React, { useContext } from "react";
+
 import DonationDetailsListTest from './pages/pays/Test'
+
 
 function App() {
 
@@ -40,9 +43,12 @@ function App() {
             
               <Route path="reviews">
                 <Route index element={<Reviews />} />
-                <Route path=":campaignRevCode" element={<ReviewDetails />}/>
+                <Route path=":campaignCode" element={<ReviewDetails />}/>
                   <Route path="reviewRegist">
                     <Route path=":campaignCode" element={<ReviewRegist/> }/>
+                  </Route>
+                  <Route path="reviewUpdate">
+                    <Route path=":campaignCode" element={<ReviewModify /> }/>
                   </Route>
               </Route>
   

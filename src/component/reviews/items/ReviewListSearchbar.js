@@ -1,8 +1,10 @@
-export function ReviewListSearchbar({ reviewCampaignCode, searchFilter, setSearchFilter, reviewExists, setReviewExists, onSearchKeyPress, handleSearchKeyPress }) {
+export function ReviewListSearchbar({ reviewCampaignCode, searchFilter, setSearchFilter, reviewExists, setReviewExists, onSearchKeyPress, handleSearchKeyPress, handleCompletedCampaign }) {
+
     const handleSelectChange = (e) => {
         // Reset the searchFilter when the select option is changed
         setSearchFilter('');
         setReviewExists(e.target.value === "true");
+        handleCompletedCampaign();
     };
 
     return (
