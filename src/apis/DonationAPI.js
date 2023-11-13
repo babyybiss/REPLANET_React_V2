@@ -91,9 +91,9 @@ export function callGetPointByMemberAPI(memberCode) {
     }
 }
 
-export function callPostKakaoPayAPI(data) {
+export function callPostKakaoPayAPI(data, campaignInfo) {
 
-    const kakaoPayURL = `http://localhost:8001/kakaoPay`
+    const kakaoPayURL = `http://localhost:8001/kakaoPay/${campaignInfo.campaignCode}`
 
     return async function postKakaoPay(dispatch) {
         try {
@@ -106,9 +106,9 @@ export function callPostKakaoPayAPI(data) {
     }
 }
 
-export function callPostPointDonationAPI(data) {
+export function callPostPointDonationAPI(data, campaignInfo) {
 
-    const pointDonationURL = `http://localhost:8001/pointDonation`
+    const pointDonationURL = `http://localhost:8001/pointDonation/${campaignInfo.campaignCode}`
 
     return async function postPointDonation(dispatch) {
         try {

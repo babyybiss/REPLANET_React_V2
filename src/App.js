@@ -37,7 +37,7 @@ function App() {
               <Route path="/signup/" element={authCtx.isLoggedIn ? <Navigate to='/' /> : <Signup />} />
               <Route path="/find/" element={<Find/>}></Route>
               <Route index element={<Main />} />
-             
+            
               <Route path="reviews">
                 <Route index element={<Reviews />} />
                 <Route path=":campaignRevCode" element={<ReviewDetails />}/>
@@ -47,16 +47,17 @@ function App() {
               </Route>
   
               <Route path="/campaign/:campaignCode" element={<CampaignDetail />}/>
-              <Route path="regist" element={<CampaignRegist/>}/>
-              <Route path="charts" element={<Charts />} />
-              <Route path="exchange" element={<ExchangePoint />} />
-              <Route path="donations">
+              <Route path="/campaign/:campaignCode/donations">
                 <Route index element={<Pay />}/>
                 <Route path="success" element={<Success />}/>
                 <Route path="cancel" element={<Cancel />}/>
                 <Route path="fail" element={<Fail />}/>
                 <Route path="list" element={<DonationDetailsListTest />}/>
               </Route>
+              
+              <Route path="regist" element={<CampaignRegist/>}/>
+              <Route path="charts" element={<Charts />} />
+              <Route path="exchange" element={<ExchangePoint />} />
               {/* <Route path="textmessage" element={<TextMessage />}/> */}
             </Route>
           </Routes>

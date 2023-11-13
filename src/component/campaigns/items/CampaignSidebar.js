@@ -1,4 +1,5 @@
 import moment from 'moment';
+import { Link } from 'react-router-dom';
 
 function CampaignSidebar({ campaignInfo }) {
 
@@ -26,7 +27,9 @@ function CampaignSidebar({ campaignInfo }) {
                     <span className="percent float-right">{percentage > 100? '목표금액 초과!!': percentage+'%'}</span>
                 </div>
                 <div className="items-container ic2 mt-1 pt-1">
-                    <button className="button button-primary" >후원하기</button>
+                    <Link to={`/campaign/${campaignInfo.campaignCode}/donations`}>
+                        <button className="button button-primary" style={{width:"100%"}}>후원하기</button>
+                    </Link>
                     <button className="button button-primary-outline">공유하기</button>
                 </div>
                 <div className="items-container ic1">
