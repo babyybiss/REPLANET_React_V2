@@ -6,8 +6,11 @@ import { getReviews } from "../modules/ReviewModule";
 import { getReview } from "../modules/ReviewModule";
 import { postReview } from "../modules/ReviewModule";
 import { getSearchResult } from "../modules/ReviewModule";
+import { getCompletedCampaigns } from "../modules/ReviewModule";
+import { getThumbnailPath } from "../modules/ReviewModule";
+import { putReview } from "../modules/ReviewModule";
 
-const DOMAIN = 'http://localhost:8002'
+const DOMAIN = 'http://localhost:8001'
 
 const request = async (method, url, data) => {
     return await axios({
@@ -28,6 +31,17 @@ export function callGetReviewsAPI() {
         console.log('getReviewList result: ', result);
 
         dispatch(getReviews(result));
+    }
+}
+
+export function callGetCompletedCampaign() {
+
+    return async(dispatch, getState) => {
+
+        const result = await request('GET', '/done');
+        console.log('getCompletedReviewList result: ', result);
+
+        dispatch(getCompletedCampaigns(result))
     }
 }
 
@@ -63,7 +77,7 @@ export function callGetSpecificReviewAPI(campaignCode) {
 export function callPostReview({form}) {
 
     console.log('callPostReview ... : ' ,form);
-    const requestURL = 'http://localhost:8002/reviews/';
+    const requestURL = 'http://localhost:8001/reviews/';
 
     return async (dispatch, getState) => {
 
@@ -88,3 +102,30 @@ export function callGetReviewsBySearchFilter(searchFilter) {
         dispatch(getSearchResult(result));
     }
 }
+
+
+export function callPutReview({form}) {
+    console.log('callPutReview : ', form);
+
+    const requestURL = 'http://localhost:8001/reviews/';
+
+    return async (dispatch, getState) => {
+
+        const result = await fetch(requestURL, {
+            method: "PUT",
+            body: form
+            });
+            
+            dispatch(putReview(result));
+    }
+}
+
+  export function callGetReviewComments(reviewCode) {
+
+    console.log("callGetReviewComments : ", reviewCode);
+
+    return async (dispatch, getState) => {
+
+        const result = await request('GET', `/reviews/${reviewCode}/comments`)
+    }
+  }

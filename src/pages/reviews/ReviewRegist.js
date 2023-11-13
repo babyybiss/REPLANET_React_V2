@@ -87,8 +87,8 @@ export function ReviewRegist() {
         }));
 
         alert('리뷰 목록으로 이동합니다.');
-       // navigate('/reviews');
-        //window.location.reload();
+        navigate('/reviews');
+        window.location.reload();
     }
 
     // Callback function to receive HTML content from TextEditor
@@ -132,7 +132,7 @@ export function ReviewRegist() {
                 const formData = new FormData();
                 formData.append("multipartFiles", file);
                 try {
-                    const res = await axios.post('http://localhost:8080/uploadImage', formData);
+                    const res = await axios.post('http://localhost:8001/uploadImage', formData);
                     resolve({ data: { link: res.data } });
                 } catch (error) {
                     reject(error);
