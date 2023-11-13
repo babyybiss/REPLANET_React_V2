@@ -8,6 +8,7 @@ export const GET_DONATIONS_BY_MEMBER = 'donations/GET_DONATIONS_BY_MEMBER'
 export const GET_DONATION_BY_PAY_CODE = 'donations/GET_DONATION_BY_PAY_CODE'
 export const GET_POINT_OF_MEMBER = 'donations/GET_POINT_OF_MEMBER'
 export const POST_POINT_DONATION = 'donations/POST_POINT_DONATION'
+export const RESET_PAY_CODE = 'donations/RESET_PAY_CODE'
 
 const actions = createActions({
     [GET_PAYS]: () => {},
@@ -16,6 +17,7 @@ const actions = createActions({
     [GET_DONATION_BY_PAY_CODE]: (payTid) => ({ payTid }),
     [GET_POINT_OF_MEMBER]: (memberCode) => ({ memberCode }),
     [POST_POINT_DONATION]: (data) => ({ data }),
+    [RESET_PAY_CODE]: () => {},
 });
 
 const donationReducer = handleActions(
@@ -43,6 +45,10 @@ const donationReducer = handleActions(
         [POST_POINT_DONATION]: (state, { payload }) => {
             console.log('(donationReducer) [POST_POINT_DONATION] payload : ', payload);
             return payload;
+        },
+        [RESET_PAY_CODE]: (state, action) => {
+            console.log('[RESET_PAY_CODE] 동작');
+            return initialState;
         }
     },
     initialState

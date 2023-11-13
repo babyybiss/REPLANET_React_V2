@@ -1,32 +1,41 @@
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { callGetPointByMemberAPI, callPostKakaoPayAPI, callPostPointDonationAPI } from "../../apis/DonationAPI";
 import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { GetCampaignAPI } from "../../apis/CampaignListAPI";
 
 function PayForm() {
 
-    const navigate = useNavigate();
     const dispatch = useDispatch();
     const location = useLocation();
+
+    const campaign = useSelector(state => state.campaignReducer);
+    const { campaignCode } = useParams();
+
+    const campaignInfo = campaign.campaigninfo;
 
     const searchParams = new URLSearchParams(location.search);
     // const memberCode = searchParams.get('memberCode');
     // console.log('PayForm() memberCode : ' + memberCode);
+    // 멤버 정보 땡겨올때?
 
     const result = useSelector((state) => state.donationReducer);
 
     useEffect(() => {
+
+        dispatch(GetCampaignAPI(campaignCode));
         console.log('PayForm() result updated : ', result);
 
         const payCode = result.payCode;
         console.log('PayForm() payCode : ', payCode);
 
         if(payCode) {
-            window.location.href = `http://localhost:3000/donations/success?number=${payCode}`;
-        }
-    },
-    [result]
+            window.location.href = `http://localhost:3000/campaign/${campaignInfo.campaignCode}/donations/success?number=${payCode}`;
+            }
+        },
+        [result]
     );
 
     const [donationAmount, setDonationAmount] = useState(
@@ -52,21 +61,20 @@ function PayForm() {
             const data = {
                 finalAmount: donationAmount.finalAmount,
                 pointAmount: donationAmount.pointAmount,
-                cashAmount: donationAmount.cashAmount
+                cashAmount: donationAmount.cashAmount,
             };
-
             
             if (donationAmount.cashAmount >= 100) {
-                dispatch(callPostKakaoPayAPI(data));
+                dispatch(callPostKakaoPayAPI(data, campaignInfo));
             } else if (donationAmount.cashAmount == 0 && donationAmount.pointAmount > 0){
-                // 포인트로만 기부
                 console.log('포인트로만 기부');
                 const isPointDonation = window.confirm("포인트로만 기부하시겠습니까?");
 
                 if(isPointDonation) {
                     console.log("포인트로만 기부 승인");
                     console.log("data : ", data);
-                    dispatch(callPostPointDonationAPI(data))
+                    console.log("campaignInfo : ", campaignInfo);
+                    dispatch(callPostPointDonationAPI(data, campaignInfo))
                 } else {
                     console.log("포인트로만 기부 취소");
                     return;
@@ -75,7 +83,6 @@ function PayForm() {
             } else if (donationAmount.cashAmount < 100) {
                 alert('최소로 결제 할 수 있는 금액은 100원입니다.')
                 return;
-                // pointAmount로만 기부할 때
             }
         }
     }
@@ -94,6 +101,7 @@ function PayForm() {
                 if (intValue > finalAmount) {
                     alert("기부금액을 초과할 수 없습니다");
                     pointAmount = finalAmount;
+                    /* 추후 멤버의 소유포인트에 따라 최대값을 소유포인트의 최대값으로 해야함 기부금액 */
                 } else {
                     pointAmount = intValue;
                 }

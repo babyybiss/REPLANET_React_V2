@@ -48,14 +48,10 @@ export function GetCampaignAPI(campaignCode) {
 }
 
 // 캠페인 등록 
-export async function PostCampaignAPI(inputs, campaignContent,header) {
+export async function PostCampaignAPI({formData}, header) {
 
-console.log(inputs,'데이타');
-    return await axios.post(requestURL + 'campaigns',inputs).then((res) => {
-        window.location = "/";
+    console.log(formData, '데이타');
+    return await axios.post(requestURL + 'campaigns', formData, header).then((res) => {
+        //window.location = "/";
     }).catch((err) => { alert("엥?") })
 }
-
-
-
-
