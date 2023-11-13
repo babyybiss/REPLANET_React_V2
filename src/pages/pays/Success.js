@@ -24,25 +24,22 @@ function Success() {
     console.log('pay : ', pay);
 
     const donationDateTime= pay.refDonation ? (pay.refDonation.donationDateTime) : '';
-    const formattedDateTime = formatDateTime(donationDateTime);
     const memberId= pay.refDonation ? (pay.refDonation.refMember.memberId) : '';
     const campaignTitle= pay.refDonation ? (pay.refDonation.refCampaign.campaignTitle) : '';
     const donationAmount= pay.refDonation ? formatAmount(pay.payAmount + pay.refDonation.donationPoint) : '';
     const payAmount= pay.refDonation ? formatAmount(pay.payAmount) : '';
     const donationPoint= pay.refDonation ? formatAmount(pay.refDonation.donationPoint) : '';
 
+    const date = new Date(...donationDateTime);
 
-    function formatDateTime(dateTimeString) {
-        const options = { 
-                        year: 'numeric', 
-                        month: '2-digit', 
-                        day: '2-digit',
-                        hour: '2-digit', 
-                        minute: '2-digit', 
-                        second: '2-digit'
-                    };
-        return new Date(dateTimeString).toLocaleString('ko-KR', options);
-    };
+    const formattedDateTime = date.toLocaleString('ko-KR', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+    })
 
     function formatAmount(amount) {
         return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");

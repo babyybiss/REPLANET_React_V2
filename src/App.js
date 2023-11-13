@@ -22,8 +22,7 @@ import AuthContext from "./component/auth/AuthContext";
 import TextMessage from "./pages/auth/TextMessage";
 import Find from "./pages/auth/Find";
 import React, { useContext } from "react";
-
-import DonationDetailsListTest from './pages/pays/Test'
+import MyPage from "./pages/users/MyPage";
 
 
 function App() {
@@ -39,6 +38,9 @@ function App() {
           element={authCtx.isLoggedIn ? <Navigate to='/' /> : <Login />}/>
               <Route path="/signup/" element={authCtx.isLoggedIn ? <Navigate to='/' /> : <Signup />} />
               <Route path="/find/" element={<Find/>}></Route>
+              <Route path="/myPage/*">
+                <Route index element={<MyPage/>} />
+              </Route>
               <Route index element={<Main />} />
             
               <Route path="reviews">
@@ -58,7 +60,6 @@ function App() {
                 <Route path="success" element={<Success />}/>
                 <Route path="cancel" element={<Cancel />}/>
                 <Route path="fail" element={<Fail />}/>
-                <Route path="list" element={<DonationDetailsListTest />}/>
               </Route>
               
               <Route path="regist" element={<CampaignRegist/>}/>
