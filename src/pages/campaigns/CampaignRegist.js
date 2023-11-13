@@ -2,6 +2,7 @@ import { EditorState, convertToRaw } from "draft-js";
 import { useCallback, useEffect, useState } from "react";
 import { PostCampaignAPI } from "../../apis/CampaignListAPI";
 import { useDispatch, useSelector } from 'react-redux';
+import { useRef } from "react";
 
 import draftToHtml from 'draftjs-to-html';
 import DraftEditor from "../../component/common/DraftEditor";
@@ -19,14 +20,18 @@ const categoryList = [
 function CampaignRegist() {
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
     const [Thumbnail, setThumbnail] = useState(null);
+    const [imgPreview, setImgPreview] = useState("");
     const [inputs, setInputs] = useState([]);
+    const imageInput = useRef();
 
+    
     const dispatch = useDispatch();
 
-   // const { contents } = useSelector(getGroup('writeField'));
+    // const { contents } = useSelector(getGroup('writeField'));
 
     const header = {
         headers: {
+            //Authorization: `${getItem('token')}`,
             "Content-Type": "application/json",
             "Accept": "*/*",
             "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
@@ -44,7 +49,7 @@ function CampaignRegist() {
     // 가격 원화 설정 
     const priceChangeHandler = (event) => {
         let price = event.target.value;
-        const {  name } = event.target;
+        const { name } = event.target;
         price = Number(price.replaceAll(',', ''));
         if (isNaN(price)) {
             setInputs({
@@ -61,25 +66,64 @@ function CampaignRegist() {
 
     const onChangeContent = useCallback((state) => {
         const value = draftToHtml(convertToRaw(state.getCurrentContent()));
-    
+        // 화면에 나오게 
         setEditorState(state);
-    
-        /*dispatch(
-          changeWriteField({
-            name: 'contents',
-            value,
-          }),
-        );
-        */
-      }, [dispatch]);
+        // 저어장~
+        setInputs({
+            ...inputs,
+            campaignContent: value
+        });
+
+    });
 
 
+    useEffect(() => {
+        // 이미지 업로드시 미리보기 세팅
+        if (Thumbnail) {
+            const fileReader = new FileReader();
+            fileReader.onload = (e) => {
+                const result = e.target.result;
+                if (result) {
+                    setThumbnail(result);
+                }
+            }
+            fileReader.readAsDataURL(Thumbnail);
+        } 
+        PostCampaignAPI({	// 상품 상세 정보 조회
+            inputs: formData,
+            header
+        });
 
+        console.log(formData,"이거 왜안");
+    },
+        [Thumbnail]);
+
+
+        const onClickImageUpload = () => {
+            imageInput.current.click();
+        }
     // db 전송
     const submitHandler = (event) => {
         event.preventDefault();
 
-        PostCampaignAPI(inputs,header);
+        const formData = new FormData();
+
+        formData.append("campaignCategory", inputs.campaignCategory);
+        formData.append("campaignContent", inputs.campaignContent);
+        formData.append("campaignTitle", inputs.campaignTitle);
+        formData.append("endDate", inputs.endDate);
+        formData.append("goalBudget", inputs.goalBudget);
+        formData.append("orgDescription", inputs.orgDescription);
+        formData.append("orgName", inputs.orgName);
+        formData.append("orgTel", inputs.orgTel);
+
+        if (Thumbnail) {
+            formData.append("Image", Thumbnail);
+        }
+
+        
+
+
     }
     return (
         <>
@@ -95,19 +139,30 @@ function CampaignRegist() {
                         ))}
                     </select>
                     {/* 제목 & 텍스트 에디터 */}
-                    <input className="input" name="campaignTitle" maxLength="20"  placeholder="제목 입력." onChange={onChange} required />
+                    <input className="input" name="campaignTitle" maxLength="20" placeholder="제목 입력." onChange={onChange} required />
                     <DraftEditor onChange={onChangeContent} editorState={editorState} />
-                    <input type="file" value={Thumbnail} onChange={(e) => setThumbnail(e.target.value)} placeholder="메인 이미지 1장을 업로드 해주세요" />
+                    <input type="file"
+                        ref={Thumbnail}
+                        accept="image/*"
+                        onChange={(e) => 
+                            { const image = e.target.files[0];
+                                const objectUrl = URL.createObjectURL(image)
+                                 setThumbnail(image)
+                                 setImgPreview(objectUrl);
+                            }}
+                        placeholder="메인 이미지 1장을 업로드 해주세요"
+                    />
+                    <button onClick={ onClickImageUpload }  > 사진</button>
                 </div>
 
                 <div className="container" id="container-user">
                     <h3 className="text-center">기부금 사용 계획 </h3>
                     <div className="items-container ic1">
-                        <label>목표금액<input className="input" type="text" maxLength="20" name="goalBudget"  placeholder="총 목표 금액을 입력하세요." value={inputs.goalBudget} onChange={priceChangeHandler} required /></label>
-                        <label htmlFor="endDate">캠페인 마감일 <input type="date" id="endDate" name="endDate" className="input" onChange={onChange}  /></label>
-                        <label>단체명<input className="input" name="orgName" maxLength="50"  placeholder="단체명을 입력해주세요." onChange={onChange} required /></label>
-                        <label>단체 한줄소개<input className="input" name="orgDescription" maxLength="50"  placeholder="단체 한줄소개를 입력해주세요." onChange={onChange} required /></label>
-                        <label>단체 연락처<input className="input" name="orgTel" maxLength="13"  placeholder="전화번호를 입력해주세요." onChange={onChange} required /></label>
+                        <label>목표금액<input className="input" type="text" maxLength="20" name="goalBudget" placeholder="총 목표 금액을 입력하세요." value={inputs.goalBudget} onChange={priceChangeHandler} required /></label>
+                        <label htmlFor="endDate">캠페인 마감일 <input type="date" id="endDate" name="endDate" className="input" onChange={onChange} /></label>
+                        <label>단체명<input className="input" name="orgName" maxLength="50" placeholder="단체명을 입력해주세요." onChange={onChange} required /></label>
+                        <label>단체 한줄소개<input className="input" name="orgDescription" maxLength="50" placeholder="단체 한줄소개를 입력해주세요." onChange={onChange} required /></label>
+                        <label>단체 연락처<input className="input" name="orgTel" maxLength="13" placeholder="전화번호를 입력해주세요." onChange={onChange} required /></label>
                     </div>
                 </div>
                 <div >
