@@ -24,7 +24,7 @@ function CampaignDetail() {
     useEffect(
         () => {
             dispatch(GetCampaignAPI(campaignCode));
-
+            console.log('Campaign Detail Redux State:', result);
         },
         []
     );
