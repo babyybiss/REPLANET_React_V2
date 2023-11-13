@@ -1,5 +1,9 @@
-import { GET_GET_PAYS, GET_PAYS_BY_DATE_RANGE, GET_DONATION_BY_PAY_CODE, GET_POINT_OF_MEMBER } from "../modules/DonationModule";
-import { GET_DONATIONS_BY_MEMBER } from "../modules/DonationModule";
+import { GET_PAYS, 
+        GET_PAYS_BY_DATE_RANGE, 
+        GET_DONATION_BY_PAY_CODE, 
+        GET_POINT_OF_MEMBER, 
+        GET_DONATIONS_BY_MEMBER, 
+        POST_POINT_DONATION } from "../modules/DonationModule";
 import axios from "axios";
 
 export function callGetAllPaysAPI() {
@@ -12,7 +16,7 @@ export function callGetAllPaysAPI() {
             const result = response.data.reverse();
             // 역순으로 불러오게 함
             console.log('(callGetAllPaysAPI) result : ', result);
-            dispatch({ type: GET_GET_PAYS, payload: result });
+            dispatch({ type: GET_PAYS, payload: result });
         } catch (error) {
             console.error('(callGetAllPaysAPI) API 요청 실패! : ', error);
         }
@@ -55,6 +59,7 @@ export function callGetDonationsByMemberAPI(memberCode) {
 }
 
 export function callGetDonationByPayCodeAPI(payCode) {
+    console.log('callGetDonationByPayCodeAPI(payCode) payCode : ', payCode);
 
     const requestURL = `http://localhost:8001/donations/payCode=${ payCode }`
 
@@ -82,6 +87,37 @@ export function callGetPointByMemberAPI(memberCode) {
             dispatch({ type: GET_POINT_OF_MEMBER, payload: result });
         } catch (error) {
             console.error('(callGetPointByMemberAPI) API 요청 실패! : ', error);
+        }
+    }
+}
+
+export function callPostKakaoPayAPI(data, campaignInfo) {
+
+    const kakaoPayURL = `http://localhost:8001/kakaoPay/${campaignInfo.campaignCode}`
+
+    return async function postKakaoPay(dispatch) {
+        try {
+            const response = await axios.post(kakaoPayURL, data);
+            const redirectURL = response.data.replace('redirect:', '');
+            window.location.href = redirectURL;
+        } catch (error) {
+            console.error('(callPostKakaoPayAPI) API 요청 실패! : ', error);
+        }
+    }
+}
+
+export function callPostPointDonationAPI(data, campaignInfo) {
+
+    const pointDonationURL = `http://localhost:8001/pointDonation/${campaignInfo.campaignCode}`
+
+    return async function postPointDonation(dispatch) {
+        try {
+            const response = await axios.post(pointDonationURL, data);
+            const result = response.data;
+            console.log('(callPostPointDonationAPI) result : ', result);
+            dispatch({ type: POST_POINT_DONATION, payload: result });
+        } catch (error) {
+            console.error('(callPostPointDonationAPI) API 요청 실패! : ', error);
         }
     }
 }

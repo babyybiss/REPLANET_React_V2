@@ -47,7 +47,7 @@
   gap: 5px;
 }
 
-#cashAmount, #pointAmount {
+#finalAmount, #pointAmount {
   font-family: 'Pretendard Variable', sans-serif !important;
   font-size: 1.60em;
   color: #1D7151;
