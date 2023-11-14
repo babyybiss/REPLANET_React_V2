@@ -8,12 +8,10 @@
 }
 
 .chartbox {
+    width: 1000px;
     margin-left: 3.6em;
 }
 .chartbox h4 {
-    margin-left: 19em;
+    text-align: center;
 }
 
-.chartbox svg {
-    margin-left: 3.6em;
-}
