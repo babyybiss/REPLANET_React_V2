@@ -23,6 +23,9 @@ import TextMessage from "./pages/auth/TextMessage";
 import Find from "./pages/auth/Find";
 import React, { useContext } from "react";
 import MyPage from "./pages/users/MyPage";
+import DonationDetailsListTest from './pages/pays/Test'
+import AllExchanges from "./pages/points/AllExchanges";
+
 
 
 function App() {
@@ -65,6 +68,7 @@ function App() {
               <Route path="regist" element={<CampaignRegist/>}/>
               <Route path="charts" element={<Charts />} />
               <Route path="exchange" element={<ExchangePoint />} />
+              <Route path="exchangeList" element={<AllExchanges />} />
               {/* <Route path="textmessage" element={<TextMessage />}/> */}
             </Route>
           </Routes>

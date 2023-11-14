@@ -89,12 +89,12 @@ function CampaignRegist() {
             }
             fileReader.readAsDataURL(Thumbnail);
         } 
-        PostCampaignAPI({	// 상품 상세 정보 조회
+        /*PostCampaignAPI({	// 상품 상세 정보 조회
             inputs: formData,
             header
-        });
+        });*/
 
-        console.log(formData,"이거 왜안");
+        //console.log(formData,"이거 왜안");
     },
         [Thumbnail]);
 

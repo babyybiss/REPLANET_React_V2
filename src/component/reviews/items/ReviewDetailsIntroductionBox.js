@@ -1,12 +1,27 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { callGetReviewThumbnail } from "../../../apis/ReviewAPI";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { callDeleteReviewAPI } from "../../../apis/ReviewAPI";
 
 export function ReviewDetailsIntroductionBox({ review }) {
 
   const reviewFileSaveName = review.reviewFileList[0].fileSaveName;
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const reviewCode = review.reviewCode;
+  const revFileCode = review.reviewFileList[0].revFileCode;
+
   console.log(reviewFileSaveName);
+  
+
+  const deleteReviewHandler = () => {
+    if(window.confirm("정말 삭제하시겠습니까? 복구할 수 없습니다."))
+    dispatch(callDeleteReviewAPI(reviewCode, revFileCode))
+    alert('삭제 성공!\n리뷰 목록으로 이동합니다.');
+    navigate('/reviews');
+    window.location.reload();
+  }
 
     return (
       <div className="items-container ic2 g-gap2 campaign-list-container">
@@ -36,7 +51,7 @@ export function ReviewDetailsIntroductionBox({ review }) {
           </ul>
           <div>
         <button><NavLink to={`/reviews/reviewUpdate/${review.campaignCode}`}>수정하기</NavLink></button>
-        <button>삭제하기</button>
+        <button onClick={deleteReviewHandler}>삭제하기</button>
       </div>
       </div>
       </div>
