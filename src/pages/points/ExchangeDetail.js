@@ -3,20 +3,48 @@ import ExchangeInfo from "../../component/points/items/ExchangeInfo";
 import "../../assets/css/reset.css";
 import "../../assets/css/common.css";
 import "../../assets/css/adminexchange.css";
+import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { exchangeDetailAPI } from "../../apis/PointAPI";
 
 
 function ExchangeDetail(){
+    const navigate = useNavigate();
+
+    const dispatch = useDispatch();
+    const params = useParams();
+    const info = useSelector(state => state.exchangeReducer);
+
+    console.log('코드는 들어옴? ', params.exchangeCode);
+
+    useEffect(
+        () => {
+            console.log('너 왜 동작 안해..?');
+            console.log('[ExchangeDetail] ExchangeCode : ', params.exchangeCode);
+            dispatch(exchangeDetailAPI({
+                exchangeCode: params.exchangeCode,
+            }));
+            console.log('일단 유즈이펙트 끝 표시');
+        }, []
+    );
+
+    console.log('info 확인 : ', info);
+
+    if(!info){
+        return <div></div>
+    }
     return (
-        <div className="items-container ic2" style={{marginTop:"5rem;"}}>
+        <div className="items-container ic2" style={{marginTop:"5rem"}}>
             <div className="infoDiv">
                 <div style={{alignItems:"left"}}>
-                    <a onClick={goBack} style={{color:"gray", cursor:"pointer"}}>← Back</a>
+                    <a onClick={() => navigate(-1)} style={{color:"gray", cursor:"pointer"}}>← Back</a>
                     <h1>포인트 전환 신청 내용</h1>
-                    <ExchangeInfo/>
+                    <ExchangeInfo info={info}/>
                 </div>
             </div>
             <div className="fileDiv">
-                <ExchangeFile/>
+                <ExchangeFile info={info}/>
             </div>
         </div>
     );

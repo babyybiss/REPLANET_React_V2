@@ -1,10 +1,13 @@
-import "../../assets/css/reset.css";
-import "../../assets/css/common.css";
-import "../../assets/css/adminexchange.css";
-import { useState } from "react";
+import "../../../assets/css/reset.css";
+import "../../../assets/css/common.css";
+import "../../../assets/css/adminexchange.css";
+import { useEffect, useState } from "react";
+import { exchangeDetailAPI } from "../../../apis/PointAPI";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 
 
-function ExchangeInfo(){
+function ExchangeInfo({info}){
 
     const [confirm, setConfirm] = useState(null);
 
@@ -14,6 +17,12 @@ function ExchangeInfo(){
 
     const submitConfirm = (value) => {
 
+    }
+
+    const formatExchangeDate = (timestamp) => {
+        const date = new Date(timestamp);
+        const options = {year: 'numeric', month: 'numeric', day: 'numeric'};
+        return date.toLocaleString(undefined, options);
     }
     
 
@@ -30,23 +39,23 @@ function ExchangeInfo(){
                 <div className="infoBox">
                     <h5>회원 ID (회원명)</h5>
                     <br/>
-                    <a style={{color:"gray"}}>{info.memberId} ({info.name})</a>
+                    <a style={{color:"gray"}}>{info.memberId} ({info.memberName})</a>
                 </div>
                 <br/>
                 <div className="infoBox">
                     <h5>날짜</h5>
                     <br/>
-                    <a style={{color:"gray"}}>{info.date}</a>
+                    <a style={{color:"gray"}}>{formatExchangeDate(info.exchangeDate)}</a>
                 </div>
                 <br/>
-                {info.status === 'waiting' ? 
+                {info.status === '대기' ? 
                     (<>
                         <div>
-                            <label class="confirm-btn" for="approval">
+                            <label className="confirm-btn" htmlFor="approval">
                                 승인
                             </label>
                             <input type="radio" name="confirm" id="approval" style={{display:"none"}} onClick={() => handleConfirm('승인')}/>
-                            <label class="confirm-btn" for="rejection">
+                            <label className="confirm-btn" htmlFor="rejection">
                                 반려
                             </label>
                             <input type="radio" name="confirm" id="rejection" style={{display:"none"}} onClick={() => handleConfirm('반려')}/>
@@ -82,7 +91,7 @@ function ExchangeInfo(){
                             )
                         }
                     </>
-                    ) : info.status === 'approval' ?
+                    ) : info.status === '승인' ?
                         (<>
                             <br/><br/>
                             <div className="confirmDetail">
