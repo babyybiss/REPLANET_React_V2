@@ -3,24 +3,10 @@ import '../../assets/css/common.css';
 import '../../assets/css/user.css';
 import '../../assets/css/mypage.css';
 
-import DonationDetail from '../../component/mypage/DonationDetail';
 import { NavLink } from 'react-router-dom';
-import { useState } from 'react';
-import BookmarkList from '../../component/mypage/lists/BookmartList';
+import { Outlet } from 'react-router-dom';
 
 function MyPage() {
-
-    const [selectedMenu, setSelectedMenu] = useState('donationDetail');
-
-    const renderComponent = () => {
-        switch (selectedMenu) {
-            case 'bookmarkList':
-                return <BookmarkList/>;
-            default:
-                return <DonationDetail/>;
-            // 필요한 각각의 컴포넌트들을 switch case를 이용해서 불러올 수 있다.
-        }
-    };
 
     return(
         <>
@@ -45,21 +31,28 @@ function MyPage() {
                         <h4>70,000P</h4>
                         {/* 회원의 현재 소유포인트 들고와야함 */}
                     </div>
-                    <div className={`admin-sidebar-menu ${selectedMenu === 'donationDetail' ? 'active' : ''}`} onClick={() => setSelectedMenu('donationDetail')}>
+                    <NavLink to="history" className='admin-sidebar-menu'>
                         기부(결제)내역
-                    </div>
-                    <div className="admin-sidebar-menu">포인트 전환 및 관리</div>
-                    <div className="admin-sidebar-menu">기부영수증 안내</div>
-                    <div className={`admin-sidebar-menu ${selectedMenu === 'bookmarkList' ? 'active' : ''}`} onClick={() => setSelectedMenu('bookmarkList')}>
+                    </NavLink>
+                    <NavLink to="바꿔주세요" className="admin-sidebar-menu">
+                        포인트 전환 및 관리
+                    </NavLink>
+                    <NavLink to="바꿔주세요" className="admin-sidebar-menu">
+                        기부영수증 안내
+                    </NavLink>
+                    <NavLink to="bookmark" className='admin-sidebar-menu'>
                         관심리스트
-                    </div>
-                    <div className="admin-sidebar-menu bg-light">회원정보 수정</div>
-                    <div className="admin-sidebar-menu bg-light">회원탈퇴</div>
+                    </NavLink>
+                    <NavLink to="바꿔주세요" className="admin-sidebar-menu bg-light">
+                        회원정보 수정
+                    </NavLink>
+                    <NavLink to="바꿔주세요" className="admin-sidebar-menu bg-light">
+                        회원탈퇴
+                    </NavLink>
                 </div>
-
-                {renderComponent()}
-                {/* switch case를 통해 불러오는 컴포넌트 */}
-
+                <div>
+                    <Outlet/>
+                </div>
             </div>
         </>
     );
