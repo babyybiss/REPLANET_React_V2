@@ -5,8 +5,8 @@ import "../../assets/css/adminexchange.css";
 
 function AllExchanges(){
     return(
-        <div className="admin-main">
-            <div className="admin-title">
+        <div className="admine-main">
+            <div className="admine-title">
                 <h1>포인트 전환 관리</h1>
             </div>
             <PointExchangeList/>

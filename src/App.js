@@ -22,13 +22,11 @@ import AuthContext from "./component/auth/AuthContext";
 import TextMessage from "./pages/auth/TextMessage";
 import Find from "./pages/auth/Find";
 import React, { useContext } from "react";
-
+import ExchangeDetail from "./pages/points/ExchangeDetail";
 import MyPage from "./pages/users/MyPage";
-
 import AllExchanges from "./pages/points/AllExchanges";
 import BookmarkList from "./component/mypage/lists/BookmarkList";
 import DonationList from "./component/mypage/lists/DonationList";
-
 
 
 function App() {
@@ -75,6 +73,7 @@ function App() {
               <Route path="charts" element={<Charts />} />
               <Route path="exchange" element={<ExchangePoint />} />
               <Route path="exchangeList" element={<AllExchanges />} />
+              <Route path="exchangeDetail/:exchangeCode" element={<ExchangeDetail />} />
               {/* <Route path="textmessage" element={<TextMessage />}/> */}
             </Route>
           </Routes>

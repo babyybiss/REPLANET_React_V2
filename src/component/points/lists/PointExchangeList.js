@@ -24,7 +24,7 @@ function PointExchangeList(){
     );
 
     const onClickHandler = (exchangeCode) => {
-        // navigate(`/ExchangeDetail/${exchangeCode}`, {replace: false});
+        navigate(`/exchangeDetail/${exchangeCode}`, {replace: false});
         
     };
     
@@ -63,7 +63,7 @@ function PointExchangeList(){
                     <tbody>
                         {Array.isArray(exchanges) && exchanges.map(
                             (exchange) => (
-                                <tr key={exchange.exchangeCode} onClick={onClickHandler(exchange.exchangeCode)}>
+                                <tr key={exchange.exchangeCode} onClick={() => {onClickHandler(exchange.exchangeCode)}}>
                                     <td>{exchange.exchangeCode}</td>
                                     <td>{formatExchangeDate(exchange.exchangeDate)}</td>
                                     <td>{exchange.title}</td>

@@ -1,6 +1,6 @@
 /*admin*/
 
-.header-admin {
+.header-admine {
     display: grid;
     grid-template-columns: 200px 1fr 1fr;
     text-align: center;
@@ -8,7 +8,7 @@
   
   }
   
-  .header-admin-menu {
+  .header-admine-menu {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -19,19 +19,19 @@
   
   }
   
-  .container-admin {
+  .container-admine {
     display: grid;
     grid-template-columns: 200px 1fr;
   }
   
   
-  .admin-sidebar {
+  .admine-sidebar {
     height: 100vh;
     width: 200px;
     border-right: solid 1px var(--color-light-hover);
   }
   
-  .admin-sidebar-menu {
+  .admine-sidebar-menu {
     padding: 1rem 0;
     display: flex;
     flex-direction: column;
@@ -43,21 +43,21 @@
   }
   
   
-  .admin-sidebar-menu.active,
-  .admin-sidebar-menu:active,
-  .admin-sidebar-menu:focus,
-  .admin-sidebar-menu:hover {
+  .admine-sidebar-menu.active,
+  .admine-sidebar-menu:active,
+  .admine-sidebar-menu:focus,
+  .admine-sidebar-menu:hover {
     background-color: var(--color-primary)!important;
     color: var(--color-white)!important;
   }
   
-  .admin-main {
+  .admine-main {
     padding: 2rem;
     margin-left: 10%;
     margin-right: 10%;
   }
   
-  .admin-title {
+  .admine-title {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -65,7 +65,7 @@
     color: #1D7151;
   }
   
-  .admin-title > * {
+  .admine-title > * {
     display: inline
   }
 

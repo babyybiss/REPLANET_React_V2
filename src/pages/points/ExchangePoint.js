@@ -45,7 +45,7 @@ function ExchangePoint(){
         if(file != null && title != null && title != ""){
             console.log("제목은 : ", title);
             console.log("파일은 : ", file);
-            const memberCode = 9;
+            const memberCode = 1;
 
             const formdata = new FormData();
             
