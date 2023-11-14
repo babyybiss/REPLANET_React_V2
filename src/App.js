@@ -22,8 +22,8 @@ import AuthContext from "./component/auth/AuthContext";
 import TextMessage from "./pages/auth/TextMessage";
 import Find from "./pages/auth/Find";
 import React, { useContext } from "react";
-import MyPage from "./pages/users/MyPage";
-import DonationDetailsListTest from './pages/pays/Test'
+import MyPage from "./pages/users/Mypage";
+
 import AllExchanges from "./pages/points/AllExchanges";
 
 

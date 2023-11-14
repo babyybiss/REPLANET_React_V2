@@ -12,6 +12,7 @@ import { putReview } from "../modules/ReviewModule";
 import { deleteReview } from "../modules/ReviewModule";
 
 const DOMAIN = 'http://localhost:8001'
+const requestURL = 'http://localhost:8001/reviews/';
 
 const request = async (method, url, data) => {
     return await axios({
@@ -75,16 +76,18 @@ export function callGetSpecificReviewAPI(campaignCode) {
     }
 }
 
-export function callPostReview({form}) {
+export function callPostReview({form}, header) {
 
     console.log('callPostReview ... : ' ,form);
-    const requestURL = 'http://localhost:8001/reviews/';
 
     return async (dispatch, getState) => {
 
         const result = await fetch(requestURL, {
             method: "POST",
-
+            //headers: {
+            //    "Accept": "*/*",
+            //    "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            //},
             body: form
             });
             
@@ -108,12 +111,16 @@ export function callGetReviewsBySearchFilter(searchFilter) {
 export function callPutReview({form}) {
     console.log('callPutReview : ', form);
 
-    const requestURL = 'http://localhost:8001/reviews/';
+    
 
     return async (dispatch, getState) => {
 
         const result = await fetch(requestURL, {
             method: "PUT",
+                        //headers: {
+            //    "Accept": "*/*",
+            //    "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            //},
             body: form
             });
             

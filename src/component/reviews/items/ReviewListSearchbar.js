@@ -21,6 +21,7 @@ export function ReviewListSearchbar({ reviewCampaignCode, searchFilter, setSearc
                     placeholder="🔎 Search"
                 />
                 <select
+                    className="select"
                     name={reviewExists}
                     value={reviewExists}
                     style={{ width: 200 + "px" }}
