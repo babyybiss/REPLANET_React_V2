@@ -22,8 +22,8 @@
     --color-secondary: #cccccc;
     --color-secondary-hover: #aaaaaa;
   
-    --color-danger: #DB524E;
-    --color-danger-hover: #C7302B;
+    --color-danger: #C7302B;
+    --color-danger-hover: #a9221d;
     
     --screen-xl: 1400px;
     --screen-lg: 1200px;
@@ -306,6 +306,16 @@
   .text-black:hover {
     color: var(--color-black-hover) !important;
   }
+
+  .text-danger {
+    background-color: var(--color-danger) !important;
+    border: solid 1px var(--color-danger) !important;
+    color: var(--color-white) !important;
+  }
+
+  .text-danger:hover {
+    background-color: var(--color-danger-hover) !important
+  }
   
   /*bg color*/
   .bg-primary {
@@ -480,6 +490,11 @@
   .my-1 {
     margin-top: 0.625rem !important;
     margin-bottom: 0.625rem !important;
+  }
+
+  .my-3 {
+    margin-top: 2rem !important;
+    margin-bottom: 2rem !important;
   }
 
   .w-20 {

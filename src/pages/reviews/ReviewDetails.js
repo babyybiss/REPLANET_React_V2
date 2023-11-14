@@ -5,21 +5,22 @@ import { callGetSpecificReviewAPI } from "../../apis/ReviewAPI";
 import { ReviewDetailsIntroductionBox } from "../../component/reviews/items/ReviewDetailsIntroductionBox";
 import { ReviewContent } from "../../component/reviews/items/ReviewContent";
 import { ReviewComment } from "../../component/campaigns/items/ReviewComment.js";
-import comment from "../../assets/css/comment.css"
 import script from "../../assets/scripts/externalScript.js";
 
 export function ReviewDetails() {
   const { campaignCode } = useParams();
   const dispatch = useDispatch();
   const review = useSelector((state) => state.reviewReducer.review);
-  //const review = result.review;
+
 
   console.log('what campaignCode? : ',campaignCode);
+  
   useEffect(() => {
     dispatch(callGetSpecificReviewAPI(campaignCode));
-  }, [campaignCode]);
+  }, []);
 
   console.log('(ReviewDetailsPage) : ', review);
+
 
      return (
       review && (
