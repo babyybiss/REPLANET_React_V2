@@ -1,64 +1,29 @@
-import { GET_PAYS, 
-        GET_PAYS_BY_DATE_RANGE, 
+import { GET_PAYS_BY_MEMBER_WITH_DATE, 
         GET_DONATION_BY_PAY_CODE, 
         GET_POINT_OF_MEMBER, 
-        GET_DONATIONS_BY_MEMBER, 
         POST_POINT_DONATION } from "../modules/DonationModule";
 import axios from "axios";
 
-export function callGetAllPaysAPI() {
-    
-    const requestURL = 'http://localhost:8001/pays'
+export function callGetAllPaysByMemberWithDateAPI(startDate, endDate) {
+    // 기부(결제) 내역을 전체, 날짜검색을 가능하게 하는 API
+    const requestURL = endDate
+    ? `http://localhost:8001/paysByMemberWithDate?startDate=${startDate}&endDate=${endDate}`
+    : 'http://localhost:8001/paysByMemberWithDate'
 
     return async function getAllPays(dispatch, getState) {
         try {
             const response = await axios.get(requestURL);
             const result = response.data.reverse();
-            // 역순으로 불러오게 함
-            console.log('(callGetAllPaysAPI) result : ', result);
-            dispatch({ type: GET_PAYS, payload: result });
+            console.log('(callGetAllPaysByMemberAPI) result : ', result);
+            dispatch({ type: GET_PAYS_BY_MEMBER_WITH_DATE, payload: result });
         } catch (error) {
-            console.error('(callGetAllPaysAPI) API 요청 실패! : ', error);
-        }
-    }
-}
-
-export function callGetPaysByDateRangeAPI(startDate, endDate) {
-
-    console.log('callGetPaysByDateRangeAPI() startDate : ', startDate);
-    console.log('callGetPaysByDateRangeAPI() endDate : ', endDate);
-    
-    const requestURL = `http://localhost:8001/pays?startDate=${startDate}&endDate=${endDate}`
-
-    return async function getPaysByDateRange(dispatch, getState) {
-        try {
-            const response = await axios.get(requestURL);
-            const result = response.data.reverse();
-            console.log('(callGetPaysByDateRangeAPI) result : ', result);
-            dispatch({ type: GET_PAYS_BY_DATE_RANGE, payload: result });
-        } catch (error) {
-            console.error('(callGetPaysByDateRangeAPI) API 요청 실패! : ', error);
-        }
-    }
-}
-
-export function callGetDonationsByMemberAPI(memberCode) {
-
-    const requestURL = `http://localhost:8001/users/${ memberCode }/donations`
-
-    return async function getDonationsByMember(dispatch, getState) {
-        try {
-            const response = await axios.get(requestURL);
-            const result = response.data;
-            console.log('(callGetDonationsByMemberAPI) result : ', result);
-            dispatch({ type: GET_DONATIONS_BY_MEMBER, payload: result });
-        } catch (error) {
-            console.error('(callGetDonationsByMemberAPI) API 요청 실패! : ', error);
+            console.error('(callGetAllPaysByMemberAPI) API 요청 실패! : ', error);
         }
     }
 }
 
 export function callGetDonationByPayCodeAPI(payCode) {
+    // 기부 직후 기부 상세 내역 보여주는 API
     console.log('callGetDonationByPayCodeAPI(payCode) payCode : ', payCode);
 
     const requestURL = `http://localhost:8001/donations/payCode=${ payCode }`
@@ -75,9 +40,9 @@ export function callGetDonationByPayCodeAPI(payCode) {
     }
 }
 
-export function callGetPointByMemberAPI(memberCode) {
-
-    const requestURL = `http://localhost:8001/users/point/${ memberCode }/donations`
+export function callGetPointByMemberAPI() {
+    // 멤버의 현재 가용포인트를 조회해오는 API
+    const requestURL = `http://localhost:8001/users/point`
 
     return async function getPointByMember(dispatch, getState) {
         try {
@@ -91,23 +56,8 @@ export function callGetPointByMemberAPI(memberCode) {
     }
 }
 
-export function callPostKakaoPayAPI(data, campaignInfo) {
-
-    const kakaoPayURL = `http://localhost:8001/kakaoPay/${campaignInfo.campaignCode}`
-
-    return async function postKakaoPay(dispatch) {
-        try {
-            const response = await axios.post(kakaoPayURL, data);
-            const redirectURL = response.data.replace('redirect:', '');
-            window.location.href = redirectURL;
-        } catch (error) {
-            console.error('(callPostKakaoPayAPI) API 요청 실패! : ', error);
-        }
-    }
-}
-
 export function callPostPointDonationAPI(data, campaignInfo) {
-
+    // 포인트로만 기부했을때 발동하는 API
     const pointDonationURL = `http://localhost:8001/pointDonation/${campaignInfo.campaignCode}`
 
     return async function postPointDonation(dispatch) {
@@ -118,6 +68,21 @@ export function callPostPointDonationAPI(data, campaignInfo) {
             dispatch({ type: POST_POINT_DONATION, payload: result });
         } catch (error) {
             console.error('(callPostPointDonationAPI) API 요청 실패! : ', error);
+        }
+    }
+}
+
+export function callPostKakaoPayAPI(data, campaignInfo) {
+    // 카카오페이API를 사용하기 위한 API
+    const kakaoPayURL = `http://localhost:8001/kakaoPay/${campaignInfo.campaignCode}`
+
+    return async function postKakaoPay(dispatch) {
+        try {
+            const response = await axios.post(kakaoPayURL, data);
+            const redirectURL = response.data.replace('redirect:', '');
+            window.location.href = redirectURL;
+        } catch (error) {
+            console.error('(callPostKakaoPayAPI) API 요청 실패! : ', error);
         }
     }
 }
