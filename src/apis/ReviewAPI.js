@@ -9,6 +9,7 @@ import { getSearchResult } from "../modules/ReviewModule";
 import { getCompletedCampaigns } from "../modules/ReviewModule";
 import { getThumbnailPath } from "../modules/ReviewModule";
 import { putReview } from "../modules/ReviewModule";
+import { deleteReview } from "../modules/ReviewModule";
 
 const DOMAIN = 'http://localhost:8001'
 
@@ -119,6 +120,17 @@ export function callPutReview({form}) {
             dispatch(putReview(result));
     }
 }
+
+export function callDeleteReviewAPI(reviewCode, revFileCode) {
+    console.log('callDeleteReviewAPI :', reviewCode, "and", revFileCode);
+
+    return async(dispatch, getState) => {
+
+        const result = await request('DELETE', `/reviews/${reviewCode}?revFileCode=${revFileCode}`);
+
+        dispatch(deleteReview(result));
+    }
+} 
 
   export function callGetReviewComments(reviewCode) {
 

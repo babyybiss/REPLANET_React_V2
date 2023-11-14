@@ -11,11 +11,15 @@ export const exchangesAPI = () => {
                 "Accept": "*/*"
             }
         })
-        .then(response => response.json());
+        .then(function(response){
+            console.log(response);
 
-        console.log('[PointAPI] exchangesAPI RESULT : ', result);
-        if(result.status === 200){
-            dispatch({type: GET_EXCHANGES, payload: result.data});
-        }
+            console.log('[PointAPI] exchangesAPI RESULT : ', response);
+            if(response.status === 200){
+                dispatch({type: GET_EXCHANGES, payload: response.data});
+            }
+        });
+
+        
     };
 }

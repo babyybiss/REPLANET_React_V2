@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { callGetPaysByDateRangeAPI } from '../../apis/DonationAPI';
 
 
-function DonationDetailHeader() {
+function DonationDetail() {
 
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
@@ -12,13 +12,13 @@ function DonationDetailHeader() {
 
     const handleSearch = () => {
         if (startDate && endDate) {
-            console.log('DonationDetailHeader() handleSearch() 실행 : 검색 버튼 누름');
+            console.log('DonationDetail() handleSearch() 실행 : 검색 버튼 누름');
             dispatch(callGetPaysByDateRangeAPI(startDate, endDate));
         }
     }
 
     const initSearchDate = () => {
-        console.log('DonationDetailHeader() initSearchDate() 실행 : 날짜 초기화됨');
+        console.log('DonationDetail() initSearchDate() 실행 : 날짜 초기화됨');
         setStartDate('');
         setEndDate('');
     }
@@ -42,8 +42,8 @@ function DonationDetailHeader() {
     useEffect(
         () => {
             console.log('DonationList() useEffect 실행');
-            console.log('DonationDetailHeader() startDate : ', startDate);
-            console.log('DonationDetailHeader() endDate : ', endDate);
+            console.log('DonationDetail() startDate : ', startDate);
+            console.log('DonationDetail() endDate : ', endDate);
             if (startDate && endDate) {
                 dispatch(callGetPaysByDateRangeAPI(startDate, endDate));
             }
@@ -87,4 +87,4 @@ function DonationDetailHeader() {
     );
 }
 
-export default DonationDetailHeader;
+export default DonationDetail;
