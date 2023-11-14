@@ -3,6 +3,7 @@ import Sidebar from "../../component/common/Sidebar";
 import "../../assets/css/chart.css";
 import PreviousYearCampaign from "../../component/charts/PreviousYearCampaign";
 import GoalCampaign from "../../component/charts/GoalCampaign";
+import TestChart from "../../component/charts/TestChart";
 
 
 function Chart() {
@@ -15,8 +16,8 @@ function Chart() {
                 <h2>현재 캠페인 기부액 통계</h2>
                 <h2>카테고리별 캠페인 통계</h2>
                 <h2>연도별 및 월별 통계</h2>
-                <CurrentYearCampaign/>
                 <PreviousYearCampaign/>
+                <TestChart/>
             </div>
         </div>
     );

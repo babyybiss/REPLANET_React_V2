@@ -1,7 +1,16 @@
 import moment from 'moment';
+import { DeleteCampaignAPI } from '../../../apis/CampaignListAPI';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { NavLink, useNavigate } from "react-router-dom";
 
 function CampaignSidebar({ campaignInfo }) {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    console.log(campaignInfo);
+    const campaignCode = campaignInfo.campaignCode;
+    //const campaignFileCode = campaignInfo.campaignFileCode[0].campaignFileCode;
 
     // 기부 현황
     const currentBudget = campaignInfo.currentBudget;
@@ -10,6 +19,14 @@ function CampaignSidebar({ campaignInfo }) {
     // 날짜 
     const startDate = moment(campaignInfo.startDate).format('YYYY-MM-DD');
     const endDate = moment(campaignInfo.endDate).format('YYYY-MM-DD');
+
+    // 삭제 
+    const deleteCampaignHandler = () => {
+        if(window.confirm("정말 삭제하시겠습니까? 복구할 수 없습니다."))
+        dispatch(DeleteCampaignAPI(campaignCode))
+        navigate('/');
+        window.location.reload();
+      }
 
     return (
         campaignInfo && (
@@ -31,6 +48,7 @@ function CampaignSidebar({ campaignInfo }) {
                         <button className="button button-primary" style={{width:"100%"}}>후원하기</button>
                     </Link>
                     <button className="button button-primary-outline">공유하기</button>
+                    <button className="button button-primary-outline" onClick={deleteCampaignHandler}>삭제하기</button>
                 </div>
                 <div className="items-container ic1">
                     <div className="item p-2 border">

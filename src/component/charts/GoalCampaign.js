@@ -22,23 +22,23 @@ function GoalCampaign() {
 
   const categoryData = [
     {
-        campaignCategory: "가", currentBudget: 300000, goalBudget: 600000, label:""
+        campaignCategory: "가", currentBudget: 300000, goalBudget: 600000
     },
     {
-        campaignCategory: "나", currentBudget: 400000, goalBudget: 500000, label:""
+        campaignCategory: "나", currentBudget: 400000, goalBudget: 500000
     },
     {
-        campaignCategory: "다", currentBudget: 300000, goalBudget: 800000, label:""
+        campaignCategory: "다", currentBudget: 300000, goalBudget: 800000
     },
     {
-        campaignCategory: "라", currentBudget: 200000, goalBudget: 300000, label:""
+        campaignCategory: "라", currentBudget: 200000, goalBudget: 300000
     },
     {
-        campaignCategory: "마", currentBudget: 150000, goalBudget: 220000, label:""
+        campaignCategory: "마", currentBudget: 150000, goalBudget: 220000
     }
   ];
 
-  const eventHandlerCurrentData = [
+  const eventsCurrentData = [
     {
       target: "data",
       eventHandlers: {
@@ -117,44 +117,49 @@ function GoalCampaign() {
   } 
 
   return(
-      <div className='chartbox'>
-          <h4>카테고리별 현재 모금액 합계</h4>
-          <VictoryChart 
-          domainPadding={50} 
-          style={monthlyChartStyle}
-          width={1200} height={500}
-          containerComponent={
-            <VictoryVoronoiContainer style={{width: 1000, height: 500}}
+    <div className='chartbox'>
+      <h4>카테고리별 현재 모금액 합계</h4>
+      <VictoryChart 
+        domainPadding={50} 
+        style={monthlyChartStyle}
+        width={1200} height={500}
+        containerComponent={
+          <VictoryVoronoiContainer 
+            style={{width: 1000, height: 500}}
             labels={
               ({ datum }) => `${datum.currentBudget/10000}만원`
             }
-            labelComponent={<VictoryTooltip
-            dx={0}
-            dy={6.6}
-            flyoutComponent={<CustomFlyout/>}
-            />}/>
-          }> 
-            <VictoryAxis
-              tickValues={[1,2,3,4,5]}
-              tickFormat={["재난", "지구촌", "아동", "노인", "소외"]}
-              style={axisStyle}
-            />
-            <VictoryAxis 
-            dependentAxis
-            tickFormat={(x) => `${x/10000}만원`}
-            style={axisStyle}
-            />
-
-            <VictoryBar data={categoryData} 
-            barWidth={40}
-            events={eventHandlerCurrentData} 
-            style={monthlyDataStyle}
-            x="campaignCategory" 
-            y="currentBudget"
-            animate={{duration: 2000, onLoad: { duration: 1000 }}}/>
-
-          </VictoryChart>
-      </div>
+            labelComponent={
+              <VictoryTooltip
+                dx={0}
+                dy={6.6}
+                flyoutComponent={<CustomFlyout/>}
+              />
+            }
+          />
+        }
+      > 
+        <VictoryAxis
+          tickValues={[1,2,3,4,5]}
+          tickFormat={["재난", "지구촌", "아동", "노인", "소외"]}
+          style={axisStyle}
+        />
+        <VictoryAxis dependentAxis
+          tickFormat={(x) => `${x/10000}만원`}
+          style={axisStyle}
+        />
+        <VictoryBar 
+          data={categoryData} 
+          labels={""}
+          barWidth={40}
+          events={eventsCurrentData} 
+          style={monthlyDataStyle}
+          x="campaignCategory" 
+          y="currentBudget"
+          animate={{duration: 2000, onLoad: { duration: 1000 }}}
+        />
+      </VictoryChart>
+    </div>
   );
 }
 

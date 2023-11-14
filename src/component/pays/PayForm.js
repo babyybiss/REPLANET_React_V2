@@ -1,4 +1,3 @@
-import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { callGetPointByMemberAPI, callPostKakaoPayAPI, callPostPointDonationAPI } from "../../apis/DonationAPI";
@@ -9,19 +8,57 @@ import { GetCampaignAPI } from "../../apis/CampaignListAPI";
 function PayForm() {
 
     const dispatch = useDispatch();
-    const location = useLocation();
+
+    const [isAllPointUsed, setIsAllPointUsed] = useState(false);
+
+    const [donationAmount, setDonationAmount] = useState(
+        {
+            finalAmount: 0,
+            pointAmount: 0,
+            cashAmount: 0
+        }
+    );
 
     const campaign = useSelector(state => state.campaignReducer);
+    const result = useSelector((state) => state.donationReducer);
     const { campaignCode } = useParams();
 
     const campaignInfo = campaign.campaigninfo;
 
-    const searchParams = new URLSearchParams(location.search);
-    // const memberCode = searchParams.get('memberCode');
-    // console.log('PayForm() memberCode : ' + memberCode);
-    // 멤버 정보 땡겨올때?
+    console.log('PayForm() 현재 가용 포인트 : ', result.currentPoint);
 
-    const result = useSelector((state) => state.donationReducer);
+    useEffect(() => {
+        if (isAllPointUsed) {
+            const maxPoint = Math.min(result.currentPoint, donationAmount.finalAmount);
+            const newDonationAmount = {
+                ...donationAmount,
+                pointAmount: maxPoint,
+                cashAmount: donationAmount.finalAmount - maxPoint
+            }
+            setDonationAmount(newDonationAmount);
+        } else {
+            const newDonationAmount = {
+                ...donationAmount,
+                pointAmount: 0,
+                cashAmount: donationAmount.finalAmount
+            }
+            setDonationAmount(newDonationAmount);
+        }
+    }, [isAllPointUsed, result.currentPoint, donationAmount.finalAmount]);
+
+    const onAllPointUsedChange = () => {
+        if (result.currentPoint <= donationAmount.finalAmount) {
+            setIsAllPointUsed(!isAllPointUsed);
+        } else {
+            const maxPoint = Math.min(result.currentPoint, donationAmount.finalAmount);
+            const newDonationAmount = {
+                ...donationAmount,
+                pointAmount: maxPoint,
+                cashAmount: donationAmount.finalAmount - maxPoint
+            };
+            setDonationAmount(newDonationAmount);
+        }
+    };
 
     useEffect(() => {
 
@@ -38,13 +75,9 @@ function PayForm() {
         [result]
     );
 
-    const [donationAmount, setDonationAmount] = useState(
-        {
-            finalAmount: 0,
-            pointAmount: 0,
-            cashAmount: 0
-        }
-    );
+    useEffect(() => {
+        dispatch(callGetPointByMemberAPI());
+    },[result.currentPoint]);
 
     const [isAgreedToTerms, setIsAgreedToTerms] = useState(false);
 
@@ -123,11 +156,6 @@ function PayForm() {
         }
     }
 
-    // useEffect(
-    //     () => {
-    //         dispatch(callGetPointByMemberAPI(memberCode));
-    //     },[donationAmount.finalAmount, donationAmount.pointAmount]);
-
     return(
         <>
             <div className="items-container">
@@ -142,7 +170,7 @@ function PayForm() {
             <div className="container-centered pay-container">
                 <div className="pay-box">
                     <h4>포인트사용</h4>
-                    <input id="pointAmount" type="number" name="pointAmount" value={ donationAmount.pointAmount } onChange={onChangeHandler} className="input" inputMode="numeric" min="0" onClick={(e) => e.target.select()}/>
+                    <input id="pointAmount" type="number" name="pointAmount" value={ isAllPointUsed ? result.currentPoint : donationAmount.pointAmount } onChange={onChangeHandler} className="input" inputMode="numeric" min="0" onClick={(e) => e.target.select()} disabled={isAllPointUsed}/>
                     <h4>포인트</h4>
                 </div>
                 
@@ -150,14 +178,12 @@ function PayForm() {
                     <div className="pay-anno2">
                         <div>
                             <span className="pay-color-gray">가용포인트 : </span>
-                            <span className="pay-color-green">5,000</span>
+                            <span className="pay-color-green">{result.currentPoint}</span>
                         </div>
                         <div>
                             <label htmlFor="c1"><span className="pay-color-gray">전체사용</span></label>&nbsp;&nbsp;
-                            <input id="c1" type="checkbox" />
+                            <input id="c1" type="checkbox" checked={isAllPointUsed} onChange={onAllPointUsedChange}/>
                         </div>
-                        {/* 전체 사용 누르면 user의 포인트 다 입력되게하기! (단, 기부금액을 초과하지 않아야함.) */}
-                        {/* user의 포인트 끌어오기! */}
                         <br/>
                         <span className="pay-color-gray">(가능한 최소 기부포인트는 1,000 포인트입니다.)</span>
                     </div>
@@ -190,7 +216,7 @@ function PayForm() {
             <div className="container-centered pay-container">
                 <div className="pay-box">
                     <h3>결제금액 : </h3>
-                    <h3 name="cashAmount" value={ donationAmount.cashAmount } className="pay-color-green">{ donationAmount.cashAmount.toLocaleString() }</h3>
+                    <h3 name="cashAmount" value={ donationAmount.cashAmount } className="pay-color-green">{ donationAmount.cashAmount }</h3>
                     <h3>원</h3>
                 </div>
                     <span className="pay-color-gray">금액을 입력해주세요. 최소 기부 가능 금액 : 1,000원</span>
