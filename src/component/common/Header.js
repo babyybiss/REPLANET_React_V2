@@ -35,13 +35,14 @@ const Header = () => {
                     <NavLink to="/">기부하기</NavLink>
                     <NavLink to="/reviews">캠페인후기</NavLink>
                     {!isLogin && <NavLink to='/login'>로그인</NavLink>}
-                    {isLogin && <NavLink to='/'>{memberName}</NavLink>}
+                    {isLogin && <NavLink to='/myPage'>마이페이지</NavLink>}
                     {!isLogin && <NavLink to='signup'>회원가입</NavLink>}
+                    {isLogin && <NavLink onClick={toggleLogoutHandler}>로그아웃</NavLink>}
                     <a href="#!" className="user"><i className="fa fa-sign-in"></i></a>
                     {/* <a href="javascript:void(0);" className="icon" >
                     <i className="fa fa-bars"></i>
                     </a> */}
-                    {isLogin && <NavLink onClick={toggleLogoutHandler}>로그아웃</NavLink>}
+
                 </div>
             </div>
         </div>
