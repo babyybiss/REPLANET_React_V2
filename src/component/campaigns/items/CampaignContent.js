@@ -5,8 +5,8 @@ function CampaignContent({ campaignInfo }) {
         campaignInfo && (
             <div className="item" >
                 <img src={img} />
-                <div>
-                {campaignInfo.campaignContent}
+                <div dangerouslySetInnerHTML={{ __html: campaignInfo.campaignContent }}>
+                
                 </div>
             </div>
         )

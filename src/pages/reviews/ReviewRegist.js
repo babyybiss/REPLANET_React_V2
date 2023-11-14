@@ -126,22 +126,38 @@ export function ReviewRegist() {
 
     const uploadImageCallback = (file) => {
         return new Promise((resolve, reject) => {
-            const reader = new FileReader();
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', 'https://api.imgur.com/3/image');
+            xhr.setRequestHeader('Authorization', 'Client-ID 8eac554d5b85e96');
     
-            reader.onloadend = async () => {
-                const formData = new FormData();
-                formData.append("multipartFiles", file);
-                try {
-                    const res = await axios.post('http://localhost:8001/uploadImage', formData);
-                    resolve({ data: { link: res.data } });
-                } catch (error) {
-                    reject(error);
+            const data = new FormData();
+            data.append('image', file);
+    
+            xhr.addEventListener('load', () => {
+                const response = JSON.parse(xhr.responseText);
+                
+                if (xhr.status === 429) {
+                    // Handle rate limiting, add a delay and retry
+                    setTimeout(() => {
+                        uploadImageCallback(file).then(resolve).catch(reject);
+                    }, 1000); // Adjust the delay time as needed
+                } else {
+                    console.log(response);
+                    resolve({ data: { link: response.data.link } });
                 }
-            };
+            });
     
-            reader.readAsDataURL(file);
+            xhr.addEventListener('error', () => {
+                const error = JSON.parse(xhr.responseText);
+                console.log(error);
+                reject(error);
+            });
+    
+            xhr.send(data);
         });
     };
+    
+    
 
 
     return (
@@ -157,6 +173,7 @@ export function ReviewRegist() {
                             className="searchbar" 
                             placeholder="제목을 입력해주세요" 
                             onChange={ onChangeHandler }
+                            required
                         />
                             <br />
                         
@@ -176,6 +193,7 @@ export function ReviewRegist() {
                             value={reviewThumbnail} 
                             //onChange={(e) => setReviewThumbnail(e.target.value)} 
                             placeholder="메인 이미지 1장을 업로드 해주세요" 
+                            required
                         />
 
                                                 <button 

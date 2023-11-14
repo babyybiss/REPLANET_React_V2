@@ -34,6 +34,10 @@ export function ReviewDetailsIntroductionBox({ review }) {
 
         <div className="item" style={{display: "block"}}>
           <div className="text-right">
+          <div className="m-1">
+          <NavLink to={`/reviews/reviewUpdate/${review.campaignCode}`}><button className="button button-primary w-20 mr-1">수정하기</button></NavLink>
+            <button className="button text-danger w-20" onClick={deleteReviewHandler}>삭제하기</button>
+          </div>  
             <h2>모금액 총 {review.currentBudget} 원으로</h2>
             <h3>따뜻한 손길을 내어줄 수 있었습니다 </h3>
           </div>
@@ -43,18 +47,16 @@ export function ReviewDetailsIntroductionBox({ review }) {
         <div className="item p-2 border">
           <h5>{review.orgName}</h5>
           <p>{review.orgDescription}</p>
-        </div>
+        </div><br />
         
           <ul>
             <li> - 봉사활동에 참여하면 리플래닛이 기부합니다</li>
             <li> - 기부금은 100% 단체에 전달됩니다</li>
           </ul>
           <div>
-        <button><NavLink to={`/reviews/reviewUpdate/${review.campaignCode}`}>수정하기</NavLink></button>
-        <button onClick={deleteReviewHandler}>삭제하기</button>
-      </div>
-      </div>
-      </div>
 
+      </div>
+      </div>
+      </div>
       )
 }

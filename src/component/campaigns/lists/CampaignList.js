@@ -7,6 +7,7 @@ function CampaignList() {
     const result = useSelector(state => state.campaignReducer)
 
     const campaignList = result.campaignlist || result.campaignDoneList;
+    console.log('fff0', result)
     const dispatch = useDispatch();
 
     useEffect(
