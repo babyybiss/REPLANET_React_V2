@@ -86,7 +86,7 @@ export function ReviewRegist() {
             form: formData
         }));
 
-        alert('리뷰 목록으로 이동합니다.');
+                                                                                                       alert('리뷰 목록으로 이동합니다.');
         navigate('/reviews');
         window.location.reload();
     }

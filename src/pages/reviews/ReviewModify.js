@@ -33,7 +33,7 @@ const existingReviewDescription = review.reviewDescription;
     const [form, setForm] = useState({
         reviewTitle: '',
         reviewDescription: '',
-        reviewCampaignCode: 0,
+        reviewCode: review.reviewCode,
     });
 
     useEffect (
@@ -69,7 +69,12 @@ const existingReviewDescription = review.reviewDescription;
             ...form,
             [e.target.name] : e.target.value
         });
+
+        if (e.target.name === "reviewTitle") {
+            setReviewTitle(e.target.value);
+        };
     };
+
 
     const onClickReviewRegistrationHandler = () => {
         console.log('[Review Registration] onClickReviewRegistrationHandler');
@@ -77,10 +82,12 @@ const existingReviewDescription = review.reviewDescription;
 
         
         const formData = new FormData();
+        const reviewCode = review.reviewCode;
+        console.log("WHAT IS THE REVIEWCODE", reviewCode)
 
         formData.append("reviewTitle", form.reviewTitle);
         formData.append("description", form.reviewDescription);
-        formData.append("campaignCode", form.campaignCode);
+        formData.append("reviewCode", form.reviewCode);
 
         if(image) {
             formData.append("imageFile", image);
@@ -88,7 +95,7 @@ const existingReviewDescription = review.reviewDescription;
 
         console.log('[Review Registration] formData : ', formData.get("reviewTitle"));
         console.log('[Review Registration] formData : ', formData.get("description"));
-        console.log('[Review Registration] formData : ', formData.get("campaignCode"));
+        console.log('[Review Registration] formData : ', formData.get("reviewCode"));
         console.log('[Review Registration] formData : ', formData.get("imageFile"));
 
         console.log("뭐징ㅇㅇㅇㅇ: ", formData)
@@ -161,7 +168,7 @@ const existingReviewDescription = review.reviewDescription;
                         
                         <div>
                             <img
-                                src={`/reviewImgs/${review.reviewFileList[0].fileSaveName}`}
+                               src={imageUrl || `/reviewImgs/${review.reviewFileList[0].fileSaveName}`}
                                 alt="preview"
                             />
 
