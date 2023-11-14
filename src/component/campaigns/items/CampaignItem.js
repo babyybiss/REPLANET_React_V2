@@ -3,7 +3,7 @@ function CampaignItem( {campaign} ) {
 
   const currentBudget = campaign.currentBudget;
   const goalBudget = campaign.goalBudget;
-  const percentage = ((currentBudget / goalBudget) * 100).toFixed(0);
+  const percentage = Math.floor((currentBudget / goalBudget) * 100).toFixed(0);
 
 
   return (

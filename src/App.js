@@ -23,6 +23,7 @@ import TextMessage from "./pages/auth/TextMessage";
 import Find from "./pages/auth/Find";
 import React, { useContext } from "react";
 import MyPage from "./pages/users/MyPage";
+
 import AllExchanges from "./pages/points/AllExchanges";
 import BookmarkList from "./component/mypage/lists/BookmarkList";
 import DonationList from "./component/mypage/lists/DonationList";

@@ -1,7 +1,7 @@
 import { EditorState, convertToRaw } from "draft-js";
 import { useCallback, useEffect, useState } from "react";
 import { PostCampaignAPI } from "../../apis/CampaignListAPI";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useRef } from "react";
 
 import draftToHtml from 'draftjs-to-html';
@@ -19,30 +19,29 @@ const categoryList = [
 
 function CampaignRegist() {
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
-    const [Thumbnail, setThumbnail] = useState(null);
-    const [imgPreview, setImgPreview] = useState("");
     const [inputs, setInputs] = useState([]);
+
+
+    const [imgPreview, setImgPreview] = useState("");
+    const [imageUrl, setImageUrl] = useState('');
     const imageInput = useRef();
 
-    
     const dispatch = useDispatch();
-
-    // const { contents } = useSelector(getGroup('writeField'));
 
     const header = {
         headers: {
             //Authorization: `${getItem('token')}`,
-            "Content-Type": "application/json",
-            "Accept": "*/*",
-            "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            "Content-type": "multipart/form-data charset=utf-8",
+            Accept: "*/*",
+            Authorization: "Bearer " + window.localStorage.getItem("accessToken")
         },
     };
 
     const onChange = (e) => {
-        const { value, name } = e.target; // 우선 e.target 에서 name 과 value 를 추출
+        const { value, name } = e.target;
         setInputs({
-            ...inputs, // 기존의 input 객체를 복사한 뒤
-            [name]: value // name 키를 가진 값을 value 로 설정
+            ...inputs,
+            [name]: value
         });
     };
 
@@ -64,9 +63,9 @@ function CampaignRegist() {
         }
     }
 
-    const onChangeContent = useCallback((state) => {
-        const value = draftToHtml(convertToRaw(state.getCurrentContent()));
-        // 화면에 나오게 
+    const onChangeContent = useCallback(async (state) => {
+        const value = await draftToHtml(convertToRaw(state.getCurrentContent()));
+        // 텍스트 화면에 나오게 
         setEditorState(state);
         // 저어장~
         setInputs({
@@ -74,34 +73,26 @@ function CampaignRegist() {
             campaignContent: value
         });
 
-    });
+    }, [inputs]);
 
 
     useEffect(() => {
         // 이미지 업로드시 미리보기 세팅
-        if (Thumbnail) {
+        if (imgPreview) {
             const fileReader = new FileReader();
             fileReader.onload = (e) => {
-                const result = e.target.result;
+                const { result } = e.target;
                 if (result) {
-                    setThumbnail(result);
+                    setImageUrl(result);
                 }
             }
-            fileReader.readAsDataURL(Thumbnail);
-        } 
-        /*PostCampaignAPI({	// 상품 상세 정보 조회
-            inputs: formData,
-            header
-        });*/
-
-        //console.log(formData,"이거 왜안");
-    },
-        [Thumbnail]);
-
-
-        const onClickImageUpload = () => {
-            imageInput.current.click();
+            fileReader.readAsDataURL(imgPreview);
         }
+    }, [imgPreview]);
+
+    // const onClickImageUpload = () => {
+    //     imageInput.current.click();
+    // }
     // db 전송
     const submitHandler = (event) => {
         event.preventDefault();
@@ -117,12 +108,16 @@ function CampaignRegist() {
         formData.append("orgName", inputs.orgName);
         formData.append("orgTel", inputs.orgTel);
 
-        if (Thumbnail) {
-            formData.append("Image", Thumbnail);
+
+
+        if (imgPreview) {
+            formData.append("imageFile", imgPreview);
         }
+        dispatch(PostCampaignAPI({	// 상품 상세 정보 조회
+            inputs: formData,
+            header,
 
-        
-
+        }));
 
     }
     return (
@@ -141,18 +136,23 @@ function CampaignRegist() {
                     {/* 제목 & 텍스트 에디터 */}
                     <input className="input" name="campaignTitle" maxLength="20" placeholder="제목 입력." onChange={onChange} required />
                     <DraftEditor onChange={onChangeContent} editorState={editorState} />
-                    <input type="file"
-                        ref={Thumbnail}
+
+                    <input 
+                        type="file"
                         accept="image/*"
-                        onChange={(e) => 
-                            { const image = e.target.files[0];
-                                const objectUrl = URL.createObjectURL(image)
-                                 setThumbnail(image)
-                                 setImgPreview(objectUrl);
+                        onChange={
+                            (e) => {
+                                const image = e.target.files[0];
+                                setImgPreview(image)
+                                imageInput.current.click();
                             }}
+                        ref={imageInput}
                         placeholder="메인 이미지 1장을 업로드 해주세요"
                     />
-                    <button onClick={ onClickImageUpload }  > 사진</button>
+                    {imageUrl && <img
+                        src={imageUrl}
+                        alt="preview"
+                    />}
                 </div>
 
                 <div className="container" id="container-user">
