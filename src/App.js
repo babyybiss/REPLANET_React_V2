@@ -27,6 +27,7 @@ import MyPage from "./pages/users/MyPage";
 import AllExchanges from "./pages/points/AllExchanges";
 import BookmarkList from "./component/mypage/lists/BookmarkList";
 import DonationList from "./component/mypage/lists/DonationList";
+import MyExchanges from "./pages/points/MyExchanges";
 import CampaignModify from "./pages/campaigns/CampaignModify";
 
 
@@ -64,6 +65,14 @@ function App() {
               <Route path="reviewUpdate">
                 <Route path=":campaignCode" element={<ReviewModify />} />
               </Route>
+              
+              <Route path="regist" element={<CampaignRegist/>}/>
+              <Route path="charts" element={<Charts />} />
+              <Route path="exchange" element={<ExchangePoint />} />
+              <Route path="exchangeList" element={<AllExchanges />} />
+              <Route path="exchangeDetail/:exchangeCode" element={<ExchangeDetail />} />
+              <Route path="myExchangeList" element={<MyExchanges />} />
+              {/* <Route path="textmessage" element={<TextMessage />}/> */}
             </Route>
 
             <Route path="/campaign/:campaignCode/donations">
@@ -73,12 +82,6 @@ function App() {
               <Route path="fail" element={<Fail />} />
             </Route>
 
-
-            <Route path="charts" element={<Charts />} />
-            <Route path="exchange" element={<ExchangePoint />} />
-            <Route path="exchangeList" element={<AllExchanges />} />
-            <Route path="exchangeDetail/:exchangeCode" element={<ExchangeDetail />} />
-            {/* <Route path="textmessage" element={<TextMessage />}/> */}
           </Route>
         </Routes>
       </BrowserRouter>
