@@ -1,15 +1,22 @@
 import { NavLink } from "react-router-dom";
 function CampaignItem( {campaign} ) {
+  let fileSaveName = campaign.campaignDescfile;
 
+  
   const currentBudget = campaign.currentBudget;
   const goalBudget = campaign.goalBudget;
   const percentage = Math.floor((currentBudget / goalBudget) * 100).toFixed(0);
 
+  if(campaign.campaignDescfile == null){
+    fileSaveName = "default/noImage.png"
+  }else{ 
+    fileSaveName = campaign.campaignDescfile.fileSaveName;
+  }
 
   return (
     <div className="item">
       <NavLink className="item-thumb rounded-3 mb-1" to={`/campaign/${campaign.campaignCode}`}>
-        <img src="img/campaign/1.jpg" />
+        <img src={`campaigns/${fileSaveName}`} alt="캠페인 이미지" />
       </NavLink>
       <h4> {campaign.campaignTitle}</h4>
       <h6>{campaign.orgName}</h6>

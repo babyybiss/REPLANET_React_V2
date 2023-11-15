@@ -28,6 +28,7 @@ import AllExchanges from "./pages/points/AllExchanges";
 import BookmarkList from "./component/mypage/lists/BookmarkList";
 import DonationList from "./component/mypage/lists/DonationList";
 import MyExchanges from "./pages/points/MyExchanges";
+import CampaignModify from "./pages/campaigns/CampaignModify";
 
 
 function App() {
@@ -35,39 +36,34 @@ function App() {
   const authCtx = useContext(AuthContext);
 
   return (
-      <AuthContextProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Layout />}>
-              <Route path="/login/*" 
-          element={authCtx.isLoggedIn ? <Navigate to='/' /> : <Login />}/>
-              <Route path="/signup/" element={authCtx.isLoggedIn ? <Navigate to='/' /> : <Signup />} />
-              <Route path="/find/" element={<Find/>}></Route>
-              
-              <Route path="/myPage" element={<MyPage/>}>
-                <Route path="history" element={<DonationList/>}/>
-                <Route path="bookmark" element={<BookmarkList/>}/>
-              </Route>
+    <AuthContextProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route path="/login/*"
+              element={authCtx.isLoggedIn ? <Navigate to='/' /> : <Login />} />
+            <Route path="/signup/" element={authCtx.isLoggedIn ? <Navigate to='/' /> : <Signup />} />
+            <Route path="/find/" element={<Find />}></Route>
 
+            <Route path="/myPage" element={<MyPage />}>
+              <Route path="history" element={<DonationList />} />
+              <Route path="bookmark" element={<BookmarkList />} />
+            </Route>
+
+            <Route path="/">
               <Route index element={<Main />} />
-            
-              <Route path="reviews">
-                <Route index element={<Reviews />} />
-                <Route path=":campaignCode" element={<ReviewDetails />}/>
-                  <Route path="reviewRegist">
-                    <Route path=":campaignCode" element={<ReviewRegist/> }/>
-                  </Route>
-                  <Route path="reviewUpdate">
-                    <Route path=":campaignCode" element={<ReviewModify /> }/>
-                  </Route>
+              <Route path="regist" element={<CampaignRegist />} />
+              <Route path="campaign/:campaignCode" element={<CampaignDetail />} />
+              <Route path="modify/:campaignCode"element={<CampaignModify />} />
+            </Route>
+            <Route path="reviews">
+              <Route index element={<Reviews />} />
+              <Route path=":campaignCode" element={<ReviewDetails />} />
+              <Route path="reviewRegist">
+                <Route path=":campaignCode" element={<ReviewRegist />} />
               </Route>
-  
-              <Route path="/campaign/:campaignCode" element={<CampaignDetail />}/>
-              <Route path="/campaign/:campaignCode/donations">
-                <Route index element={<Pay />}/>
-                <Route path="success" element={<Success />}/>
-                <Route path="cancel" element={<Cancel />}/>
-                <Route path="fail" element={<Fail />}/>
+              <Route path="reviewUpdate">
+                <Route path=":campaignCode" element={<ReviewModify />} />
               </Route>
               
               <Route path="regist" element={<CampaignRegist/>}/>
@@ -78,9 +74,18 @@ function App() {
               <Route path="myExchangeList" element={<MyExchanges />} />
               {/* <Route path="textmessage" element={<TextMessage />}/> */}
             </Route>
-          </Routes>
-        </BrowserRouter>
-      </AuthContextProvider>
+
+            <Route path="/campaign/:campaignCode/donations">
+              <Route index element={<Pay />} />
+              <Route path="success" element={<Success />} />
+              <Route path="cancel" element={<Cancel />} />
+              <Route path="fail" element={<Fail />} />
+            </Route>
+
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </AuthContextProvider>
   );
 }
 

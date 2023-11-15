@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getContinue, getComplete, getCampaign, postCampaign } from '../modules/CampaignModule';
+import { getContinue, getComplete, getCampaign } from '../modules/CampaignModule';
 
 export const requestURL = 'http://localhost:8001/';
 
@@ -9,9 +9,7 @@ export function CampaignListAPI() {
     return async (dispatch, getState) => {
         try {
             const result = await axios.get(requestURL);
-            console.log(result.data, '여기가 api 리절트');
             dispatch(getContinue(result.data))
-
         } catch (error) {
             console.error('에러 발생:', error);
         }
@@ -56,7 +54,7 @@ export function PostCampaignAPI({ inputs }, header) {
     return async (dispatch, getState) => {
         console.log(inputs, '이거 안돼?');
         try {
-            const result = await axios.post(requestURL + 'campaigns', inputs).then((res) => {
+            await axios.post(requestURL + 'campaigns', inputs).then((res) => {
 
                 console.log(res.data);
                 //dispatch(postCampaign(result));
@@ -70,18 +68,41 @@ export function PostCampaignAPI({ inputs }, header) {
 // 캠페인 삭제
 export function DeleteCampaignAPI(campaignCode) {
 
+    return async () => {
+        try {
+            await axios.delete(requestURL + `campaigns/${campaignCode}`, campaignCode)
+                .then((res) => {
+                    alert('삭제되었읍니다.')
+                    console.log(res);
+                    window.location = "/";
+                }).catch((error) => {
+                    console.log(error);
+                    alert(error.response.data)
+                })
+        } catch (error) { alert(error.response.data) }
+
+        //dispatch(deleteReview(result));
+    }
+}
+
+
+
+// 캠페인 수정
+export function ModifyCampaignAPI(campaignCode) {
+
     return async (dispatch, getState) => {
         try {
 
-            const result = await axios.delete(requestURL + `campaigns/${campaignCode}`, campaignCode)
-                .then((res) => { 
+            await axios.put(requestURL + `campaigns/${campaignCode}`, campaignCode)
+                .then((res) => {
                     console.log(res);
                 }).catch((error) => {
                     console.log(error);
-                    alert(error.response)
+                    alert(error.response.data)
                 })
 
             //dispatch(deleteReview(result));
-        }catch(error){alert('실패캐치')}
+        } catch (error) { alert('실패캐치') }
     }
+
 } 
