@@ -1,7 +1,7 @@
 import {VictoryVoronoiContainer, VictoryBar, VictoryChart, VictoryAxis, VictoryTooltip} from 'victory';
 import "../../assets/css/chart.css";
 
-
+/* customToolTipBox */ 
 function CustomFlyout(props) {
   //console.log(props);
     const {x, y} = props;
@@ -20,6 +20,7 @@ function CustomFlyout(props) {
 
 function GoalCampaign() {
 
+  /* chartData from API */
   const categoryData = [
     {
         campaignCategory: "가", currentBudget: 300000, goalBudget: 600000
@@ -38,7 +39,8 @@ function GoalCampaign() {
     }
   ];
 
-  const eventsCurrentData = [
+  /* Event function setting */ 
+  const mouseEventsHandler = [
     {
       target: "data",
       eventHandlers: {
@@ -89,6 +91,25 @@ function GoalCampaign() {
     }
   ];
 
+  /* style setting */ 
+  const monthlyChartStyle = {
+    background: {
+      fill: "none",
+      fillOpacity: 0.7
+    }
+  }
+
+  const containerStyle = {
+    width: 1000, 
+    height: 500
+  }
+
+  const axisStyle = {
+    axis: {stroke: "#10573C", strokeWidth: 3},
+    axisLabel: {fontSize: 14, padding: 36, fill: "#10573C"},
+    tickLabels: {fontSize: 15, padding: 4, fill: "#10573C"}
+  } 
+
   const monthlyDataStyle = {
     data: {
       fill: "#10573C",
@@ -103,19 +124,14 @@ function GoalCampaign() {
     }
   }
 
-  const monthlyChartStyle = {
-    background: {
-      fill: "none",
-      fillOpacity: 0.7
-    }
+  /* chart animate setting */ 
+  const chartAminate = {
+    duration: 2000, 
+    onLoad: { duration: 1000 }
+
   }
 
-  const axisStyle = {
-    axis: {stroke: "#10573C", strokeWidth: 3},
-    axisLabel: {fontSize: 14, padding: 36, fill: "#10573C"},
-    tickLabels: {fontSize: 15, padding: 4, fill: "#10573C"}
-  } 
-
+  /* render */ 
   return(
     <div className='chartbox'>
       <h4>카테고리별 현재 모금액 합계</h4>
@@ -125,7 +141,7 @@ function GoalCampaign() {
         width={1200} height={500}
         containerComponent={
           <VictoryVoronoiContainer 
-            style={{width: 1000, height: 500}}
+            style={containerStyle}
             labels={
               ({ datum }) => `${datum.currentBudget/10000}만원`
             }
@@ -152,11 +168,11 @@ function GoalCampaign() {
           data={categoryData} 
           labels={""}
           barWidth={40}
-          events={eventsCurrentData} 
+          events={mouseEventsHandler} 
           style={monthlyDataStyle}
           x="campaignCategory" 
           y="currentBudget"
-          animate={{duration: 2000, onLoad: { duration: 1000 }}}
+          animate={chartAminate}
         />
       </VictoryChart>
     </div>

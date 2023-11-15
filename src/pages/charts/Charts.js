@@ -4,6 +4,7 @@ import "../../assets/css/chart.css";
 import PreviousYearCampaign from "../../component/charts/PreviousYearCampaign";
 import GoalCampaign from "../../component/charts/GoalCampaign";
 import TestChart from "../../component/charts/TestChart";
+import CategoryCampaign from "../../component/charts/CategoryCampaign";
 
 
 function Chart() {
@@ -11,12 +12,14 @@ function Chart() {
         <div className="pageContainer">
             <Sidebar/>
             <div className='chartbox'>
-                <h2>캠페인 목표액 대비 달성률 통계</h2>
+                <h2>캠페인 모금액 통계</h2>
                 <GoalCampaign/>
-                <h2>현재 캠페인 기부액 통계</h2>
+                <CategoryCampaign/>
                 <h2>카테고리별 캠페인 통계</h2>
                 <h2>연도별 및 월별 통계</h2>
+                <CurrentYearCampaign/>
                 <PreviousYearCampaign/>
+                <h2>ㅌ테테테테테스트용</h2>
                 <TestChart/>
             </div>
         </div>

@@ -1,11 +1,11 @@
 import {VictoryBar, VictoryChart, VictoryLabel, VictoryVoronoiContainer, VictoryPolarAxis, VictoryStack} from 'victory';
 import "../../assets/css/chart.css";
 
-function CompassCenter(props) {
+function InnerCircle(props) {
   const { origin } = props;
 
-  const orange = { base: "#84CEB2", highlight: "#CCFF00" };
-  const red = { base: "#4D7D6B", highlight: "#10573C" };
+  const yellowColorSet = { base: "#E4FF76", highlight: "#D8DC35" };
+  const greenColorSet = { base: "#B2FF7E", highlight: "#92D930" };
   const innerRadius = 30;
 
   /* 안쪽 원 스타일 */
@@ -16,7 +16,7 @@ function CompassCenter(props) {
   */
   /* ======================= */ 
   const circleStyle = {
-    stroke: red.base, strokeWidth: 1, fill: orange.base
+    stroke: greenColorSet.highlight, strokeWidth: 2, fill: yellowColorSet.base
   };
   
   return (
@@ -29,11 +29,15 @@ function CompassCenter(props) {
 }
 
 function CenterLabel(props) {
-  const { active, color, data, index } = props;
+  const { active, data, index } = props;
+
   const campaignCategory = data[index].campaignCategory;
-  const currentPercentage = Math.round(data[index].currentBudget / data[index].goalBudget * 100); 
-  const text = [ `${campaignCategory}`, `달성률 : ${currentPercentage}%` ];
-  const baseStyle = { fill: color.highlight, textAnchor: "middle" };
+  const currentBudget = data[index].currentBudget;
+  const goalBudget = data[index].goalBudget;
+
+  const currentPercentage = Math.round(currentBudget / goalBudget * 100); 
+  const text = [ `${campaignCategory} 목표액: ${goalBudget}`, `달성률 : ${currentPercentage}%` ];
+  const baseStyle = { fill: "#10573C", textAnchor: "middle" };
   const style = [
     { ...baseStyle, fontSize: 18, fontWeight: "bold" },
     { ...baseStyle, fontSize: 12 }
@@ -51,25 +55,30 @@ function TestChart() {
 
   const categoryData = [
     {
-      campaignCategory: "재난", campaings: 15, goalBudget: 600000, currentBudget: 400000
+      campaignCategory: "재난", campaings: 15, goalBudget: 600000, currentBudget: 400000, expectBudget: 200000
     },
     {
-      campaignCategory: "지구촌", campaings: 35, goalBudget: 500000, currentBudget: 350000
+      campaignCategory: "지구촌", campaings: 35, goalBudget: 500000, currentBudget: 350000, expectBudget: 150000
     },
     {
-      campaignCategory: "아동", campaings: 20, goalBudget: 800000, currentBudget: 250000
+      campaignCategory: "아동", campaings: 20, goalBudget: 800000, currentBudget: 800000, expectBudget: 0
     },
     {
-      campaignCategory: "노인", campaings: 10, goalBudget: 300000, currentBudget: 200000
+      campaignCategory: "노인", campaings: 10, goalBudget: 300000, currentBudget: 200000, expectBudget: 100000
     },
     {
-      campaignCategory: "소외", campaings: 9, goalBudget: 220000, currentBudget: 200000
+      campaignCategory: "소외", campaings: 9, goalBudget: 220000, currentBudget: 200000, expectBudget: 20000
     }
   ];
       
-  const orange = { base: "#E4FF76", highlight: "#006140" };
-  const red = { base: "#B2FF7E", highlight: "#006140" };
+  const yellowColorSet = { base: "#E4FF76", highlight: "#D8DC35" };
+  const greenColorSet = { base: "#B2FF7E", highlight: "#92D930" };
   const innerRadius = 30;
+
+  const containerStyle = {
+    width: 1000, 
+    height: 800
+  }
 
   const roundAxisStyle = {
     axis: {stroke: "#10573C", strokeWidth: 3},
@@ -83,15 +92,14 @@ function TestChart() {
   
   return (
     <div className='chartbox'>
-      <h4>카테고리별 목표 모금액 대비 달성률</h4>
+      <h4>테스트 용</h4>
       <VictoryChart
         polar
-        animate={{ duration: 500, onLoad: { duration: 500 } }}
         innerRadius={innerRadius}
-        domainPadding={{ y: 5 }}
+        domainPadding={{ y: 10 }}
         containerComponent={
           <VictoryVoronoiContainer 
-            style={{width: 1000, height: 500}}
+            style={containerStyle}
           />
         }
         events={
@@ -134,7 +142,7 @@ function TestChart() {
             style={
               { 
                 data: {
-                  fill: ({ active }) => active ? orange.highlight : orange.base,
+                  fill: ({ active }) => active ? yellowColorSet.highlight : yellowColorSet.base,
                   width: 40
                 } 
               }
@@ -143,25 +151,25 @@ function TestChart() {
             x="campaignCategory"
             y="currentBudget"
             labels={() => ""}
-            labelComponent={<CenterLabel color={orange}/>}
+            labelComponent={<CenterLabel color={yellowColorSet}/>}
           />
           <VictoryBar
             style={
               { 
                 data: {
-                  fill: ({ active }) => active ? red.highlight : red.base,
+                  fill: ({ active }) => active ? greenColorSet.highlight : greenColorSet.base,
                   width: 40
                 } 
               }
             }
             data={categoryData}
             x="campaignCategory"
-            y="goalBudget"
+            y="expectBudget"
             labels={() => ""}
-            labelComponent={<CenterLabel color={red}/>}
+            labelComponent={<CenterLabel color={greenColorSet}/>}
           />
         </VictoryStack>
-        <CompassCenter/>
+        <InnerCircle/>
       </VictoryChart>
     </div>
   );
