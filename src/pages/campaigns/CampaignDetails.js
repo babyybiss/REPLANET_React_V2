@@ -19,14 +19,14 @@ function CampaignDetail() {
     const campaignInfo = result.campaigninfo;
     const dispatch = useDispatch();
 
-    console.log('campaingn: ', result);
+    console.log('result: ', result);
+    console.log('campaignInfo: ', campaignInfo);
 
     useEffect(
         () => {
             dispatch(GetCampaignAPI(campaignCode));
             console.log('Campaign Detail Redux State:', result);
-        },
-        []
+        },[]
     );
     return (
         campaignInfo && (
