@@ -43,10 +43,11 @@ function App() {
               <Route path="/signup/" element={authCtx.isLoggedIn ? <Navigate to='/' /> : <Signup />} />
               <Route path="/find/" element={<Find/>}></Route>
               
-              <Route path="/myPage" element={<MyPage/>}>
-                <Route path="history" element={<DonationList/>}/>
-                <Route path="bookmark" element={<BookmarkList/>}/>
-              </Route>
+              <Route path="/myPage" element={<MyPage/>} children={[
+                <Route key="history" index element={<Navigate to="history" />} />,
+                <Route key="historyPage" path="history" element={<DonationList />} />,
+                <Route key="bookmark" path="bookmark" element={<BookmarkList />} />,
+              ]}/>
 
               <Route index element={<Main />} />
             
