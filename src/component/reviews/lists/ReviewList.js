@@ -38,11 +38,11 @@ export function ReviewList({ reviewExists, searchFilter, completedCampaigns }) {
     console.log('filtered shit: ', filteredCampaigns);
     
     return (
-        <div>
+        <>
             {filteredCampaigns.map((filteredCampaign) => (
                 // Pass the filtered data to the Review component
                 <Review key={filteredCampaign.campaignCode} review={filteredCampaign} reviewExists={reviewExists} completedCampaigns={completedCampaigns} />
             ))}
-        </div>
+        </>
     );
 }
