@@ -526,7 +526,16 @@
   }
   
   .v-1 {
-    height: 60px;;
+    height: 200px;
+  }
+
+  .v-2 {
+    width: 320px;
+  }
+
+
+  .v-3{
+    height: 13rem;
   }
 
   .h-100 {

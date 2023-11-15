@@ -10,6 +10,7 @@ import { getCompletedCampaigns } from "../modules/ReviewModule";
 import { getThumbnailPath } from "../modules/ReviewModule";
 import { putReview } from "../modules/ReviewModule";
 import { deleteReview } from "../modules/ReviewModule";
+import { getMemberCode } from "../modules/ReviewModule";
 
 const DOMAIN = 'http://localhost:8001'
 const requestURL = 'http://localhost:8001/reviews/';
@@ -84,13 +85,13 @@ export function callPostReview({form}, header) {
 
         const result = await fetch(requestURL, {
             method: "POST",
-            //headers: {
-            //    "Accept": "*/*",
-            //    "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
-            //},
+            headers: {
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            },
             body: form
             });
-            
+            console.log('header:', header)
             dispatch(postReview(result));
     }
 }
@@ -117,12 +118,14 @@ export function callPutReview({form}) {
 
         const result = await fetch(requestURL, {
             method: "PUT",
-                        //headers: {
-            //    "Accept": "*/*",
-            //    "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
-            //},
+            headers: {
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            },
             body: form
             });
+
+            
             
             dispatch(putReview(result));
     }
@@ -146,5 +149,15 @@ export function callDeleteReviewAPI(reviewCode, revFileCode) {
     return async (dispatch, getState) => {
 
         const result = await request('GET', `/reviews/${reviewCode}/comments`)
+    }
+  }
+
+  export function callgetMemberCode() {
+
+    return async (dispatch, getState) => {
+
+        const result = await request('GET', '/reviews/memberCode');
+
+        dispatch(getMemberCode(result));
     }
   }

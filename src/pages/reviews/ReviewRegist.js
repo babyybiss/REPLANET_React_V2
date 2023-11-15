@@ -182,7 +182,6 @@ export function ReviewRegist() {
                                 src={ imageUrl }
                                 alt="preview"
                             />}
-
                         <input 
                             style={ { display: 'none' }}
                             type="file" 
@@ -192,12 +191,12 @@ export function ReviewRegist() {
                             ref={ imageInput }
                             value={reviewThumbnail} 
                             //onChange={(e) => setReviewThumbnail(e.target.value)} 
-                            placeholder="메인 이미지 1장을 업로드 해주세요" 
                             required
                         />
 
-                                                <button 
+                        <button 
                             onClick={ onClickImageUpload }
+                            className="button button-primary"
                         >이미지 업로드
                         </button>
                         </div>
@@ -207,11 +206,14 @@ export function ReviewRegist() {
                     <TextEditor onContentChange={handleContentChange} uploadImageCallback={uploadImageCallback}/>
                     <button
                         onClick={ () => navigate(-1)}
+                        className="button button-primary m-1"
                     >
                         돌아가기
                     </button>
+                   
                     <button
                         onClick={ onClickReviewRegistrationHandler }
+                        className="button button-primary"
                     >
                             리뷰 등록
                     </button>

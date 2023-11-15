@@ -6,21 +6,28 @@ import { ReviewDetailsIntroductionBox } from "../../component/reviews/items/Revi
 import { ReviewContent } from "../../component/reviews/items/ReviewContent";
 import { ReviewComment } from "../../component/campaigns/items/ReviewComment.js";
 import script from "../../assets/scripts/externalScript.js";
+import CampaignContent from "../../component/campaigns/items/CampaignContent.js";
+import { callgetMemberCode } from "../../apis/ReviewAPI";
 
 export function ReviewDetails() {
   const { campaignCode } = useParams();
   const dispatch = useDispatch();
   const review = useSelector((state) => state.reviewReducer.review);
+  const result = useSelector((state) => state.reviewReducer.memberCode);
+  console.log(result);
 
 
   console.log('what campaignCode? : ',campaignCode);
   
   useEffect(() => {
     dispatch(callGetSpecificReviewAPI(campaignCode));
-  }, []);
+  }, [campaignCode]);
 
   console.log('(ReviewDetailsPage) : ', review);
 
+  useEffect(() => {
+        dispatch(callgetMemberCode);
+    },[result]);
 
      return (
       review && (
