@@ -27,6 +27,7 @@ import MyPage from "./pages/users/MyPage";
 import AllExchanges from "./pages/points/AllExchanges";
 import BookmarkList from "./component/mypage/lists/BookmarkList";
 import DonationList from "./component/mypage/lists/DonationList";
+import MyExchanges from "./pages/points/MyExchanges";
 
 
 function App() {
@@ -74,6 +75,7 @@ function App() {
               <Route path="exchange" element={<ExchangePoint />} />
               <Route path="exchangeList" element={<AllExchanges />} />
               <Route path="exchangeDetail/:exchangeCode" element={<ExchangeDetail />} />
+              <Route path="myExchangeList" element={<MyExchanges />} />
               {/* <Route path="textmessage" element={<TextMessage />}/> */}
             </Route>
           </Routes>

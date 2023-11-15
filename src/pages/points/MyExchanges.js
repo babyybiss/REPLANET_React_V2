@@ -11,8 +11,8 @@ function MyExchanges(){
             <MypageHeader />
             <div className="container-mypage">
                 <MypageSidebar/>
-                <div class="mypage-main">
-                    <div class="mypage-title">
+                <div className="mypage-main">
+                    <div className="mypage-title">
                         <h1>포인트 전환 신청 내역</h1>
                     </div>
                     <PointExchangeList/>

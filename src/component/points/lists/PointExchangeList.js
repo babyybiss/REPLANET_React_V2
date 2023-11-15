@@ -3,8 +3,9 @@ import "../../../assets/css/common.css";
 import "../../../assets/css/adminexchange.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { exchangesAPI } from '../../../apis/PointAPI'
-import { useEffect } from "react";
+import { exchangesAPI, userExchangesAPI } from '../../../apis/PointAPI'
+import { useCallback, useEffect, useState } from "react";
+import PointModal from "../items/PointModal";
 
 
 function PointExchangeList(){
@@ -14,18 +15,43 @@ function PointExchangeList(){
     const params = useParams();
     const exchanges = useSelector(state => state.exchangeReducer);
 
+    const token = window.localStorage.getItem('token');
+    const decodedPayload = JSON.parse(atob(token.split('.')[1]));
+    const memberAuth = decodedPayload.auth;
+    const memberCode = decodedPayload.sub;
+    console.log("디코딩된 payload : ", decodedPayload);
+    console.log("권한 확인 : ", memberAuth);
+    console.log("멤버코드 확인 : ", memberCode);
+
+    const [selectedCode, setSelectedCode] = useState();
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const closeModal = () => {
+        setIsModalOpen(false);
+    }
+
     useEffect(
         () => {
-            dispatch(exchangesAPI({
-                exchangeCode: params.exchangeCode,
-                currentPage: 1
-            }));
-        }, [dispatch, params.exchangeCode]
+            if(memberAuth == "ROLE_USER"){
+                dispatch(userExchangesAPI(memberCode,{
+                    exchangeCode: params.exchangeCode,
+                    currentPage: 1
+                }));
+            } else if(memberAuth == "ROLE_ADMIN"){
+                dispatch(exchangesAPI({
+                    exchangeCode: params.exchangeCode,
+                    currentPage: 1
+                }));
+            }
+        }, [dispatch, params.exchangeCode, isModalOpen]
     );
 
     const onClickHandler = (exchangeCode) => {
-        navigate(`/exchangeDetail/${exchangeCode}`, {replace: false});
-        
+        if(memberAuth == "ROLE_USER"){
+            setSelectedCode(exchangeCode);
+            setIsModalOpen(true);
+        } else if(memberAuth == "ROLE_ADMIN"){
+            navigate(`/exchangeDetail/${exchangeCode}`, {replace: false});
+        }
     };
     
     const statusColor = (status) => {
@@ -73,6 +99,9 @@ function PointExchangeList(){
                         )}                 
                     </tbody>
                 </table>
+                {isModalOpen && (
+                    <PointModal exchangeCode={selectedCode} closeModal={closeModal} />
+                )}
             </div>
         )
     );

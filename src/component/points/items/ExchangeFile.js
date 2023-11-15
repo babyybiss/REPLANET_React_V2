@@ -22,9 +22,9 @@ function ExchangeFile({info}){
     const fileExtension = 'pdf';
 
     if(fileExtension === 'pdf'){
-        return <div style={{alignItems:"center"}}><br/><iframe src={process.env.PUBLIC_URL + '/' + info.fileSaveName} className="infoFile"/><br/></div>;
+        return <div style={{alignItems:"center"}}><br/><iframe src={process.env.PUBLIC_URL + '/exchangeFiles/' + info.fileSaveName} className="infoFile"/><br/></div>;
     } else{
-        return <div style={{alignItems:"center"}}><br/><img src={info.filePath + '/' + info.fileSaveName} className="infoFile"/><br/></div>;
+        return <div style={{alignItems:"center"}}><br/><img src={process.env.PUBLIC_URL + '/exchangeFiles/' + info.fileSaveName} className="infoFile"/><br/></div>;
     }
 }
 
