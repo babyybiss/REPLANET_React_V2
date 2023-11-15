@@ -5,8 +5,7 @@ import { callGetAllPaysByMemberWithDateAPI } from "../../../apis/DonationAPI";
 
 function DonationList() {
 
-    const result = useSelector(state => state.donationReducer);
-    console.log('result', result);
+    const pays = useSelector(state => state.donationReducer);
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
     console.log('DonationList() startDate : ', startDate);
@@ -14,12 +13,16 @@ function DonationList() {
     const dispatch = useDispatch();
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;
-    const pays = result;
-    console.log('DonationList() pays : ',pays);
 
     const handleSearch = () => {
         if (startDate && endDate) {
-            console.log('DonationDetail() handleSearch() 실행 : 검색 버튼 누름');
+            console.log('DonationDetail() handleSearch() 실행 : (startDate && endDate)');
+            dispatch(callGetAllPaysByMemberWithDateAPI(startDate, endDate));
+        } else if (startDate || endDate){
+            console.log('DonationDetail() handleSearch() 실행 : (startDate || endDate)');
+            alert('검색 시작일자와 종료일자 둘 다 선택해주세요.')
+        } else {
+            console.log('DonationDetail() handleSearch() 실행 : ()');
             dispatch(callGetAllPaysByMemberWithDateAPI(startDate, endDate));
         }
     }
@@ -28,6 +31,7 @@ function DonationList() {
         console.log('DonationDetail() initSearchDate() 실행 : 날짜 초기화됨');
         setStartDate('');
         setEndDate('');
+        dispatch(callGetAllPaysByMemberWithDateAPI('', ''));
     }
 
     const handleStartDateChange = (newStartDate) => {
@@ -55,7 +59,7 @@ function DonationList() {
             console.log('DonationList() useEffect 실행');
                 dispatch(callGetAllPaysByMemberWithDateAPI(startDate, endDate));
         },
-        []
+        [dispatch]
     );
 
     const indexOfLastItem = currentPage * itemsPerPage;

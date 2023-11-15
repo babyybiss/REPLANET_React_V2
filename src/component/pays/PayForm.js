@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { callGetPointByMemberAPI, callPostKakaoPayAPI, callPostPointDonationAPI } from "../../apis/DonationAPI";
+import { callPostKakaoPayAPI, callPostPointDonationAPI } from "../../apis/DonationAPI";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { GetCampaignAPI } from "../../apis/CampaignListAPI";
+import { callGetMemberByTokenAPI } from "../../apis/MemberAPI";
 
 function PayForm() {
 
@@ -22,14 +23,17 @@ function PayForm() {
     const campaign = useSelector(state => state.campaignReducer);
     const result = useSelector((state) => state.donationReducer);
     const { campaignCode } = useParams();
+    
+    const currentPoint = useSelector(state => state.memberReducer.member?.currentPoint);
 
     const campaignInfo = campaign.campaigninfo;
 
-    console.log('PayForm() 현재 가용 포인트 : ', result.currentPoint);
+    console.log('PayForm() 현재 가용 포인트 : ', currentPoint);
+    console.log('PayForm() donationAmount : ', donationAmount);
 
     useEffect(() => {
         if (isAllPointUsed) {
-            const maxPoint = Math.min(result.currentPoint, donationAmount.finalAmount);
+            const maxPoint = Math.min(currentPoint, donationAmount.finalAmount);
             const newDonationAmount = {
                 ...donationAmount,
                 pointAmount: maxPoint,
@@ -44,20 +48,22 @@ function PayForm() {
             }
             setDonationAmount(newDonationAmount);
         }
-    }, [isAllPointUsed, result.currentPoint, donationAmount.finalAmount]);
+    }, [isAllPointUsed, currentPoint, donationAmount.finalAmount]);
 
     const onAllPointUsedChange = () => {
-        if (result.currentPoint <= donationAmount.finalAmount) {
-            setIsAllPointUsed(!isAllPointUsed);
-        } else {
-            const maxPoint = Math.min(result.currentPoint, donationAmount.finalAmount);
-            const newDonationAmount = {
-                ...donationAmount,
-                pointAmount: maxPoint,
-                cashAmount: donationAmount.finalAmount - maxPoint
-            };
-            setDonationAmount(newDonationAmount);
-        }
+        setIsAllPointUsed((prevIsAllPointUsed) => {
+            if (currentPoint <= donationAmount.finalAmount) {
+                return !prevIsAllPointUsed;
+            } else {
+                const maxPoint = Math.min(currentPoint, donationAmount.finalAmount);
+                setDonationAmount((prevDonationAmount) => ({
+                    ...prevDonationAmount,
+                    pointAmount: prevIsAllPointUsed ? 0 : maxPoint,
+                    cashAmount: prevIsAllPointUsed ? prevDonationAmount.finalAmount : prevDonationAmount.finalAmount - maxPoint
+                }));
+                return !prevIsAllPointUsed;
+            }
+        });
     };
 
     useEffect(() => {
@@ -76,8 +82,11 @@ function PayForm() {
     );
 
     useEffect(() => {
-        dispatch(callGetPointByMemberAPI());
-    },[result.currentPoint]);
+        dispatch(callGetMemberByTokenAPI())
+        .catch(error => {
+            console.error('PayForm() API 호출 에러: ', error);
+        });
+    },[dispatch]);
 
     const [isAgreedToTerms, setIsAgreedToTerms] = useState(false);
 
@@ -122,39 +131,44 @@ function PayForm() {
 
     const onChangeHandler = (e) => {
         const inputValue = e.target.value;
+        const inputValueWithoutCommas = inputValue.replace(/,/g, '');
+        console.log('inputValue : ',inputValue);
+        console.log('inputValueWithoutCommas : ',inputValueWithoutCommas);
 
-        if (/^[1-9]\d*$|^0$/.test(inputValue)) {
-            const intValue = parseInt(inputValue, 10);
-            let finalAmount = donationAmount.finalAmount;
-            let pointAmount = donationAmount.pointAmount;
+        if (/^[1-9]\d*$|^0$/.test(inputValueWithoutCommas)) {
+            const intValue = parseInt(inputValueWithoutCommas, 10);
         
             if (e.target.name === "finalAmount") {
-                finalAmount = intValue;
+                setDonationAmount((prevDonationAmount) => ({
+                    ...prevDonationAmount,
+                    finalAmount: intValue,
+                    cashAmount: intValue - prevDonationAmount.pointAmount,
+                }));
             } else if (e.target.name === "pointAmount") {
-                if (intValue > finalAmount) {
+                if (intValue > donationAmount.finalAmount) {
                     alert("기부금액을 초과할 수 없습니다");
-                    pointAmount = finalAmount;
-                    /* 추후 멤버의 소유포인트에 따라 최대값을 소유포인트의 최대값으로 해야함 기부금액 */
+                    setDonationAmount((prevDonationAmount) => ({
+                        ...prevDonationAmount,
+                        pointAmount: prevDonationAmount.finalAmount,
+                        cashAmount: 0,
+                    }));
+                } else if (intValue > currentPoint) {
+                    alert("가용 포인트를 초과할 수 없습니다.");
+                    setDonationAmount((prevDonationAmount) => ({
+                        ...prevDonationAmount,
+                        pointAmount: currentPoint,
+                        cashAmount: donationAmount.finalAmount - currentPoint,
+                    }));
                 } else {
-                    pointAmount = intValue;
+                    setDonationAmount((prevDonationAmount) => ({
+                        ...prevDonationAmount,
+                        pointAmount: intValue,
+                        cashAmount: prevDonationAmount.finalAmount - intValue,
+                    }));
                 }
             }
-
-            const cashAmount = finalAmount - pointAmount;
-        
-            const newDonationAmount = {
-                ...donationAmount,
-                finalAmount,
-                pointAmount,
-                cashAmount
-            };
-            
-            setDonationAmount(newDonationAmount);
-        } else {
-            const newDonationAmount = { ...donationAmount };
-            setDonationAmount(newDonationAmount);
         }
-    }
+    };
 
     return(
         <>
@@ -162,7 +176,17 @@ function PayForm() {
             <div className="container-centered pay-container">
                 <div className="pay-box">
                     <h4>기부금액</h4>
-                    <input id="finalAmount" type="number" name="finalAmount" value={ donationAmount.finalAmount } onChange={onChangeHandler} className="input" inputMode="numeric" min="0" onClick={(e) => e.target.select()}/>
+                    <input 
+                            id="finalAmount" 
+                            type="number" 
+                            name="finalAmount" 
+                            value={ donationAmount.finalAmount } 
+                            onChange={onChangeHandler} 
+                            className="input" 
+                            inputMode="numeric" 
+                            min="0" 
+                            onClick={(e) => e.target.select()}
+                    />
                     <h4>원</h4>
                 </div>
                 <span className="pay-color-gray">기부 금액을 입력해주세요. 최소 기부 가능 금액 : 1,000원</span>
@@ -170,7 +194,18 @@ function PayForm() {
             <div className="container-centered pay-container">
                 <div className="pay-box">
                     <h4>포인트사용</h4>
-                    <input id="pointAmount" type="number" name="pointAmount" value={ isAllPointUsed ? result.currentPoint : donationAmount.pointAmount } onChange={onChangeHandler} className="input" inputMode="numeric" min="0" onClick={(e) => e.target.select()} disabled={isAllPointUsed}/>
+                    <input 
+                            id="pointAmount" 
+                            type="number" 
+                            name="pointAmount" 
+                            value={ donationAmount.pointAmount }
+                            onChange={onChangeHandler} 
+                            className="input" 
+                            inputMode="numeric"
+                            min="0" 
+                            onClick={(e) => e.target.select()} 
+                            disabled={isAllPointUsed}
+                    />
                     <h4>포인트</h4>
                 </div>
                 
@@ -178,7 +213,9 @@ function PayForm() {
                     <div className="pay-anno2">
                         <div>
                             <span className="pay-color-gray">가용포인트 : </span>
-                            <span className="pay-color-green">{result.currentPoint}</span>
+                            <span className="pay-color-green">
+                                {isNaN(currentPoint - donationAmount.pointAmount) ? '로딩중...' : currentPoint - donationAmount.pointAmount}
+                            </span>
                         </div>
                         <div>
                             <label htmlFor="c1"><span className="pay-color-gray">전체사용</span></label>&nbsp;&nbsp;

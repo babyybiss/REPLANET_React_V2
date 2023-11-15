@@ -1,6 +1,6 @@
 import { GET_PAYS_BY_MEMBER_WITH_DATE, 
         GET_DONATION_BY_PAY_CODE, 
-        GET_POINT_OF_MEMBER, 
+        GET_MEMBER_BY_TOKEN, 
         POST_POINT_DONATION } from "../modules/DonationModule";
 import axios from "axios";
 
@@ -36,22 +36,6 @@ export function callGetDonationByPayCodeAPI(payCode) {
             dispatch({ type: GET_DONATION_BY_PAY_CODE, payload: result });
         } catch (error) {
             console.error('(callGetDonationByPayCodeAPI) API 요청 실패! : ', error);
-        }
-    }
-}
-
-export function callGetPointByMemberAPI() {
-    // 멤버의 현재 가용포인트를 조회해오는 API
-    const requestURL = `http://localhost:8001/users/point`
-
-    return async function getPointByMember(dispatch, getState) {
-        try {
-            const response = await axios.get(requestURL);
-            const result = response.data;
-            console.log('(callGetPointByMemberAPI) result : ', result);
-            dispatch({ type: GET_POINT_OF_MEMBER, payload: result });
-        } catch (error) {
-            console.error('(callGetPointByMemberAPI) API 요청 실패! : ', error);
         }
     }
 }
