@@ -1,8 +1,8 @@
 import moment from 'moment';
-import { DeleteCampaignAPI } from '../../../apis/CampaignListAPI';
+import { DeleteCampaignAPI, ModifyCampaignAPI } from '../../../apis/CampaignListAPI';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function CampaignSidebar({ campaignInfo }) {
     const dispatch = useDispatch();
@@ -10,7 +10,6 @@ function CampaignSidebar({ campaignInfo }) {
 
     console.log(campaignInfo);
     const campaignCode = campaignInfo.campaignCode;
-    //const campaignFileCode = campaignInfo.campaignFileCode[0].campaignFileCode;
 
     // 기부 현황
     const currentBudget = campaignInfo.currentBudget;
@@ -22,11 +21,17 @@ function CampaignSidebar({ campaignInfo }) {
 
     // 삭제 
     const deleteCampaignHandler = () => {
-        if(window.confirm("정말 삭제하시겠습니까? 복구할 수 없습니다."))
-        dispatch(DeleteCampaignAPI(campaignCode))
-        navigate('/');
-        window.location.reload();
-      }
+        if (window.confirm("정말 삭제하시겠습니까? 복구할 수 없습니다.\n(기부내역이 있으면 삭제 불가능 합니다.)"))
+            dispatch(DeleteCampaignAPI(campaignCode))
+        console.log('순서가?..');
+    }
+
+    // 수정`    
+    const modifyCampaignHandler = () => {
+        if (window.confirm("수정 하시겠습니까?"))
+        navigate(`/modify/${campaignCode}`)
+            dispatch(ModifyCampaignAPI(campaignCode))
+    }
 
     return (
         campaignInfo && (
@@ -41,14 +46,15 @@ function CampaignSidebar({ campaignInfo }) {
                 <progress className="progress mt-1" value={percentage} max="100"></progress>
                 <div className="campaign-progress-info mt-1 pt-1">
                     <span className="amount">{startDate} ~ {endDate}</span>
-                    <span className="percent float-right">{percentage > 100? '목표금액 초과!!': percentage+'%'}</span>
+                    <span className="percent float-right">{percentage > 100 ? '목표금액 초과!!' : percentage + '%'}</span>
                 </div>
                 <div className="items-container ic2 mt-1 pt-1">
                     <Link to={`/campaign/${campaignInfo.campaignCode}/donations`}>
-                        <button className="button button-primary" style={{width:"100%"}}>후원하기</button>
+                        <button className="button button-primary" style={{ width: "100%" }}>후원하기</button>
                     </Link>
                     <button className="button button-primary-outline">공유하기</button>
-                    <button className="button button-primary-outline" onClick={deleteCampaignHandler}>삭제하기</button>
+                    <button className="button button-primary" onClick={deleteCampaignHandler}>삭제하기</button>
+                    <button className="button button-primary-outline" onClick={modifyCampaignHandler}>수정하기</button>
                 </div>
                 <div className="items-container ic1">
                     <div className="item p-2 border">
