@@ -3,11 +3,11 @@
     margin: -15% 5% 5% 5%;
     
   }
-  .editor-class {
+  .editor-container {
     background-color: #ffffff;
-    padding: 0.5rem;
-    height: 20rem;;
+    padding: 0.3rem;
     border: 1px solid #ccc;
+
   }
   .toolbar-class {
     border: 1px solid #ccc;
@@ -19,7 +19,7 @@
   }
   
   .rdw-editor-main {
-    height: 20rem;
+    height: 30rem;
   }
   
   .draft {
@@ -37,7 +37,8 @@
   }
 
   .preview {
-    background-color: #f4f4f4;
-    border-radius: 10x;
-  
+    background-color: #ffffff;
+    padding: 0.4rem;
+    border: 1px solid #ccc;
+    overflow-y: auto; /* Enable vertical scrolling */
   }

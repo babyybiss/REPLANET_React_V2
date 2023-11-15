@@ -124,7 +124,7 @@ function CampaignRegist() {
         <>
             <form onSubmit={submitHandler}>
                 <div className="container-first">
-
+                    <h1 className="py-3 container-centered">캠페인 등록</h1>
                     {/*카테고리 셀렉 */}
                     <select className="category" name="campaignCategory" onChange={onChange}>
                         {categoryList.map((item) => (

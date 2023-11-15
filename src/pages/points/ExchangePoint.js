@@ -16,6 +16,10 @@ function ExchangePoint(){
     const fileRef = useRef();
     const fileNameRef = useRef();
 
+    const token = window.localStorage.getItem('token');
+    const decodedPayload = JSON.parse(atob(token.split('.')[1]));
+    const memberCode = decodedPayload.sub;
+
     const handleChangeTitle = (e) => {
         setTitle(e.target.value);
     }
@@ -42,16 +46,20 @@ function ExchangePoint(){
             alert("파일을 등록해주세요!\n봉사활동 확인서를 등록하셔야 포인트 전환 신청을 하실 수 있습니다.")
         }
 
+        if (file.size > 2 * 1024 * 1024){
+            alert("파일 크기를 확인 바랍니다!\n2MB 이하의 파일만 등록하실 수 있습니다.")
+        }
+
         if(file != null && title != null && title != ""){
             console.log("제목은 : ", title);
             console.log("파일은 : ", file);
-            const memberCode = 1;
+            console.log("멤버코드는 : ", memberCode);
 
             const formdata = new FormData();
             
             formdata.append("file", file);
             formdata.append("title", title);
-            formdata.append("memberCode", memberCode.toString());
+            formdata.append("memberCode", memberCode);
 
             for (let key of formdata.keys()) {
                 console.log(key, ":", formdata.get(key));
@@ -104,7 +112,7 @@ function ExchangePoint(){
                         <label htmlFor="file">
                             <div className="exchange-file">
                                 <h5 style={{color:"#1D7151"}}>파일 선택</h5><br/>
-                                5MB 이하의 pdf 혹은 이미지 파일로 업로드 바랍니다.
+                                2MB 이하의 pdf 혹은 이미지 파일로 업로드 바랍니다.
                             </div>
                         </label>
                         <input type="file" id="file" name="file"

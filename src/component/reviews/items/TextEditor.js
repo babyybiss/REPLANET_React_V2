@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { EditorState, ContentState, convertFromHTML } from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
 import { convertToRaw } from "draft-js";
-
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import draftToHtml from "draftjs-to-html";
 import DOMPurify from "dompurify";
 import '../../../assets/css/draft.css';
@@ -43,7 +43,6 @@ export function TextEditor({ onContentChange, uploadImageCallback, existingRevie
     setPreviewVisible(!previewVisible);
   };
 
-  
   return (
     <div className="draft">
       <button onClick={togglePreview} className={`bookmark-button ${previewVisible ? "active" : ""}`}>
@@ -57,12 +56,13 @@ export function TextEditor({ onContentChange, uploadImageCallback, existingRevie
             editorState={description}
             onEditorStateChange={setDescription}
             toolbar={{
-              options: ['blockType', 'textAlign', 'list', 'fontSize', 'inline', 'colorPicker', 'emoji', 'remove', 'history'],
-              inline: { inDropdown: true },
+              options: ['blockType', 'textAlign', 'list', 'fontSize', 'inline', 'colorPicker', 'emoji', 'image', 'remove', 'history'],
+              inline: { inDropdown: false },
               list: { inDropdown: true },
               textAlign: { inDropdown: true },
               link: { inDropdown: true },
               history: { inDropdown: true },
+              image: { uploadCallback: uploadImageCallback, alt: { present: true, mandatory: true }},
             }}
             localization={{
               locale: 'ko',
