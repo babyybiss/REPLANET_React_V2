@@ -162,7 +162,7 @@ table thead, tbody{
     width: 60%;
     border: 1px solid lightgray;
     border-radius: 10px;
-    align-items: center;
+    text-align: center;
 }
 
 .modal-btn {

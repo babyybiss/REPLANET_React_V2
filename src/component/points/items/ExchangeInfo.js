@@ -39,7 +39,7 @@ function ExchangeInfo({info}){
                 <div className="infoBox">
                     <h5>회원 ID (회원명)</h5>
                     <br/>
-                    <a style={{color:"gray"}}>{info.memberId} ({info.memberName})</a>
+                    <a style={{color:"gray"}}>{info.memberEmail} ({info.memberName})</a>
                 </div>
                 <br/>
                 <div className="infoBox">
