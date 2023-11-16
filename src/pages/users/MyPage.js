@@ -83,6 +83,9 @@ function MyPage() {
                     <NavLink to="bookmark" className='admin-sidebar-menu'>
                         관심리스트
                     </NavLink>
+                    <NavLink to="calculator" className='admin-sidebar-menu'>
+                        세액공제 계산기
+                    </NavLink>
                     <NavLink to="바꿔주세요" className="admin-sidebar-menu bg-light">
                         회원정보 수정
                     </NavLink>

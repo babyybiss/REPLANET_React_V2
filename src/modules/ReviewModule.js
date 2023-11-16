@@ -13,9 +13,11 @@ export const GET_THUMBNAIL_PATH = 'review/GET_THUMBNAIL_PATH';
 export const PUT_REVIEW = 'review/PUT_REVIEW';
 export const DELETE_REVIEW = 'review/DELETE_REVIEW';
 export const GET_MEMBER_CODE = 'review/GET_MEMBER_CODE';
+export const POST_REVIEW_COMMENT = "review/POST_REVIEW_COMMENT";
+
 
  //declare action function
-export const { review: {getReviews,getReview, postReview, getSearchResult, getCompletedCampaigns, getThumbnailPath, putReview, deleteReview, getMemberCode } } = createActions({
+export const { review: {getReviews,getReview, postReview, getSearchResult, getCompletedCampaigns, getThumbnailPath, putReview, deleteReview, getMemberCode, postReviewComment } } = createActions({
     [GET_REVIEWS] : (res) => ({ reviewList: res }),
     [GET_REVIEW] : (res) => ({ review : res }),
     [POST_REVIEW] : (res) => ({ regist: res }),
@@ -25,6 +27,7 @@ export const { review: {getReviews,getReview, postReview, getSearchResult, getCo
     [PUT_REVIEW] : (res) => ({ update: res }),
     [DELETE_REVIEW] : (res) => ({ delete: res }),
     [GET_MEMBER_CODE] : (res) => ({ memberCode: res }),
+    [POST_REVIEW_COMMENT] : (res) => ({ reviewComment: res }),
 });
 
 // declare reducer function
@@ -67,6 +70,13 @@ const reviewReducer = handleActions(
         },
         [GET_MEMBER_CODE] : (state, {payload}) => {
             console.log('Review reducer: GET_MEMBER_CODE 들어옴 : ', payload);
+            return {
+                ...state,
+                memberCode: payload.memberCode
+            };
+        },
+        [POST_REVIEW_COMMENT] : (state, {payload}) => {
+            console.log('Review reducer: POST_REVIEW_COMMENT 들어옴 : ', payload);
             return payload;
         }
 
