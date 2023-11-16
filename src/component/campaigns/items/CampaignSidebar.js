@@ -30,7 +30,7 @@ function CampaignSidebar({ campaignInfo }) {
     const modifyCampaignHandler = () => {
         if (window.confirm("수정 하시겠습니까?"))
         navigate(`/modify/${campaignCode}`)
-            dispatch(ModifyCampaignAPI(campaignCode))
+            //dispatch(ModifyCampaignAPI(campaignCode))
     }
 
     return (
