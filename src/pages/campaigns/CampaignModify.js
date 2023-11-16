@@ -134,6 +134,9 @@ function CampaignModify() {
         if (imagePre) {
             formData.append("imageFile", imagePre);
         }
+
+        console.log('[Review Registration] campaignTitle : ', formData.get("campaignTitle"));
+
         dispatch(ModifyCampaignAPI({
             inputs: formData,
             header,
