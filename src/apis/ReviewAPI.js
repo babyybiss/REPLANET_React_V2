@@ -11,6 +11,8 @@ import { getThumbnailPath } from "../modules/ReviewModule";
 import { putReview } from "../modules/ReviewModule";
 import { deleteReview } from "../modules/ReviewModule";
 import { getMemberCode } from "../modules/ReviewModule";
+import { postReviewComment } from "../modules/ReviewModule";
+
 
 const DOMAIN = 'http://localhost:8001'
 const requestURL = 'http://localhost:8001/reviews/';
@@ -112,8 +114,6 @@ export function callGetReviewsBySearchFilter(searchFilter) {
 export function callPutReview({form}) {
     console.log('callPutReview : ', form);
 
-    
-
     return async (dispatch, getState) => {
 
         const result = await fetch(requestURL, {
@@ -124,8 +124,6 @@ export function callPutReview({form}) {
             },
             body: form
             });
-
-            
             
             dispatch(putReview(result));
     }
@@ -160,4 +158,24 @@ export function callDeleteReviewAPI(reviewCode, revFileCode) {
 
         dispatch(getMemberCode(result));
     }
+  }
+
+  export function callPostReviewComment({form, reviewCode}) {
+
+    return async (dispatch, getState) => {
+
+        const requestPostComment = `http://localhost:8001/reviews/${reviewCode}/comments`;
+
+        const result = await fetch(requestPostComment, {
+            method: "POST",
+            headers: {
+                //"Content-Type": "application/json",
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            },
+            body: form
+            });
+            dispatch(postReviewComment(result));
+    }
+
   }

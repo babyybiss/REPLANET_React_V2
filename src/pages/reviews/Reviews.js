@@ -8,7 +8,6 @@ import { CampaignListDoneAPI } from "../../apis/CampaignListAPI";
 import axios from "axios";
 import { AuthContextProvider } from "../../component/auth/AuthContext";
 import { jwtDecode } from "jwt-decode";
-import { callgetMemberCode } from "../../apis/ReviewAPI";
 
 export function Reviews() {
 
@@ -30,13 +29,6 @@ export function Reviews() {
                 dispatch(callGetReviewsBySearchFilter(searchFilter));
             }
         },[searchFilter]
-    );
-
-    useEffect(
-        () => {
-            dispatch(callgetMemberCode);
-            console.log(result.memberCode);
-        },[]
     );
 
     const handleSearchKeyPress = () => {
