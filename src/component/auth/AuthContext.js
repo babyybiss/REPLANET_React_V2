@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useCallback } from "react";
 import * as authAction from './AuthAction';
+import axios from "axios";
+import { Navigate } from "react-router-dom";
 let logoutTimer;
 const AuthContext = React.createContext({
     token: '',
-    userObj: { email: '', memberName: '' },
+    userObj: { email: '', memberName: '', memberRole: '' },
     isLoggedIn: false,
     isSuccess: false,
     isGetSuccess: false,
@@ -14,6 +16,23 @@ const AuthContext = React.createContext({
    // changeMemberName: (memberName) => { },
     changePassword: (exPassword, newPassword) => { }
 });
+
+// axios.defaults.withCredentials = true; // withCredentials 전역 설정
+// axios
+//   .post(`${`http://localhost:3000`}/login`, AuthContext.userObj)
+//   .then((res) => {
+//     if (res.status === 200) {
+//       // 모든 헤더 이름은 소문자
+//       let token = res.headers['authorization']; // 응답헤더에서 토큰 받기
+//       console.log('access 토큰 :', token);
+//       setLocalStorage('token', token); // 토큰 localStorage에 저장
+//       axios.defaults.headers.common[
+//         'Authorization'
+//       ] = `Bearer ${token}`;
+//       navigate('/');
+//     }
+//   })
+
 export const AuthContextProvider = (props) => {
     const tokenData = authAction.retrieveStoredToken();
     let initialToken;
@@ -23,7 +42,8 @@ export const AuthContextProvider = (props) => {
     const [token, setToken] = useState(initialToken);
     const [userObj, setUserObj] = useState({
         email: '',
-        memberName: ''
+        memberName: '',
+        memberRole: ''
     });
     const [isSuccess, setIsSuccess] = useState(false);
     const [isGetSuccess, setIsGetSuccess] = useState(false);
@@ -39,7 +59,7 @@ export const AuthContextProvider = (props) => {
     };
     const loginHandler = (email, password) => {
         setIsSuccess(false);
-        console.log(isSuccess);
+        //console.log(isSuccess);
         const data = authAction.loginActionHandler(email, password);
         data.then((result) => {
             if (result !== null) {

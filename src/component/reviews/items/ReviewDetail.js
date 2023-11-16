@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import reviewReducer from "../../../modules/ReviewModule";
+import { callGetMemberByTokenAPI } from "../../../apis/MemberAPI";
 
 export function ReviewDetail({code}) {
     const result = useSelector(state => state.reviewReducer);
@@ -12,6 +13,17 @@ export function ReviewDetail({code}) {
         },
         []
     );
+
+    useEffect(
+      () => {
+          console.log('MyPage() useEffect 실행');
+          dispatch(callGetMemberByTokenAPI())
+          .catch(error => {
+              console.error('MyPage() API 호출 에러: ', error);
+          })
+      },
+      [dispatch]
+  );
 
     return (
         review && (
