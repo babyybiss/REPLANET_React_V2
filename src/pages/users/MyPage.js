@@ -20,6 +20,13 @@ function MyPage() {
     const totalAmount = result.totalAmount !== undefined && result.totalAmount !== null? result.totalAmount.toLocaleString() : '로딩중...';
     const totalDonation = result.totalDonation !== undefined && result.totalDonation !== null? result.totalDonation : '로딩중...';
 
+    const [isSubmenuOpen, setIsSubmenuOpen] = useState(false);
+    const toggleSubmenu = () => {
+        setIsSubmenuOpen(!isSubmenuOpen);
+    };
+    const submenuStyle = {
+        display : isSubmenuOpen? 'block' : 'none'
+    };
 
     useEffect(
         () => {
@@ -56,9 +63,20 @@ function MyPage() {
                     <NavLink to="history" className='admin-sidebar-menu'>
                         기부(결제)내역
                     </NavLink>
-                    <NavLink to="바꿔주세요" className="admin-sidebar-menu">
+                    <li className='admin-sidebar-menu' onClick={toggleSubmenu}>
                         포인트 전환 및 관리
-                    </NavLink>
+                    </li>
+                    <div style={submenuStyle}>
+                        <NavLink to="pointService" className="sidebar-submenu">
+                            서비스 안내
+                        </NavLink>
+                        <NavLink to="exchange" className="sidebar-submenu">
+                            전환 신청
+                        </NavLink>
+                        <NavLink to="myExchangeList" className="sidebar-submenu">
+                            전환 신청 내역
+                        </NavLink>
+                    </div>
                     <NavLink to="바꿔주세요" className="admin-sidebar-menu">
                         기부영수증 안내
                     </NavLink>
