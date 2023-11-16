@@ -55,7 +55,7 @@ function App() {
 
                 <Route key="pointService" path="pointService" element={<MyPoints />} />,
                 <Route key="exchange" path="exchange" element={<ExchangePoint />} />,
-                <Route key="myExchangeList" path="myExchangeList" element={<MyExchanges />} />
+                <Route key="myExchangeList" path="myExchangeList" element={<MyExchanges />} />,
                 <Route key="calculator" path="calculator" element={<Calculator />} />,
 
               ]}/>
@@ -67,6 +67,7 @@ function App() {
               <Route path="campaign/:campaignCode" element={<CampaignDetail />} />
               <Route path="modify/:campaignCode"element={<CampaignModify />} />
             </Route>
+            <Route path="charts" element={<Charts />} />
             <Route path="reviews">
               <Route index element={<Reviews />} />
               <Route path=":campaignCode" element={<ReviewDetails />} />
@@ -76,8 +77,6 @@ function App() {
               <Route path="reviewUpdate">
                 <Route path=":campaignCode" element={<ReviewModify />} />
               </Route>
-              
-              <Route path="charts" element={<Charts />} />
               {/* <Route path="textmessage" element={<TextMessage />}/> */}
             </Route>
 
