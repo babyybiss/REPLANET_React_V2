@@ -22,11 +22,12 @@ const Login = () => {
         authCtx.login(enteredEmail, enteredPassword);
         setIsLoading(false);
 
-        if (authCtx.isSuccess === true) {
-            alert('로그인됨');
-            navigate("/", { replace: true });
+        if (authCtx.isSuccess) {
+            return(navigate("/main", { replace: true }));
         }
     }
+
+
 
 
     function toSignup(e) {window.location.href="/signup"};
