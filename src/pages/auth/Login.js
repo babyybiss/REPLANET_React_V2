@@ -2,7 +2,27 @@ import React, { useState, useRef, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../component/auth/AuthContext";
 import '../../assets/css/user.css';
-import KakaoLogin from "./KakaoLogin";
+
+import {GoogleLogin} from "@react-oauth/google";
+import {GoogleOAuthProvider} from "@react-oauth/google";
+
+const GoogleLoginButton = () => {
+    const clientId = 'clientID'
+    return (
+        <>
+            <GoogleOAuthProvider clientId={clientId}>
+                <GoogleLogin
+                    onSuccess={(res) => {
+                        console.log(res);
+                    }}
+                    onFailure={(err) => {
+                        console.log(err);
+                    }}
+                />
+            </GoogleOAuthProvider>
+        </>
+    );
+};
 
 const Login = () => {
     const emailInputRef = useRef(null);
@@ -23,7 +43,7 @@ const Login = () => {
         setIsLoading(false);
 
         if (authCtx.isSuccess) {
-            return(navigate("/main", { replace: true }));
+            return(navigate("/", { replace: true }));
         }
     }
 
@@ -41,7 +61,7 @@ const Login = () => {
                 <div className="items-container ic1">
                     <div className="tabs">
                     <div className="tab_item ti2 active" >일반 로그인</div>
-                    <KakaoLogin/>
+                    <div className="tab_item ti2" onClick={GoogleLoginButton}>소셜 로그인</div>
                     </div>
 
 
