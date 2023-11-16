@@ -1,4 +1,4 @@
-import { GET_EXCHANGES, GET_EXCHANGE, GET_USER_EXCHANGES, GET_EXCHANGE_DETAIL_U } from '../modules/PointModule';
+import { GET_EXCHANGES, GET_EXCHANGE, GET_USER_EXCHANGES, GET_EXCHANGE_DETAIL_U, PUT_EXCHANGES } from '../modules/PointModule';
 import axios from "axios";
 
 export const exchangesAPI = () => {
@@ -89,4 +89,33 @@ export const userExchangeDetailAPI = (exchangeCode) => {
             }
         })
     };
+}
+
+export const exchangeUpdateAPI = ({form, exchangeCode}) => {
+    const requestURL = `http://localhost:8001/exchanges/${exchangeCode}`;
+
+    return async (dispatch, getState) => {
+        const result = await axios.put(requestURL, {
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem('token')
+            },
+            body: JSON.stringify({
+                exchangeCode: form.exchangeCode,
+                status: form.status,
+                points: form.points,
+                returnDetail: form.returnDetail
+            })
+        })
+        .then(function(response){
+            console.log('[PointAPI] exchangeUpdateAPI RESULT : ', response);
+            if(response.status === 200){
+                console.log('[PointAPI] exchangeUpdateAPI SUCCESS');
+                dispatch({type: PUT_EXCHANGES, payload: response.data});
+                alert("승인 처리되었습니다.");
+                window.location.reload();
+            }
+        })
+    }
 }

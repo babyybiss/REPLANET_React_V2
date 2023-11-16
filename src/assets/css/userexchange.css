@@ -1,54 +1,3 @@
-.header-mypage {
-    display: grid;
-    grid-template-columns: 200px 1fr 1fr;
-    text-align: center;
-    margin-top: 3.375rem;
-
-}
-
-.header-mypage-menu {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border-bottom: solid 1px var(--color-light-hover);
-    padding: 2rem 0;
-    background-color: var(--color-white);
-
-}
-
-.container-mypage {
-    display: grid;
-    grid-template-columns: 200px 1fr;
-}
-
-
-.mypage-sidebar {
-    height: 100vh;
-    width: 200px;
-    border-right: solid 1px var(--color-light-hover);
-}
-
-.mypage-sidebar-menu {
-    padding: 1rem 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border-bottom: solid 1px var(--color-light-hover);
-    background-color: var(--color-white);
-    cursor: pointer;
-}
-
-
-.mypage-sidebar-menu.active,
-.mypage-sidebar-menu:active,
-.mypage-sidebar-menu:focus,
-.mypage-sidebar-menu:hover {
-    background-color: #4AB28B!important;
-    color: var(--color-white)!important;
-}
-
 .mypage-main {
     padding: 2rem;
     margin-left: 10%;
@@ -78,13 +27,6 @@
     background-color: var(--color-white);
     cursor: pointer;
     text-align: center;
-}
-.sidebar-submenu > a {
-    color: #27AE60;
-}
-
-.sidebar-submenu > a.active {
-    text-decoration: underline;
 }
 
 .serviceinfo {
@@ -160,6 +102,8 @@ table thead, tbody{
     margin: auto;
     padding: 20px;
     width: 60%;
+    height: 80%;
+    overflow-y: auto;
     border: 1px solid lightgray;
     border-radius: 10px;
     text-align: center;

@@ -16,16 +16,13 @@ function ExchangeDetail(){
     const params = useParams();
     const info = useSelector(state => state.exchangeReducer);
 
-    console.log('코드는 들어옴? ', params.exchangeCode);
+    console.log('코드 확인 : ', params.exchangeCode);
 
     useEffect(
         () => {
-            console.log('너 왜 동작 안해..?');
-            console.log('[ExchangeDetail] ExchangeCode : ', params.exchangeCode);
             dispatch(exchangeDetailAPI({
                 exchangeCode: params.exchangeCode,
             }));
-            console.log('일단 유즈이펙트 끝 표시');
         }, []
     );
 
@@ -40,7 +37,7 @@ function ExchangeDetail(){
                 <div style={{alignItems:"left"}}>
                     <a onClick={() => navigate(-1)} style={{color:"gray", cursor:"pointer"}}>← Back</a>
                     <h1>포인트 전환 신청 내용</h1>
-                    <ExchangeInfo info={info}/>
+                    <ExchangeInfo info={info} exchangeCode={params.exchangeCode} />
                 </div>
             </div>
             <div className="fileDiv">
