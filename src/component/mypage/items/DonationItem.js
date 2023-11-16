@@ -1,14 +1,14 @@
 import { useNavigate } from "react-router-dom";
 
-function DonationItem({ pay }) {
+function DonationItem({ pay, showDetails, onToggleDetails }) {
 
-    const { refDonation } = pay;
+    const { refDonation, payAmount } = pay;
     const { refCampaign } = refDonation;
 
     const { donationCode, donationPoint } = refDonation;
     const { campaignTitle } = refCampaign;
     const { orgName } = refCampaign;
-    const totalAmount = pay.payAmount + donationPoint
+    const totalAmount = payAmount + donationPoint
     const { donationDateTime }= refDonation;
 
     const formattedTotalAmount = totalAmount.toLocaleString('ko-KR');
@@ -28,7 +28,7 @@ function DonationItem({ pay }) {
 
     const handleRowClick = () => {
         console.log('선택한 해당 캠페인 코드 : ', refCampaign.campaignCode);
-        navigate(`/campaign/${refCampaign.campaignCode}`);
+        navigate(`/campaign/${refCampaign.campaignCode}/donations/success?number=${donationCode}`);
     }
 
     return(
@@ -38,7 +38,15 @@ function DonationItem({ pay }) {
                 <td>{ donationCode }</td>
                 <td>{ campaignTitle }</td>
                 <td>{ orgName }</td>
-                <td>{ formattedTotalAmount }원</td>
+                
+                {showDetails ? (
+                    <td>
+                        {formattedTotalAmount}원 ( {payAmount.toLocaleString()}원 +{' '}
+                        {donationPoint.toLocaleString()}P )
+                    </td>
+                ) : (
+                    <td>{formattedTotalAmount}원</td>
+                )}
                 <td>{ formattedDateTime }</td>
             </tr>
         </>

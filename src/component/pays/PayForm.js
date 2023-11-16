@@ -130,13 +130,11 @@ function PayForm() {
     }
 
     const onChangeHandler = (e) => {
-        const inputValue = e.target.value;
-        const inputValueWithoutCommas = inputValue.replace(/,/g, '');
+        const inputValue = e.target.value.replace(/,/g, '');
         console.log('inputValue : ',inputValue);
-        console.log('inputValueWithoutCommas : ',inputValueWithoutCommas);
 
-        if (/^[1-9]\d*$|^0$/.test(inputValueWithoutCommas)) {
-            const intValue = parseInt(inputValueWithoutCommas, 10);
+        if (/^[1-9]\d*$|^0$/.test(inputValue)) {
+            const intValue = parseInt(inputValue, 10);
         
             if (e.target.name === "finalAmount") {
                 setDonationAmount((prevDonationAmount) => ({
@@ -178,9 +176,9 @@ function PayForm() {
                     <h4>기부금액</h4>
                     <input 
                             id="finalAmount" 
-                            type="number" 
+                            type="text" 
                             name="finalAmount" 
-                            value={ donationAmount.finalAmount } 
+                            value={ donationAmount.finalAmount.toLocaleString() } 
                             onChange={onChangeHandler} 
                             className="input" 
                             inputMode="numeric" 
@@ -196,9 +194,9 @@ function PayForm() {
                     <h4>포인트사용</h4>
                     <input 
                             id="pointAmount" 
-                            type="number" 
+                            type="text" 
                             name="pointAmount" 
-                            value={ donationAmount.pointAmount }
+                            value={ donationAmount.pointAmount.toLocaleString() }
                             onChange={onChangeHandler} 
                             className="input" 
                             inputMode="numeric"
@@ -206,7 +204,7 @@ function PayForm() {
                             onClick={(e) => e.target.select()} 
                             disabled={isAllPointUsed}
                     />
-                    <h4>포인트</h4>
+                    <h4>P</h4>
                 </div>
                 
                 <div className="pay-box">
@@ -214,7 +212,7 @@ function PayForm() {
                         <div>
                             <span className="pay-color-gray">가용포인트 : </span>
                             <span className="pay-color-green">
-                                {isNaN(currentPoint - donationAmount.pointAmount) ? '로딩중...' : currentPoint - donationAmount.pointAmount}
+                                {isNaN(currentPoint - donationAmount.pointAmount) ? '로딩중...' : (currentPoint - donationAmount.pointAmount).toLocaleString()}
                             </span>
                         </div>
                         <div>
@@ -222,7 +220,7 @@ function PayForm() {
                             <input id="c1" type="checkbox" checked={isAllPointUsed} onChange={onAllPointUsedChange}/>
                         </div>
                         <br/>
-                        <span className="pay-color-gray">(가능한 최소 기부포인트는 1,000 포인트입니다.)</span>
+                        <span className="pay-color-gray">(포인트로만 기부시 결제페이지를 거치지 않고 즉시 기부됩니다.)</span>
                     </div>
                 </div>
             </div>
@@ -253,7 +251,7 @@ function PayForm() {
             <div className="container-centered pay-container">
                 <div className="pay-box">
                     <h3>결제금액 : </h3>
-                    <h3 name="cashAmount" value={ donationAmount.cashAmount } className="pay-color-green">{ donationAmount.cashAmount }</h3>
+                    <h3 name="cashAmount" value={ donationAmount.cashAmount } className="pay-color-green">{ donationAmount.cashAmount.toLocaleString() }</h3>
                     <h3>원</h3>
                 </div>
                     <span className="pay-color-gray">금액을 입력해주세요. 최소 기부 가능 금액 : 1,000원</span>
