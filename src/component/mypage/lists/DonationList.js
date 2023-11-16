@@ -14,6 +14,22 @@ function DonationList() {
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;
 
+    const [showDetailsAll, setShowDetailsAll] = useState(false);
+
+    const handleToggleDetailsAll = () => {
+        setShowDetailsAll((prev) => !prev);
+    };
+
+    const [detailsForItems, setDetailsForItems] = useState({});
+
+    const handleToggleDetails = (payCode) => {
+        setDetailsForItems((prevDetails) => {
+            const newDetails = { ...prevDetails };
+            newDetails[payCode] = !newDetails[payCode];
+            return newDetails;
+        });
+    };
+
     const handleSearch = () => {
         if (startDate && endDate) {
             console.log('DonationDetail() handleSearch() 실행 : (startDate && endDate)');
@@ -107,6 +123,9 @@ function DonationList() {
                 </div>
                 <div className='admin-title total-amount'>
                     <div>
+                        <span className="pay-color-gray">기부내역 클릭 시 해당 캠페인으로 이동합니다.</span>
+                    </div>
+                    <div>
                         <span>기간내 총 기부액 : </span>
                         <span className="pay-color-green">{calculateTotalAmount().toLocaleString()}원</span>
                     </div>
@@ -117,17 +136,27 @@ function DonationList() {
                             <th>순번</th>
                             <th>캠페인 이름</th>
                             <th>단체</th>
-                            <th>기부금액</th>
+                            <th onClick={handleToggleDetailsAll} className="toggle-header">
+                                {showDetailsAll ? '기부금액 (접기)' : '기부금액 (상세보기)'}
+                            </th>
                             <th>기부일자</th>
                         </tr>
                     </thead>
                     <tbody>
-                    {pays && pays.length > 0 ? 
-                        ( currentItems.map((pay) => (
-                            <DonationItem key={pay.payCode} pay={pay} />
-                        )))
-                        :
-                        (<tr><td colSpan={5}>기부내역이 없습니다!</td></tr>)}
+                    {pays && pays.length > 0 ? (
+                        currentItems.map((pay) => (
+                            <DonationItem
+                                key={pay.payCode}
+                                pay={pay}
+                                showDetails={showDetailsAll || detailsForItems[pay.payCode]}
+                                onToggleDetails={() => handleToggleDetails(pay.payCode)}
+                            />
+                            ))
+                        ) : (
+                            <tr>
+                                <td colSpan={5}>기부내역이 없습니다!</td>
+                            </tr>
+                        )}
                     </tbody>
                 </table>
 

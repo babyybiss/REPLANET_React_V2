@@ -67,8 +67,21 @@
 }
 
 .total-amount {
-  justify-content: flex-end !important;
   border-bottom: 1px solid #DBDBDB;
   height: 30px;
   margin-bottom: 1rem !important;
+}
+
+.toggle-header {
+  cursor: pointer; /* 마우스를 올리면 포인터로 변경 */
+}
+
+.pay-success-header {
+  flex-direction: row;
+  gap: 10px;
+}
+
+.pay-inner-table > td, .pay-inner-table{
+  padding: 0.5rem !important;
+  border: none;
 }
