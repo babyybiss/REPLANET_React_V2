@@ -69,7 +69,6 @@ function App() {
                 <Route path=":campaignCode" element={<ReviewModify />} />
               </Route>
               
-              <Route path="regist" element={<CampaignRegist/>}/>
               <Route path="charts" element={<Charts />} />
               <Route path="exchange" element={<ExchangePoint />} />
               <Route path="exchangeList" element={<AllExchanges />} />
