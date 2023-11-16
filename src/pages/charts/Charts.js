@@ -5,6 +5,8 @@ import PreviousYearCampaign from "../../component/charts/PreviousYearCampaign";
 import GoalCampaign from "../../component/charts/GoalCampaign";
 import TestChart from "../../component/charts/TestChart";
 import CategoryCampaign from "../../component/charts/CategoryCampaign";
+import TestChartSets from "../../component/charts/TestChartSets";
+import HistoryChart from "../../component/charts/HistoryChart";
 
 
 function Chart() {
@@ -15,6 +17,7 @@ function Chart() {
                 <h2>캠페인 모금액 통계</h2>
                 <GoalCampaign/>
                 <CategoryCampaign/>
+                <HistoryChart/>
                 <h2>카테고리별 캠페인 통계</h2>
                 <h2>연도별 및 월별 통계</h2>
                 <CurrentYearCampaign/>

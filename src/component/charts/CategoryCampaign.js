@@ -9,7 +9,7 @@ function InnerCircle({ origin }) {
 
     
     const circleStyle = {
-        stroke: greenColorSet.highlight, strokeWidth: 2, fill: yellowColorSet.base
+        stroke: greenColorSet.base, strokeWidth: 2, fill: yellowColorSet.base
     };
   
     return (
@@ -32,7 +32,7 @@ function CenterLabel(props) {
     const changeText = cursorY1 === goalBudget ? "목표" : "현재";
     const currentPercentage = Math.round(currentBudget / goalBudget * 100); 
 
-    const text = [ `${campaignCategory} ${changeText}모금액: ${cursorY1}`, `달성률 : ${currentPercentage}%` ];
+    const text = [ `${campaignCategory} ${changeText}모금액: ${cursorY1/10000}만원`, `달성률 : ${currentPercentage}%` ];
 
     const baseStyle = { fill: "#10573C", textAnchor: "middle" };
     const style = [

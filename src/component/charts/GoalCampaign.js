@@ -92,7 +92,7 @@ function GoalCampaign() {
   ];
 
   /* style setting */ 
-  const monthlyChartStyle = {
+  const chartStyle = {
     background: {
       fill: "none",
       fillOpacity: 0.7
@@ -137,7 +137,7 @@ function GoalCampaign() {
       <h4>카테고리별 현재 모금액 합계</h4>
       <VictoryChart 
         domainPadding={50} 
-        style={monthlyChartStyle}
+        style={chartStyle}
         width={1200} height={500}
         containerComponent={
           <VictoryVoronoiContainer 
