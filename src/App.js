@@ -66,7 +66,7 @@ function App() {
                 <Route path=":campaignCode" element={<ReviewRegist />} />
               </Route>
               <Route path="reviewUpdate">
-                <Route path=":campaignCode" element={<ReviewModify />} />
+                <Route path=":reviewCode" element={<ReviewModify />} />
               </Route>
               
               <Route path="regist" element={<CampaignRegist/>}/>

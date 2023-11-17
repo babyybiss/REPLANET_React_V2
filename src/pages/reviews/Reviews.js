@@ -7,13 +7,13 @@ import { callGetCompletedCampaign } from "../../apis/ReviewAPI";
 import { CampaignListDoneAPI } from "../../apis/CampaignListAPI";
 import axios from "axios";
 import { AuthContextProvider } from "../../component/auth/AuthContext";
-import { jwtDecode } from "jwt-decode";
+import { decodeJwt } from "../../utils/TokenUtils";
 
 export function Reviews() {
 
+    const token = decodeJwt(window.localStorage.getItem("token"));    
 
     const dispatch = useDispatch();
-    const jwt_decode = jwtDecode;
 
     const result = useSelector(state => state.campaignReducer)
     const completedCampaigns = result.campaignlist || result.campaignDoneList;
@@ -39,6 +39,7 @@ export function Reviews() {
     const handleCompletedCampaign = () => {
         dispatch(CampaignListDoneAPI());
     }
+
 
     return (
         <>

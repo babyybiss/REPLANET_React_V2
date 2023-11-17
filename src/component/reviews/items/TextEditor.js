@@ -67,6 +67,7 @@ export function TextEditor({ onContentChange, uploadImageCallback, existingRevie
             localization={{
               locale: 'ko',
             }}
+            required
           />
         </div>
       )}

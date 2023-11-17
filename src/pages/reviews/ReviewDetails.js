@@ -16,8 +16,6 @@ export function ReviewDetails() {
   const review = useSelector((state) => state.reviewReducer.review);
   const memberCode = useSelector((state) => state.reviewReducer.memberCode);
 
-
-
   
   useEffect(() => {
     dispatch(callGetSpecificReviewAPI(reviewCode));
@@ -30,9 +28,9 @@ export function ReviewDetails() {
 
   useEffect(() => {
         dispatch(callgetMemberCode());
-    },[memberCode]);
+  },[memberCode]);
 
-
+  
 
      return (
       review && (

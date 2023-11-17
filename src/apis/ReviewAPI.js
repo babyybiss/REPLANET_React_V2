@@ -13,6 +13,8 @@ import { deleteReview } from "../modules/ReviewModule";
 import { getMemberCode } from "../modules/ReviewModule";
 import { postReviewComment } from "../modules/ReviewModule";
 import { getReviewComments } from "../modules/ReviewModule";
+import { deleteReviewComment } from "../modules/ReviewModule";
+
 
 const DOMAIN = 'http://localhost:8001'
 const requestURL = 'http://localhost:8001/reviews/';
@@ -180,4 +182,13 @@ export function callDeleteReviewAPI(reviewCode, revFileCode) {
             dispatch(postReviewComment(result));
     }
 
+  }
+
+  export function callDeleteReviewComment(revCommentCode, reviewCode) {
+
+    return async (dispatch, getState) => {
+        const result = await request("DELETE", `/reviews/${reviewCode}/comments/${revCommentCode}`);
+
+        dispatch(deleteReviewComment(result));
+    }
   }
