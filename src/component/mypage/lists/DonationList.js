@@ -67,13 +67,14 @@ function DonationList() {
     };
 
     const calculateTotalAmount = () => {
-        return pays && pays.length > 0 ? (pays.reduce((total, pay) => total + pay.payAmount, 0)) : ('0');
+        console.log('pays',pays);
+        return pays && pays.length > 0 ? (pays.reduce((total, pay) => total + pay.payAmount + pay.refDonation.donationPoint, 0)) : ('0');
     }
 
     useEffect(
         () => {
             console.log('DonationList() useEffect 실행');
-                dispatch(callGetAllPaysByMemberWithDateAPI(startDate, endDate));
+            dispatch(callGetAllPaysByMemberWithDateAPI(startDate, endDate));
         },
         [dispatch]
     );
