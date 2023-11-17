@@ -83,7 +83,24 @@
     width: 70px;
     cursor: pointer;
     border-radius: 0.25rem;
-    line-height: 40px;
+    line-height: 40px !important;
+    display: inline-block;
+    text-align: center;
+    font-size: 100% !important;
+  }
+
+  .confirm-submit {
+    background-color: #1D7151;
+    border: solid 1px #1D7151;
+    color: white;
+    height: 40px;
+    width: 70px;
+    cursor: pointer;
+    border-radius: 0.25rem;
+    line-height: 40px !important;
+    display: inline-block;
+    text-align: center;
+    font-size: 100% !important;
   }
   
   .infoBox {

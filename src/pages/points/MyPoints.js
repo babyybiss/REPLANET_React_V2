@@ -25,7 +25,7 @@ function MyPoints(){
         <div className="mypage-title">
             <h1>포인트 사용/적립 내역</h1>
         </div>
-        {/* <MyPointList/> */}
+        <MyPointList/>
     </div>
     );
 }

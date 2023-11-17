@@ -1,46 +1,62 @@
 import "../../../assets/css/reset.css";
 import "../../../assets/css/common.css";
 import "../../../assets/css/adminexchange.css";
-import { useEffect, useState } from "react";
-import { exchangeDetailAPI, exchangeUpdateAPI } from "../../../apis/PointAPI";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useRef, useState } from "react";
+import { exchangeUpdateAPI } from "../../../apis/PointAPI";
+import { useDispatch } from "react-redux";
 
 
 function ExchangeInfo({info, exchangeCode}){
 
     const dispatch = useDispatch();
     const [confirm, setConfirm] = useState(null);
-    const [form, setForm] = useState({});
+    const [points, setPoints] = useState(0);
+    const [returnDetail, setReturnDetail] = useState(null);
+
+    const form = useRef({});
 
     const handleConfirm = (value) => {
         setConfirm(value);
     };
 
-    const onChangeHandler = (e) => {
-        setForm({
-            [e.target.name]: e.target.value
-        });
+    const apChangeHandler = (e) => {
+        setPoints(e.target.value);
     }
 
-    console.log("야야야 코드 확인", exchangeCode);
+    const reChangeHangler = (e) => {
+        setReturnDetail(e.target.value);
+    }
 
     const submitConfirm = (value) => {
         if(value == '승인'){
-            setForm({
+            form.current = {
+                exchangeCode: exchangeCode,
                 status: value,
-                exchangeCode: exchangeCode
-            });
+                points: points
+            };
+            console.log('폼 확인 : ',form.current);
+            console.log('코드 확인 : ', exchangeCode);
             if(window.confirm("전환 포인트가 올바르게 입력되었는지 확인 바랍니다.\n포인트 전환 신청을 승인하시겠습니까?")){
                 dispatch(exchangeUpdateAPI({
-                    form: form,
+                    form: form.current,
                     exchangeCode: exchangeCode
                 }));
             }
         } else if(value == '반려'){
-
+            form.current = {
+                exchangeCode: exchangeCode,
+                status: value,
+                returnDetail: returnDetail
+            };
+            console.log('폼 확인 : ',form.current);
+            console.log('코드 확인 : ', exchangeCode);
+            if(window.confirm("반려 사유가 올바르게 선택됐는지 확인 바랍니다.\n포인트 전환 신청을 반려하시겠습니까?")){
+                dispatch(exchangeUpdateAPI({
+                    form: form.current,
+                    exchangeCode: exchangeCode
+                }));
+            }
         }
-
     }
 
     const formatExchangeDate = (timestamp) => {
@@ -67,7 +83,7 @@ function ExchangeInfo({info, exchangeCode}){
                 </div>
                 <br/>
                 <div className="infoBox">
-                    <h5>날짜</h5>
+                    <h5>신청 일자</h5>
                     <br/>
                     <a style={{color:"gray"}}>{formatExchangeDate(info.exchangeDate)}</a>
                 </div>
@@ -88,21 +104,21 @@ function ExchangeInfo({info, exchangeCode}){
                         {confirm === '승인' && (
                             <div id="approvalContent" className="content">
                                 <div style={{border: "black 1px solid", borderRadius:"4px", width:"500px"}}>
-                                    <p style={{color:"gray"}}>전환 포인트</p>
-                                    <input onChange={onChangeHandler} name="points" type="text" 
-                                        style={{textAlign:"right", width:"90px", border: "none"}} placeholder="0"/>포인트
+                                    <p style={{color:"gray"}}>&nbsp;전환 포인트</p>
+                                    <input onChange={apChangeHandler} type="text" placeholder="0"
+                                        style={{textAlign:"right", width:"90px", border: "none"}} />포인트
                                 </div>
                                 <br/>
-                                <button onClick={() => submitConfirm('승인')} className="button button-primary">등록</button>
+                                <button onClick={() => submitConfirm('승인')} className="confirm-submit">등록</button>
                             </div>
                             )
                         }
                         {confirm === '반려' && (
                             <div id="rejectionContent" className="content">
                                 <div>
-                                    <p style={{color:"gray"}}>반려 사유</p>
+                                    <p style={{color:"gray"}}>&nbsp;반려 사유</p>
                                     <div className="item">
-                                        <select className="select">
+                                        <select className="select" onChange={reChangeHangler} style={{width: "500px"}}>
                                             <option className="option">선택</option>
                                             <option className="option">1년 경과</option>
                                             <option className="option">다중 신청</option>
@@ -110,7 +126,7 @@ function ExchangeInfo({info, exchangeCode}){
                                         </select>
                                     </div>
                                     <br/>
-                                    <button onClick={() => submitConfirm('반려')} className="button button-primary">등록</button>
+                                    <button onClick={() => submitConfirm('반려')} className="confirm-submit">등록</button>
                                 </div>
                             </div>
                             )
@@ -120,17 +136,17 @@ function ExchangeInfo({info, exchangeCode}){
                         (<>
                             <br/><br/>
                             <div className="confirmDetail">
-                                <p style={{color:"gray"}}>전환 포인트</p>
+                                <p style={{color:"gray"}}>&nbsp;전환 포인트</p>
                                 <br/>
-                                <h5>{info.points}</h5>
+                                <h5>&nbsp;{info.points} 포인트</h5>
                             </div>
                         </>) : 
                         (<>
                             <br/><br/>
                             <div className="confirmDetail">
-                                <p style={{color:"gray"}}>반려 사유</p>
+                                <p style={{color:"gray"}}>&nbsp;반려 사유</p>
                                 <br/>
-                                <h5>{info.returnDetail}</h5>
+                                <h5>&nbsp;{info.returnDetail}</h5>
                             </div>    
                         </>
                     )

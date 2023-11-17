@@ -16,6 +16,12 @@ function ExchangeDetail(){
     const params = useParams();
     const info = useSelector(state => state.exchangeReducer);
 
+    const formatExchangeDate = (timestamp) => {
+        const date = new Date(timestamp);
+        const options = {year: 'numeric', month: 'numeric', day: 'numeric'};
+        return date.toLocaleString(undefined, options);
+    }
+
     console.log('코드 확인 : ', params.exchangeCode);
 
     useEffect(
@@ -36,7 +42,8 @@ function ExchangeDetail(){
             <div className="infoDiv">
                 <div style={{alignItems:"left"}}>
                     <a onClick={() => navigate(-1)} style={{color:"gray", cursor:"pointer"}}>← Back</a>
-                    <h1>포인트 전환 신청 내용</h1>
+                    <h1>포인트 전환 신청 내용{info.status === '대기'? '':info.status==='승인'?<span style={{color:"#428BF9"}}>(승인 완료)</span>:<span style={{color:"#C7302B"}}>(반려 완료)</span>}</h1>
+                    {info.status === '대기'? '':<><br/><h6>&nbsp;처리 일자 : {formatExchangeDate(info.processingDate)}</h6></>}
                     <ExchangeInfo info={info} exchangeCode={params.exchangeCode} />
                 </div>
             </div>
