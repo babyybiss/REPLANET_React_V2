@@ -1,15 +1,20 @@
 import {VictoryBar, VictoryChart, VictoryLabel, VictoryVoronoiContainer, VictoryPolarAxis, VictoryStack} from 'victory';
 import "../../assets/css/chart.css";
 
+/* chart figure */ 
+const width = 1500;
+const height = 700;
+
+/* 안쪽 원 반지름 + y축 도넛 안쪽 반지름 */ 
+const innerRadius = 130;
 
 function InnerCircle({ origin }) {
     const yellowColorSet = { base: "#E4FF76", highlight: "#D8DC35" };
     const greenColorSet = { base: "#B2FF7E", highlight: "#92D930" };
-    const innerRadius = 30;
 
     
     const circleStyle = {
-        stroke: greenColorSet.base, strokeWidth: 2, fill: yellowColorSet.base
+        stroke: greenColorSet.base, strokeWidth: 3, fill: yellowColorSet.base
     };
   
     return (
@@ -21,9 +26,8 @@ function InnerCircle({ origin }) {
     );
 }
 
-function CenterLabel(props) {
-    const { active, datum } = props;
-
+function CenterLabel({ active, datum }) {
+    
     const campaignCategory = datum.campaignCategory;
     const currentBudget = datum.currentBudget;
     const goalBudget = datum.goalBudget;
@@ -36,17 +40,19 @@ function CenterLabel(props) {
 
     const baseStyle = { fill: "#10573C", textAnchor: "middle" };
     const style = [
-        { ...baseStyle, fontSize: 16, fontWeight: "bold" },
-        { ...baseStyle, fontSize: 12 }
+        { ...baseStyle, fontSize: 24, fontWeight: "bold" },
+        { ...baseStyle, fontSize: 20 }
     ];
 
     return active ? 
     (
       <VictoryLabel
-        text={text} style={style} x={225} y={158} renderInPortal
+        text={text} style={style} x={width/2} y={height/2} renderInPortal
       />
     ) : null;
 }
+
+const attributes = ["재난", "지구촌", "아동", "노인", "소외"];
 
 function CategoryCampaign() {
 
@@ -71,7 +77,6 @@ function CategoryCampaign() {
       
     const yellowColorSet = { base: "#E4FF76", highlight: "#D8DC35" };
     const greenColorSet = { base: "#B2FF7E", highlight: "#92D930" };
-    const innerRadius = 30;
 
     const mouseEventHandler = [
         {
@@ -94,32 +99,29 @@ function CategoryCampaign() {
         }
     ]
 
-    const containerStyle = {
-        width: 1000, 
-        height: 800
-    }
-
+    /* y축 (반지름) */
     const radiusAxisStyle = {
-        axis: { stroke: "none" }
+        axis: { stroke: "#10573C" },
     }
 
+    /* x축 (둘레) */
     const roundAxisStyle = {
         axis: {stroke: "#10573C", strokeWidth: 3},
-        axisLabel: {fontSize: 14, padding: 36, fill: "#10573C"},
-        tickLabels: {fontSize: 15, padding: 4, fill: "#10573C"}
+        tickLabels: {fontSize: 20, padding: 20, fill: "#10573C"}
     } 
 
+    const barWidth = 110;
     const innerBarChartStyle = { 
         data: {
             fill: ({ active }) => active ? yellowColorSet.highlight : yellowColorSet.base,
-            width: 40
+            width: barWidth
         } 
     }
 
     const outerBarChartStyle = {
         data: {
             fill: ({ active }) => active ? greenColorSet.highlight : greenColorSet.base,
-            width: 40
+            width: barWidth
         } 
     }
   
@@ -129,27 +131,29 @@ function CategoryCampaign() {
             <h4>카테고리별 목표 모금액 대비 달성률</h4>
             <VictoryChart
                 polar
+                width={width} height={height}
                 innerRadius={innerRadius}
-                domainPadding={{ y: 10 }}
+                domainPadding={{ y: 15 }}
                 containerComponent={
-                <VictoryVoronoiContainer 
-                    style={containerStyle}
-                />
+                <VictoryVoronoiContainer />
                 }
                 events={mouseEventHandler}
             >
                 <VictoryPolarAxis
-                    dependentAxis
-                    labelPlacement="vertical"
-                    style={radiusAxisStyle}
-                    tickFormat={() => ""}
-                />
-                <VictoryPolarAxis
-                    labelPlacement="parallel"
+                    labelPlacement="perpendicular"
                     tickValues={[1,2,3,4,5]}
-                    tickFormat={["재난", "지구촌", "아동", "노인", "소외"]}
+                    tickFormat={attributes}
                     style={roundAxisStyle}
                 />
+                {attributes.map((attribute, index) => (
+                    <VictoryPolarAxis dependentAxis
+                    key={index}
+                    labelPlacement="parallel"
+                    style={radiusAxisStyle}
+                    axisValue={attribute}
+                    tickFormat={() => ""}
+                    />
+                ))}
                 <VictoryStack>
                     <VictoryBar
                         style={innerBarChartStyle}
