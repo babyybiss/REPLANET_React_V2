@@ -4,6 +4,7 @@ import App from './App';
 import { Provider } from 'react-redux';
 import store from './Store';
 import axios from 'axios';
+import { jwtDecode } from 'jwt-decode';
 
 // 예제: localStorage에서 토큰 가져오기
 const token = localStorage.getItem('token');
@@ -20,6 +21,12 @@ axios.interceptors.request.use(
     return Promise.reject(error);
   }
 );
+
+const decodedToken = token ? jwtDecode(token) : null;
+
+console.log('Decoded Token:', decodedToken);
+
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
