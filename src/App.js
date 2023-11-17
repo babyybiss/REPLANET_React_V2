@@ -61,7 +61,7 @@ function App() {
             </Route>
             <Route path="reviews">
               <Route index element={<Reviews />} />
-              <Route path=":campaignCode" element={<ReviewDetails />} />
+              <Route path=":reviewCode" element={<ReviewDetails />} />
               <Route path="reviewRegist">
                 <Route path=":campaignCode" element={<ReviewRegist />} />
               </Route>

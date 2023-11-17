@@ -12,7 +12,7 @@ import { putReview } from "../modules/ReviewModule";
 import { deleteReview } from "../modules/ReviewModule";
 import { getMemberCode } from "../modules/ReviewModule";
 import { postReviewComment } from "../modules/ReviewModule";
-
+import { getReviewComments } from "../modules/ReviewModule";
 
 const DOMAIN = 'http://localhost:8001'
 const requestURL = 'http://localhost:8001/reviews/';
@@ -67,12 +67,12 @@ export function callGetCompletedCampaign() {
 }
 */
 
-export function callGetSpecificReviewAPI(campaignCode) {
+export function callGetSpecificReviewAPI(reviewCode) {
     console.log('getSpecificReview call...');
 
     return async (dispatch, getState) => {
 
-        const result = await request('GET', `/reviews/${campaignCode}`);
+        const result = await request('GET', `/reviews/${reviewCode}`);
         console.log('getSpecificReview result: ', result);
 
         dispatch(getReview(result));
@@ -147,6 +147,8 @@ export function callDeleteReviewAPI(reviewCode, revFileCode) {
     return async (dispatch, getState) => {
 
         const result = await request('GET', `/reviews/${reviewCode}/comments`)
+
+        dispatch(getReviewComments(result));
     }
   }
 

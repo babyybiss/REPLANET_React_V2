@@ -24,11 +24,11 @@ export function ReviewList({ reviewExists, searchFilter, completedCampaigns }) {
           if (reviewExists === true) {
             //console.log("what is rendered? : ", item);
               // If reviewExists is true, return campaigns with non-null reviewCampaignCode
-              return item.reviewCampaignCode !== null;
+              return item.reviewCode !== null;
           } if (reviewExists === false) {
             //console.log("else???? : ", item.reviewCampaignCode !== null);
               // If reviewExists is false, return campaigns with null reviewCampaignCode
-              return item.reviewCampaignCode === null;
+              return item.reviewCode == null;
           }
       })
     : [];

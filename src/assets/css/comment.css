@@ -113,6 +113,10 @@
   color: var(--color-dark);
 }
 
+#comment ul li input[type=checkbox]:checked ~ h2 svg path {
+  fill: black; /* Change the color to black or any desired color */
+}
+
 #comment ul li input[type=checkbox]:checked ~ p {
   max-height: 0;
   transition: .3s;
@@ -145,7 +149,7 @@
 
 .commentI {
   margin: 1rem;
-  width: 70rem;
+  width: 90%;
   height: 2.5rem;
 }
 
