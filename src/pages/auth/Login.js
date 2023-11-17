@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import AuthContext from "../../component/auth/AuthContext";
 import '../../assets/css/user.css';
 
+
 import {GoogleLogin} from "@react-oauth/google";
 import {GoogleOAuthProvider} from "@react-oauth/google";
 
@@ -32,7 +33,7 @@ const Login = () => {
     const [isLoading, setIsLoading] = useState(false);
     const authCtx = useContext(AuthContext);
 
-    const submitHandler = async event => {
+    const submitHandler = event => {
         event.preventDefault();
 
         const enteredEmail = emailInputRef.current.value;

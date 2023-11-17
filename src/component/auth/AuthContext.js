@@ -4,7 +4,7 @@ import axios from "axios";
 import { Navigate } from "react-router-dom";
 let logoutTimer;
 const AuthContext = React.createContext({
-    token: '',
+    token: (email, memberName, phone) => { },
     userObj: { email: '', memberName: '', memberRole: '' },
     isLoggedIn: false,
     isSuccess: false,
