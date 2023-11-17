@@ -3,7 +3,7 @@ import '../../assets/css/common.css';
 import '../../assets/css/user.css';
 import '../../assets/css/mypage.css';
 
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { Outlet } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -19,14 +19,29 @@ function MyPage() {
     const currentPoint = result.member?.currentPoint !== undefined && result.member?.currentPoint !== null? result.member?.currentPoint.toLocaleString() : '로딩중...';
     const totalAmount = result.totalAmount !== undefined && result.totalAmount !== null? result.totalAmount.toLocaleString() : '로딩중...';
     const totalDonation = result.totalDonation !== undefined && result.totalDonation !== null? result.totalDonation : '로딩중...';
-
+    
     const [isSubmenuOpen, setIsSubmenuOpen] = useState(false);
+    const [pointMenuActive, setPointMenuActive] = useState(false);
+    const location = useLocation();
+    console.log("로케이션 확인 : ", location);
     const toggleSubmenu = () => {
         setIsSubmenuOpen(!isSubmenuOpen);
     };
     const submenuStyle = {
         display : isSubmenuOpen? 'block' : 'none'
     };
+    const pointMenu = {
+        backgroundColor: pointMenuActive? 'var(--color-primary)' : 'var(--color-white)',
+        color: pointMenuActive? 'var(--color-white)' : 'var(--color-dark)'
+    };
+    useEffect(
+        () => {
+            const isPointMenuActive = location.pathname.includes("pointService")||
+                                        location.pathname.includes("exchange")||
+                                        location.pathname.includes("myExchangeList");
+            setPointMenuActive(isPointMenuActive);
+        },[location.pathname]
+    )
 
     useEffect(
         () => {
@@ -63,7 +78,7 @@ function MyPage() {
                     <NavLink to="history" className='admin-sidebar-menu'>
                         기부(결제)내역
                     </NavLink>
-                    <li className='admin-sidebar-menu' onClick={toggleSubmenu}>
+                    <li className='admin-sidebar-menu' onClick={toggleSubmenu} style={pointMenu}>
                         포인트 전환 및 관리
                     </li>
                     <div style={submenuStyle}>

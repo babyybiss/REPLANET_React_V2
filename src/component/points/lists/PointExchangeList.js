@@ -28,6 +28,15 @@ function PointExchangeList(){
         setIsModalOpen(false);
     }
 
+    const onClickHandler = (exchangeCode) => {
+        if(memberAuth == "ROLE_USER"){
+            setSelectedCode(exchangeCode);
+            setIsModalOpen(true);
+        } else if(memberAuth == "ROLE_ADMIN"){
+            navigate(`/exchangeDetail/${exchangeCode}`, {replace: false});
+        }
+    };
+
     useEffect(
         () => {
             if(memberAuth == "ROLE_USER"){
@@ -41,18 +50,9 @@ function PointExchangeList(){
                     currentPage: 1
                 }));
             }
-        }, [dispatch]
+        }, []
     );
 
-    const onClickHandler = (exchangeCode) => {
-        if(memberAuth == "ROLE_USER"){
-            setSelectedCode(exchangeCode);
-            setIsModalOpen(true);
-        } else if(memberAuth == "ROLE_ADMIN"){
-            navigate(`/exchangeDetail/${exchangeCode}`, {replace: false});
-        }
-    };
-    
     const statusColor = (status) => {
         return status === '대기' ? '#1D7151' :
             status === '승인' ? '#428BF9' : '#C7302B';
