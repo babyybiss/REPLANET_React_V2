@@ -98,7 +98,9 @@ export function ModifyCampaignAPI({ inputs }, campaignCode) {
 
             await axios.put(requestURL + `campaigns/${campaignCode}`, inputs)
                 .then((res) => {
+                    alert('수정 되었습니다.')
                     console.log(res);
+                    window.location = "/";
                 }).catch((error) => {
                     console.log(error);
                     alert(error.response.data)

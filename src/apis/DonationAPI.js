@@ -1,7 +1,9 @@
+import { ca } from "date-fns/locale";
 import { GET_PAYS_BY_MEMBER_WITH_DATE, 
         GET_DONATION_BY_PAY_CODE, 
         GET_MEMBER_BY_TOKEN, 
-        POST_POINT_DONATION } from "../modules/DonationModule";
+        POST_POINT_DONATION,
+        GET_DONATION_BY_CAMPAIGN_CODE } from "../modules/DonationModule";
 import axios from "axios";
 
 export function callGetAllPaysByMemberWithDateAPI(startDate, endDate) {
@@ -67,6 +69,40 @@ export function callPostKakaoPayAPI(data, campaignInfo) {
             window.location.href = redirectURL;
         } catch (error) {
             console.error('(callPostKakaoPayAPI) API 요청 실패! : ', error);
+        }
+    }
+}
+
+export function callGetDonationByCampaignCodeAPI({campaignCode}) {
+    // 캠페인별 참여자 리스트
+
+    console.log(campaignCode);
+    const requestURL = `http://localhost:8001/campaigns/donations/${ campaignCode }`
+
+    return async function getDonationByCampaignCode(dispatch, getState) {
+        try {
+            const response = await axios.get(requestURL,campaignCode);
+            const result = response.data;
+            console.log('(callGetDonationByPayCodeAPI) result : ', result);
+            dispatch({ type: GET_DONATION_BY_CAMPAIGN_CODE, payload: result });
+        } catch (error) {
+            console.error('(callGetDonationByPayCodeAPI) API 요청 실패! : ', error);
+        }
+    }
+}
+
+export function callGetTodayDonationAPI() {
+    // 금일 총 기부금액,횟수 조회
+    const requestURL = `http://localhost:8001/campaigns/donations/today`
+
+    return async function getDonationByCampaignCode(dispatch, getState) {
+        try {
+            const response = await axios.get(requestURL);
+            const result = response.data;
+            console.log('(callGetDonationByPayCodeAPI) result : ', result);
+            dispatch({ type: GET_DONATION_BY_CAMPAIGN_CODE, payload: result });
+        } catch (error) {
+            console.error('(callGetDonationByPayCodeAPI) API 요청 실패! : ', error);
         }
     }
 }
