@@ -43,13 +43,25 @@ function CampaignModify() {
     const [imageUrl, setImageUrl] = useState('');
     const imageInput = useRef();
 
-    const beforeUrl = campaignInfo;
+    const beforeUrl = campaignInfo.campaignDescfileList[0].fileSaveName;
     // 수정 하기 전 내용 가져오기 
     useEffect(() => {
         dispatch(GetCampaignAPI(campaignCode))
         setInputs(campaignInfo)
         //setImagePre(campaignInfo.campaignDescfileList[0])
-    }, [])
+        if(imagePre){
+            const fileReader = new FileReader();
+                fileReader.onload = (e) => {
+                    const { result } = e.target;
+                    if( result ) {
+                        setImageUrl(result);
+                    }
+                }
+                fileReader.readAsDataURL(imagePre);
+        }
+    }, [imagePre]);
+
+
     // const canSubmit = useCallback(() => {
     //     return inputs !== "" && editorState !== "";
     //   }, [inputs]);

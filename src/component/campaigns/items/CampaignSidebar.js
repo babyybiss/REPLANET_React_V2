@@ -8,7 +8,6 @@ function CampaignSidebar({ campaignInfo }) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    console.log(campaignInfo);
     const campaignCode = campaignInfo.campaignCode;
 
     // 기부 현황
@@ -23,7 +22,6 @@ function CampaignSidebar({ campaignInfo }) {
     const deleteCampaignHandler = () => {
         if (window.confirm("정말 삭제하시겠습니까? 복구할 수 없습니다.\n(기부내역이 있으면 삭제 불가능 합니다.)"))
             dispatch(DeleteCampaignAPI(campaignCode))
-        console.log('순서가?..');
     }
 
     // 수정`    
