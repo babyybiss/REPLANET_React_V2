@@ -11,17 +11,17 @@ import { callgetMemberCode } from "../../apis/ReviewAPI";
 export function ReviewDetails() {
 
 
-  const { campaignCode } = useParams();
+  const { reviewCode } = useParams();
   const dispatch = useDispatch();
   const review = useSelector((state) => state.reviewReducer.review);
   const memberCode = useSelector((state) => state.reviewReducer.memberCode);
 
 
-  console.log('what campaignCode? : ',campaignCode);
+
   
   useEffect(() => {
-    dispatch(callGetSpecificReviewAPI(campaignCode));
-  }, [campaignCode]);
+    dispatch(callGetSpecificReviewAPI(reviewCode));
+  }, [reviewCode]);
 
 
   console.log("memberCode : ", memberCode)
@@ -42,7 +42,7 @@ export function ReviewDetails() {
             <ReviewDetailsIntroductionBox review={review} />
           <div>
             <ReviewContent review={review}/>
-          </div>``
+          </div>
           <div id="comment">
             <ReviewComment review={review} memberCode={memberCode}/>
           </div>
