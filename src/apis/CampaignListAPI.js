@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getContinue, getComplete, getCampaign } from '../modules/CampaignModule';
+import { getContinue, getComplete, getCampaign, postCampaign } from '../modules/CampaignModule';
 
 export const requestURL = 'http://localhost:8001/';
 
@@ -37,7 +37,7 @@ export function GetCampaignAPI(campaignCode) {
     return async (dispatch, getState) => {
         try {
             const result = await axios.get(requestURL + `campaigns/${campaignCode}`);
-            dispatch(getCampaign(result.data))
+            dispatch(getCampaign(result.data));
 
         } catch (error) {
             console.error('에러 발생:', error);
@@ -66,7 +66,7 @@ export function PostCampaignAPI({ inputs }, header) {
 }
 
 // 캠페인 삭제
-export function DeleteCampaignAPI(campaignCode) {
+export function DeleteCampaignAPI( campaignCode) {
 
     return async () => {
         try {
@@ -88,12 +88,15 @@ export function DeleteCampaignAPI(campaignCode) {
 
 
 // 캠페인 수정
-export function ModifyCampaignAPI(campaignCode) {
+export function ModifyCampaignAPI({ inputs }, campaignCode) {
+    console.log(inputs, '이거슨? ' ,campaignCode, '캠코');
+    console.log('[Review Registration] campaignTitle : ', inputs.get("campaignTitle"));
+
 
     return async (dispatch, getState) => {
         try {
 
-            await axios.put(requestURL + `campaigns/${campaignCode}`, campaignCode)
+            await axios.put(requestURL + `campaigns/${campaignCode}`, inputs)
                 .then((res) => {
                     console.log(res);
                 }).catch((error) => {
@@ -102,7 +105,7 @@ export function ModifyCampaignAPI(campaignCode) {
                 })
 
             //dispatch(deleteReview(result));
-        } catch (error) { alert('실패캐치') }
+        } catch (error) { alert(error,'실패캐치') }
     }
 
 } 

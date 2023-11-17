@@ -1,155 +1,120 @@
-import {VictoryVoronoiContainer, VictoryBar, VictoryChart, VictoryAxis} from 'victory';
+import {VictoryVoronoiContainer, VictoryLine, VictoryChart, VictoryAxis, VictoryGroup, VictoryScatter, VictoryTooltip} from 'victory';
 import "../../assets/css/chart.css";
 
 function CurrentYearCampaign() {
 
-
-  const monthlyData = [
-    {
-      monthly: 1, campaings: 125, label: ""
-    },
-    {
-      monthly: 2, campaings: 250, label: ""
-    },
-    {
-      monthly: 3, campaings: 52, label: ""
-    },
-    {
-      monthly: 4, campaings: 31, label: ""
-    },
-    {
-      monthly: 5, campaings: 20, label: ""
-    },
-    {
-      monthly: 6, campaings: 200, label: ""
-    },
-    {
-      monthly: 7, campaings: 400, label: ""
-    },
-    {
-      monthly: 8, campaings: 15, label: ""
-    },
-    {
-      monthly: 9, campaings: 320, label: ""
-    },
-    {
-      monthly: 10, campaings: 552, label: ""
-    },
-    {
-      monthly: 11, campaings: 100, label: ""
-    },
-    {
-      monthly: 12, campaings: 25, label: ""
-    }
-  ];
-
-
-  const eventHandlerCustomData = [
-    {
-      target: "data",
-      eventHandlers: {
-        onMouseOver: () => {
-          return [{
-            mutation: ({style}) => {
-              const strokeWidth = style && style.strokeWidth
-              return strokeWidth === 1 ? {style: {fill:"#FFF8A8", stroke: "#10573C", strokeWidth: 3}} : {style:{fill:"#FFF8A8", stroke: "#FFEB00", strokeWidth: 3}};
-            }
-          }]
+    /* chartData from API */
+    const monthlyData = [
+        {
+          monthly: 1, campaings: 5
         },
-        onMouseOut: () => {
-          return [{
-            mutation: ({style}) => {
-              const stroke = style && style.stroke
-              return stroke === "#FFEB00" ? {style:{fill:"#FFF8A8", stroke: "#FFEB00", strokeWidth: 3}} : null;
-            }
-          }]
+        {
+          monthly: 2, campaings: 15
         },
-        onClick: () => {
-          return [
-            {
-            target: "labels",
-            mutation: ({data, index, text}) => {
-              // const {data, index, text} = eventProps;
-              const campaings = data[index].campaings
-              // console.log(e);
-              // console.log(e.data[e.index].campaings);
-              return text !== `${campaings}건` ? { text: `${campaings}건` } : null 
-            }
-          },
-          {
-            target: "data",
-            mutation: ({style}) => {
-              const stroke = style && style.stroke;
-              return stroke === "#10573C" ? {style:{fill:"#FFF8A8", stroke: "#FFEB00", strokeWidth: 3}} : null;
-            }
-          }
-        ];
+        {
+          monthly: 3, campaings: 2
+        },
+        {
+          monthly: 4, campaings: 3
+        },
+        {
+          monthly: 5, campaings: 4
+        },
+        {
+          monthly: 6, campaings: 5
+        },
+        {
+          monthly: 7, campaings: 1
+        },
+        {
+          monthly: 8, campaings: 0
+        },
+        {
+          monthly: 9, campaings: 6
+        },
+        {
+          monthly: 10, campaings: 8
+        },
+        {
+          monthly: 11, campaings: 1
+        },
+        {
+          monthly: 12, campaings: 2
         }
-      }
+    ];
+
+    /* chart figure */ 
+    const width = 1500;
+    const height = 700;
+
+    /* style setting */
+    const axisStyle = {
+        axis: {stroke: "#10573C", strokeWidth: 3},
+        axisLabel: {fontSize: 14, padding: 36, fill: "#10573C"},
+        tickLabels: {fontSize: 18, padding: 4, fill: "#10573C"}
     }
-  ];
 
-  const monthlyDataStyle = {
-    data: {
-      fill: "#10573C",
-      fillOpacity: 0.5,
-      stroke: "#10573C",
-      strokeWidth: 1
-    },
-    labels: {
-      fill: "#10573C",
-      fontSize: 20
-      //fill: ({ index }) => + index % 2 === 0 ? "#10573C" : "#000000" 
+    const toolTipStyle = {
+        fontSize: 20, 
+        fill: "#10573C"
     }
-  }
 
-  const monthlyChartStyle = {
-    background: {
-      fill: "#8DFDFF",
-      fillOpacity: 0.7
+    /* chart animate setting */
+    /*
+    const chartAminate = {
+      duration: 2500, 
+      onLoad: { duration: 2500 }
     }
-  }
+    */
 
-  const axisStyle = {
-    axis: {stroke: "#10573C", strokeWidth: 3},
-    axisLabel: {fontSize: 14, padding: 36, fill: "#10573C"},
-    tickLabels: {fontSize: 18, padding: 4, fill: "#10573C"}
-  } 
-  
-
-
-  return(
-      <div className='chartbox'>
-          <h4>당해 등록된 캠페인 수</h4>
-          <VictoryChart 
-          domainPadding={50} 
-          style={monthlyChartStyle}
-          width={1200} height={500}
-          containerComponent={
-          <VictoryVoronoiContainer style={{width: 1000, height: 500}}/>
-          }> 
-            <VictoryAxis
-              tickValues={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]}
-              tickFormat={["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"]}
-              style={axisStyle}
-            />
-            <VictoryAxis 
-            dependentAxis
-            label="단위 : 건"
-            tickFormat={(x) => (`${x}`)}
-            style={axisStyle}
-            />
-
-            <VictoryBar data={monthlyData} 
-            barWidth={40}
-            events={eventHandlerCustomData} 
-            style={monthlyDataStyle}
-            x="monthly" 
-            y="campaings"
-            animate={{duration: 2000, onLoad: { duration: 1000 }}}/>
-          </VictoryChart>
-      </div>
-  );
+    /* render */
+    return (
+        <div className='chartbox'>
+            <h4>당해 등록된 캠페인 수</h4>
+            <VictoryChart 
+              width={width} height={height}
+              domainPadding={50} 
+              containerComponent={
+                <VictoryVoronoiContainer />
+              }
+            > 
+              <VictoryAxis
+                tickValues={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]}
+                tickFormat={["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"]}
+                style={axisStyle}
+              />
+              <VictoryAxis 
+                dependentAxis
+                label="단위 : 건"
+                tickFormat={(x) => (`${x}`)}
+                style={axisStyle}
+              />
+              <VictoryGroup
+                color="#10573C"
+                labels={({ datum }) => `${datum.campaings}건`}
+                labelComponent={
+                  <VictoryTooltip
+                    style={toolTipStyle}
+                  />
+                }
+                data={monthlyData}
+                x="monthly" 
+                y="campaings"
+              >
+                <VictoryLine
+                  x="monthly" 
+                  y="campaings"
+                  // animate={chartAminate}
+                />
+                <VictoryScatter 
+                  x="monthly" 
+                  y="campaings"
+                  size={({ active }) => active ? 8 : 3}
+                />
+              </VictoryGroup>
+            </VictoryChart>
+        </div>
+    );
 }
 
 export default CurrentYearCampaign;

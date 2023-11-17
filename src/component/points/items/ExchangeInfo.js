@@ -2,20 +2,44 @@ import "../../../assets/css/reset.css";
 import "../../../assets/css/common.css";
 import "../../../assets/css/adminexchange.css";
 import { useEffect, useState } from "react";
-import { exchangeDetailAPI } from "../../../apis/PointAPI";
+import { exchangeDetailAPI, exchangeUpdateAPI } from "../../../apis/PointAPI";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
 
-function ExchangeInfo({info}){
+function ExchangeInfo({info, exchangeCode}){
 
+    const dispatch = useDispatch();
     const [confirm, setConfirm] = useState(null);
+    const [form, setForm] = useState({});
 
     const handleConfirm = (value) => {
         setConfirm(value);
     };
 
+    const onChangeHandler = (e) => {
+        setForm({
+            [e.target.name]: e.target.value
+        });
+    }
+
+    console.log("야야야 코드 확인", exchangeCode);
+
     const submitConfirm = (value) => {
+        if(value == '승인'){
+            setForm({
+                status: value,
+                exchangeCode: exchangeCode
+            });
+            if(window.confirm("전환 포인트가 올바르게 입력되었는지 확인 바랍니다.\n포인트 전환 신청을 승인하시겠습니까?")){
+                dispatch(exchangeUpdateAPI({
+                    form: form,
+                    exchangeCode: exchangeCode
+                }));
+            }
+        } else if(value == '반려'){
+
+        }
 
     }
 
@@ -65,10 +89,11 @@ function ExchangeInfo({info}){
                             <div id="approvalContent" className="content">
                                 <div style={{border: "black 1px solid", borderRadius:"4px", width:"500px"}}>
                                     <p style={{color:"gray"}}>전환 포인트</p>
-                                    <input type="text" style={{textAlign:"right", width:"90px", border: "none"}} placeholder="0"/>포인트
+                                    <input onChange={onChangeHandler} name="points" type="text" 
+                                        style={{textAlign:"right", width:"90px", border: "none"}} placeholder="0"/>포인트
                                 </div>
                                 <br/>
-                                <button onClick={submitConfirm('승인')} className="button button-primary">등록</button>
+                                <button onClick={() => submitConfirm('승인')} className="button button-primary">등록</button>
                             </div>
                             )
                         }
@@ -85,7 +110,7 @@ function ExchangeInfo({info}){
                                         </select>
                                     </div>
                                     <br/>
-                                    <button onClick={submitConfirm('반려')} className="button button-primary">등록</button>
+                                    <button onClick={() => submitConfirm('반려')} className="button button-primary">등록</button>
                                 </div>
                             </div>
                             )

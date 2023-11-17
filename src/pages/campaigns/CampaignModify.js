@@ -1,9 +1,10 @@
-import { EditorState, convertToRaw } from "draft-js";
+import { EditorState, convertToRaw, ContentState, convertFromHTML } from "draft-js";
 import { useCallback, useEffect, useState } from "react";
-import { PostCampaignAPI } from "../../apis/CampaignListAPI";
+import { ModifyCampaignAPI } from "../../apis/CampaignListAPI";
 import { useDispatch, useSelector } from 'react-redux';
 import { useRef } from "react";
 import { useParams } from "react-router-dom";
+import { GetCampaignAPI } from "../../apis/CampaignListAPI";
 
 import draftToHtml from 'draftjs-to-html';
 import DraftEditor from "../../component/common/DraftEditor";
@@ -18,27 +19,41 @@ const categoryList = [
     { key: "5", name: "기타" },
 ];
 
-function CampaignModify(){
+function CampaignModify() {
     //캠펜 정보 가져오는 놈
-    const result = useSelector(state => state.campaignReducer);
-    const campaignInfo = result.campaigninfo;
+    const campaigns = useSelector(state => state.campaignReducer);
+    const campaignInfo = campaigns.campaigninfo;
+    const { campaignCode } = useParams();
 
-    console.log(campaignInfo, '뭘가져오냐');
-    
-
-    const [editorState, setEditorState] = useState(EditorState.createEmpty());
+    console.log(campaignInfo, 'zzz');
+    const [editorState, setEditorState] = useState(() => {
+        if (campaignInfo) {
+            const contentBlock = convertFromHTML(campaignInfo.campaignContent);
+            const contentState = ContentState.createFromBlockArray(contentBlock);
+            return EditorState.createWithContent(contentState);
+        } else {
+            return EditorState.createEmpty();
+        }
+    });
     const dispatch = useDispatch();
-
-
-    const [imgPreview, setImgPreview] = useState("");
-    const [imageUrl, setImageUrl] = useState('');
-    const imageInput = useRef();
-    const [modifyMode, setModifyMode] = useState(false);
-    
 
     const [inputs, setInputs] = useState([]);
 
+    const [imagePre, setImagePre] = useState('');
+    const [imageUrl, setImageUrl] = useState('');
+    const imageInput = useRef();
 
+    const beforeUrl = campaignInfo;
+    // 수정 하기 전 내용 가져오기 
+    useEffect(() => {
+        dispatch(GetCampaignAPI(campaignCode))
+        setInputs(campaignInfo)
+        //setImagePre(campaignInfo.campaignDescfileList[0])
+    }, [])
+    // const canSubmit = useCallback(() => {
+    //     return inputs !== "" && editorState !== "";
+    //   }, [inputs]);
+    console.log(imagePre);
     const header = {
         headers: {
             //Authorization: `${getItem('token')}`,
@@ -89,7 +104,7 @@ function CampaignModify(){
 
     useEffect(() => {
         // 이미지 업로드시 미리보기 세팅
-        if (imgPreview) {
+        if (imagePre) {
             const fileReader = new FileReader();
             fileReader.onload = (e) => {
                 const { result } = e.target;
@@ -97,13 +112,10 @@ function CampaignModify(){
                     setImageUrl(result);
                 }
             }
-            fileReader.readAsDataURL(imgPreview);
+            fileReader.readAsDataURL(imagePre);
         }
-    }, [imgPreview]);
+    }, [imagePre]);
 
-    // const onClickImageUpload = () => {
-    //     imageInput.current.click();
-    // }
     // db 전송
     const submitHandler = (event) => {
         event.preventDefault();
@@ -119,68 +131,77 @@ function CampaignModify(){
         formData.append("orgName", inputs.orgName);
         formData.append("orgTel", inputs.orgTel);
 
-
-
-        if (imgPreview) {
-            formData.append("imageFile", imgPreview);
+        if (imagePre) {
+            formData.append("imageFile", imagePre);
         }
-        dispatch(PostCampaignAPI({	// 상품 상세 정보 조회
+
+        console.log('[Review Registration] campaignTitle : ', formData.get("campaignTitle"));
+
+        dispatch(ModifyCampaignAPI({
             inputs: formData,
             header,
-
-        }));
+        },campaignCode));
 
     }
 
-    return(
+    return (
         <>
-        <form onSubmit={submitHandler}>
+            <form onSubmit={submitHandler}>
                 <div className="container-first">
-                <h1 className="py-3 container-centered">캠페인 수정</h1>
+                    <h1 className="py-3 container-centered">캠페인 수정</h1>
 
                     {/*카테고리 셀렉 */}
-                    <select className="category" name="campaignCategory" onChange={onChange} value={campaignInfo.campaignCategory}>
+                    <select className="category" name="campaignCategory" onChange={onChange} value={inputs.campaignCategory}>
                         {categoryList.map((item) => (
                             <option key={item.key} value={item.name} >
                                 {item.name}
                             </option>
-                            
+
                         ))}
                     </select>
                     {/* 제목 & 텍스트 에디터 */}
-                    <input className="input" name="campaignTitle" maxLength="20" onChange={onChange} value={campaignInfo.campaignTitle} required />
-                    <DraftEditor onChange={onChangeContent} editorState={editorState} />
+                    <input className="input" name="campaignTitle" maxLength="20" onChange={onChange} value={inputs.campaignTitle} required />
+                    <DraftEditor onChange={onChangeContent} editorState={editorState} inputs={inputs} />
 
-                    <input 
+                    <input
                         type="file"
                         accept="image/*"
                         onChange={
                             (e) => {
                                 const image = e.target.files[0];
-                                setImgPreview(image)
+                                setImagePre(image)
                                 imageInput.current.click();
                             }}
                         ref={imageInput}
                         placeholder="메인 이미지 1장을 업로드 해주세요"
                     />
-                    {imageUrl && <img
-                        src={imageUrl}
+                    <img
+                        src={imageUrl || '/campaigns/' + beforeUrl}
                         alt="preview"
-                    />}
+                    />
                 </div>
 
                 <div className="container" id="container-user">
                     <h3 className="text-center">기부금 사용 계획 </h3>
                     <div className="items-container ic1">
                         <label>목표금액<input className="input" type="text" maxLength="20" name="goalBudget" placeholder="총 목표 금액을 입력하세요." value={inputs.goalBudget} onChange={priceChangeHandler} required /></label>
-                        <label htmlFor="endDate">캠페인 마감일 <input type="date" id="endDate" name="endDate" className="input" onChange={onChange} /></label>
-                        <label>단체명<input className="input" name="orgName" maxLength="50" placeholder="단체명을 입력해주세요." onChange={onChange} required /></label>
-                        <label>단체 한줄소개<input className="input" name="orgDescription" maxLength="50" placeholder="단체 한줄소개를 입력해주세요." onChange={onChange} required /></label>
-                        <label>단체 연락처<input className="input" name="orgTel" maxLength="13" placeholder="전화번호를 입력해주세요." onChange={onChange} required /></label>
+                        <label htmlFor="endDate">캠페인 마감일 <input type="date" id="endDate" name="endDate" className="input" onChange={onChange} value={inputs.endDate} /></label>
+                        <label>단체명<input className="input" name="orgName" maxLength="50" placeholder="단체명을 입력해주세요." onChange={onChange} value={inputs.orgName} required /></label>
+                        <label>단체 한줄소개<input className="input" name="orgDescription" maxLength="50" placeholder="단체 한줄소개를 입력해주세요." value={inputs.orgDescription} onChange={onChange} required /></label>
+                        <label>단체 연락처<input className="input" name="orgTel" maxLength="13" placeholder="전화번호를 입력해주세요." onChange={onChange} value={inputs.orgTel} required /></label>
                     </div>
                 </div>
                 <div >
-                    <button className="button button-primary" type="submit">등록하기</button><div></div>
+                    {/*canSubmit() ? (
+                <button className="button button-primary" type="submit">등록하기</button>
+                ) : (
+                    <button className="button button-primary">
+                        전부 수정하세욧!
+                    </button>
+
+                ) */}
+                    <button className="button button-primary" type="submit">등록하기</button>
+
                     <button className="button button-primary-outline">취소</button>
                 </div>
             </form >

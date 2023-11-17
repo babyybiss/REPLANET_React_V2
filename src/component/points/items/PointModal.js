@@ -1,10 +1,9 @@
 import "../../../assets/css/reset.css";
 import "../../../assets/css/common.css";
 import "../../../assets/css/userexchange.css";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { userExchangeDetailAPI } from "../../../apis/PointAPI";
-import { useParams } from "react-router-dom";
 
 
 function PointModal({exchangeCode, closeModal}){
@@ -25,21 +24,21 @@ function PointModal({exchangeCode, closeModal}){
         },[]
     );
 
-    const [isOpen, setIsOpen] = useState(true);  
-
     console.log("detail 확인 : ", detail);
 
     return(
         detail && (
             <div className="modal">
-                <div className="modal-content" style={{display:isOpen ? "block" : "none"}}>
-                    <h2>신청일자  {formatExchangeDate(detail.exchangeDate)}</h2>
-                    <h2>신청제목  {detail.title}</h2>
-                    <h3>{detail.status}</h3>
-                    {detail.status != "대기" && (
-                        <h4>처리일자  {detail.processingDate}</h4>
-                    )}
-                    {detail.status == "승인"? (<h4>승인 포인트  {detail.points}</h4>) : (<h4>반려 사유  {detail.returnDetail}</h4>)}
+                <div className="modal-content">
+                    <h3>신청 일자 _ {formatExchangeDate(detail.exchangeDate)}</h3>
+                    <h3>신청 제목 _ {detail.title}</h3>
+                    {detail.status == "대기"? <h4 style={{color: "#1D7151"}}>현재 처리 대기 중입니다.</h4> : 
+                        <>
+                            {detail.status == "승인"?
+                            (<h4 style={{color : "#428BF9"}}>승인 완료<br/>승인 일자 _ {detail.processingDate} / 승인 포인트 _ {detail.points}포인트</h4>) :
+                            (<h4 style={{color : "#C7302B"}}>신청 반려<br/>반려 일자 _ {detail.processingDate} / 반려 사유 _ {detail.returnDetail}</h4>)}
+                        </>
+                    }
                     {detail.fileExtension === '.pdf'? 
                         (<iframe src={process.env.PUBLIC_URL + '/exchangeFiles/' + detail.fileSaveName} width="400px" height="600px"/>) : 
                         (<img src={process.env.PUBLIC_URL + '/exchangeFiles/' + detail.fileSaveName} style={{width:"400px", height:"600px"}}/>)}

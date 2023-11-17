@@ -4,8 +4,7 @@ import imgfile from "../../assets/images/exchange/exchange.jpg"
 import "../../assets/css/reset.css";
 import "../../assets/css/common.css";
 import "../../assets/css/userexchange.css";
-import MypageSidebar from "../../component/common/MypageSidebar";
-import MypageHeader from "../../component/common/MypageHeader";
+
 
 function ExchangePoint(){
 
@@ -95,9 +94,6 @@ function ExchangePoint(){
 
     return(
         <>
-            <MypageHeader />
-            <div className="container-mypage">
-                <MypageSidebar/>
                 <div className="mypage-main">
                     <div className="mypage-title">
                         <h1>포인트 전환 신청</h1>
@@ -124,7 +120,6 @@ function ExchangePoint(){
                         <button onClick={requestExchange} className="button button-lg button-primary-outline">포인트 전환 신청</button><br/><br/>
                     </div>
                 </div>
-            </div>
         </>
     );
 }

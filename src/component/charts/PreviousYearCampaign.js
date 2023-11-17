@@ -3,6 +3,7 @@ import "../../assets/css/chart.css";
 
 function PreviousYearCampaign() {
 
+    /* chartData from API */ 
     const monthlyData = [
         {
           monthly: 1, campaings: 12
@@ -42,22 +43,39 @@ function PreviousYearCampaign() {
         }
       ];
 
+      /* chart figure */ 
+      const width = 1500;
+      const height = 700;
+
+      /* style setting */ 
       const axisStyle = {
         axis: {stroke: "#10573C", strokeWidth: 3},
         axisLabel: {fontSize: 14, padding: 36, fill: "#10573C"},
         tickLabels: {fontSize: 18, padding: 4, fill: "#10573C"}
       }
 
+      const toolTipStyle = {
+        fontSize: 20, 
+        fill: "#10573C"
+      }
+
+      /* chart animate setting */ 
+      /*
+      const chartAminate = {
+        duration: 2500, 
+        onLoad: { duration: 2500 }
+      }
+      */
+
+      /* render */
       return(
         <div className='chartbox'>
             <h4>전해 등록된 캠페인 수</h4>
             <VictoryChart 
-              domainPadding={50} 
-              width={1000} height={500}
+              width={width} height={height}
+              domainPadding={50}
               containerComponent={
-                <VictoryVoronoiContainer 
-                  style={{width: 1000, height: 500}}
-                />
+                <VictoryVoronoiContainer />
               }
             > 
               <VictoryAxis
@@ -76,7 +94,7 @@ function PreviousYearCampaign() {
                 labels={({ datum }) => `${datum.campaings}건`}
                 labelComponent={
                   <VictoryTooltip
-                    style={{ fontSize: 20, fill: "#10573C" }}
+                    style={toolTipStyle}
                   />
                 }
                 data={monthlyData}
@@ -86,7 +104,7 @@ function PreviousYearCampaign() {
                 <VictoryLine
                   x="monthly" 
                   y="campaings"
-                  animate={{duration: 2000, onLoad: { duration: 1000 }}}
+                  // animate={chartAminate}
                 />
                 <VictoryScatter 
                   x="monthly" 

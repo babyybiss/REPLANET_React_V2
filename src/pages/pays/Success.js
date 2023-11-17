@@ -6,8 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { callGetDonationByPayCodeAPI } from '../../apis/DonationAPI';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 import { RESET_PAY_CODE } from '../../modules/DonationModule';
+import { GetCampaignAPI } from "../../apis/CampaignListAPI";
 
 function Success() {
 
@@ -24,8 +24,10 @@ function Success() {
     console.log('pay : ', pay);
 
     const donationDateTime= pay.refDonation ? (pay.refDonation.donationDateTime) : '';
-    const memberId= pay.refDonation ? (pay.refDonation.refMember.memberId) : '';
+    const memberName= pay.refDonation ? (pay.refDonation.refMember.memberName) : '';
     const campaignTitle= pay.refDonation ? (pay.refDonation.refCampaign.campaignTitle) : '';
+    const orgName= pay.refDonation ? (pay.refDonation.refCampaign.orgName) : '';
+    const orgTel= pay.refDonation ? (pay.refDonation.refCampaign.orgTel) : '';
     const donationAmount= pay.refDonation ? formatAmount(pay.payAmount + pay.refDonation.donationPoint) : '';
     const payAmount= pay.refDonation ? formatAmount(pay.payAmount) : '';
     const donationPoint= pay.refDonation ? formatAmount(pay.refDonation.donationPoint) : '';
@@ -45,17 +47,28 @@ function Success() {
         return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     };
 
-    const handleGoBack = () => {
+    const handleBackToMain = () => {
         dispatch({ type: RESET_PAY_CODE });
         navigate('/');
     };
 
+    const handleGoToCampaign = () => {
+        dispatch({ type: RESET_PAY_CODE });
+        navigate(`/campaign/${pay.refDonation.refCampaign.campaignCode}`);
+    };
+
     useEffect(
         () => {
-
             if (Object.keys(pay).length === 0) {
                 dispatch(callGetDonationByPayCodeAPI(payCode));
             }
+        },
+        [dispatch]
+    );
+
+    useEffect(
+        () => {
+                dispatch(callGetDonationByPayCodeAPI(payCode));
         },
         []
     );
@@ -74,18 +87,51 @@ function Success() {
             ) : (
                 <>
                     <br/>
-                    <br/>
-                    <br/>
                     <div className="container-first">
-                        <h1>{memberId}님의 기부 상세 내용</h1>
+                        <div className="container-centered pay-anno pay-success-header">
+                            <h1>기부 상세 내용</h1>
+                        </div>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td colSpan={2}><h4>기부자</h4></td>
+                                </tr>
+                                <tr>
+                                    <td><h5>성함</h5></td>
+                                    <td><h5>{memberName}</h5></td>
+                                </tr>
+                                <tr>
+                                    <td><h5>기부금</h5></td>
+                                    <td><h5>{donationAmount}원</h5> <span>( {payAmount}원 (결제) + {donationPoint}P (포인트) )</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><h5>기부일시</h5></td>
+                                    <td><h5>{formattedDateTime}</h5>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colSpan={2}><h4>캠페인</h4></td>
+                                </tr>
+                                <tr>
+                                    <td><h5>캠페인 이름</h5></td>
+                                    <td><h5>{campaignTitle}</h5></td>
+                                </tr>
+                                <tr>
+                                    <td><h5>단체명</h5></td>
+                                    <td><h5>{orgName}</h5></td>
+                                </tr>
+                                <tr>
+                                    <td><h5>연락처</h5></td>
+                                    <td><h5>{orgTel}</h5></td>
+                                </tr>
+                            </tbody>
+                        </table>
                         <br/>
-                        <h3>캠페인이름 : {campaignTitle}</h3>
-                        <h3>기부금액 : {donationAmount} 원</h3>
-                        <h4> - 결제금액 : {payAmount} 원</h4>
-                        <h4> - 포인트기부 : {donationPoint} 포인트</h4>
-                        <h3>기부일자 : {formattedDateTime}</h3>
-                        <br/>
-                        <button className="button button-lg button-primary-outline" onClick={handleGoBack}>메인으로</button>
+                        <div className='container-centered pay-anno pay-success-header'>
+                            <button className="button button-lg button-primary" onClick={handleBackToMain}>메인으로</button>
+                            <button className="button button-lg button-primary-outline" onClick={handleGoToCampaign}>해당 캠페인으로</button>
+                        </div>
                     </div>
                 </>
             )

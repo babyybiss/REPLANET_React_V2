@@ -1,167 +1,164 @@
-import {VictoryBar, VictoryChart, VictoryLabel, VictoryVoronoiContainer, VictoryPolarAxis, VictoryStack} from 'victory';
+import {VictoryChart, VictoryLabel, VictoryLine, VictoryAxis, VictoryBrushLine} from 'victory';
 import "../../assets/css/chart.css";
+import _ from 'lodash';
+import { useState } from 'react';
 
-function CompassCenter(props) {
-  const { origin } = props;
 
-  const orange = { base: "#84CEB2", highlight: "#CCFF00" };
-  const red = { base: "#4D7D6B", highlight: "#10573C" };
-  const innerRadius = 30;
+const categoryData = [
+  {
+      campaignCategory: "재난", campaings: 15, goalBudget: 600000, currentBudget: 400000, expectBudget: 200000
+  },
+  {
+      campaignCategory: "지구촌", campaings: 35, goalBudget: 500000, currentBudget: 350000, expectBudget: 150000
+  },
+  {
+      campaignCategory: "아동", campaings: 20, goalBudget: 800000, currentBudget: 800000, expectBudget: 0
+  },
+  {
+      campaignCategory: "노인", campaings: 10, goalBudget: 300000, currentBudget: 200000, expectBudget: 100000
+  },
+  {
+      campaignCategory: "소외", campaings: 9, goalBudget: 220000,   currentBudget: 200000, expectBudget: 20000
+  }
+];
 
-  /* 안쪽 원 스타일 */
-  /* ======================= */  
-  /*
-    cx = 중심원 x축 위치 : origin.x = 바깥 원 x축 위치와 동일
-    cy = 중심원 y축 위치 : origin.y = 바깥 원 y축 위치와 동일
-  */
-  /* ======================= */ 
-  const circleStyle = {
-    stroke: red.base, strokeWidth: 1, fill: orange.base
-  };
-  
-  return (
-    <g>
-      <circle
-        cx={origin.x} cy={origin.y} r={innerRadius} style={circleStyle}
-      />
-    </g>
-  );
+
+const attributes = ["campaings", "goalBudget", "currentBudget", "expectBudget"];
+
+/* state initial callback */ 
+const getMaximum = () => {
+  return attributes.map((attribute) => {
+    return categoryData.reduce((memo, datum) => {
+      return datum[attribute] > memo ? datum[attribute] : memo;
+    }, -Infinity);
+  });
 }
 
-function CenterLabel(props) {
-  const { active, color, data, index } = props;
-  const campaignCategory = data[index].campaignCategory;
-  const currentPercentage = Math.round(data[index].currentBudget / data[index].goalBudget * 100); 
-  const text = [ `${campaignCategory}`, `달성률 : ${currentPercentage}%` ];
-  const baseStyle = { fill: color.highlight, textAnchor: "middle" };
-  const style = [
-    { ...baseStyle, fontSize: 18, fontWeight: "bold" },
-    { ...baseStyle, fontSize: 12 }
-  ];
-
-  return active ?
-    (
-      <VictoryLabel
-        text={text} style={style} x={225} y={158} renderInPortal
-      />
-    ) : null;
+const normalizeData = (maximumValues) => {
+  return categoryData.map((datum) => ({
+    name: datum.campaignCategory,
+    data: attributes.map((attribute, i) => (
+      {x: attribute, y: datum[attribute] / maximumValues[i]}
+    ))
+  }));
 }
 
 function TestChart() {
+  
+  const [maximumValues, setMaximumValues] = useState(() =>
+  getMaximum());
+  const [datasets, setDatasets] = useState(() => normalizeData(maximumValues));
+  const [filters, setFilters] = useState({});
+  const [activeDatasets, setActiveDatasets] = useState([]);
+  const [isFiltered, setIsFiltered] = useState(false);
 
-  const categoryData = [
-    {
-      campaignCategory: "재난", campaings: 15, goalBudget: 600000, currentBudget: 400000
-    },
-    {
-      campaignCategory: "지구촌", campaings: 35, goalBudget: 500000, currentBudget: 350000
-    },
-    {
-      campaignCategory: "아동", campaings: 20, goalBudget: 800000, currentBudget: 250000
-    },
-    {
-      campaignCategory: "노인", campaings: 10, goalBudget: 300000, currentBudget: 200000
-    },
-    {
-      campaignCategory: "소외", campaings: 9, goalBudget: 220000, currentBudget: 200000
-    }
-  ];
+  /* chart figure */ 
+  const width = 1500;
+  const height = 700;
+  const padding = { top: 100, left: 50, right: 50, bottom: 50 };
+
+  const getActiveDatasets = (filters) => {
+    
+    
+    const isActive = (dataset) => {
+      // console.log("filters, dataset ok")
       
-  const orange = { base: "#E4FF76", highlight: "#006140" };
-  const red = { base: "#B2FF7E", highlight: "#006140" };
-  const innerRadius = 30;
+      return _.keys(filters).reduce((memo, name) => {
+        // console.log("memo, name ok")
+        if (!memo || !Array.isArray(filters[name])) {
+          return memo;
+        }
+        const point = _.find(dataset.data, (d) => d.x === name);
+        return point &&
+          Math.max(...filters[name]) >= point.y && Math.min(...filters[name]) <= point.y;
+      }, true);
+    };
+  
+    return datasets.map((dataset) => {
+      return isActive(dataset, filters) ? dataset.name : null;
+    }).filter(Boolean);
+  }
 
-  const roundAxisStyle = {
-    axis: {stroke: "#10573C", strokeWidth: 3},
-    axisLabel: {fontSize: 14, padding: 36, fill: "#10573C"},
-    tickLabels: {fontSize: 15, padding: 4, fill: "#10573C"}
-  } 
+  const addNewFilters = (domain, props) => {
+    const newFilters = filters || {};
+    const extent = domain && Math.abs(domain[1] - domain[0]);
+    const minVal = 1 / Number.MAX_SAFE_INTEGER;
+    filters[props.name] = extent <= minVal ? undefined : domain;
+    return newFilters;
+  }
 
-  const radiusAxisStyle = {
-    axis: { stroke: "none" }
+  const onDomainChange = (domain, props) => {
+    
+    const filters = addNewFilters(domain, props);
+    const isFiltered = !_.isEmpty(_.values(filters).filter(Boolean));
+    const activeDatasets = isFiltered ? getActiveDatasets(filters) : datasets;
+   
+    setFilters(filters);
+    setIsFiltered(isFiltered);
+    setActiveDatasets(activeDatasets);
+  }
+
+  const isActive = (dataset) => {
+    return !isFiltered ? true : _.includes(activeDatasets, dataset.name);
+  }
+
+  const getAxisOffset = (index) => {
+    const step = (width - padding.left - padding.right) / (attributes.length - 1);
+    return step * index + padding.left;
   }
   
+  /* style setting */ 
+  const axisStyle = {
+    tickLabels: { fontSize: 20 }, 
+    axis: { stroke: "none" }
+  }
+
+  /* render */
   return (
     <div className='chartbox'>
-      <h4>카테고리별 목표 모금액 대비 달성률</h4>
-      <VictoryChart
-        polar
-        animate={{ duration: 500, onLoad: { duration: 500 } }}
-        innerRadius={innerRadius}
-        domainPadding={{ y: 5 }}
-        containerComponent={
-          <VictoryVoronoiContainer 
-            style={{width: 1000, height: 500}}
-          />
-        }
-        events={
-          [
-            {
-              childName: "all",
-              target: "data",
-              eventHandlers: {
-                onMouseOver: () => {
-                  return [
-                    { target: "labels", mutation: () => ({ active: true }) },
-                    { target: "data", mutation: () => ({ active: true }) }
-                  ];
-                },
-                onMouseOut: () => {
-                  return [
-                    { target: "labels", mutation: () => ({ active: false }) },
-                    { target: "data", mutation: () => ({ active: false }) }
-                  ];
-                }
-              }
-            }
-          ]
-        }
+      <h4>테스트 용</h4>
+      <VictoryChart 
+        domain={{ y: [0, 1.1] }}
+        padding={padding}
+        width={width} height={height}
       >
-        <VictoryPolarAxis
-          dependentAxis
-          labelPlacement="vertical"
-          style={radiusAxisStyle}
-          tickFormat={() => ""}
+        <VictoryAxis
+          style={axisStyle}
+          tickValues={[1, 2, 3, 4]}
+          tickFormat={["캠페인 수 (건)","목표모금액(단위 : 원)","현재모금액(단위 : 원)","테스트1"]}
+          // 기준 축 라벨 상하 위치
+          tickLabelComponent={<VictoryLabel y={padding.top - 40}/>}
         />
-        <VictoryPolarAxis
-          labelPlacement="parallel"
-          tickValues={[1,2,3,4,5]}
-          tickFormat={["재난", "지구촌", "아동", "노인", "소외"]}
-          style={roundAxisStyle}
-        />
-        <VictoryStack>
-          <VictoryBar
-            style={
-              { 
-                data: {
-                  fill: ({ active }) => active ? orange.highlight : orange.base,
-                  width: 40
-                } 
-              }
-            }
-            data={categoryData}
-            x="campaignCategory"
-            y="currentBudget"
-            labels={() => ""}
-            labelComponent={<CenterLabel color={orange}/>}
+        {datasets.map((dataset) => (
+          <VictoryLine
+            key={dataset.name} 
+            name={dataset.name} 
+            data={dataset.data}
+            groupComponent={<g/>}
+            style={{ data: {
+              stroke: "#92D930",
+              opacity: isActive(dataset) ? 1 : 0.2
+            } }}
           />
-          <VictoryBar
-            style={
-              { 
-                data: {
-                  fill: ({ active }) => active ? red.highlight : red.base,
-                  width: 40
-                } 
-              }
+        ))}
+        {attributes.map((attribute, index) => (
+          <VictoryAxis dependentAxis
+            key={index}
+            axisComponent={
+              <VictoryBrushLine name={attribute}
+                width={40}
+                onBrushDomainChange={onDomainChange}
+              />
             }
-            data={categoryData}
-            x="campaignCategory"
-            y="goalBudget"
-            labels={() => ""}
-            labelComponent={<CenterLabel color={red}/>}
+            offsetX={getAxisOffset(index)}
+            style={{
+              tickLabels: { fontSize: 18, padding: 25, pointerEvents: "none" },
+              axis: {stroke: "#10573C", strokeWidth: 3}
+            }}
+            tickValues={[0.2, 0.4, 0.6, 0.8, 1]}
+            tickFormat={(tick) => Math.round(tick * maximumValues[index])}
           />
-        </VictoryStack>
-        <CompassCenter/>
+        ))}
       </VictoryChart>
     </div>
   );

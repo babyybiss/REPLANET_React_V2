@@ -1,7 +1,7 @@
 import {VictoryVoronoiContainer, VictoryBar, VictoryChart, VictoryAxis, VictoryTooltip} from 'victory';
 import "../../assets/css/chart.css";
 
-
+/* customToolTipBox */ 
 function CustomFlyout(props) {
   //console.log(props);
     const {x, y} = props;
@@ -20,6 +20,7 @@ function CustomFlyout(props) {
 
 function GoalCampaign() {
 
+  /* chartData from API */
   const categoryData = [
     {
         campaignCategory: "가", currentBudget: 300000, goalBudget: 600000
@@ -38,7 +39,8 @@ function GoalCampaign() {
     }
   ];
 
-  const eventsCurrentData = [
+  /* Event function setting */ 
+  const mouseEventsHandler = [
     {
       target: "data",
       eventHandlers: {
@@ -63,7 +65,7 @@ function GoalCampaign() {
                     }
                 }
             ];
-        },
+        }/*,
         onClick: () => {
             return [
                 {
@@ -84,10 +86,28 @@ function GoalCampaign() {
                     }
                 }
             ];
-        }
+        }*/
       }
     }
   ];
+
+  /* chart figure */ 
+  const width = 1500;
+  const height = 700;
+
+  /* style setting */ 
+  const chartStyle = {
+    background: {
+      fill: "none",
+      fillOpacity: 0.7
+    }
+  }
+
+  const axisStyle = {
+    axis: {stroke: "#10573C", strokeWidth: 3},
+    axisLabel: {fontSize: 14, padding: 36, fill: "#10573C"},
+    tickLabels: {fontSize: 15, padding: 4, fill: "#10573C"}
+  } 
 
   const monthlyDataStyle = {
     data: {
@@ -103,29 +123,24 @@ function GoalCampaign() {
     }
   }
 
-  const monthlyChartStyle = {
-    background: {
-      fill: "none",
-      fillOpacity: 0.7
-    }
+  /* chart animate setting */ 
+  /*
+    const chartAminate = {
+    duration: 2000, 
+    onLoad: { duration: 1000 }
   }
+  */
 
-  const axisStyle = {
-    axis: {stroke: "#10573C", strokeWidth: 3},
-    axisLabel: {fontSize: 14, padding: 36, fill: "#10573C"},
-    tickLabels: {fontSize: 15, padding: 4, fill: "#10573C"}
-  } 
-
+  /* render */ 
   return(
     <div className='chartbox'>
       <h4>카테고리별 현재 모금액 합계</h4>
       <VictoryChart 
         domainPadding={50} 
-        style={monthlyChartStyle}
-        width={1200} height={500}
+        style={chartStyle}
+        width={width} height={height}
         containerComponent={
           <VictoryVoronoiContainer 
-            style={{width: 1000, height: 500}}
             labels={
               ({ datum }) => `${datum.currentBudget/10000}만원`
             }
@@ -150,13 +165,13 @@ function GoalCampaign() {
         />
         <VictoryBar 
           data={categoryData} 
-          labels={""}
+          //labels={""}
           barWidth={40}
-          events={eventsCurrentData} 
+          events={mouseEventsHandler} 
           style={monthlyDataStyle}
           x="campaignCategory" 
           y="currentBudget"
-          animate={{duration: 2000, onLoad: { duration: 1000 }}}
+          // animate={chartAminate}
         />
       </VictoryChart>
     </div>
