@@ -81,14 +81,16 @@ export function ReviewRegist() {
         console.log('[Review Registration] formData : ', formData.get("campaignCode"));
         console.log('[Review Registration] formData : ', formData.get("imageFile"));
 
-        console.log("뭐징ㅇㅇㅇㅇ: ", formData)
-        dispatch(callPostReview({
+        if(formData.get("reviewTitle") == "" || formData.get("description") == "" | formData.get("imageFile") == "") {
+            window.alert("입력안하니")
+        } else {
+            console.log("뭐징ㅇㅇㅇㅇ: ", formData)
+            dispatch(callPostReview({
             form: formData
-        }));
-
-                                                                                                       alert('리뷰 목록으로 이동합니다.');
+        }));                                                                                                alert('리뷰 목록으로 이동합니다.');
         navigate('/reviews');
         window.location.reload();
+        }
     }
 
     // Callback function to receive HTML content from TextEditor
@@ -193,7 +195,7 @@ export function ReviewRegist() {
                             //onChange={(e) => setReviewThumbnail(e.target.value)} 
                             required
                         />
-
+                        <br/>
                         <button 
                             onClick={ onClickImageUpload }
                             className="button button-primary"
@@ -204,19 +206,21 @@ export function ReviewRegist() {
 
                     {/* Pass the callback function to TextEditor */}
                     <TextEditor onContentChange={handleContentChange} uploadImageCallback={uploadImageCallback}/>
-                    <button
-                        onClick={ () => navigate(-1)}
-                        className="button button-primary m-1"
-                    >
-                        돌아가기
-                    </button>
-                   
-                    <button
-                        onClick={ onClickReviewRegistrationHandler }
-                        className="button button-primary"
-                    >
-                            리뷰 등록
-                    </button>
+                    <div style={{display: "flex", justifyContent: "center"}}>
+                        <button
+                            onClick={ () => navigate(-1)}
+                            className="button button-primary w-20 m-1"
+                        >
+                            돌아가기
+                        </button>
+                    
+                        <button
+                            onClick={ onClickReviewRegistrationHandler }
+                            className="button button-primary w-20 m-1"
+                        >
+                                리뷰 등록
+                        </button>
+                    </div>
             </div>
         </>
     );

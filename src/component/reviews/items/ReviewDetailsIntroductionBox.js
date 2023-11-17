@@ -38,7 +38,7 @@ export function ReviewDetailsIntroductionBox({ review }) {
         <div className="item" style={{display: "block"}}>
           <div className="text-right">
           <div className="m-1">
-          <NavLink to={`/reviews/reviewUpdate/${review.campaignCode}`}><button className="button button-primary w-20 mr-1">수정하기</button></NavLink>
+          <NavLink to={`/reviews/reviewUpdate/${review.reviewCode}`}><button className="button button-primary w-20 mr-1">수정하기</button></NavLink>
             <button className="button text-danger w-20" onClick={deleteReviewHandler}>삭제하기</button>
           </div>  
             <h2>모금액 총 {review.campaignCurrentBudget} 원으로</h2>

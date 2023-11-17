@@ -9,17 +9,18 @@ import axios from "axios";
 
 export function ReviewModify () {
 
-    const { campaignCode } = useParams();
+    const { reviewCode } = useParams();
     const review = useSelector((state) => state.reviewReducer.review);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     useEffect (
-       () => { dispatch(callGetSpecificReviewAPI(campaignCode))
-}, [campaignCode])
+       () => { dispatch(callGetSpecificReviewAPI(reviewCode))
+}, [reviewCode])
 
 console.log(review);
 const existingReviewTitle = review.reviewTitle;
+
 const existingReviewDescription = review.reviewDescription;
 
     const [reviewTitle, setReviewTitle] = useState(existingReviewTitle);
@@ -98,14 +99,18 @@ const existingReviewDescription = review.reviewDescription;
         console.log('[Review Registration] formData : ', formData.get("reviewCode"));
         console.log('[Review Registration] formData : ', formData.get("imageFile"));
 
-        console.log("뭐징ㅇㅇㅇㅇ: ", formData)
-        dispatch(callPutReview({
-            form: formData
-        }));
+        if(formData.get("reviewTitle") === "" || formData.get("description") === "" | formData.get("imageFile") === "") {
+            window.alert("모두 입력 바랍니다.")
+        }else {
+            console.log("뭐징ㅇㅇㅇㅇ: ", formData)
+            dispatch(callPutReview({
+                form: formData
+            }));
 
-        alert('리뷰 목록으로 이동합니다.');
-        navigate('/reviews');
-        window.location.reload();
+            alert('리뷰 목록으로 이동합니다.');
+            navigate('/reviews');
+            window.location.reload();
+        }
     }
 
     // Callback function to receive HTML content from TextEditor
@@ -120,13 +125,13 @@ const existingReviewDescription = review.reviewDescription;
 
 
     useEffect(() => {
-        dispatch(callGetSpecificReviewAPI(campaignCode));
+        dispatch(callGetSpecificReviewAPI(reviewCode));
         setForm({
             ...form,
-            campaignCode: campaignCode
+            reviewCode: reviewCode
         });
-    }, [campaignCode]);
-    console.log("what is this!??!?!?!?! :" , campaignCode)
+    }, [reviewCode]);
+    console.log("what is this!??!?!?!?! :" , reviewCode)
 
     const uploadImageCallback = (file) => {
         return new Promise((resolve, reject) => {
@@ -183,9 +188,10 @@ const existingReviewDescription = review.reviewDescription;
                             //onChange={(e) => setReviewThumbnail(e.target.value)} 
                             placeholder="메인 이미지 1장을 업로드 해주세요" 
                         />
-
-                                                <button 
+                        <br />
+                        <button 
                             onClick={ onClickImageUpload }
+                            className="button button-primary"
                         >이미지 업로드
                         </button>
                         </div>
@@ -193,16 +199,20 @@ const existingReviewDescription = review.reviewDescription;
 
                     {/* Pass the callback function to TextEditor */}
                     <TextEditor existingReviewDescription={existingReviewDescription} onContentChange={handleContentChange} uploadImageCallback={uploadImageCallback}/>
+                    <div style={{display: "flex", justifyContent: "center"}}>
                     <button
                         onClick={ () => navigate(-1)}
+                        className="button button-primary w-20 m-1"
                     >
                         돌아가기
                     </button>
                     <button
                         onClick={ onClickReviewRegistrationHandler }
+                        className="button button-primary w-20 m-1"
                     >
                             리뷰 등록
                     </button>
+                    </div>
             </div>
         </>
         )

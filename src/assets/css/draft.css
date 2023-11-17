@@ -41,4 +41,5 @@
     padding: 0.4rem;
     border: 1px solid #ccc;
     overflow-y: auto; /* Enable vertical scrolling */
+    height: 30rem;
   }

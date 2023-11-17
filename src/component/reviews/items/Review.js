@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-
+import css from "../../../assets/css/common.css"
 export function Review({ review, reviewExists }) {
   const currentDate = new Date();
   const reviewCode = review.reviewCode;
@@ -13,15 +13,16 @@ export function Review({ review, reviewExists }) {
               <img className="v-2 v-3" src={`/reviewImgs/${review.reviewFileList[0].fileSaveName}`} />
             </div>
             <h4>{review.reviewTitle}</h4>
-            <h6>{review.campaignOrgName}</h6>
+            <h6 style={{color: "#706f6f"}}>캠페인: {review.campaignTitle}</h6>
+            <h6 style={{color: "#706f6f"}}>재단 : {review.campaignOrgName}</h6>
         </NavLink>
     )
   } else if (!reviewExists && isEndDateValid) {
     return (
           <div>
-            <h4>{review.campaignTitle}</h4>
-            <h6>{review.campaignOrgName}</h6>
-            <NavLink to={`/reviews/reviewRegist/${review.campaignCode}`}>리뷰 등록하기</NavLink>
+            <h4>{review.campaignTitle}<br/><h6 style={{color: "#706f6f"}}>캠페인 </h6></h4>
+            <h4>{review.campaignOrgName}<br /><h6 style={{color: "#706f6f"}}>재단</h6></h4>
+            <NavLink to={`/reviews/reviewRegist/${review.campaignCode}`}><button className="button button-primary mr-1">리뷰 등록하기</button></NavLink>
           </div>
     );
   }

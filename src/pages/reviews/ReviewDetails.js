@@ -15,9 +15,6 @@ export function ReviewDetails() {
   const dispatch = useDispatch();
   const review = useSelector((state) => state.reviewReducer.review);
   const memberCode = useSelector((state) => state.reviewReducer.memberCode);
-  const memberName = useSelector((state) => state.reviewReducer.memberName);
-  const email = useSelector((state) => state.reviewReducer.email);
-
 
   
   useEffect(() => {
@@ -31,9 +28,9 @@ export function ReviewDetails() {
 
   useEffect(() => {
         dispatch(callgetMemberCode());
-    },[memberCode]);
+  },[memberCode]);
 
-
+  
 
      return (
       review && (
