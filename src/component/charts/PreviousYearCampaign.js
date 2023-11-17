@@ -43,12 +43,11 @@ function PreviousYearCampaign() {
         }
       ];
 
-      /* style setting */ 
-      const containerStyle = {
-        width: 1000, 
-        height: 500
-      }
+      /* chart figure */ 
+      const width = 1500;
+      const height = 700;
 
+      /* style setting */ 
       const axisStyle = {
         axis: {stroke: "#10573C", strokeWidth: 3},
         axisLabel: {fontSize: 14, padding: 36, fill: "#10573C"},
@@ -61,23 +60,22 @@ function PreviousYearCampaign() {
       }
 
       /* chart animate setting */ 
+      /*
       const chartAminate = {
-        duration: 2000, 
-        onLoad: { duration: 1000 }
-
+        duration: 2500, 
+        onLoad: { duration: 2500 }
       }
+      */
 
       /* render */
       return(
         <div className='chartbox'>
             <h4>전해 등록된 캠페인 수</h4>
             <VictoryChart 
-              domainPadding={50} 
-              width={1000} height={500}
+              width={width} height={height}
+              domainPadding={50}
               containerComponent={
-                <VictoryVoronoiContainer 
-                  style={containerStyle}
-                />
+                <VictoryVoronoiContainer />
               }
             > 
               <VictoryAxis
@@ -106,7 +104,7 @@ function PreviousYearCampaign() {
                 <VictoryLine
                   x="monthly" 
                   y="campaings"
-                  animate={chartAminate}
+                  // animate={chartAminate}
                 />
                 <VictoryScatter 
                   x="monthly" 

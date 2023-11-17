@@ -5,7 +5,6 @@ import PreviousYearCampaign from "../../component/charts/PreviousYearCampaign";
 import GoalCampaign from "../../component/charts/GoalCampaign";
 import TestChart from "../../component/charts/TestChart";
 import CategoryCampaign from "../../component/charts/CategoryCampaign";
-import TestChartSets from "../../component/charts/TestChartSets";
 import HistoryChart from "../../component/charts/HistoryChart";
 
 

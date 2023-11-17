@@ -65,7 +65,7 @@ function GoalCampaign() {
                     }
                 }
             ];
-        },
+        }/*,
         onClick: () => {
             return [
                 {
@@ -86,10 +86,14 @@ function GoalCampaign() {
                     }
                 }
             ];
-        }
+        }*/
       }
     }
   ];
+
+  /* chart figure */ 
+  const width = 1500;
+  const height = 700;
 
   /* style setting */ 
   const chartStyle = {
@@ -97,11 +101,6 @@ function GoalCampaign() {
       fill: "none",
       fillOpacity: 0.7
     }
-  }
-
-  const containerStyle = {
-    width: 1000, 
-    height: 500
   }
 
   const axisStyle = {
@@ -125,11 +124,12 @@ function GoalCampaign() {
   }
 
   /* chart animate setting */ 
-  const chartAminate = {
+  /*
+    const chartAminate = {
     duration: 2000, 
     onLoad: { duration: 1000 }
-
   }
+  */
 
   /* render */ 
   return(
@@ -138,10 +138,9 @@ function GoalCampaign() {
       <VictoryChart 
         domainPadding={50} 
         style={chartStyle}
-        width={1200} height={500}
+        width={width} height={height}
         containerComponent={
           <VictoryVoronoiContainer 
-            style={containerStyle}
             labels={
               ({ datum }) => `${datum.currentBudget/10000}만원`
             }
@@ -166,13 +165,13 @@ function GoalCampaign() {
         />
         <VictoryBar 
           data={categoryData} 
-          labels={""}
+          //labels={""}
           barWidth={40}
           events={mouseEventsHandler} 
           style={monthlyDataStyle}
           x="campaignCategory" 
           y="currentBudget"
-          animate={chartAminate}
+          // animate={chartAminate}
         />
       </VictoryChart>
     </div>

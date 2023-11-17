@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { VictoryChart, VictoryZoomContainer, VictoryBrushContainer, VictoryLine, VictoryAxis, VictoryScatter, VictoryGroup, VictoryTooltip } from "victory"
 import "../../assets/css/chart.css"
 
@@ -11,6 +11,7 @@ function HistoryChart() {
 
     const zoomDomainHandler = (domain) => setZoomDomain(domain);
 
+    /* chartData from API */
     const testData = [
         {
             monthly: new Date('2023-09-23'), campaigns: 10, sumCurrentBudget: 25000, sumGoalBudget: 50000, sumExpectBudget: 25000
@@ -32,33 +33,55 @@ function HistoryChart() {
         }
     ];
 
+    /* chart figure */ 
+    const width = 1500;
+    const height = 700;
+    const brushChartHeight = 200;
+    
+    /* style setting */
+    const toolTipStyle = {
+        fontSize: 20, 
+        fill: "#10573C"
+    }
+
     const chartStyle = {
         data: { stroke:"#10573C" }
     }
 
-    const toolTipStyle = {
-        fontSize: 20, 
-        fill: "#10573C"
-      }
-
+    const axisStyle = {
+        axis: {stroke: "#10573C", strokeWidth: 3},
+        axisLabel: {fontSize: 14, padding: 36, fill: "#10573C"},
+        tickLabels: {fontSize: 16, padding: 4, fill: "#10573C"}
+    }
+    
+    /* render */ 
     return (
         <div className='chartbox'>
-            <h4>일별 현재 모금액 추이</h4>
+            <h4>일별 모금액 추이</h4>
             <VictoryChart
-                width={1200} height={500}
+                width={width} height={height}
                 domainPadding={{x: 50, y: 50}} 
-                scale={{ x: "time" }}
+                // scale={{ x: "time" }}
                 containerComponent={
                     <VictoryZoomContainer
                         // responsive={false}
                         zoomDimension="x"
                         zoomDomain={zoomDomain}
-                        minimumZoom={{x: 1, y: 1}}
+                        minimumZoom={{x: 0, y: 1}}
                         // allowZoom={false}
                         onZoomDomainChange={zoomDomainHandler}
                     />
                 }
             >
+                <VictoryAxis
+                    style={axisStyle}
+                    tickFormat={(x) => `${new Date(x).getFullYear()}년${new Date(x).getMonth() + 1}월${new Date(x).getDate()}일`}
+                />
+                <VictoryAxis 
+                    dependentAxis
+                    tickFormat={(x) => `${x/10000}만원`}
+                    style={axisStyle}
+                />
                 <VictoryGroup
                     color="#10573C"
                     labels={({ datum }) => `${datum.sumCurrentBudget}원`}
@@ -87,8 +110,8 @@ function HistoryChart() {
             <VictoryChart
                 padding={{ top: 0, left: 50, right: 50, bottom: 30 }}
                 domainPadding={{x: 0, y: 5}}
-                width={800} height={100}
-                scale={{ x: "time" }}
+                width={width} height={brushChartHeight}
+                // scale={{ x: "time" }}
                 containerComponent={
                     <VictoryBrushContainer
                         // responsive={false}
@@ -103,6 +126,7 @@ function HistoryChart() {
                         new Date('2022-01-01'), new Date('2022-05-01'), new Date('2022-09-01'), new Date('2023-01-01'), new Date('2023-05-01'), new Date('2023-09-01'), new Date('2024-01-01')
                     ]}
                     tickFormat={(x) => `${new Date(x).getFullYear()}년${new Date(x).getMonth() + 1}월`}
+                    style={axisStyle}
                 />
                 <VictoryLine
                     style={chartStyle}
