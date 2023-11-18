@@ -4,14 +4,12 @@ import "../../../assets/css/userexchange.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { myPointsHistoryAPI } from "../../../apis/PointAPI";
-import { useNavigate } from "react-router-dom";
 import PointModal from "../items/PointModal";
 
 
 function MyPointList(){
 
     const dispatch = useDispatch();
-    const navigate = useNavigate();
 
     const token = window.localStorage.getItem('token');
     const decodedPayload = JSON.parse(atob(token.split('.')[1]));
