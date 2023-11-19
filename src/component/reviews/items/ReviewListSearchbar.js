@@ -1,8 +1,14 @@
 import style from "../../../assets/css/common.css"
 import "../../../assets/css/select.css"
+import { jwtDecode } from 'jwt-decode';
 
 export function ReviewListSearchbar({ reviewCampaignCode, searchFilter, setSearchFilter, reviewExists, setReviewExists, onSearchKeyPress, handleSearchKeyPress, handleCompletedCampaign }) {
 
+    const token = localStorage.getItem('token');
+    const decodedToken = token ? jwtDecode(token) : null;
+  
+    console.log('Decoded Token:', decodedToken);
+  
     const handleSelectChange = (e) => {
         // Reset the searchFilter when the select option is changed
         setSearchFilter('');
@@ -23,7 +29,8 @@ export function ReviewListSearchbar({ reviewCampaignCode, searchFilter, setSearc
                     }}
                     placeholder="🔎 Search"
                 />
-                <div className="custom-select">
+                {decodedToken !== null && decodedToken.memberRole == "ROLE_ADMIN" ?    
+                <div>
                 <select
                     name={reviewExists}
                     value={reviewExists}
@@ -33,7 +40,9 @@ export function ReviewListSearchbar({ reviewCampaignCode, searchFilter, setSearc
                     <option value="false">미등록 후기</option>
                     <option value="true">등록 후기</option>
                 </select>
-                </div>
+                </div> :
+                null
+                }
             </div>
         </div>
     );

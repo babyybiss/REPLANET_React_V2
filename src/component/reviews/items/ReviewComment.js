@@ -1,41 +1,49 @@
 import { useEffect } from "react";
-import { useDispatch,zuseSelector } from "react-redux";
+import { useDispatch,  useSelector } from "react-redux";
 import { callGetReviewComments } from "../../../apis/ReviewAPI";
 import commentStyles from "../../../assets/css/comment.css"
 import { useState } from "react";
 import { callPostReviewComment } from "../../../apis/ReviewAPI";
-import { useSelector } from "react-redux";
 import moment from 'moment';
 import comment from "../../../assets/images/review/comment.png"
 import { callDeleteReviewComment } from "../../../apis/ReviewAPI";
+import { jwtDecode } from 'jwt-decode';
+import { callPutSpecificCommentModify } from "../../../apis/ReviewAPI";
+import { useNavigate } from "react-router-dom";
+import { callputMonitoredComment } from "../../../apis/ReviewAPI";
 
+export function ReviewComment ({ review }) {
 
+  const token = localStorage.getItem('token');
+  const decodedToken = token ? jwtDecode(token) : null;
 
-export function ReviewComment ({ review, memberCode }) {
+  console.log('Decoded Token:', decodedToken);
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [ revCommentContent, setRevCommentContent ] = useState('');
     const [ modify, setModify ] = useState(false);
-    const [ commentState, setcommentState ] = useState(review.reviewCommentList.revCommentContent);
+    const [commentBeingModified, setCommentBeingModified] = useState(null);
+    const [ commentState, setCommentState ] = useState(review.reviewCommentList ? review.reviewCommentList.revCommentContent : '');
     const comments = useSelector((state) => state.reviewReducer.comments);
+    const [ hiddenStatus, setHiddenStatus ] = useState('N')
     const reviewCode = review.reviewCode;
+
+
     const [form, setForm] = useState({
       revCommentContent: '',
-      memberCode: 0,
+      memberCode: decodedToken && decodedToken.memberCode,
     })
     
-    console.log("reviewCode is? : ", reviewCode);
 
-    useEffect(() => {
-        //dispatch(callGetReviewComments(reviewCode));
-    },[comments]);
+    console.log("reviewCode is? : ", reviewCode);
 
     console.log('is review in reviewComments? : ', review);
     
     const formData = new FormData();
 
     formData.append("revCommentContent", form.revCommentContent);
-    formData.append("memberCode", form.memberCode);
+    formData.append("memberCode", decodedToken && decodedToken.memberCode);
 
     console.log("comment is???: ", revCommentContent)
 
@@ -49,11 +57,18 @@ export function ReviewComment ({ review, memberCode }) {
         window.location.reload();
     };
 
-    const handleModifyComment = (e, revCommentCode) => {
+    const handleModifyComment = (e, revCommentCode, existingCommentContent) => {
       setModify(true);
+      setCommentBeingModified(revCommentCode);
+      setCommentState(existingCommentContent);
     }
 
     const handleDeleteComment = (e, revCommentCode) => {
+
+      if(decodedToken && decodedToken.memberRole === "ROLE_ADMIN") {
+        //dispatch(callputMonitoredComment(reviewCode, revCommentCode));
+
+      } else {
         e.preventDefault();
         const reviewCode = review.reviewCode;
         console.log(revCommentCode);
@@ -61,16 +76,46 @@ export function ReviewComment ({ review, memberCode }) {
         dispatch(callDeleteReviewComment(revCommentCode, reviewCode));
         window.location.reload();
     }
+  }
+
+    const handleSubmitModifiedComment = (revCommentCode, memberCode, reviewCode) => {
+      console.log("what comment will be modified? : ", revCommentCode);
+      console.log("what has the comment been modified to? : ", commentState);
+
+      const formData = new FormData();
+
+      formData.append("revCommentContent", commentState);
+      formData.append("memberCode", memberCode);
+      formData.append("revCommentCode", revCommentCode);
+      formData.append("reviewCode", reviewCode);
+
+      console.log('[Comment modify] formData : ', formData.get("revCommentContent"));
+      console.log('[Comment modify] formData : ', formData.get("memberCode"));
+      console.log('[Comment modify] formData : ', formData.get("revCommentCode"));
+      console.log('[Comment modify] formData : ', formData.get("reviewCode"));
+
+      dispatch(callPutSpecificCommentModify({
+        form: formData
+      }));
+
+      window.location.reload();
+    }
 
     const onChangeHandler = (e) => {
       setForm({
           ...form,
           [e.target.name] : e.target.value,
-          memberCode: memberCode,
+          memberCode: comment.memberCode,
       });
   };
 
   const endDate = moment(review.reviewCommentList ? review.reviewCommentList.revCommentDate : null).format('YYYY-MM-DD');
+
+
+  const NavigateToLoginPageHandler = () => {
+    navigate('/login')
+  }
+
 
   return (
     <ul id="comment" className={commentStyles.commentList}>
@@ -94,42 +139,88 @@ export function ReviewComment ({ review, memberCode }) {
         </h2>
 
         <div className="m-21" onClick={(e) => e.stopPropagation()}>
-          {review.reviewCommentList && review.reviewCommentList.map(comment => (
-            <div key={comment.revCommentCode}>
-              <div className="m-3 flexing">
-                <div className="commentWidth">
-                  {modify ? <p className="w-100"><input type="text" name="commentState" value={commentState} className="commentInput commentI" onChange={(e) => {setcommentState(e.target.value)}}/></p> : 
-                  <>
+        {review.reviewCommentList && review.reviewCommentList.map(comment => (
+          <div key={comment.revCommentCode}>
+            <div className="m-3 flexing">
+              <div className="commentWidth">
+                {commentBeingModified === comment.revCommentCode ? (
+                // If the comment is being modified, show the input
+                <p className="w-100">
+                  <h5>{comment.memberCode}</h5>
+                  <input
+                    type="text"
+                    name="commentState"
+                    value={commentState}
+                    className="commentInput commentI"
+                    onChange={(e) => setCommentState(e.target.value)}
+                  />
+                </p>
+              ) : (
+                // Otherwise, show the comment details
+                <>
                   <h5>{comment.memberCode}</h5>
                   <h6>{comment.revCommentContent}</h6>
                   {endDate}
-                  </>
-                  }
-                </div>
-                <span>
-                  <button className="button1 text-danger w-5" onClick={(e) => handleModifyComment(e, comment.revCommentCode)}>수정</button>
-                </span>
-                <span>
-                  <button className="button1 text-danger w-5" onClick={(e) => handleDeleteComment(e, comment.revCommentCode)}>삭제</button>
-                </span>
-              </div>
-              <hr />
+                </>
+              )}
             </div>
-          ))}
+            { ( commentBeingModified && decodedToken && (decodedToken.memberRole === "ROLE_ADMIN" || decodedToken.memberCode === comment.memberCode)) && (
+              <span className="mt-1">
+                <button onClick={() => handleSubmitModifiedComment(comment.revCommentCode, comment.memberCode, comment.reviewCode)} className="button1 button-primary w-5">
+                  등록
+                </button>
+              </span>
+            )}
+              { (!commentBeingModified && decodedToken && (decodedToken.memberRole === "ROLE_ADMIN" || decodedToken.memberRole === "ROLE_USER" && decodedToken.memberCode === comment.memberCode)) && (
+                <>
+                  <span>
+                    <button className="button1 text-danger w-5" onClick={(e) => handleDeleteComment(e, comment.revCommentCode)}>
+                      삭제
+                    </button>
+                  </span>
+                  {decodedToken.memberRole === "ROLE_USER" &&  (decodedToken.memberCode === comment.memberCode) && (
+                    <span>
+                      <button className="button1 text-danger w-5" onClick={(e) => handleModifyComment(e, comment.revCommentCode, comment.revCommentContent)}>
+                      수정
+                      </button>
+                    </span>
+                  )}
+                </>
+              )}
+        
+
+    </div>
+    <hr />
+  </div>
+))}
         </div>
-        <form onSubmit={handleCommentSubmit} className="m-21">
-          <p className="w-100">
-            <input
-              className="commentInput commentI"
-              name="revCommentContent"
-              type="text"
-              placeholder={review.reviewCommentList ? "댓글을 입력해주세요 ❤️" : "따뜻한 한마디로 첫 응 원자가 되어보세요 ❤️"}
-              onChange={onChangeHandler}
-              required
-            />
-            <button className="button-primary v-5 rounded" type="submit">댓글등록</button>
-          </p>
-        </form>
+        {decodedToken && decodedToken.memberCode !== undefined  ? (
+            <form onSubmit={handleCommentSubmit} className="m-21">
+              <p className="w-100">
+                <input
+                  className="commentInput commentI"
+                  name="revCommentContent"
+                  type="text"
+                  placeholder={review.reviewCommentList ? "댓글을 입력해주세요 ❤️" : "따뜻한 한마디로 첫 응 원자가 되어보세요 ❤️"}
+                  onChange={onChangeHandler}
+                  required
+                />
+                <button className="button-primary v-5 rounded" type="submit">댓글등록</button>
+              </p>
+            </form>
+              ) : (
+                <form className="m-21">
+                <p className="w-100">
+                <input
+                  className="commentDisable"
+                  type="text"
+                  placeholder="로그인 후 이용 가능한 서비스입니다."
+                  onClick={NavigateToLoginPageHandler}
+                />
+              </p>
+              </form>
+              )}
+        
       </li>    
     </ul>
   );

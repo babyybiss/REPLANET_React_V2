@@ -10,7 +10,6 @@ import { callgetMemberCode } from "../../apis/ReviewAPI";
 
 export function ReviewDetails() {
 
-
   const { reviewCode } = useParams();
   const dispatch = useDispatch();
   const review = useSelector((state) => state.reviewReducer.review);
