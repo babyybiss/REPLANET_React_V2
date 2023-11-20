@@ -1,4 +1,5 @@
 import { createActions,handleActions } from "redux-actions";
+import { GET_CAMPAIGN } from "./CampaignModule";
 
 // initial state value
 const initialState = {};
@@ -18,12 +19,15 @@ export const GET_REVIEW_COMMENTS = "review/GET_REVIEW_COMMENTS";
 export const DELETE_REVIEW_COMMENT = "review/DELETE_REVIEW_COMMENT";
 export const PUT_COMMENT = "review/PUT_COMMENT";
 export const PUT_MONITORED_COMMENT = "review/PUT_MONITORED_COMMENT";
+export const GET_REVIEW_NEEDED_CAMPAIGN = "review/GET_REVIEW_NEEDED_CAMPAIGN";
+export const GET_CAMPAIGN_FOR_REVIEW = "review/GET_CAMPAIGN";
 
 
  //declare action function
-export const { review: {getReviews,getReview, postReview, getSearchResult, getCompletedCampaigns, getThumbnailPath, putReview, deleteReview, getMemberCode, postReviewComment, getReviewComments, deleteReviewComment, putComment, putMonitoredComment } } = createActions({
+export const { review: {getReviews,getReview, getCampaign, postReview, getSearchResult, getCompletedCampaigns, getThumbnailPath, putReview, deleteReview, getMemberCode, postReviewComment, getReviewComments, deleteReviewComment, putComment, putMonitoredComment, getReviewNeededCampaign } } = createActions({
     [GET_REVIEWS] : (res) => ({ reviewList: res }),
     [GET_REVIEW] : (res) => ({ review : res }),
+    [GET_CAMPAIGN_FOR_REVIEW] : (res) => ({ campaign : res }),
     [POST_REVIEW] : (res) => ({ regist: res }),
     [GET_SEARCH_RESULT] : (res) => ({ reviewList: res}),
     [GET_COMPLETED_CAMPAIGNS] : (res) => ({ completedCampaignList: res}),
@@ -36,6 +40,7 @@ export const { review: {getReviews,getReview, postReview, getSearchResult, getCo
     [DELETE_REVIEW_COMMENT] : (res) => ({ deleteComment : res}),
     [PUT_COMMENT] : (res) => ({ modifyComment : res }),
     [PUT_MONITORED_COMMENT] : (res) => ({ monitoredComment : res }),
+    [GET_REVIEW_NEEDED_CAMPAIGN] : (res) => ({ getReviewNeededCampaign : res})
 });
 
 // declare reducer function
@@ -49,6 +54,10 @@ const reviewReducer = handleActions(
         },
         [GET_REVIEW] : (state, { payload }) => {
             console.log('(Review reducer: GET_REVIEW) 들어옴 : ', payload);
+            return payload;
+        },
+        [GET_CAMPAIGN_FOR_REVIEW] : (state, {payload}) => {
+            console.log('(Review reducer: GET_CAMPAIGN) 들어옴 : ', payload);
             return payload;
         },
         [POST_REVIEW] : (state, {payload}) => {
@@ -101,6 +110,10 @@ const reviewReducer = handleActions(
         },
         [PUT_MONITORED_COMMENT] : (state, {payload}) => {
             console.log('Review reducer: PUT_MONITORED_COMMENT 들어옴 : ', payload);
+            return payload;
+        },
+        [GET_REVIEW_NEEDED_CAMPAIGN] : (state, {payload}) => {
+            console.log('Review reducer: GET_REVIEW_NEEDED_CAMPAIGN 들어옴 : ', payload);
             return payload;
         }
 

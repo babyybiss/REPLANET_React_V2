@@ -17,7 +17,7 @@ export function TextEditor({ onContentChange, uploadImageCallback, existingRevie
       return EditorState.createEmpty();
     }
   });
-  
+
   const [previewVisible, setPreviewVisible] = useState(false);
   const [convertedContent, setConvertedContent] = useState(null);
 
@@ -43,34 +43,49 @@ export function TextEditor({ onContentChange, uploadImageCallback, existingRevie
     setPreviewVisible(!previewVisible);
   };
 
+  const blockRendererFn = (contentBlock) => {
+    const type = contentBlock.getType();
+    if (type === 'atomic') {
+      return {
+        component: AtomicBlock,
+        editable: false,
+      };
+    }
+    return null;
+  };
+
+  const AtomicBlock = (props) => {
+    const { block, contentState } = props;
+    const { url, referrerPolicy } = contentState.getEntity(block.getEntityAt(0)).getData();
+    console.log("where is the url.... : ", url);
+    return <img src={url} alt="uploaded" referrerPolicy={referrerPolicy} />;
+  };
+  
+
   return (
     <div className="draft">
-      <button onClick={togglePreview} className={`bookmark-button ${previewVisible ? "active" : ""}`}>
-        {previewVisible ? "Close Preview" : "Show Preview"}
-      </button>
-      {previewVisible ? (
-        <div className="preview" dangerouslySetInnerHTML={createMarkup(convertedContent)}></div>
-      ) : (
-        <div className="editor-container">
-          <Editor
-            editorState={description}
-            onEditorStateChange={setDescription}
-            toolbar={{
-              options: ['blockType', 'textAlign', 'list', 'fontSize', 'inline', 'colorPicker', 'emoji', 'image', 'remove', 'history'],
-              inline: { inDropdown: false },
-              list: { inDropdown: true },
-              textAlign: { inDropdown: true },
-              link: { inDropdown: true },
-              history: { inDropdown: true },
-              image: { uploadCallback: uploadImageCallback, alt: { present: true, mandatory: true }},
-            }}
-            localization={{
-              locale: 'ko',
-            }}
-            required
-          />
-        </div>
-      )}
+      {/* ... (existing code) */}
+      <div className="editor-container">
+        <Editor
+          editorState={description}
+          onEditorStateChange={setDescription}
+          toolbar={{
+            options: ['blockType', 'textAlign', 'list', 'fontSize', 'inline', 'colorPicker', 'emoji', 'image', 'remove', 'history'],
+            inline: { inDropdown: false },
+            list: { inDropdown: true },
+            textAlign: { inDropdown: true },
+            link: { inDropdown: true },
+            history: { inDropdown: true },
+            image: { uploadCallback: uploadImageCallback, alt: { present: true, mandatory: true } },
+          }}
+          blockRendererFn={blockRendererFn}
+          localization={{
+            locale: 'ko',
+          }}
+          required
+        />
+        <img src="https://i.imgur.com/lerPgV1.jpg"/>
+      </div>
     </div>
   );
 }

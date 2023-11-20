@@ -98,12 +98,12 @@ export function ReviewModify () {
             formData.append("imageFile", image);
         }
 
-        console.log('[Review Registration] formData : ', formData.get("reviewTitle"));
-        console.log('[Review Registration] formData : ', formData.get("description"));
-        console.log('[Review Registration] formData : ', formData.get("reviewCode"));
-        console.log('[Review Registration] formData : ', formData.get("imageFile"));
+        console.log('[Review Modify] formData : ', formData.get("reviewTitle"));
+        console.log('[Review Modify] formData : ', formData.get("description"));
+        console.log('[Review Modify] formData : ', formData.get("reviewCode"));
+        console.log('[Review Modify] formData : ', formData.get("imageFile"));
 
-        if(formData.get("reviewTitle") === "" || formData.get("description") === "" || formData.get("imageFile") === "") {
+        if(reviewTitle === "" || convertedContent === "" || image === "") {
             window.alert("모두 입력 바랍니다.");
             return;
         }else {
@@ -163,7 +163,7 @@ export function ReviewModify () {
         review && (
             <>
             <div className="container-first">
-                    <h1 className="py-3 container-centered">캠페인 후기 등록</h1>
+                    <h1 className="py-3 container-centered">캠페인 후기 수정</h1>
                     <h5 className="container-centered">{review.orgName}</h5>
                     <div className="text-center">
                         <input 

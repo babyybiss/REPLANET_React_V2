@@ -7,6 +7,9 @@ import { callGetCompletedCampaign } from "../../apis/ReviewAPI";
 import { CampaignListDoneAPI } from "../../apis/CampaignListAPI";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
+import { callGetReviewsAPI } from "../../apis/ReviewAPI";
+import { callGetCampaignsWithoutAReview } from "../../apis/ReviewAPI";
+
 
 export function Reviews() {
     
@@ -17,8 +20,8 @@ export function Reviews() {
   
     const dispatch = useDispatch();
 
-    const result = useSelector(state => state.campaignReducer)
-    const completedCampaigns = result.campaignlist || result.campaignDoneList;
+    //const result = useSelector(state => state.reviewReducer.ReviewList || state.reviewReducer.getReviewNeededCampaign)
+    //const completedCampaigns = result.campaignlist || result.campaignDoneList;
 
     const [reviewCampaignCode, setReviewCampaignCode] = useState(0);
     const [searchFilter, setSearchFilter] = useState('');
@@ -38,9 +41,25 @@ export function Reviews() {
         dispatch(callGetReviewsBySearchFilter(searchFilter));
     }
 
-    const handleCompletedCampaign = () => {
-        dispatch(CampaignListDoneAPI());
-    }
+
+    const result = useSelector((state) => {
+        if (reviewExists === false) {
+            return state.reviewReducer.getReviewNeededCampaign;
+        } else if (reviewExists === true) {
+            return state.reviewReducer.reviewList;
+        }
+    });
+
+    useEffect(() => {
+        const isPageReloaded = performance.navigation.type === 1;
+
+        if (reviewExists === false) {
+            dispatch(callGetCampaignsWithoutAReview());
+        } else if (reviewExists === true || isPageReloaded ) {
+            dispatch(callGetReviewsAPI());
+        }
+    }, [reviewExists]);
+
 
 
     return (
@@ -55,11 +74,11 @@ export function Reviews() {
                         reviewExists={reviewExists}
                         setReviewExists={setReviewExists}
                         handleSearchKeyPress={handleSearchKeyPress} // Pass the handler
-                        handleCompletedCampaign={handleCompletedCampaign}
+                        //handleCompletedCampaign={handleCompletedCampaign}
                     />
                 </div>
                 <div class="items-container ic3 g-gap3 campaign-list-container">
-                    <ReviewList reviewExists={reviewExists} searchFilter={searchFilter} completedCampaigns={completedCampaigns}/>
+                    <ReviewList result={result} reviewExists={reviewExists} searchFilter={searchFilter} />
                 </div>
             </div>
         </>
