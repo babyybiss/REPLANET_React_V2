@@ -1,13 +1,19 @@
 import moment from 'moment';
-import { DeleteCampaignAPI, ModifyCampaignAPI } from '../../../apis/CampaignListAPI';
+import { DeleteCampaignAPI, AddBookmarkAPI, ModifyCampaignAPI } from '../../../apis/CampaignListAPI';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from "react-router-dom";
+import { useState } from 'react';
+import { jwtDecode } from 'jwt-decode';
 
 function CampaignSidebar({ campaignInfo }) {
+    // 토큰 정보 
+    const token = localStorage.getItem('token');
+    const decodedToken = token ? jwtDecode(token) : null;
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
-
+    const [like, setLike] = useState(false)
     const campaignCode = campaignInfo.campaignCode;
 
     // 기부 현황
@@ -24,20 +30,67 @@ function CampaignSidebar({ campaignInfo }) {
             dispatch(DeleteCampaignAPI(campaignCode))
     }
 
-    // 수정`    
+    // 수정    
     const modifyCampaignHandler = () => {
         if (window.confirm("수정 하시겠습니까?"))
+            if (campaignInfo.currentBudget > 0) {
+                alert('기부금 있어서 안됨')
+                return;
+            }
         navigate(`/modify/${campaignCode}`)
-            //dispatch(ModifyCampaignAPI(campaignCode))
+
+        //dispatch(ModifyCampaignAPI(campaignCode))
     }
+
+    const header = {
+        headers: {
+            "Content-type": "multipart/form-data charset=utf-8",
+            Accept: "*/*",
+            Authorization: localStorage.getItem('token')
+        },}
+
+
+    // 북마크 추가 
+ const addBookmark = (id,campaignCode) => {
+    dispatch(AddBookmarkAPI(header,campaignCode))
+  };
+  
+  // 북마크 삭제
+  const deleteBookmark = (id,campaignCode) => {
+    //dispatch(DeleteBookmark(id,campaignCode))
+  };
 
     return (
         campaignInfo && (
             <div className="container-sidebar">
                 <div className="toggle">
-                    <button >
-                        북마크 자리
-                    </button>
+
+                    <img
+                        className=""
+                        style={{width:50}}
+                        alt="#"
+                        src={
+                            like
+                                ? "/campaigns/default/checked.png"
+                                : "/campaigns/default/unChecked.png"
+                        }
+                        onClick={() => {
+                            if (like === true) {
+                                setLike(!like);
+                                //deleteBookmark(decodedToken.memberCode,campaignCode);
+                            }
+
+                            if (like === false) {
+                                setLike(!like);
+                                addBookmark(campaignCode);
+                            }
+                        }}
+                    />
+                    {/*bookMarkIcon === true ? (
+                        <button onClick={() => setbookMarkIcon(!bookMarkIcon)} >  북마크체크표시 </button>
+                    ) :
+                        <button onClick={() => setbookMarkIcon(!bookMarkIcon)}>  북마크체크미표시 </button>
+                    */}
                 </div>
                 <h2>현재 모금액 : {campaignInfo.currentBudget.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원 </h2>
                 <h6>목표 모금액 : {campaignInfo.goalBudget.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원 </h6>
@@ -47,12 +100,18 @@ function CampaignSidebar({ campaignInfo }) {
                     <span className="percent float-right">{percentage > 100 ? '목표금액 초과!!' : percentage + '%'}</span>
                 </div>
                 <div className="items-container ic2 mt-1 pt-1">
-                    <Link to={`/campaign/${campaignInfo.campaignCode}/donations`}>
-                        <button className="button button-primary" style={{ width: "100%" }}>후원하기</button>
-                    </Link>
-                    <button className="button button-primary-outline">공유하기</button>
-                    <button className="button button-primary" onClick={deleteCampaignHandler}>삭제하기</button>
-                    <button className="button button-primary-outline" onClick={modifyCampaignHandler}>수정하기</button>
+
+                    {decodedToken !== null && decodedToken.memberRole == "ROLE_ADMIN" ?
+                        <button className="button button-primary" onClick={deleteCampaignHandler}>삭제하기</button> :
+                        <Link to={`/campaign/${campaignInfo.campaignCode}/donations`}>
+                            <button className="button button-primary" style={{ width: "100%" }}>후원하기</button>
+                        </Link>
+                    }
+                    {decodedToken !== null && decodedToken.memberRole == "ROLE_ADMIN" ?
+                        <button className="button button-primary-outline" onClick={modifyCampaignHandler}>수정하기</button> :
+                        <button className="button button-primary-outline">공유하기</button>
+                    }
+
                 </div>
                 <div className="items-container ic1">
                     <div className="item p-2 border">

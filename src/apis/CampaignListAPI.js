@@ -1,6 +1,7 @@
 import axios from "axios";
 import { getContinue, getComplete, getCampaign, postCampaign, getCategoryByCampaign} from '../modules/CampaignModule';
 
+
 export const requestURL = 'http://localhost:8001/';
 
 // 진행중 캠페인 조회
@@ -47,10 +48,10 @@ export function GetCampaignAPI(campaignCode) {
 
 // 카테고리별 캠페인 조회 
 export function getCampaignSearchByCategory(category){
-    console.log(category, '이게 문젠가?');
     return async (dispatch, getState) => {
-        const result = await axios.get(requestURL+'category', category).then(
-        dispatch(getCategoryByCampaign(result.data))
+        const result = await axios.get(requestURL+`category?${category}`).then(
+            console.log(result),
+        dispatch(getCategoryByCampaign(result))
         ).catch( (error) => {
             console.log(error);
         }
@@ -65,7 +66,6 @@ export function PostCampaignAPI({ inputs }, header) {
 
 
     return async (dispatch, getState) => {
-        console.log(inputs, '이거 안돼?');
         try {
             await axios.post(requestURL + 'campaigns', inputs).then((res) => {
 
@@ -124,3 +124,16 @@ export function ModifyCampaignAPI({ inputs }, campaignCode) {
     }
 
 } 
+
+//북마크 등록
+export function AddBookmarkAPI(header,campaignCode){
+    console.log(header,campaignCode);
+    return async (dispatch, getState) => {
+        await axios.post(requestURL+'bookmarks',campaignCode)
+        .catch((error) => {
+            alert( error,'에러발생')
+        })
+    }
+}
+
+//북마크 삭제
