@@ -205,9 +205,8 @@ export function ReviewComment ({ review }) {
                  {/* <h5>{comment.memberCode}</h5> */}
                   <h5>{commentEmail[comment.memberCode]}</h5>
                   {comment.revCommentMonitorized === "Y" && (
-                    <h6>관리자에 의해 삭제 된 댓글 입니다.</h6>
+                    <h6 style={{color: "#1D7151", fontWeight: 'bold'}}>부적절한 표현을 감지하여 클린봇에 의해 삭제 된 댓글입니다</h6>
                   )}
-                  <h6>{comment.revCommentContent}</h6>
                   {endDate}
                 </>
               )}
