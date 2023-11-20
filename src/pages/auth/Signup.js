@@ -2,7 +2,12 @@ import React, { useRef, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../component/auth/AuthContext";
 import '../../assets/css/user.css';
-// import FirebaseAuth from "./FirebaseAuth";
+import Swal from 'sweetalert2';
+import axios from 'axios';
+
+export const TextMessage = () => {
+            Swal.fire("테스트중", "test")
+}
 
 
 
@@ -117,10 +122,11 @@ const Signup = () => {
                 <label htmlFor="email"></label><input className="input" type="text" id="email" required ref={emailInputRef} placeholder="id"  />
                 <label htmlFor="password"></label><input className="input" type="password" id="password" required ref={passwordInputRef} placeholder="pw" />
                 <label htmlFor="memberName"></label><input className="input" type="text" id="memberName" required ref={memberNameInputRef} placeholder="name" />
+
                 <label htmlFor="phone"></label>
                 <div className="input-group">
                   <input className="input" type="text" id="phone" required ref={phoneInputRef} placeholder="phone" />
-                  <button type="button" className="button button-primary">인증</button>
+                  <button type="button" className="button button-primary" onClick={TextMessage}>인증</button>
                 </div>
               </div>
               <div className="item">

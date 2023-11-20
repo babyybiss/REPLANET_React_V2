@@ -1,7 +1,5 @@
-import { ca } from "date-fns/locale";
 import { GET_PAYS_BY_MEMBER_WITH_DATE, 
         GET_DONATION_BY_PAY_CODE, 
-        GET_MEMBER_BY_TOKEN, 
         POST_POINT_DONATION,
         GET_DONATION_BY_CAMPAIGN_CODE } from "../modules/DonationModule";
 import axios from "axios";

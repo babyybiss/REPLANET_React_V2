@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const DOMAIN = 'https://jsonplaceholder.typicode.com/users';
+const DOMAIN = 'http://localhost:8001';
 
 export const request = async (method, url, data) => {
     return await axios({

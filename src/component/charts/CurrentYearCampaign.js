@@ -1,7 +1,8 @@
 import {VictoryVoronoiContainer, VictoryLine, VictoryChart, VictoryAxis, VictoryGroup, VictoryScatter, VictoryTooltip} from 'victory';
 import "../../assets/css/chart.css";
 
-function CurrentYearCampaign() {
+function CurrentYearCampaign(chartDataList) {
+  console.log('CurrentYearCampaign Data?', chartDataList)
 
     /* chartData from API */
     const monthlyData = [

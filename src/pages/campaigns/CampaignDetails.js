@@ -34,7 +34,7 @@ function CampaignDetail() {
                             <CampaignContent campaignInfo={campaignInfo} />
                             <CampaignPicture campaignInfo={campaignInfo} />
                             <CampaignPlan campaignInfo={campaignInfo} />
-                            <ParticipationDetails campaignInfo={campaignInfo} />
+                            <ParticipationDetails />
                         </div>
                         <CampaignSidebar campaignInfo={campaignInfo} />
                     </div>

@@ -2,15 +2,18 @@ import { combineReducers } from 'redux';
 import campaignReducer from './CampaignModule'
 import reviewReducer from './ReviewModule';
 import donationReducer from './DonationModule';
-import exchangeReducer from './PointModule';
+import {exchangeReducer, modalReducer} from './PointModule';
 import memberReducer from './MemberModule';
+import chartReducer from './ChartModule';
 
 const rootReducer = combineReducers({
     campaignReducer,
     reviewReducer,
     donationReducer,
     exchangeReducer,
-    memberReducer
+    modalReducer,
+    memberReducer,
+    chartReducer
 });
 
 export default rootReducer;

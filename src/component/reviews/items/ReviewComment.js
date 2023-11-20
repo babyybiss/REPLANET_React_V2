@@ -218,7 +218,7 @@ export function ReviewComment ({ review }) {
                 // Otherwise, show the comment details
                 <>
                  {/* <h5>{comment.memberCode}</h5> */}
-        
+
                   {comment.revCommentMonitorized === "Y" ? (
                     <>
                     <h5>{commentEmail[comment.memberCode]}</h5>
@@ -231,6 +231,7 @@ export function ReviewComment ({ review }) {
                     <h6>{comment.revCommentContent}</h6>
                     {endDate}
                     </>
+
                   )}
                   
                 </>
