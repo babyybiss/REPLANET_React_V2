@@ -51,6 +51,18 @@ function MyPointList(){
         }
     };
 
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 5;
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = myPoints && myPoints.length > 0 ? myPoints.slice(indexOfFirstItem, indexOfLastItem) : [];
+    const totalItems = myPoints.length;
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+    const handlePageChange = (newPage) => {
+        if (newPage >= 1 && newPage <= totalPages) {
+            setCurrentPage(newPage);
+        }
+    };
 
     return(
         myPoints && (
@@ -72,7 +84,7 @@ function MyPointList(){
                             </tr>
                         </thead>
                         <tbody>
-                            {Array.isArray(myPoints) && myPoints.map(
+                            {Array.isArray(currentItems) && currentItems.map(
                                 (points) => (
                                     <tr key={points.code} onClick={() => {onClickHandler(points.status, points.code)}}>
                                         <td>{formatExchangeDate(points.changeDate)}</td>
@@ -86,6 +98,20 @@ function MyPointList(){
                             )}
                         </tbody>
                     </table>
+                    <ul className="pagination">
+                    <li className="icon" onClick={() => handlePageChange(currentPage -1)}><a><span className="fas fa-angle-left">&lt;</span></a></li>
+                    {Array.from({ length: totalPages }, (_, index) => (
+                        <li
+                            key={index}
+                            onClick={() => handlePageChange(index + 1)}
+                        >
+                            <a className={currentPage === index + 1 ? "active" : ""}>
+                                {index + 1}
+                            </a>
+                        </li>
+                    ))}
+                    <li onClick={() => handlePageChange(currentPage + 1)}><a><span className="fas fa-angle-left">&gt;</span></a></li>
+                    </ul>
                 </div>
                 {isModalOpen && 
                     <PointModal exchangeCode={selectedCode} closeModal={closeModal} />
