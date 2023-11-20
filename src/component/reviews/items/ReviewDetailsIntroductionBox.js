@@ -3,8 +3,15 @@ import { useEffect } from "react";
 import { callGetReviewThumbnail } from "../../../apis/ReviewAPI";
 import { NavLink, useNavigate } from "react-router-dom";
 import { callDeleteReviewAPI } from "../../../apis/ReviewAPI";
+import { jwtDecode } from 'jwt-decode';
+
 
 export function ReviewDetailsIntroductionBox({ review }) {
+
+  const token = localStorage.getItem('token');
+  const decodedToken = token ? jwtDecode(token) : null;
+
+  console.log('Decoded Token:', decodedToken);
 
   const reviewFileSaveName = review.reviewFileList[0].fileSaveName;
   const dispatch = useDispatch();
@@ -37,10 +44,13 @@ export function ReviewDetailsIntroductionBox({ review }) {
 
         <div className="item" style={{display: "block"}}>
           <div className="text-right">
+            {decodedToken !== null && decodedToken.memberRole == "ROLE_ADMIN" ?
           <div className="m-1">
-          <NavLink to={`/reviews/reviewUpdate/${review.reviewCode}`}><button className="button button-primary w-20 mr-1">수정하기</button></NavLink>
+            <NavLink to={`/reviews/reviewUpdate/${review.reviewCode}`}><button className="button button-primary w-20 mr-1">수정하기</button></NavLink>
             <button className="button text-danger w-20" onClick={deleteReviewHandler}>삭제하기</button>
           </div>  
+            : null
+            } 
             <h2>모금액 총 {review.campaignCurrentBudget} 원으로</h2>
             <h3>따뜻한 손길을 내어줄 수 있었습니다 </h3>
           </div>

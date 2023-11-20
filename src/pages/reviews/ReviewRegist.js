@@ -18,6 +18,7 @@ export function ReviewRegist() {
     const [convertedContent, setConvertedContent] = useState(null);
     const [image, setImage] = useState('')
     const [imageUrl, setImageUrl] = useState('');
+    const maxSizeInBytes = 1048576; // 1 MB
     const imageInput = useRef();
 
     const [form, setForm] = useState({
@@ -47,7 +48,12 @@ export function ReviewRegist() {
     const onChangeImageUpload = (e) => {
         const image = e.target.files[0];
 
-        setImage(image);
+        if(image.size > maxSizeInBytes) {
+            window.alert("이미지 용량이 1MB를 초과합니다.")
+            return;
+        } else (
+            setImage(image)
+        );
     };
 
     const onClickImageUpload = () => {
@@ -63,8 +69,6 @@ export function ReviewRegist() {
 
     const onClickReviewRegistrationHandler = () => {
         console.log('[Review Registration] onClickReviewRegistrationHandler');
-
-
         
         const formData = new FormData();
 
@@ -76,20 +80,28 @@ export function ReviewRegist() {
             formData.append("imageFile", image);
         }
 
+        console.log("image?!?!?!? : ", image);
+
+
         console.log('[Review Registration] formData : ', formData.get("reviewTitle"));
         console.log('[Review Registration] formData : ', formData.get("description"));
         console.log('[Review Registration] formData : ', formData.get("campaignCode"));
         console.log('[Review Registration] formData : ', formData.get("imageFile"));
 
-        if(formData.get("reviewTitle") == "" || formData.get("description") == "" | formData.get("imageFile") == "") {
-            window.alert("입력안하니")
+        if(formData.get("reviewTitle") == "" || formData.get("description") == "") {
+            window.alert("입력안하니");
+            return;
+        } else if(formData.get("imageFile") == undefined) {
+            window.alert("파일 업로드 바랍니다.");
+            return;
         } else {
             console.log("뭐징ㅇㅇㅇㅇ: ", formData)
             dispatch(callPostReview({
             form: formData
-        }));                                                                                                alert('리뷰 목록으로 이동합니다.');
-        navigate('/reviews');
-        window.location.reload();
+            }));                                                                                                
+            alert('리뷰 목록으로 이동합니다.');
+            navigate('/reviews');
+            window.location.reload();
         }
     }
 

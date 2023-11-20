@@ -16,10 +16,12 @@ export const GET_MEMBER_CODE = 'review/GET_MEMBER_CODE';
 export const POST_REVIEW_COMMENT = "review/POST_REVIEW_COMMENT";
 export const GET_REVIEW_COMMENTS = "review/GET_REVIEW_COMMENTS";
 export const DELETE_REVIEW_COMMENT = "review/DELETE_REVIEW_COMMENT";
+export const PUT_COMMENT = "review/PUT_COMMENT";
+export const PUT_MONITORED_COMMENT = "review/PUT_MONITORED_COMMENT";
 
 
  //declare action function
-export const { review: {getReviews,getReview, postReview, getSearchResult, getCompletedCampaigns, getThumbnailPath, putReview, deleteReview, getMemberCode, postReviewComment, getReviewComments, deleteReviewComment } } = createActions({
+export const { review: {getReviews,getReview, postReview, getSearchResult, getCompletedCampaigns, getThumbnailPath, putReview, deleteReview, getMemberCode, postReviewComment, getReviewComments, deleteReviewComment, putComment, putMonitoredComment } } = createActions({
     [GET_REVIEWS] : (res) => ({ reviewList: res }),
     [GET_REVIEW] : (res) => ({ review : res }),
     [POST_REVIEW] : (res) => ({ regist: res }),
@@ -32,6 +34,8 @@ export const { review: {getReviews,getReview, postReview, getSearchResult, getCo
     [POST_REVIEW_COMMENT] : (res) => ({ reviewComment: res }),
     [GET_REVIEW_COMMENTS] : (res) => ({ comments: res }),
     [DELETE_REVIEW_COMMENT] : (res) => ({ deleteComment : res}),
+    [PUT_COMMENT] : (res) => ({ modifyComment : res }),
+    [PUT_MONITORED_COMMENT] : (res) => ({ monitoredComment : res }),
 });
 
 // declare reducer function
@@ -89,6 +93,14 @@ const reviewReducer = handleActions(
         },
         [DELETE_REVIEW_COMMENT] : (state, {payload}) => {
             console.log('Review reducer: DELETE_REVIEW_CODE 들어옴 : ', payload);
+            return payload;
+        },
+        [PUT_COMMENT] : (state, {payload}) => {
+            console.log('Review reducer: PUT_COMMENT_CODE 들어옴 : ', payload);
+            return payload;
+        },
+        [PUT_MONITORED_COMMENT] : (state, {payload}) => {
+            console.log('Review reducer: PUT_MONITORED_COMMENT 들어옴 : ', payload);
             return payload;
         }
 

@@ -14,6 +14,8 @@ import { getMemberCode } from "../modules/ReviewModule";
 import { postReviewComment } from "../modules/ReviewModule";
 import { getReviewComments } from "../modules/ReviewModule";
 import { deleteReviewComment } from "../modules/ReviewModule";
+import { putComment } from "../modules/ReviewModule";
+import { putMonitoredComment } from "../modules/ReviewModule";
 
 
 const DOMAIN = 'http://localhost:8001'
@@ -192,3 +194,48 @@ export function callDeleteReviewAPI(reviewCode, revFileCode) {
         dispatch(deleteReviewComment(result));
     }
   }
+
+  export function callPutSpecificCommentModify({form}) {
+
+    console.log('[ReviewAPI] callPutSpecificCommentModify revCommentCode : ', form.get("revCommentCode"));
+    console.log('[ReviewAPI] callPutSpecificCommentModify reviewCode : ', form.get("reviewCode"));
+    console.log('[ReviewAPI] callPutSpecificCommentModify form : ', form);
+
+    const reviewCode = form.get("reviewCode");
+    const revCommentCode = form.get("revCommentCode");
+
+    return async (dispatch, getState) => {
+
+        const requestPutComment = `http://localhost:8001/reviews/${reviewCode}/comments/${revCommentCode}`;
+
+        const result = await fetch(requestPutComment, {
+            method: "PUT",
+            headers: {
+                "Accept": "*/*",
+                "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+            },
+            body: form
+            });
+            
+            dispatch(putComment(result));
+    }
+  }
+
+    export function callputMonitoredComment(reviewCode, revCommentCode) {
+
+    const requestPutComment = `http://localhost:8001/reviews/${reviewCode}/monitoredComment/${revCommentCode}`;
+
+    return async (dispatch, getState) => {
+    const result = await fetch(requestPutComment, {
+        method: "PUT",
+        headers: {
+            "Accept": "*/*",
+            "Authorization": "Bearer " + window.localStorage.getItem("accessToken")
+        },
+        });
+        
+        dispatch(putMonitoredComment(result));
+    }
+}
+
+  

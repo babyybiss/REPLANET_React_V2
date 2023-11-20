@@ -14,14 +14,14 @@ export function ReviewModify () {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    useEffect (
-       () => { dispatch(callGetSpecificReviewAPI(reviewCode))
-}, [reviewCode])
+        useEffect (
+        () => { dispatch(callGetSpecificReviewAPI(reviewCode))
+    }, [reviewCode])
 
-console.log(review);
-const existingReviewTitle = review.reviewTitle;
+    console.log(review);
+    const existingReviewTitle = review.reviewTitle;
 
-const existingReviewDescription = review.reviewDescription;
+    const existingReviewDescription = review.reviewDescription;
 
     const [reviewTitle, setReviewTitle] = useState(existingReviewTitle);
     const [reviewContent, setReviewContent] = useState('');
@@ -30,7 +30,8 @@ const existingReviewDescription = review.reviewDescription;
     const [image, setImage] = useState('')
     const [imageUrl, setImageUrl] = useState('');
     const imageInput = useRef();
-
+    const maxSizeInBytes = 1048576; // 1 MB
+    
     const [form, setForm] = useState({
         reviewTitle: '',
         reviewDescription: '',
@@ -43,7 +44,10 @@ const existingReviewDescription = review.reviewDescription;
                 const fileReader = new FileReader();
                 fileReader.onload = (e) => {
                     const { result } = e.target;
-                    if( result ) {
+                    if(image.size > maxSizeInBytes) {
+                        window.alert("이미지 용량이 1MB를 초과합니다.");
+                        return;
+                    }else if( result ) {
                         setImageUrl(result);
                     }
                 }
@@ -99,8 +103,9 @@ const existingReviewDescription = review.reviewDescription;
         console.log('[Review Registration] formData : ', formData.get("reviewCode"));
         console.log('[Review Registration] formData : ', formData.get("imageFile"));
 
-        if(formData.get("reviewTitle") === "" || formData.get("description") === "" | formData.get("imageFile") === "") {
-            window.alert("모두 입력 바랍니다.")
+        if(formData.get("reviewTitle") === "" || formData.get("description") === "" || formData.get("imageFile") === "") {
+            window.alert("모두 입력 바랍니다.");
+            return;
         }else {
             console.log("뭐징ㅇㅇㅇㅇ: ", formData)
             dispatch(callPutReview({

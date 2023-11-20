@@ -6,13 +6,15 @@ import { callGetReviewsBySearchFilter } from "../../apis/ReviewAPI";
 import { callGetCompletedCampaign } from "../../apis/ReviewAPI";
 import { CampaignListDoneAPI } from "../../apis/CampaignListAPI";
 import axios from "axios";
-import { AuthContextProvider } from "../../component/auth/AuthContext";
-import { decodeJwt } from "../../utils/TokenUtils";
+import { jwtDecode } from "jwt-decode";
 
 export function Reviews() {
-
-    const token = decodeJwt(window.localStorage.getItem("token"));    
-
+    
+    const token = localStorage.getItem('token');
+    const decodedToken = token ? jwtDecode(token) : null;
+  
+    console.log('Decoded Token:', decodedToken);
+  
     const dispatch = useDispatch();
 
     const result = useSelector(state => state.campaignReducer)
