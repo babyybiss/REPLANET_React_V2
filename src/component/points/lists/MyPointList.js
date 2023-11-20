@@ -84,7 +84,8 @@ function MyPointList(){
                             </tr>
                         </thead>
                         <tbody>
-                            {Array.isArray(currentItems) && currentItems.map(
+                            {myPoints && myPoints.length > 0?(
+                             currentItems.map(
                                 (points) => (
                                     <tr key={points.code} onClick={() => {onClickHandler(points.status, points.code)}}>
                                         <td>{formatExchangeDate(points.changeDate)}</td>
@@ -94,7 +95,13 @@ function MyPointList(){
                                         </td>
                                         <td style={{color:"#1D7151"}}>{points.remainingPoint}</td>
                                     </tr>
-                                )
+                                ))
+                            ):(
+                              <tr>
+                                <td colSpan="4">
+                                    <h6>포인트 내역이 존재하지 않습니다.</h6>
+                                </td>
+                            </tr>
                             )}
                         </tbody>
                     </table>

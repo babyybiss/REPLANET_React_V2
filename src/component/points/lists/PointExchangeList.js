@@ -129,7 +129,8 @@ function PointExchangeList(){
                             </tr>
                         </thead>
                         <tbody>
-                            {Array.isArray(currentItems) && currentItems.map(
+                            {exchanges && exchanges.length > 0 ? (
+                                currentItems.map(
                                 (exchange) => (
                                     <tr key={exchange.exchangeCode} onClick={() => {onClickHandler(exchange.exchangeCode)}}>
                                         <td>{exchange.exchangeCode}</td>
@@ -137,7 +138,13 @@ function PointExchangeList(){
                                         <td>{exchange.title}</td>
                                         <td style={{color: statusColor(exchange.status)}}>{exchange.status}</td>
                                     </tr>
-                                )
+                                ))
+                            ):(
+                                <tr>
+                                <td colSpan="4">
+                                    <h6>전환 신청 내역이 존재하지 않습니다.</h6>
+                                </td>
+                            </tr>
                             )}                 
                         </tbody>
                     </table>
