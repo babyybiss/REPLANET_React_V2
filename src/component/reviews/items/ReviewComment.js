@@ -67,8 +67,7 @@ export function ReviewComment ({ review }) {
     const handleDeleteComment = (e, revCommentCode) => {
 
       if(decodedToken && decodedToken.memberRole === "ROLE_ADMIN") {
-        //dispatch(callputMonitoredComment(reviewCode, revCommentCode));
-
+        dispatch(callputMonitoredComment(reviewCode, revCommentCode));
       } else {
         e.preventDefault();
         const reviewCode = review.reviewCode;
@@ -205,6 +204,9 @@ export function ReviewComment ({ review }) {
                 <>
                  {/* <h5>{comment.memberCode}</h5> */}
                   <h5>{commentEmail[comment.memberCode]}</h5>
+                  {comment.revCommentMonitorized === "Y" && (
+                    <h6>관리자에 의해 삭제 된 댓글 입니다.</h6>
+                  )}
                   <h6>{comment.revCommentContent}</h6>
                   {endDate}
                 </>
