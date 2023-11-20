@@ -18,7 +18,10 @@ function CustomFlyout(props) {
     );
 }
 
-function GoalCampaign() {
+function GoalCampaign(chartDataList) {
+
+  console.log('렌더링 순서가????????????')
+  console.log('GoalCampaign Data?', chartDataList)
 
   /* chartData from API */
   const categoryData = [
@@ -38,6 +41,7 @@ function GoalCampaign() {
         campaignCategory: "마", currentBudget: 150000, goalBudget: 220000
     }
   ];
+
 
   /* Event function setting */ 
   const mouseEventsHandler = [
