@@ -54,7 +54,8 @@ function CenterLabel({ active, datum }) {
 
 const attributes = ["재난", "지구촌", "아동", "노인", "소외"];
 
-function CategoryCampaign() {
+function CategoryCampaign(chartDataList) {
+    console.log('CategoryCampaign Data?', chartDataList)
 
     /* chartData from API */
     const categoryData = [

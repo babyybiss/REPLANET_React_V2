@@ -2,7 +2,8 @@ import { useState } from "react"
 import { VictoryChart, VictoryZoomContainer, VictoryBrushContainer, VictoryLine, VictoryAxis, VictoryScatter, VictoryGroup, VictoryTooltip } from "victory"
 import "../../assets/css/chart.css"
 
-function HistoryChart() {
+function HistoryChart(chartDataList) {
+    console.log('HistoryChart Data?', chartDataList)
     const [zoomDomain, setZoomDomain] = useState({
         zoomDomain: {
             x: [new Date('2023-01-01'), new Date('2023-12-31')]
