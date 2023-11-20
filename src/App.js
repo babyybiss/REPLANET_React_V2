@@ -31,6 +31,7 @@ import MyExchanges from "./pages/points/MyExchanges";
 import CampaignModify from "./pages/campaigns/CampaignModify";
 import MyPoints from "./pages/points/MyPoints";
 import Calculator from "./component/mypage/Calculator";
+import DonationReceipt from "./pages/users/Receipt";
 
 
 function App() {
@@ -52,7 +53,7 @@ function App() {
                 <Route key="history" index element={<Navigate to="history" />} />,
                 <Route key="historyPage" path="history" element={<DonationList />} />,
                 <Route key="bookmark" path="bookmark" element={<BookmarkList />} />,
-
+                <Route key="receipt" path="receipt" element={<DonationReceipt />} />,
                 <Route key="pointService" path="pointService" element={<MyPoints />} />,
                 <Route key="exchange" path="exchange" element={<ExchangePoint />} />,
                 <Route key="myExchangeList" path="myExchangeList" element={<MyExchanges />} />,

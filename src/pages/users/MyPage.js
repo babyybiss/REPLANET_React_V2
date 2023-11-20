@@ -1,4 +1,4 @@
-import '../../assets/css/reset.css'
+import '../../assets/css/reset.css';
 import '../../assets/css/common.css';
 import '../../assets/css/user.css';
 import '../../assets/css/mypage.css';
@@ -20,6 +20,17 @@ function MyPage() {
     const totalAmount = result.totalAmount !== undefined && result.totalAmount !== null? result.totalAmount.toLocaleString() : '로딩중...';
     const totalDonation = result.totalDonation !== undefined && result.totalDonation !== null? result.totalDonation : '로딩중...';
     
+    useEffect(
+        () => {
+            console.log('MyPage() useEffect 실행');
+            dispatch(callGetMemberByTokenAPI())
+            .catch(error => {
+                console.error('MyPage() API 호출 에러: ', error);
+            })
+        },
+        [dispatch]
+    );
+
     const [isSubmenuOpen, setIsSubmenuOpen] = useState(false);
     const [pointMenuActive, setPointMenuActive] = useState(false);
     const location = useLocation();
@@ -42,17 +53,6 @@ function MyPage() {
             setPointMenuActive(isPointMenuActive);
         },[location.pathname]
     )
-
-    useEffect(
-        () => {
-            console.log('MyPage() useEffect 실행');
-            dispatch(callGetMemberByTokenAPI())
-            .catch(error => {
-                console.error('MyPage() API 호출 에러: ', error);
-            })
-        },
-        [dispatch]
-    );
 
     return(
         <>
@@ -92,7 +92,7 @@ function MyPage() {
                             전환 신청 내역
                         </NavLink>
                     </div>
-                    <NavLink to="바꿔주세요" className="admin-sidebar-menu">
+                    <NavLink to="receipt" className="admin-sidebar-menu">
                         기부영수증 안내
                     </NavLink>
                     <NavLink to="bookmark" className='admin-sidebar-menu'>
