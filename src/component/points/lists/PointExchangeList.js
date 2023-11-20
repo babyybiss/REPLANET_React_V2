@@ -2,7 +2,7 @@ import "../../../assets/css/reset.css";
 import "../../../assets/css/common.css";
 import "../../../assets/css/adminexchange.css";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { adminExchangesAPI, exchangeStatusAPI, userExchangesAPI } from '../../../apis/PointAPI'
 import { useEffect, useState } from "react";
 import PointModal from "../items/PointModal";
@@ -12,7 +12,6 @@ function PointExchangeList(){
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const location = useLocation();
     const params = useParams();
     const exchanges = useSelector(state => state.exchangeReducer);
     const [currentPage, setCurrentPage] = useState(1);
@@ -57,24 +56,6 @@ function PointExchangeList(){
         const selectedValue = e.target.value;
         setStatusValue(selectedValue);
     }
-    useEffect(
-        () => {
-            console.log("setStatus 확인 : ", statusValue);
-
-            if(statusValue != '전체'){
-                dispatch(exchangeStatusAPI({
-                    status: statusValue,
-                    exchangeCode: params.exchangeCode,
-                    currentPage: 1
-                }));
-            } else {
-                dispatch(adminExchangesAPI({
-                    exchangeCode: params.exchangeCode,
-                    currentPage: 1
-                }))
-            }
-        },[statusValue]
-    )
 
     useEffect(
         () => {
@@ -83,11 +64,19 @@ function PointExchangeList(){
                     exchangeCode: params.exchangeCode
                 }));
             } else if(memberAuth == "ROLE_ADMIN"){
-                dispatch(adminExchangesAPI({
-                    exchangeCode: params.exchangeCode
-                }));
+                if(statusValue == '전체' || statusValue == null){
+                    dispatch(adminExchangesAPI({
+                        exchangeCode: params.exchangeCode
+                    }));
+                } else {
+                    dispatch(exchangeStatusAPI({
+                        status: statusValue,
+                        exchangeCode: params.exchangeCode,
+                        currentPage: 1
+                    }));
+                }              
             }
-        }, []
+        }, [statusValue]
     );
 
     const indexOfLastItem = currentPage * itemsPerPage;
