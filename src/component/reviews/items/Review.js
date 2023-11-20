@@ -13,8 +13,8 @@ export function Review({ review, reviewExists }) {
               <img className="v-2 v-3" src={`/reviewImgs/${review.reviewFileList[0].fileSaveName}`} />
             </div>
             <h4>{review.reviewTitle}</h4>
-            <h6 style={{color: "#706f6f"}}>캠페인: {review.campaignTitle}</h6>
-            <h6 style={{color: "#706f6f"}}>재단 : {review.campaignOrgName}</h6>
+            <h6 style={{color: "#706f6f"}}>캠페인: <strong style={{ fontWeight: 'bold' }}>{review.campaignTitle}</strong></h6>
+            <h6 style={{color: "#706f6f"}}>재단 : <strong style={{ fontWeight: 'bold' }}>{review.campaignOrgName}</strong></h6>
         </NavLink>
     )
   } else if (!reviewExists && isEndDateValid) {

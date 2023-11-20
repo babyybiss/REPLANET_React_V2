@@ -395,7 +395,7 @@
   
   .mb-0 {
     margin-bottom: 0 !important;
-  }
+  }  
   
   .m-1 {
     margin: 0.625rem !important
@@ -1637,6 +1637,7 @@
   .pagination li {
     background: var(--color-white);
     list-style: none;
+    cursor: pointer;
   }
   .pagination li a {
     text-decoration: none;

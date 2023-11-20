@@ -150,9 +150,9 @@
 }
 
 
-#comment div input {
+/* #comment div input {
   pointer-events:none;
-}
+} */
 
 .commentI {
   margin: 1rem;
@@ -174,6 +174,20 @@
 
 .commentWidth {
   width: 100% !important;
+}
+
+.up {
+  z-index: 999;
+}
+
+.mt-1 {
+  margin-top: 4.5rem !important;
+}
+
+.commentDisable {
+  width: 95%;
+  height: 5rem;
+  margin: 1rem;
 }
 
 /*return (
