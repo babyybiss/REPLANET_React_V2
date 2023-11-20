@@ -68,7 +68,9 @@ function DonationList() {
 
     const calculateTotalAmount = () => {
         console.log('pays',pays);
-        return pays && pays.length > 0 ? (pays.reduce((total, pay) => total + pay.payAmount + pay.refDonation.donationPoint, 0)) : ('0');
+        return pays && pays.length > 0
+        ? pays.reduce((total, pay) => total + (pay.payAmount || 0) + (pay.refDonation?.donationPoint || 0), 0)
+        : '0';
     }
 
     useEffect(
