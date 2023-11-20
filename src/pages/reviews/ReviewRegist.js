@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { callGetSpecificReviewAPI } from "../../apis/ReviewAPI";
+import { callGetSpecificCampaignAPI } from "../../apis/ReviewAPI";
 import { TextEditor } from "../../component/reviews/items/TextEditor.js";
 import { callPostReview } from "../../apis/ReviewAPI";
 import axios from "axios";
@@ -10,9 +10,10 @@ export function ReviewRegist() {
     const { campaignCode } = useParams();
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const result = useSelector(state => state.reviewReducer);
-    const review = result.review;
-    
+    const result = useSelector(state => state.reviewReducer.campaign);
+   // const review = result.review;
+
+
     const [reviewTitle, setReviewTitle] = useState('');
     const [reviewThumbnail, setReviewThumbnail] = useState('');
     const [convertedContent, setConvertedContent] = useState(null);
@@ -117,7 +118,7 @@ export function ReviewRegist() {
 
 
     useEffect(() => {
-        dispatch(callGetSpecificReviewAPI(campaignCode));
+        dispatch(callGetSpecificCampaignAPI(campaignCode));
         setForm({
             ...form,
             campaignCode: campaignCode
@@ -140,45 +141,49 @@ export function ReviewRegist() {
 
     const uploadImageCallback = (file) => {
         return new Promise((resolve, reject) => {
-            const xhr = new XMLHttpRequest();
-            xhr.open('POST', 'https://api.imgur.com/3/image');
-            xhr.setRequestHeader('Authorization', 'Client-ID 8eac554d5b85e96');
-    
-            const data = new FormData();
-            data.append('image', file);
-    
-            xhr.addEventListener('load', () => {
-                const response = JSON.parse(xhr.responseText);
-                
-                if (xhr.status === 429) {
-                    // Handle rate limiting, add a delay and retry
-                    setTimeout(() => {
-                        uploadImageCallback(file).then(resolve).catch(reject);
-                    }, 1000); // Adjust the delay time as needed
-                } else {
-                    console.log(response);
-                    resolve({ data: { link: response.data.link } });
-                }
-            });
-    
-            xhr.addEventListener('error', () => {
-                const error = JSON.parse(xhr.responseText);
-                console.log(error);
-                reject(error);
-            });
-    
-            xhr.send(data);
+          const xhr = new XMLHttpRequest();
+          xhr.open('POST', 'https://api.imgur.com/3/image');
+          xhr.setRequestHeader('Authorization', 'Client-ID ce9fbcd31155140');
+      
+          const data = new FormData();
+          data.append('image', file);
+      
+          xhr.addEventListener('load', () => {
+            const response = JSON.parse(xhr.responseText);
+            console.log(response);
+      
+            if (response.success) {
+              const imageUrl = response.data.link;
+              console.log('Resolved Image URL:', imageUrl);
+              resolve({ data: { link: imageUrl } });
+              console.log("fuuuuuck: ",data.link);
+            } else {
+              // Reject with an error message
+              reject({ error: 'Failed to upload image' });
+            }
+          });
+      
+          xhr.addEventListener('error', () => {
+            const error = JSON.parse(xhr.responseText);
+            console.log(error);
+            reject(error);
+          });
+      
+          xhr.send(data);
         });
-    };
+      };
+      
+      
+      
     
     
-
+    console.log("did the campaign come: ", result);
 
     return (
         <>
             <div className="container-first">
                     <h1 className="py-3 container-centered">캠페인 후기 등록</h1>
-                    <h5 className="container-centered">{review && result.review.orgName}</h5>
+                    <h5 className="container-centered">{result && result.orgName}</h5>
                     <div className="text-center">
                         <input 
                             type="text" 
@@ -196,6 +201,7 @@ export function ReviewRegist() {
                                 src={ imageUrl }
                                 alt="preview"
                             />}
+                    <img src="https://i.imgur.com/aVDuXWh.png"/>
                         <input 
                             style={ { display: 'none' }}
                             type="file" 

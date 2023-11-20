@@ -4,45 +4,22 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { callGetReviewsAPI } from "../../../apis/ReviewAPI";
 import { Link } from "react-router-dom";
+import { callGetCampaignsWithoutAReview } from "../../../apis/ReviewAPI";
 
+export function ReviewList({ result, reviewExists, searchFilter, completedCampaigns }) {
 
-export function ReviewList({ reviewExists, searchFilter, completedCampaigns }) {
-
-    const result = useSelector((state) => state.reviewReducer);
-    
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        dispatch(callGetReviewsAPI());
-    }, [reviewExists]);
+    console.log(result)
 
-
-
-    // Check if result is an array, if not, initialize it as an empty array
-    const filteredCampaigns = Array.isArray(result.reviewList)
-    ? result.reviewList.filter((item) => {
-          if (reviewExists === true) {
-            //console.log("what is rendered? : ", item);
-              // If reviewExists is true, return campaigns with non-null reviewCampaignCode
-              return item.reviewCode !== null;
-          } if (reviewExists === false) {
-            //console.log("else???? : ", item.reviewCampaignCode !== null);
-              // If reviewExists is false, return campaigns with null reviewCampaignCode
-              return item.reviewCode == null;
-          }
-      })
-    : [];
-
-    console.log(result.reviewList);
-    console.log('searchFilter?? :' , searchFilter)
-    console.log('filtered shit: ', filteredCampaigns);
-    
     return (
+        result && (
         <>
-            {filteredCampaigns.map((filteredCampaign) => (
+            {result.map((review) => (
                 // Pass the filtered data to the Review component
-                <Review key={filteredCampaign.campaignCode} review={filteredCampaign} reviewExists={reviewExists} completedCampaigns={completedCampaigns} />
+                <Review key={review.campaignCode} review={review} reviewExists={reviewExists} completedCampaigns={completedCampaigns} />
             ))}
         </>
+        )
     );
 }

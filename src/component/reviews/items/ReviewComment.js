@@ -68,6 +68,7 @@ export function ReviewComment ({ review }) {
 
       if(decodedToken && decodedToken.memberRole === "ROLE_ADMIN") {
         dispatch(callputMonitoredComment(reviewCode, revCommentCode));
+        window.location.reload();
       } else {
         e.preventDefault();
         const reviewCode = review.reviewCode;
@@ -161,6 +162,20 @@ export function ReviewComment ({ review }) {
 
   console.log("emails?????/",commentEmail[3]);
 
+  const hideEmailCharacters = (email) => {
+    if (email && email.indexOf) {
+      const atIndex = email.indexOf('@');
+      if (atIndex !== -1) {
+        const visiblePrefix = email.length > 4 ? email.substring(0, 4) : '***';
+        const hiddenSuffix = '*'.repeat(email.length - 4 - atIndex);
+        return visiblePrefix + hiddenSuffix + email.substring(atIndex);
+      }
+      return email;
+    }
+    return '';
+  };
+
+
   return (
     <ul id="comment" className={commentStyles.commentList}>
       <li>
@@ -203,12 +218,22 @@ export function ReviewComment ({ review }) {
                 // Otherwise, show the comment details
                 <>
                  {/* <h5>{comment.memberCode}</h5> */}
-                  <h5>{commentEmail[comment.memberCode]}</h5>
-                  {comment.revCommentMonitorized === "Y" && (
-                    <h6 style={{color: "#1D7151", fontWeight: 'bold'}}>부적절한 표현을 감지하여 리플래닛 클린봇에 의해 삭제 된 댓글입니다 🧼 </h6>
+
+                  {comment.revCommentMonitorized === "Y" ? (
+                    <>
+                    <h5>{commentEmail[comment.memberCode]}</h5>
+                    <h6 style={{color: "#1D7151", fontWeight: 'bold'}}>부적절한 표현을 감지하여 리플래닛 클린봇에 의해 삭제 된 댓글입니다 🧹</h6>
+                    {endDate}
+                    </>
+                  ) : (
+                    <>
+                    <h5>{hideEmailCharacters(commentEmail[comment.memberCode])}</h5>
+                    <h6>{comment.revCommentContent}</h6>
+                    {endDate}
+                    </>
+
                   )}
-                  <h6>{comment.revCommentContent}</h6>
-                  {endDate}
+                  
                 </>
               )}
             </div>

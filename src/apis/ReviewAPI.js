@@ -16,6 +16,9 @@ import { getReviewComments } from "../modules/ReviewModule";
 import { deleteReviewComment } from "../modules/ReviewModule";
 import { putComment } from "../modules/ReviewModule";
 import { putMonitoredComment } from "../modules/ReviewModule";
+import { getReviewNeededCampaign } from "../modules/ReviewModule";
+import { getCampaign } from "../modules/ReviewModule";
+
 
 
 const DOMAIN = 'http://localhost:8001'
@@ -80,6 +83,18 @@ export function callGetSpecificReviewAPI(reviewCode) {
         console.log('getSpecificReview result: ', result);
 
         dispatch(getReview(result));
+    }
+}
+
+export function callGetSpecificCampaignAPI(campaignCode) {
+    console.log('getSpecificCampaign call...');
+
+    return async (dispatch, getState) => {
+
+        const result = await request('GET', `/campaigns/${campaignCode}`);
+        console.log('getSpecificCampaign result: ', result);
+
+        dispatch(getCampaign(result));
     }
 }
 
@@ -238,4 +253,12 @@ export function callDeleteReviewAPI(reviewCode, revFileCode) {
     }
 }
 
-  
+export function callGetCampaignsWithoutAReview() {
+    return async(dispatch, getState) => {
+        console.log("wtf??????")
+        const result = await request('GET', '/reviews/nonExisting');
+        console.log('getReviewList result: ', result);
+
+        dispatch(getReviewNeededCampaign(result));
+    }
+}

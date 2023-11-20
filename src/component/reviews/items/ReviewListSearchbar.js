@@ -1,20 +1,31 @@
 import style from "../../../assets/css/common.css"
 import "../../../assets/css/select.css"
 import { jwtDecode } from 'jwt-decode';
+import { callGetCampaignsWithoutAReview } from "../../../apis/ReviewAPI";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { callGetReviewsAPI } from "../../../apis/ReviewAPI";
+export function ReviewListSearchbar({ reviewCampaignCode, searchFilter, setSearchFilter, reviewExists, setReviewExists, onSearchKeyPress, handleSearchKeyPress}) {
 
-export function ReviewListSearchbar({ reviewCampaignCode, searchFilter, setSearchFilter, reviewExists, setReviewExists, onSearchKeyPress, handleSearchKeyPress, handleCompletedCampaign }) {
-
+    const dispatch = useDispatch();
     const token = localStorage.getItem('token');
     const decodedToken = token ? jwtDecode(token) : null;
   
     console.log('Decoded Token:', decodedToken);
   
     const handleSelectChange = (e) => {
-        // Reset the searchFilter when the select option is changed
+        const selectedValue = e.target.value === "true";
+        setReviewExists(selectedValue);
         setSearchFilter('');
-        setReviewExists(e.target.value === "true");
-        handleCompletedCampaign();
+    
+        if (selectedValue) {
+            dispatch(callGetReviewsAPI());
+        } else {
+            dispatch(callGetCampaignsWithoutAReview());
+        }
     };
+
+    
 
     return (
         <div className="text-center">

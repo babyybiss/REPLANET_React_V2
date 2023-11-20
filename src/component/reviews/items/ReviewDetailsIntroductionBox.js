@@ -51,7 +51,7 @@ export function ReviewDetailsIntroductionBox({ review }) {
           </div>  
             : null
             } 
-            <h2>모금액 총 {review.campaignCurrentBudget} 원으로</h2>
+            <h2>모금액 총 {review.campaignCurrentBudget.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} 원으로</h2>
             <h3>따뜻한 손길을 내어줄 수 있었습니다 </h3>
           </div>
         
