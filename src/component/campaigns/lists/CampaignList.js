@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import CampaignItem from "../items/CampaignItem";
 import { CampaignListAPI } from "../../../apis/CampaignListAPI";
 import { getCategoryByCampaign } from "../../../modules/CampaignModule";
+import { jwtDecode } from 'jwt-decode';
 
 const categoryList = [
     { key: "0", name: "전체" },
@@ -16,29 +17,33 @@ const categoryList = [
 ];
 
 function CampaignList() {
+    // 토큰 정보 
+    const token = localStorage.getItem('token');
+    const decodedToken = token ? jwtDecode(token) : null;
+
     const result = useSelector(state => state.campaignReducer)
     const campaignList = result.campaignlist || result.campaignDoneList;
-    const categories = result.category;
 
+    const [categories, setCategories] = useState(result.category);
     //const [campaignList, setCampaignList] = useState(campaignLists);
 
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const categoryClickHandler = async (category) => {
-
-        const cf =  campaignList.filter((curData) => {
-
-            return curData.campaignCategory == category;
+    const categoryClickHandler = (category) => {
+        if (category === "전체") {
+            
+            return setCategories(undefined)
+        }
+        const cf = campaignList.filter((curData) => {
+                return curData.campaignCategory === category;
+           
         })
-        console.log(cf, '카테결과');
 
-        await dispatch(getCategoryByCampaign(cf));
-        
+        setCategories(getCategoryByCampaign(cf))
 
     }
-    console.log(categories, '맞는데');
     const goToRegist = () => {
         navigate('/regist')
     };
@@ -48,29 +53,30 @@ function CampaignList() {
         []
     );
     return (
-        
-            <>
-                <div className="campaign-button-container">
-                    <div className="campaign-button-area">
-                        {categoryList.map(category => (
-                            <button key={category.key} className="button button-primary-outline"
-                                onClick={() => categoryClickHandler(category.name)}
-                            >
-                                {category.name}
-                            </button>
-                        ))}
-                        <button className="button button-primary" onClick={goToRegist}>캠페인 등록</button>
-                    </div>
+        <>
+            <div className="campaign-button-container">
+                <div className="campaign-button-area">
+                    {categoryList.map(category => (
+                        <button key={category.key} className="button button-primary-outline"
+                            onClick={() => categoryClickHandler(category.name)}
+                        >
+                            {category.name}
+                        </button>
+                    ))}
+                    {decodedToken !== null && decodedToken.memberRole == "ROLE_ADMIN" ?
+                    <button className="button button-primary" onClick={goToRegist}>캠페인 등록</button>: ""
+                }
                 </div>
-                {campaignList && (
+            </div>
+            {campaignList && (
                 <div className="items-container ic3 g-gap3 campaign-list-container">
                     {categories != undefined ?
-                          categories.map(campaign => <CampaignItem key={campaign.campaignCode} campaign={campaign} />)
+                        categories.payload.category.map(campaign => <CampaignItem key={campaign.campaignCode} campaign={campaign} />)
                         : campaignList.map(campaign => <CampaignItem key={campaign.campaignCode} campaign={campaign} />)}
                 </div>
-                )}
-            </>
-        )
+            )}
+        </>
+    )
 }
 
 export default CampaignList;

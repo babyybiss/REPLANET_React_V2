@@ -25,7 +25,6 @@ function CampaignModify() {
     const campaignInfo = campaigns.campaigninfo;
     const { campaignCode } = useParams();
 
-    console.log(campaignInfo, 'zzz');
     const [editorState, setEditorState] = useState(() => {
         if (campaignInfo) {
             const contentBlock = convertFromHTML(campaignInfo.campaignContent);
@@ -49,6 +48,7 @@ function CampaignModify() {
         dispatch(GetCampaignAPI(campaignCode))
         setInputs(campaignInfo)
         //setImagePre(campaignInfo.campaignDescfileList[0])
+        
         if(imagePre){
             const fileReader = new FileReader();
                 fileReader.onload = (e) => {
