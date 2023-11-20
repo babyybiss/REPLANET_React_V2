@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 
 import moment from 'moment';
 
@@ -7,10 +6,8 @@ function Participation({ participation }) {
     const donationInfo = participation.donation;
     const payInfo = participation;
 
-    const memberInfo = participation.donation.refMember;
-
     const [totalDonation, setTotalDonation] = useState(0);
-    const [point, setPoint] = useState(donationInfo.donationPoint);
+    const [point, setPoint] = useState(donationInfo? donationInfo.donationPoint: '0');
     const [cash, setCash] = useState(payInfo.payAmount);
     useEffect(
         () => {
@@ -21,7 +18,7 @@ function Participation({ participation }) {
                 setCash(0)
             }
             setTotalDonation(point + cash)
-        }
+        },[]
     )
 
     const maskingName = function (name) {
@@ -48,7 +45,7 @@ function Participation({ participation }) {
             <thead>
                 <tr>
                     <th>{moment(donationInfo.donationDateTime).format('YYYY-MM-DD')}</th>
-                    <th>{maskingName(memberInfo.memberName)}</th>
+                    <th>{donationInfo? maskingName(donationInfo.refMember.memberName): ""}</th>
                     <th>{totalDonation.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원 참여</th>
                 </tr>
             </thead>

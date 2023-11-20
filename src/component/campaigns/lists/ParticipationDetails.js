@@ -6,9 +6,8 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { callGetDonationByCampaignCodeAPI } from "../../../apis/DonationAPI";
 
-function ParticipationDetails({ campaignInfo }) {
+function ParticipationDetails() {
     const participation = useSelector(state => state.donationReducer);
-    const [participations, setParticipations] = useState();
     const campaignCode = useParams();
     const dispatch = useDispatch();
     const itemsPerPage = 10;
@@ -17,7 +16,6 @@ function ParticipationDetails({ campaignInfo }) {
 
     const [start, setStart] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
-    const [pageEnd, setPageEnd] = useState(1)
 
     const pageNumber = [];
     if(pageInfo){

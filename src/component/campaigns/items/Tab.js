@@ -1,7 +1,6 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { CampaignListAPI, CampaignListDoneAPI } from '../../../apis/CampaignListAPI';
-import { getQueriesForElement } from '@testing-library/react';
-import { useState } from 'react';
+
 
 
 function Tab() {

@@ -16,7 +16,7 @@ export function ReviewComment ({ review, memberCode }) {
     const dispatch = useDispatch();
     const [ revCommentContent, setRevCommentContent ] = useState('');
     const [ modify, setModify ] = useState(false);
-    const [ commentState, setcommentState ] = useState(review.reviewCommentList.revCommentContent);
+    const [ commentState, setcommentState ] = useState('');
     const comments = useSelector((state) => state.reviewReducer.comments);
     const reviewCode = review.reviewCode;
     const [form, setForm] = useState({

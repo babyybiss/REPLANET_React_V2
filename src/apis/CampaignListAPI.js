@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getContinue, getComplete, getCampaign, postCampaign } from '../modules/CampaignModule';
+import { getContinue, getComplete, getCampaign, postCampaign, getCategoryByCampaign} from '../modules/CampaignModule';
 
 export const requestURL = 'http://localhost:8001/';
 
@@ -42,6 +42,19 @@ export function GetCampaignAPI(campaignCode) {
         } catch (error) {
             console.error('에러 발생:', error);
         }
+    }
+}
+
+// 카테고리별 캠페인 조회 
+export function getCampaignSearchByCategory(category){
+    console.log(category, '이게 문젠가?');
+    return async (dispatch, getState) => {
+        const result = await axios.get(requestURL+'category', category).then(
+        dispatch(getCategoryByCampaign(result.data))
+        ).catch( (error) => {
+            console.log(error);
+        }
+        )
     }
 }
 

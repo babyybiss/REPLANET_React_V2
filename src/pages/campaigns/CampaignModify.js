@@ -65,7 +65,6 @@ function CampaignModify() {
     // const canSubmit = useCallback(() => {
     //     return inputs !== "" && editorState !== "";
     //   }, [inputs]);
-    console.log(imagePre);
     const header = {
         headers: {
             //Authorization: `${getItem('token')}`,
