@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Swal from 'sweetalert2';
 const fetchAuth = async (fetchData) => {
     const method = fetchData.method;
     const url = fetchData.url;
@@ -11,11 +12,11 @@ const fetchAuth = async (fetchData) => {
             (method === 'delete' && (await axios.delete(url, header)));
         if (response && response.data.error) {
             console.log(response.data.error);
-            alert("Wrong ID or Password");
+            Swal.fire("ID 또는 비밀번호가 틀렸습니다.");
             return null;
         }
         if (!response) {
-            alert("false!");
+            Swal.fire("응답 오류");
             return null;
         }
         return response;
@@ -25,12 +26,12 @@ const fetchAuth = async (fetchData) => {
             const serverError = err;
             if (serverError && serverError.response) {
                 console.log(serverError.response.data);
-                alert("failed!");
+                Swal.fire("서버 오류");
                 return null;
             }
         }
         console.log(err);
-        alert("failed!");
+        Swal.fire("기타 오류");
         return null;
     }
 };
