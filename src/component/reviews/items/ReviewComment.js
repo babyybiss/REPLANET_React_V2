@@ -27,6 +27,7 @@ export function ReviewComment ({ review }) {
     const [ commentState, setCommentState ] = useState(review.reviewCommentList ? review.reviewCommentList.revCommentContent : '');
     const comments = useSelector((state) => state.reviewReducer.comments);
     const [ hiddenStatus, setHiddenStatus ] = useState('N')
+    const [commentEmail, setCommentEmail] = useState({});
     const reviewCode = review.reviewCode;
 
 
@@ -116,6 +117,50 @@ export function ReviewComment ({ review }) {
     navigate('/login')
   }
 
+  useEffect(() => {
+    const fetchCommentEmail = async () => {
+      const emailPromises = review.reviewCommentList.map(async (comment) => {
+        try {
+        const response = await fetch(`/reviews/getEmailByMemberCode/${comment.memberCode}`);
+
+        if( response.ok ) {
+          if(response.headers.get('content-type') && response.headers.get('content-type').includes('application/json')) {
+          const data = await response.json();
+          return { memberCode: comment.memberCode, email: data };
+        } else {
+          const data = await response.text();
+          return { memberCode: comment.memberCode, email: data };
+        }
+      } else {
+        console.error(`Error fetching email for memberCode ${comment.memberCode}: ${response.statusText}`);
+        return { memberCode: comment.memberCode, email: 'Error fetching email' };
+      }
+    } catch (error) {
+      console.error(`Error fetching email for memberCode ${comment.memberCode}: ${error.message}`);
+      return { memberCode: comment.memberCode, email: 'Error fetching email' };
+    }
+  });
+
+
+    try{ 
+      const emails = await Promise.all(emailPromises);
+      const emailMap = {};
+      emails.forEach(({ memberCode, email }) => {
+        emailMap[memberCode] = email;
+      });
+
+      setCommentEmail(emailMap);
+    } catch ( error ) {
+      console.error(`Error fetching comments' emails: ${error.message}`);
+    }
+    };
+
+    if (review.reviewCommentList) {
+      fetchCommentEmail();
+    }
+  }, [review.reviewCommentList]);
+
+  console.log("emails?????/",commentEmail[3]);
 
   return (
     <ul id="comment" className={commentStyles.commentList}>
@@ -158,7 +203,8 @@ export function ReviewComment ({ review }) {
               ) : (
                 // Otherwise, show the comment details
                 <>
-                  <h5>{comment.memberCode}</h5>
+                 {/* <h5>{comment.memberCode}</h5> */}
+                  <h5>{commentEmail[comment.memberCode]}</h5>
                   <h6>{comment.revCommentContent}</h6>
                   {endDate}
                 </>
