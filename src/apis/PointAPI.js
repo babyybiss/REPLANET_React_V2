@@ -1,4 +1,4 @@
-import { GET_EXCHANGES, GET_EXCHANGE, GET_USER_EXCHANGES, GET_EXCHANGE_DETAIL_U, PUT_EXCHANGES, POST_EXCHANGES, GET_POINTS_HISTORY } from '../modules/PointModule';
+import { GET_EXCHANGE, GET_USER_EXCHANGES, GET_EXCHANGE_DETAIL_U, PUT_EXCHANGES, POST_EXCHANGES, GET_POINTS_HISTORY, GET_ADMIN_EXCHANGES } from '../modules/PointModule';
 import axios from "axios";
 
 
@@ -32,7 +32,7 @@ export const pointExchangeAPI = ({formdata}) => {
     }
 }
 
-export const exchangesAPI = () => {
+export const adminExchangesAPI = () => {
     const requestURL = 'http://localhost:8001/exchanges';
 
     return async (dispatch, getState) => {
@@ -47,7 +47,7 @@ export const exchangesAPI = () => {
 
             console.log('[PointAPI] exchangesAPI RESULT : ', response);
             if(response.status === 200){
-                dispatch({type: GET_EXCHANGES, payload: response.data});
+                dispatch({type: GET_ADMIN_EXCHANGES, payload: response.data});
             }
         });
 
@@ -78,7 +78,7 @@ export const userExchangesAPI = (memberCode) => {
 
 export const exchangeDetailAPI = ({exchangeCode}) => {
     console.log('요청 직전 코드 확인 : ', exchangeCode);
-    const requestURL = `http://localhost:8001/exchanges/${exchangeCode}`;
+    const requestURL = `http://localhost:8001/exchanges/${exchangeCode}/detail`;
 
     return async (dispatch, getState) => {
         const result = await axios.get(requestURL, {
@@ -174,6 +174,26 @@ export const myPointsHistoryAPI = (memberCode) => {
             console.log('PointAPI myPointsHistoryAPI RESULT : ', response);
             if(response.status === 200){
                 dispatch({type: GET_POINTS_HISTORY, payload: response.data});
+            }
+        });
+    }
+}
+
+export const exchangeStatusAPI = ({status, exchangeCode, currentPage}) => {
+    console.log("API status 확인 : ", status);
+    const requestURL = `http://localhost:8001/exchanges/${status}`;
+
+    return async (dispatch, getState) => {
+        await axios.get(requestURL, {
+            headers: {
+                "Content-Type" : "application/json",
+                "Accept" : "*/*"
+            }
+        })
+        .then(function(response){
+            console.log('PointAPI exchangeStatusAPI RESULT : ', response);
+            if(response.status === 200){
+                dispatch({type: GET_ADMIN_EXCHANGES, payload: response.data});
             }
         });
     }

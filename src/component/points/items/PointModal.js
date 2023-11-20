@@ -10,7 +10,7 @@ function PointModal({exchangeCode, closeModal}){
 
     console.log("모달에 들어온 코드 확인 : ", exchangeCode);
     const dispatch = useDispatch();
-    const detail = useSelector(state => state.exchangeReducer);
+    const detail = useSelector(state => state.modalReducer);
     console.log("detail 확인 : ", detail);
     const date1 = new Date(detail.exchangeDate);
     const exchangeDate = date1.getFullYear() + "년 " + (date1.getMonth()+1) + "월 " + date1.getDate() + "일";
