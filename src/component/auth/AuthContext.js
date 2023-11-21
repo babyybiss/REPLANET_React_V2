@@ -17,21 +17,6 @@ const AuthContext = React.createContext({
     changePassword: (exPassword, newPassword) => { }
 });
 
-// axios.defaults.withCredentials = true; // withCredentials 전역 설정
-// axios
-//   .post(`${`http://localhost:3000`}/login`, AuthContext.userObj)
-//   .then((res) => {
-//     if (res.status === 200) {
-//       // 모든 헤더 이름은 소문자
-//       let token = res.headers['authorization']; // 응답헤더에서 토큰 받기
-//       console.log('access 토큰 :', token);
-//       setLocalStorage('token', token); // 토큰 localStorage에 저장
-//       axios.defaults.headers.common[
-//         'Authorization'
-//       ] = `Bearer ${token}`;
-//       navigate('/');
-//     }
-//   })
 
 export const AuthContextProvider = (props) => {
     const tokenData = authAction.retrieveStoredToken();

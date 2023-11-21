@@ -12,11 +12,10 @@ const fetchAuth = async (fetchData) => {
             (method === 'delete' && (await axios.delete(url, header)));
         if (response && response.data.error) {
             console.log(response.data.error);
-            Swal.fire("ID 또는 비밀번호가 틀렸습니다.");
             return null;
         }
         if (!response) {
-            Swal.fire("응답 오류");
+            console.log("응답 오류");
             return null;
         }
         return response;
@@ -26,7 +25,6 @@ const fetchAuth = async (fetchData) => {
             const serverError = err;
             if (serverError && serverError.response) {
                 console.log(serverError.response.data);
-                Swal.fire("서버 오류");
                 return null;
             }
         }
