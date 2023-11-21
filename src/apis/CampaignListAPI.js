@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getContinue, getComplete, getCampaign, postCampaign, getCategoryByCampaign} from '../modules/CampaignModule';
+import { getContinue, getComplete, getCampaign, postCampaign, getCategoryByCampaign, postBookmark} from '../modules/CampaignModule';
 
 
 export const requestURL = 'http://localhost:8001/';
@@ -9,8 +9,9 @@ export function CampaignListAPI() {
 
     return async (dispatch, getState) => {
         try {
-            const result = await axios.get(requestURL);
+            const result = await axios.get(requestURL)
             dispatch(getContinue(result.data))
+            
         } catch (error) {
             console.error('에러 발생:', error);
         }
@@ -124,16 +125,3 @@ export function ModifyCampaignAPI({ inputs }, campaignCode) {
     }
 
 } 
-
-//북마크 등록
-export function AddBookmarkAPI(header,campaignCode){
-    console.log(header,campaignCode);
-    return async (dispatch, getState) => {
-        await axios.post(requestURL+'bookmarks',campaignCode)
-        .catch((error) => {
-            alert( error,'에러발생')
-        })
-    }
-}
-
-//북마크 삭제
