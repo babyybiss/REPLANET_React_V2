@@ -1,16 +1,27 @@
-import React, { useRef, useState, useContext } from "react";
+import React, { useRef, useState, useContext, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../component/auth/AuthContext";
 import '../../assets/css/user.css';
 import Swal from 'sweetalert2';
 import axios from 'axios';
+import TextMessage from "./TextMessage";
 
-export const TextMessage = () => {
-            Swal.fire("테스트중", "test")
+
+
+export const TextMessageSwal = () => {
+  Swal.fire(
+    {
+  title: '문자인증',
+  text: "문자인증창",
+  showCancelButton: true,
+  confirmButtonColor: '#1D7151',
+  cancelButtonColor: '#1D7151',
+  confirmButtonText: '확인',
+  cancelButtonText: '취소'
+
+    }
+)
 }
-
-
-
 
 
 const Signup = () => {
@@ -21,6 +32,74 @@ const Signup = () => {
   const memberNameInputRef = useRef(null);
   const phoneInputRef = useRef(null);
 
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordConfirm, setPasswordConfirm] = useState('');
+  const [memberName, setMemberName] = useState('');
+  const [phone, setPhone] = useState('');
+
+  //const emailRegex = /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/;
+  const passwordRegex = /^[A-Za-z0-9]{0,24}$/;
+  const memberNameRegex = /^[ㄱ-ㅎㅏ-ㅣ가-힣]{0,35}$/;
+  const phoneRegex = /^[0-9]{0,11}$/;
+
+
+  const checkEmail = (e) => {
+    Swal.fire(
+
+{
+  title: '중복확인',
+  text: "중복확인창",
+  showCancelButton: true,
+  confirmButtonColor: '#1D7151',
+  cancelButtonColor: '#1D7151',
+  confirmButtonText: '확인',
+  cancelButtonText: '취소'
+
+}
+      
+    )
+  }
+
+
+
+  const handleEmail = (e) => {
+
+      setEmail(e.target.value);
+
+
+  }
+
+  const handlePassword = (e) => {
+    // 영문 대 or 소문자 or 숫자 ~24자
+
+    if (passwordRegex.test(e.target.value)) {
+      setPassword(e.target.value)
+    } 
+  }
+
+  const handlePasswordConfirm = (e) => {
+    // 영문 대 or 소문자 or 숫자 ~24자
+
+    if (passwordRegex.test(e.target.value)) {
+      setPasswordConfirm(e.target.value)
+      
+    } 
+  }
+
+  const handleMemberName = (e) => {
+
+    if (memberNameRegex.test(e.target.value)) {
+      setMemberName(e.target.value)
+    } 
+  }
+
+  const handlePhone = (e) => {
+
+      if (phoneRegex.test(e.target.value)) {
+        setPhone(e.target.value)
+      } 
+    }
 
 
 
@@ -32,83 +111,12 @@ const Signup = () => {
     const enteredMemberName = memberNameInputRef.current.value;
     const enteredPhone = phoneInputRef.current.value;
     authCtx.signup(enteredEmail, enteredPassword, enteredMemberName, enteredPhone);
-    if (authCtx.isSuccess) {
+    
+    if (password === passwordConfirm && authCtx.isSuccess) {
       navigate("/login", { replace: true });
-    }
-
-    const UseRefEx = () => {
-      // 포커스를 주기 위한 useRef
-      const inputRef = useRef([]); // ref 배열형태로 저장해서 여러 값을 인덱스로 컨트롤 가능
-  
-      // input value state 관리
-      const [inputs, setInputs] = useState({
-        enteredEmail: "",
-        enteredPassword: "",
-        enteredMemberName: "",
-        enteredPhone: ""
-      });
-      const { enteredEmail, enteredPassword, enteredMemberName, enteredPhone } = inputs; // 구조분해할당
-  
-      //유효한 id, password, email 조건 변수에 담아 사용
-      const regEmail = /^[0-9a-zA-Z]+@[0-9a-zA-Z]+\.[0-9a-zA-Z]/; // email 형식 정규표현식
-      const regPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
-      const regMemberName = /^[ㄱ-ㅎ|가-힣]+$/;
-      const regPhone = /^[0-9]{0,13}$/;
-      const vaildEmail = enteredEmail.match(regEmail);
-      const vaildPassword = enteredPassword.match(regPassword);
-      const validMemberName = enteredMemberName.match(regMemberName);
-      const validPhone = enteredPhone.match(regPhone);
-  
-      // onChange 함수로 state 값 바꿔주기
-      const handleChange = (e) => {
-        setInputs({
-          ...inputs,
-          [e.target.name]: e.target.value,
-        });
-      };
-  
-      // 클릭이벤트 : 유효성에 맞는 이벤트 이루어지도록
-      const handleClick = () => {
-        if (!vaildEmail) {
-          alert("유효하지 않은 email 입니다.");
-          inputRef.current[1].focus();
-          setInputs({
-            ...inputs,
-            email: "",
-          });
-        }
-        else if (!vaildPassword) {
-          alert("유효하지 않은 password입니다.");
-          inputRef.current[2].focus();
-          setInputs({
-            ...inputs,
-            password: "",
-          });
-        }
-        else if (!validMemberName) {
-          alert("유효하지 않은 이름입니다.");
-          inputRef.current[3].focus();
-          setInputs({
-            ...inputs,
-            memberName: "",
-          });
-        }
-  
-        else if (!validPhone) {
-          alert("유효하지 않은 전화번호입니다.");
-          inputRef.current[4].focus();
-          setInputs({
-            ...inputs,
-            phone: "",
-          });
-        }
-  
-        else {
-          return alert("회원가입 성공!");
-        }
-      }
-    }
-
+    } else if (password !== "" && password !== passwordConfirm) {
+      Swal.fire({title: "", text: "비밀번호가 일치하는지 먼저 확인해 주세요!",   confirmButtonColor: '#1D7151'})
+    } 
   }
 
   return (
@@ -119,14 +127,21 @@ const Signup = () => {
           <form onSubmit={submitHandler}>
             <div className="items-container ic1">
               <div className="item">
-                <label htmlFor="email"></label><input className="input" type="text" id="email" required ref={emailInputRef} placeholder="id"  />
-                <label htmlFor="password"></label><input className="input" type="password" id="password" required ref={passwordInputRef} placeholder="pw" />
-                <label htmlFor="memberName"></label><input className="input" type="text" id="memberName" required ref={memberNameInputRef} placeholder="name" />
-
-                <label htmlFor="phone"></label>
+                <label htmlFor="email">이메일</label>
                 <div className="input-group">
-                  <input className="input" type="text" id="phone" required ref={phoneInputRef} placeholder="phone" />
-                  <button type="button" className="button button-primary" onClick={TextMessage}>인증</button>
+                <input className="input" type="text" name="email" id="email" onChange={handleEmail} value={email} required ref={emailInputRef} placeholder="이메일 주소를 입력해주세요."/>
+                  <button type="button" onClick={checkEmail} className="button button-primary">중복확인</button>
+                  </div>
+
+                <regexResult/>
+                <label htmlFor="password">비밀번호</label><input className="input" type="password" id="password" value={password} onChange={handlePassword}  required ref={passwordInputRef} placeholder="영문 대/소문자 또는 숫자, 최대 24자" />
+                <label htmlFor="passwordConfirm">비밀번호 확인</label><input className="input" type="password" value={passwordConfirm} id="passwordConfirm" placeholder="영문 대/소문자 또는 숫자, 최대 24자"  onChange={handlePasswordConfirm}/>
+                <label htmlFor="memberName">이름(실명)</label><input className="input" type="text" id="memberName" value={memberName} onChange={handleMemberName} required ref={memberNameInputRef} placeholder="이름을 입력해주세요(한글만 입력 가능)"/>
+
+                <label htmlFor="phone">휴대전화</label>
+                <div className="input-group">
+                  <input className="input" type="text" id="phone" required ref={phoneInputRef} value={phone} placeholder="- 없이 휴대폰 번호를 입력해주세요(숫자만 입력 가능)" onChange={handlePhone} />
+                  <button type="button" className="button button-primary" onClick={TextMessageSwal}>인증</button>
                 </div>
               </div>
               <div className="item">
