@@ -5,6 +5,7 @@ import donationReducer from './DonationModule';
 import {exchangeReducer, modalReducer} from './PointModule';
 import memberReducer from './MemberModule';
 import chartReducer from './ChartModule';
+import bookmarkReducer from './BookmarkModule';
 
 const rootReducer = combineReducers({
     campaignReducer,
@@ -13,7 +14,8 @@ const rootReducer = combineReducers({
     exchangeReducer,
     modalReducer,
     memberReducer,
-    chartReducer
+    chartReducer,
+    bookmarkReducer
 });
 
 export default rootReducer;

@@ -53,7 +53,7 @@ function ParticipationDetails() {
         <>
             <h2 style={{ textAlign: "center" }}>참여 내역 </h2>
             {participation && participation.length > 0 ? (currentItems.map( (participation) => (
-                <Participation key={participation.donationCode}  participation={participation}/>
+                <Participation key={participation? participation.donationCode: '' }  participation={participation}/>
 
             ))):(
                 <tr>
