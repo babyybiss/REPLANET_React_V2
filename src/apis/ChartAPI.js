@@ -7,8 +7,6 @@ export function callGetChartListAPI() {
 
         const response = await request('GET', '/charts/series');
 
-        console.log('결과 가지고 오니? : ', response);
-
         dispatch(getChartlist(response));
     }
 }
