@@ -2,57 +2,72 @@ import { useState } from "react"
 import { VictoryChart, VictoryZoomContainer, VictoryBrushContainer, VictoryLine, VictoryAxis, VictoryScatter, VictoryGroup, VictoryTooltip } from "victory"
 import "../../assets/css/chart.css"
 
-function HistoryChart(chartDataList) {
-    console.log('HistoryChart Data?', chartDataList)
+function HistoryChart(chartDataListProps) {
+
+    /* chartData from API */
+    
+    const { chartDataList } = chartDataListProps;
+    
     const [zoomDomain, setZoomDomain] = useState({
         zoomDomain: {
-            x: [new Date('2023-01-01'), new Date('2023-12-31')]
+            x: [new Date('2023-09-01'), new Date('2023-12-31')],
+            y: [0, 5000000]
         }
     });
 
     const zoomDomainHandler = (domain) => setZoomDomain(domain);
 
-    /* chartData from API */
+    /* TestData */ 
+    /*
     const testData = [
         {
-            monthly: new Date('2023-09-23'), campaigns: 10, sumCurrentBudget: 25000, sumGoalBudget: 50000, sumExpectBudget: 25000
+            donationDate: 1700035529000, campaigns: 10, donationPoint: 25000, sumGoalBudget: 50000, sumExpectBudget: 25000
         },
         {
-            monthly: new Date('2023-01-25'), campaigns: 8, sumCurrentBudget: 50000, sumGoalBudget: 100000, sumExpectBudget: 50000
+            donationDate: 1700130137000, campaigns: 8, donationPoint: 50000, sumGoalBudget: 100000, sumExpectBudget: 50000
         },
         {
-            monthly: new Date('2023-03-04'), campaigns: 2, sumCurrentBudget: 70000, sumGoalBudget: 150000, sumExpectBudget: 80000
+            donationDate: 1700284100000, campaigns: 2, donationPoint: 70000, sumGoalBudget: 150000, sumExpectBudget: 80000
         },
         {
-            monthly: new Date('2023-01-23'), campaigns: 9, sumCurrentBudget: 20000, sumGoalBudget: 50000, sumExpectBudget: 30000
+            donationDate: 1700292445000, campaigns: 9, donationPoint: 20000, sumGoalBudget: 50000, sumExpectBudget: 30000
         },
         {
-            monthly: new Date('2023-08-15'), campaigns: 5, sumCurrentBudget: 30000, sumGoalBudget: 80000, sumExpectBudget: 50000
+            donationDate: 1700535240000, campaigns: 5, donationPoint: 30000, sumGoalBudget: 80000, sumExpectBudget: 50000
         },
         {
-            monthly: new Date('2023-10-16'), campaigns: 3, sumCurrentBudget: 10000, sumGoalBudget: 31233, sumExpectBudget: 21233
+            donationDate: 1700535349000, campaigns: 3, donationPoint: 10000, sumGoalBudget: 31233, sumExpectBudget: 21233
         }
     ];
-
+    */
+    
     /* chart figure */ 
     const width = 1500;
     const height = 700;
     const brushChartHeight = 200;
+    const brushTickValues = [new Date('2023-11-15'), new Date('2023-11-21')];
+
+    /* x축, y축 기준 설정 */
+    const stringX = 'donationDate';
+    const stringY = 'donationPoint';
     
     /* style setting */
+    const baseFillStyle = { fill: "#10573C" }
+    const baseStrokeStyle = { stroke: "#10573C" }
+
     const toolTipStyle = {
         fontSize: 20, 
-        fill: "#10573C"
+        ...baseFillStyle
     }
 
-    const chartStyle = {
-        data: { stroke:"#10573C" }
+    const lineAndScatterStyle = {
+        data: { ...baseStrokeStyle }
     }
 
     const axisStyle = {
-        axis: {stroke: "#10573C", strokeWidth: 3},
-        axisLabel: {fontSize: 14, padding: 36, fill: "#10573C"},
-        tickLabels: {fontSize: 16, padding: 4, fill: "#10573C"}
+        axis: { ...baseStrokeStyle , strokeWidth: 3 },
+        axisLabel: { fontSize: 14, padding: 36, ...baseFillStyle },
+        tickLabels: { fontSize: 16, padding: 4, ...baseFillStyle }
     }
     
     /* render */ 
@@ -68,7 +83,7 @@ function HistoryChart(chartDataList) {
                         // responsive={false}
                         zoomDimension="x"
                         zoomDomain={zoomDomain}
-                        minimumZoom={{x: 0, y: 1}}
+                        minimumZoom={{x: 1, y: 0}}
                         // allowZoom={false}
                         onZoomDomainChange={zoomDomainHandler}
                     />
@@ -80,37 +95,37 @@ function HistoryChart(chartDataList) {
                 />
                 <VictoryAxis 
                     dependentAxis
-                    tickFormat={(x) => `${x/10000}만원`}
+                    tickFormat={(x) => `${x}원`}
                     style={axisStyle}
                 />
                 <VictoryGroup
                     color="#10573C"
-                    labels={({ datum }) => `${datum.sumCurrentBudget}원`}
+                    labels={({ datum }) => `${new Date(datum._x).getFullYear()}년${new Date(datum._x).getMonth() + 1}월${new Date(datum._x).getDate()}일${new Date(datum._x).getHours()}시${new Date(datum._x).getMinutes()}분${new Date(datum._x).getSeconds()}초, ${datum._y}원`}
                     labelComponent={
                         <VictoryTooltip
                             style={toolTipStyle}
                         />
                     }
-                    data={testData}
-                    x="monthly" 
-                    y="sumCurrentBudget"
+                    data={chartDataList}
+                    x={stringX}
+                    y={stringY}
                 >
                     <VictoryLine
-                        style={chartStyle}
-                        x="monthly"
-                        y="sumCurrentBudget"
+                        style={lineAndScatterStyle}
+                        x={stringX}
+                        y={stringY}
                     />
                     <VictoryScatter
-                        style={chartStyle}
-                        x="monthly"
-                        y="sumCurrentBudget"
+                        style={lineAndScatterStyle}
+                        x={stringX}
+                        y={stringY}
                         size={5}
                     />
                 </VictoryGroup>
             </VictoryChart>
             <VictoryChart
                 padding={{ top: 0, left: 50, right: 50, bottom: 30 }}
-                domainPadding={{x: 0, y: 5}}
+                domainPadding={{x: 50, y: 10}}
                 width={width} height={brushChartHeight}
                 // scale={{ x: "time" }}
                 containerComponent={
@@ -123,17 +138,15 @@ function HistoryChart(chartDataList) {
                 }
             >
                 <VictoryAxis
-                    tickValues={[
-                        new Date('2022-01-01'), new Date('2022-05-01'), new Date('2022-09-01'), new Date('2023-01-01'), new Date('2023-05-01'), new Date('2023-09-01'), new Date('2024-01-01')
-                    ]}
+                    tickValues={brushTickValues}
                     tickFormat={(x) => `${new Date(x).getFullYear()}년${new Date(x).getMonth() + 1}월`}
                     style={axisStyle}
                 />
                 <VictoryLine
-                    style={chartStyle}
-                    data={testData}
-                    x="monthly"
-                    y="sumCurrentBudget"
+                    style={lineAndScatterStyle}
+                    data={chartDataList}
+                    x={stringX}
+                    y={stringY}
                 />
                 
             </VictoryChart>

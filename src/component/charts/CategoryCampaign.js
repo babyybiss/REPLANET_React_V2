@@ -8,10 +8,12 @@ const height = 700;
 /* 안쪽 원 반지름 + y축 도넛 안쪽 반지름 */ 
 const innerRadius = 130;
 
-function InnerCircle({ origin }) {
-    const yellowColorSet = { base: "#E4FF76", highlight: "#D8DC35" };
-    const greenColorSet = { base: "#B2FF7E", highlight: "#92D930" };
+/* 도형 fill 컬러 프리셋 */ 
+const yellowColorSet = { base: "#E4FF76", highlight: "#D8DC35" };
+const greenColorSet = { base: "#B2FF7E", highlight: "#92D930" };
 
+/* 안쪽 원 도형 그리기 함수 */ 
+function InnerCircle({ origin }) {
     
     const circleStyle = {
         stroke: greenColorSet.base, strokeWidth: 3, fill: yellowColorSet.base
@@ -26,59 +28,75 @@ function InnerCircle({ origin }) {
     );
 }
 
+/* 가운데 라벨 관리 함수 */ 
 function CenterLabel({ active, datum }) {
-    
-    const campaignCategory = datum.campaignCategory;
-    const currentBudget = datum.currentBudget;
-    const goalBudget = datum.goalBudget;
+    const campaignCategory = datum.xName;
+    const sumCurrentBudget = datum.sumCurrentBudget;
+    const sumGoalBudget = datum.sumGoalBudget;
     const cursorY1 = datum._y1;
 
-    const changeText = cursorY1 === goalBudget ? "목표" : "현재";
-    const currentPercentage = Math.round(currentBudget / goalBudget * 100); 
+    const changeText = cursorY1 === sumGoalBudget ? "목표" : "현재";
+    const currentPercentage = Math.round((sumCurrentBudget / sumGoalBudget * 100) * 100) / 100; 
 
-    const text = [ `${campaignCategory} ${changeText}모금액: ${cursorY1/10000}만원`, `달성률 : ${currentPercentage}%` ];
+    const labelText = [ `${campaignCategory} ${changeText}모금액: ${cursorY1}원`, `달성률 : ${currentPercentage}%` ];
 
-    const baseStyle = { fill: "#10573C", textAnchor: "middle" };
-    const style = [
-        { ...baseStyle, fontSize: 24, fontWeight: "bold" },
-        { ...baseStyle, fontSize: 20 }
+    const baseLabelStyle = { fill: "#10573C", textAnchor: "middle" };
+    const completeLabelStyle = [
+        { ...baseLabelStyle, fontSize: 24, fontWeight: "bold" },
+        { ...baseLabelStyle, fontSize: 20 }
     ];
 
     return active ? 
     (
       <VictoryLabel
-        text={text} style={style} x={width/2} y={height/2} renderInPortal
+        text={labelText} style={completeLabelStyle} x={width/2} y={height/2} renderInPortal
       />
     ) : null;
 }
 
-const attributes = ["재난", "지구촌", "아동", "노인", "소외"];
+function CategoryCampaign(chartDataListProps) {
 
-function CategoryCampaign(chartDataList) {
-    console.log('CategoryCampaign Data?', chartDataList)
+    /* x축(round), y축(radius) 기준 설정 */
+    const stringX = 'campaignCategory';
+    const stringY1 = 'sumCurrentBudget';
+    const stringY2 = 'sumExpectBudget';
+
+    /* bar 너비 */ 
+    const barWidth = 100;
 
     /* chartData from API */
+    
+    const { chartDataList } = chartDataListProps;
+
+    const tickValuesAttributes = chartDataList.map((attribute, index) => index + 1);
+    const tickFormatAttributes = chartDataList.map(categoryname => categoryname.campaignCategory)
+    
+
+    /* TestData */ 
+    /*
     const categoryData = [
         {
-            campaignCategory: "재난", campaings: 15, goalBudget: 600000, currentBudget: 400000, expectBudget: 200000
+            campaignCategory: "재난", campaings: 15, sumGoalBudget: 600000, sumCurrentBudget: 400000, sumExpectBudget: 200000
         },
         {
-            campaignCategory: "지구촌", campaings: 35, goalBudget: 500000, currentBudget: 350000, expectBudget: 150000
+            campaignCategory: "지구촌", campaings: 35, sumGoalBudget: 500000, sumCurrentBudget: 350000, sumExpectBudget: 150000
         },
         {
-            campaignCategory: "아동", campaings: 20, goalBudget: 800000, currentBudget: 800000, expectBudget: 0
+            campaignCategory: "아동", campaings: 20, sumGoalBudget: 800000, sumCurrentBudget: 800000, sumExpectBudget: 0
         },
         {
-            campaignCategory: "노인", campaings: 10, goalBudget: 300000, currentBudget: 200000, expectBudget: 100000
+            campaignCategory: "노인", campaings: 10, sumGoalBudget: 300000, sumCurrentBudget: 200000, sumExpectBudget: 100000
         },
         {
-            campaignCategory: "소외", campaings: 9, goalBudget: 220000,   currentBudget: 200000, expectBudget: 20000
+            campaignCategory: "소외", campaings: 9, sumGoalBudget: 220000, sumCurrentBudget: 200000, sumExpectBudget: 20000
         }
     ];
-      
-    const yellowColorSet = { base: "#E4FF76", highlight: "#D8DC35" };
-    const greenColorSet = { base: "#B2FF7E", highlight: "#92D930" };
 
+    const tickValuesAttributes = categoryData.map((attribute, index) => index + 1);
+    const tickFormatAttributes = categoryData.map(categoryname => categoryname.campaignCategory)
+    */
+
+    /* Event function setting */
     const mouseEventHandler = [
         {
             childName: "all",
@@ -100,6 +118,7 @@ function CategoryCampaign(chartDataList) {
         }
     ]
 
+    /* style setting */
     /* y축 (반지름) */
     const radiusAxisStyle = {
         axis: { stroke: "#10573C" },
@@ -107,11 +126,10 @@ function CategoryCampaign(chartDataList) {
 
     /* x축 (둘레) */
     const roundAxisStyle = {
-        axis: {stroke: "#10573C", strokeWidth: 3},
-        tickLabels: {fontSize: 20, padding: 20, fill: "#10573C"}
+        axis: { stroke: "#10573C", strokeWidth: 3 },
+        tickLabels: { fontSize: 20, padding: 20, fill: "#10573C" }
     } 
 
-    const barWidth = 110;
     const innerBarChartStyle = { 
         data: {
             fill: ({ active }) => active ? yellowColorSet.highlight : yellowColorSet.base,
@@ -142,11 +160,11 @@ function CategoryCampaign(chartDataList) {
             >
                 <VictoryPolarAxis
                     labelPlacement="perpendicular"
-                    tickValues={[1,2,3,4,5]}
-                    tickFormat={attributes}
+                    tickValues={tickValuesAttributes}
+                    tickFormat={tickFormatAttributes}
                     style={roundAxisStyle}
                 />
-                {attributes.map((attribute, index) => (
+                {tickFormatAttributes.map((attribute, index) => (
                     <VictoryPolarAxis dependentAxis
                     key={index}
                     labelPlacement="parallel"
@@ -158,17 +176,17 @@ function CategoryCampaign(chartDataList) {
                 <VictoryStack>
                     <VictoryBar
                         style={innerBarChartStyle}
-                        data={categoryData}
-                        x="campaignCategory"
-                        y="currentBudget"
+                        data={chartDataList}
+                        x={stringX}
+                        y={stringY1}
                         labels={() => ""}
                         labelComponent={<CenterLabel color={yellowColorSet}/>}
                     />
                     <VictoryBar
                         style={outerBarChartStyle}
-                        data={categoryData}
-                        x="campaignCategory"
-                        y="expectBudget"
+                        data={chartDataList}
+                        x={stringX}
+                        y={stringY2}
                         labels={() => ""}
                         labelComponent={<CenterLabel color={greenColorSet}/>}
                     />

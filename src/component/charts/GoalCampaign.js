@@ -2,9 +2,9 @@ import {VictoryVoronoiContainer, VictoryBar, VictoryChart, VictoryAxis, VictoryT
 import "../../assets/css/chart.css";
 
 /* customToolTipBox */ 
-function CustomFlyout(props) {
-  //console.log(props);
-    const {x, y} = props;
+function CustomFlyout(flyoutComponentProps) {
+  //console.log(flyoutComponentProps);
+    const {x, y} = flyoutComponentProps;
     const newX = x - 45;
     const newY = y - 42;
 
@@ -18,30 +18,39 @@ function CustomFlyout(props) {
     );
 }
 
-function GoalCampaign(chartDataList) {
-
-  console.log('렌더링 순서가????????????')
-  console.log('GoalCampaign Data?', chartDataList)
+function GoalCampaign(chartDataListProps) {
 
   /* chartData from API */
+  /*
+  const { chartDataList } = chartDataListProps;
+
+  const tickValuesAttributes = chartDataList.map((attribute, index) => index + 1);
+  const tickFormatAttributes = chartDataList.map(categoryname => categoryname.campaignCategory)
+  */
+
+  /* TestData */
+  
   const categoryData = [
     {
-        campaignCategory: "가", currentBudget: 300000, goalBudget: 600000
+        campaignCategory: "가", sumCurrentBudget: 300000, sumGoalBudget: 600000
     },
     {
-        campaignCategory: "나", currentBudget: 400000, goalBudget: 500000
+        campaignCategory: "나", sumCurrentBudget: 400000, sumGoalBudget: 500000
     },
     {
-        campaignCategory: "다", currentBudget: 300000, goalBudget: 800000
+        campaignCategory: "다", sumCurrentBudget: 300000, sumGoalBudget: 800000
     },
     {
-        campaignCategory: "라", currentBudget: 200000, goalBudget: 300000
+        campaignCategory: "라", sumCurrentBudget: 200000, sumGoalBudget: 300000
     },
     {
-        campaignCategory: "마", currentBudget: 150000, goalBudget: 220000
+        campaignCategory: "마", sumCurrentBudget: 150000, sumGoalBudget: 220000
     }
   ];
 
+  const tickValuesAttributes = categoryData.map((attribute, index) => index + 1);
+  const tickFormatAttributes = categoryData.map(categoryname => categoryname.campaignCategory)
+  
 
   /* Event function setting */ 
   const mouseEventsHandler = [
@@ -99,7 +108,14 @@ function GoalCampaign(chartDataList) {
   const width = 1500;
   const height = 700;
 
+  /* x축, y축 기준 설정 */
+  const stringX = 'campaignCategory';
+  const stringY = 'sumCurrentBudget';
+
   /* style setting */ 
+  const baseFillStyle = { fill: "#10573C" }
+  const baseStrokeStyle = { stroke: "#10573C" }
+
   const chartStyle = {
     background: {
       fill: "none",
@@ -108,20 +124,20 @@ function GoalCampaign(chartDataList) {
   }
 
   const axisStyle = {
-    axis: {stroke: "#10573C", strokeWidth: 3},
-    axisLabel: {fontSize: 14, padding: 36, fill: "#10573C"},
-    tickLabels: {fontSize: 15, padding: 4, fill: "#10573C"}
+    axis: { ...baseStrokeStyle, strokeWidth: 3 },
+    axisLabel: {fontSize: 14, padding: 36, ...baseFillStyle},
+    tickLabels: {fontSize: 15, padding: 4, ...baseFillStyle}
   } 
 
-  const monthlyDataStyle = {
+  const barStyle = {
     data: {
-      fill: "#10573C",
+      ...baseFillStyle,
       fillOpacity: 0.5,
-      stroke: "#10573C",
+      ...baseStrokeStyle,
       strokeWidth: 1
     },
     labels: {
-      fill: "#10573C",
+      ...baseFillStyle,
       fontSize: 20
       //fill: ({ index }) => + index % 2 === 0 ? "#10573C" : "#000000" 
     }
@@ -146,7 +162,7 @@ function GoalCampaign(chartDataList) {
         containerComponent={
           <VictoryVoronoiContainer 
             labels={
-              ({ datum }) => `${datum.currentBudget/10000}만원`
+              ({ datum }) => `${datum._y}원`
             }
             labelComponent={
               <VictoryTooltip
@@ -159,12 +175,12 @@ function GoalCampaign(chartDataList) {
         }
       > 
         <VictoryAxis
-          tickValues={[1,2,3,4,5]}
-          tickFormat={["재난", "지구촌", "아동", "노인", "소외"]}
+          tickValues={tickValuesAttributes}
+          tickFormat={tickFormatAttributes}
           style={axisStyle}
         />
         <VictoryAxis dependentAxis
-          tickFormat={(x) => `${x/10000}만원`}
+          tickFormat={(x) => `${x}원`}
           style={axisStyle}
         />
         <VictoryBar 
@@ -172,9 +188,9 @@ function GoalCampaign(chartDataList) {
           //labels={""}
           barWidth={40}
           events={mouseEventsHandler} 
-          style={monthlyDataStyle}
-          x="campaignCategory" 
-          y="currentBudget"
+          style={barStyle}
+          x={stringX} 
+          y={stringY}
           // animate={chartAminate}
         />
       </VictoryChart>

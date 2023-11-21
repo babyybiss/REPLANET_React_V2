@@ -37,7 +37,6 @@ function DonationReceipt(){
 
     return(
         <div className="mypage-main">
-            
             <h3>기부금 영수증 발급 안내</h3>
             <br/>
             <div className="receiptinfo">
@@ -61,7 +60,7 @@ function DonationReceipt(){
             <br/>
             <div className="receiptinfo">
                 <input type="text" style={{width: "120px", height: "30px"}} placeholder="이름"/><br/><br/>
-                <input type="text" value={front} onChange={handleFrontChange} style={{width: "120px", height: "30px"}} placeholder="주민등록번호 앞자리"/> - 
+                <input type="text" value={front} onChange={handleFrontChange} style={{width: "120px", height: "30px"}} placeholder="주민등록번호 앞자리"/> -&nbsp;
                 <input type="text" value={last} onChange={handleLastChange} style={{width: "120px", height: "30px"}} placeholder="주민등록번호 뒷자리"/><br/><br/>
                 개인정보 제공에 동의합니다 <input type="checkbox" onChange={checkBox}/><br/><br/>
                 <button className="receipt-btn" onClick={infoAgreement}>정보 제공 등록</button>

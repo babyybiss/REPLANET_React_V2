@@ -84,10 +84,7 @@ const Login = () => {
                                 <button className="button button-primary-outline" onClick={toSignup}>회원가입</button>
                             </div>
                             
-                        <div className="items-container ic3 pt-2">
-                            <a href="./signup" className="login-option">
-                                <div className="join-social"><i className="fa fa-comment"></i></div> 회원가입
-                            </a>
+                        <div className="items-container ic2 pt-2">
                             <a href="./find" className="login-option">아이디 찾기</a>
                             <a href="./find" className="login-option">비밀번호 찾기</a>
                         </div>

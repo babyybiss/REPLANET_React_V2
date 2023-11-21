@@ -43,8 +43,8 @@ const normalizeData = (maximumValues) => {
   }));
 }
 
-function TestChart(chartDataList) {
-  console.log('TestChart Data?', chartDataList)
+function TestChart(chartDataListProps) {
+  console.log('TestChart Data?', chartDataListProps)
   
   const [maximumValues, setMaximumValues] = useState(() =>
   getMaximum());
