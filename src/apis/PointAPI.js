@@ -32,93 +32,61 @@ export const pointExchangeAPI = ({formdata}) => {
     }
 }
 
-export const adminExchangesAPI = () => {
+export function adminExchangesAPI(){
     const requestURL = 'http://localhost:8001/exchanges';
 
     return async (dispatch, getState) => {
-        const result = await axios.get(requestURL, {
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "*/*"
-            }
-        })
-        .then(function(response){
-            console.log(response);
-
-            console.log('[PointAPI] exchangesAPI RESULT : ', response);
-            if(response.status === 200){
-                dispatch({type: GET_ADMIN_EXCHANGES, payload: response.data});
-            }
-        });
-
-        
+        try{
+            const result = await axios.get(requestURL);
+            console.log('[PointAPI] exchangesAPI RESULT : ', result.data);
+            dispatch({type: GET_ADMIN_EXCHANGES, payload: result.data});
+        } catch (error) {
+            console.error('PointAPI exchangesAPI 에러 발생 : ', error);
+        }
     };
 }
 
-export const userExchangesAPI = (memberCode) => {
+export function userExchangesAPI(memberCode){
     const requestURL = `http://localhost:8001/users/${memberCode}/exchanges`;
 
     return async (dispatch, getState) => {
-        const result = await axios.get(requestURL, {
-            headers: {
-                "Content-Type" : "application/json",
-                "Accept" : "*/*"
-            }
-        })
-        .then(function(response){
-            console.log(response);
-
-            console.log('PointAPI userExchangesAPI RESULT : ', response);
-            if(response.status === 200){
-                dispatch({type: GET_USER_EXCHANGES, payload: response.data});
-            }
-        });
+        try{
+            const result = await axios.get(requestURL);
+            console.log('PointAPI userExchangesAPI RESULT : ', result.data);
+            dispatch({type: GET_USER_EXCHANGES, payload: result.data});
+        } catch (error) {
+            console.error('PointAPI userExchangesAPI 에러 발생 : ', error);
+        }
     };
 }
 
-export const exchangeDetailAPI = ({exchangeCode}) => {
+export function exchangeDetailAPI({exchangeCode}){
     console.log('요청 직전 코드 확인 : ', exchangeCode);
     const requestURL = `http://localhost:8001/exchanges/${exchangeCode}/detail`;
 
     return async (dispatch, getState) => {
-        const result = await axios.get(requestURL, {
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "*/*"
-            }
-        })
-        .then(function(response){
-            console.log(response);
-
-            console.log('[PointAPI] exchangeDetailAPI RESULT : ', response);
-            if(response.status === 200){
-                console.log('[PointAPI] exchangeDetailAPI SUCCESS');
-                dispatch({type: GET_EXCHANGE, payload: response.data});
+        try{
+            const result = await axios.get(requestURL);
+            console.log('PointAPI exchangeDetailAPI RESULT : ', result.data);
+            dispatch({type: GET_EXCHANGE, payload: result.data});
+        } catch (error) {
+            console.error('PointAPI exchangeDetailAPI 에러 발생 : ', error);
         }
-        })
     };
 }
 
-export const userExchangeDetailAPI = (exchangeCode) => {
+export function userExchangeDetailAPI(exchangeCode){
     console.log('요청 직전 코드 확인 : ', exchangeCode);
     const requestURL = `http://localhost:8001/users/exchangeDetail/${exchangeCode}`;
 
     return async (dispatch, getState) => {
-        const result = await axios.get(requestURL, {
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "*/*"
-            }
-        })
-        .then(function(response){
-            console.log(response);
-
-            console.log('[PointAPI] userExchangeDetailAPI RESULT : ', response);
-            if(response.status === 200){
-                console.log('[PointAPI] userExchangeDetailAPI SUCCESS');
-                dispatch({type: GET_EXCHANGE_DETAIL_U, payload: response.data});
-            }
-        })
+        try{
+            const result = await axios.get(requestURL);
+            console.log('PointAPI userExchangeDetailAPI RESULT : ', result.data);
+            dispatch({type: GET_EXCHANGE_DETAIL_U, payload: result.data});
+        } catch (error) {
+            console.error('PointAPI userExchangeDetailAPI 에러 발생 : ', error);
+        }
     };
 }
 
@@ -158,43 +126,31 @@ export const exchangeUpdateAPI = ({form, exchangeCode}) => {
     }
 }
 
-export const myPointsHistoryAPI = (memberCode) => {
+export function myPointsHistoryAPI(memberCode) {
     const requestURL = `http://localhost:8001/users/${memberCode}/points`;
 
     return async (dispatch, getState) => {
-        await axios.get(requestURL, {
-            headers: {
-                "Content-Type" : "application/json",
-                "Accept" : "*/*"
-            }
-        })
-        .then(function(response){
-            console.log(response);
-
-            console.log('PointAPI myPointsHistoryAPI RESULT : ', response);
-            if(response.status === 200){
-                dispatch({type: GET_POINTS_HISTORY, payload: response.data});
-            }
-        });
+        try{
+            const result = await axios.get(requestURL);
+            console.log('PointAPI myPointsHistoryAPI RESULT : ', result.data);
+            dispatch({type: GET_POINTS_HISTORY, payload: result.data});
+        } catch (error){
+            console.error('PointAPI myPointsHistoryAPI 에러 발생 : ', error);
+        }
     }
 }
 
-export const exchangeStatusAPI = ({status, exchangeCode, currentPage}) => {
+export function exchangeStatusAPI({status, exchangeCode, currentPage}){
     console.log("API status 확인 : ", status);
     const requestURL = `http://localhost:8001/exchanges/${status}`;
 
     return async (dispatch, getState) => {
-        await axios.get(requestURL, {
-            headers: {
-                "Content-Type" : "application/json",
-                "Accept" : "*/*"
-            }
-        })
-        .then(function(response){
-            console.log('PointAPI exchangeStatusAPI RESULT : ', response);
-            if(response.status === 200){
-                dispatch({type: GET_ADMIN_EXCHANGES, payload: response.data});
-            }
-        });
+        try{
+            const result = await axios.get(requestURL);
+            console.log('PointAPI exchangeStatusAPI RESULT : ', result.data);
+            dispatch({type: GET_ADMIN_EXCHANGES, payload: result.data});
+        } catch (error) {
+            console.error('PointAPI exchangeStatusAPI 에러 발생 : ', error);
+        }
     }
 }
