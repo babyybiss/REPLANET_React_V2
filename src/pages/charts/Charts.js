@@ -11,7 +11,6 @@ import { callGetChartListAPI } from '../../apis/ChartAPI'
 
 
 function Chart() {
-    console.log("렌더링 순서좀")
 
     const callApiResult = useSelector(state => state.chartReducer)
     const chartDataList = callApiResult.chartDataList;
@@ -19,14 +18,11 @@ function Chart() {
 
     useEffect(
         () => {
-        console.log('ㅅ훈서:?')
         /* chartData from API */
         dispatch(callGetChartListAPI());
         },
         []
     );
-
-    console.log('응답 데이터 확인용 ^^', chartDataList)
 
     return (
         chartDataList && (

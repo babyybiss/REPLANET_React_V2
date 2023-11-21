@@ -14,7 +14,6 @@ export const { chart : { getChartlist }} = createActions({
 const chartReducer = handleActions(
     {
         [GET_CHARTLIST]: (state, { payload }) => {
-            console.log(payload)
             return payload;
         }
     },
