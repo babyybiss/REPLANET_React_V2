@@ -5,6 +5,7 @@ import "../../assets/css/common.css";
 import "../../assets/css/userexchange.css";
 import { useDispatch } from "react-redux";
 import { pointExchangeAPI } from "../../apis/PointAPI";
+import Swal from "sweetalert2";
 
 
 function ExchangePoint(){
@@ -40,13 +41,31 @@ function ExchangePoint(){
 
     const requestExchange = () => {
         if(title == null || title == ""){
-            alert("제목을 입력해주세요!\n제목을 입력하셔야 포인트 전환 신청을 하실 수 있습니다.")
+            Swal.fire({
+                title: "제목을 입력해주세요!",
+                text: "제목을 입력하셔야 포인트 전환 신청을 하실 수 있습니다.",
+                showCancelButton: false,
+                confirmButtonColor: '#1D7151',
+                confirmButtonText: '확인'
+            })
         }
         if(file == null){
-            alert("파일을 등록해주세요!\n봉사활동 확인서를 등록하셔야 포인트 전환 신청을 하실 수 있습니다.")
+            Swal.fire({
+                title: "파일을 등록해주세요!",
+                text: "봉사활동 확인서를 등록하셔야 포인트 전환 신청을 하실 수 있습니다.",
+                showCancelButton: false,
+                confirmButtonColor: '#1D7151',
+                confirmButtonText: '확인'
+            })
         }
-        if (file.size > 2 * 1024 * 1024){
-            alert("파일 크기를 확인 바랍니다!\n2MB 이하의 파일만 등록하실 수 있습니다.")
+        if (file?.size > 2 * 1024 * 1024){
+            Swal.fire({
+                title: "파일 크기를 확인 바랍니다!",
+                text: "2MB 이하의 파일만 등록하실 수 있습니다.",
+                showCancelButton: false,
+                confirmButtonColor: '#1D7151',
+                confirmButtonText: '확인'
+            })
         }
         if(file != null && title != null && title != ""){
             console.log("제목은 : ", title);

@@ -62,11 +62,10 @@ function MyPointList(){
     //페이징
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
-    const indexOfLastItem = currentPage * itemsPerPage;
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = myPoints && myPoints.length > 0 ? myPoints.slice(indexOfFirstItem, indexOfLastItem) : [];
-    const totalItems = myPoints.length;
+    const totalItems = myPoints?.length;
     const totalPages = Math.ceil(totalItems / itemsPerPage);
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = Math.min(startIndex + itemsPerPage, totalItems);
     const handlePageChange = (newPage) => {
         if (newPage >= 1 && newPage <= totalPages) {
             setCurrentPage(newPage);
@@ -94,33 +93,21 @@ function MyPointList(){
                         </thead>
                         <tbody>
                             {myPoints && myPoints.length > 0?(
-                             currentItems.map(
-                                (points, index) => {
-                                    const calculatePoint = (currentIndex) => {
-                                        const preStatus = myPoints[currentIndex-1]?.status;
-                                        const preChangePoint = myPoints[currentIndex-1]?.changePoint;
-                                        if(preStatus === "승인"){
-                                            return currentItems[currentIndex-1]?.remainingPoint - preChangePoint;
-                                        } else {
-                                            return currentItems[currentIndex-1]?.remainingPoint + preChangePoint;
-                                        }
-                                    }
-                                    const remainingPoint = index === 0? currentPoint : calculatePoint(index);
-                                    return (
+                             myPoints.slice(startIndex, endIndex).map(
+                                (points) => (
                                     <tr key={points.changeDate} onClick={() => {onClickHandler(points.status, points.code)}}>
                                         <td>{formatExchangeDate(points.changeDate)}</td>
                                         <td>{points.content}</td>
                                         <td style={{color: pointsColor(points.status)}}>
                                             {points.status == "승인"? `${points.changePoint}p 적립` : `${points.changePoint}p 사용`}
                                         </td>
-                                        <td style={{color:"#1D7151"}}>{remainingPoint}</td>
+                                        <td style={{color:"#1D7151"}}></td>
                                     </tr>
-                                );
-                                    })
+                                ))
                             ):(
                               <tr>
                                 <td colSpan="4">
-                                    <h6>포인트 내역이 존재하지 않습니다.</h6>
+                                    <h6>내역이 존재하지 않습니다.</h6>
                                 </td>
                             </tr>
                             )}

@@ -66,7 +66,8 @@ function PointExchangeList(){
             } else if(memberAuth == "ROLE_ADMIN"){
                 if(statusValue == '전체' || statusValue == null){
                     dispatch(adminExchangesAPI({
-                        exchangeCode: params.exchangeCode
+                        exchangeCode: params.exchangeCode,
+                        currentPage: 1
                     }));
                 } else {
                     dispatch(exchangeStatusAPI({
@@ -142,7 +143,7 @@ function PointExchangeList(){
                             ):(
                                 <tr>
                                 <td colSpan="4">
-                                    <h6>전환 신청 내역이 존재하지 않습니다.</h6>
+                                    <h6>내역이 존재하지 않습니다.</h6>
                                 </td>
                             </tr>
                             )}                 
