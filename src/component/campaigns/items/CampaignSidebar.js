@@ -24,10 +24,10 @@ function CampaignSidebar({ campaignInfo }) {
     // 기부 현황
     const currentBudget = campaignInfo.currentBudget;
     const goalBudget = campaignInfo.goalBudget;
-    const percentage = ((currentBudget / goalBudget) * 100).toFixed(0)
+    const percentage = Math.ceil((currentBudget / goalBudget) * 100).toFixed(0)
     // 날짜 
-    const startDate = moment(campaignInfo.startDate).format('YYYY-MM-DD');
-    const endDate = moment(campaignInfo.endDate).format('YYYY-MM-DD');
+    const startDate = moment(campaignInfo.startDate).subtract(1, 'months').format('YYYY-MM-DD');
+    const endDate = moment(campaignInfo.endDate).subtract(1, 'months').format('YYYY-MM-DD');
 
     // 삭제 
     const deleteCampaignHandler = () => {
