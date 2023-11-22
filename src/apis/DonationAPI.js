@@ -2,17 +2,17 @@ import { GET_PAYS_BY_MEMBER_WITH_DATE,
         GET_DONATION_BY_PAY_CODE, 
         POST_POINT_DONATION,
         GET_DONATION_BY_CAMPAIGN_CODE } from "../modules/DonationModule";
-import axios from "axios";
+import { http } from "../utils/TokenUtils"; 
 
 export function callGetAllPaysByMemberWithDateAPI(startDate, endDate) {
     // 기부(결제) 내역을 전체, 날짜검색을 가능하게 하는 API
     const requestURL = endDate
-    ? `http://localhost:8001/paysByMemberWithDate?startDate=${startDate}&endDate=${endDate}`
-    : 'http://localhost:8001/paysByMemberWithDate'
+    ? `/paysByMemberWithDate?startDate=${startDate}&endDate=${endDate}`
+    : '/paysByMemberWithDate'
 
     return async function getAllPays(dispatch, getState) {
         try {
-            const response = await axios.get(requestURL);
+            const response = await http.get(requestURL);
             const result = response.data.reverse();
             console.log('(callGetAllPaysByMemberAPI) result : ', result);
             dispatch({ type: GET_PAYS_BY_MEMBER_WITH_DATE, payload: result });
@@ -26,11 +26,11 @@ export function callGetDonationByPayCodeAPI(payCode) {
     // 기부 직후 기부 상세 내역 보여주는 API
     console.log('callGetDonationByPayCodeAPI(payCode) payCode : ', payCode);
 
-    const requestURL = `http://localhost:8001/donations/payCode=${ payCode }`
+    const requestURL = `/donations/payCode=${ payCode }`
 
     return async function getDonationByTid(dispatch, getState) {
         try {
-            const response = await axios.get(requestURL);
+            const response = await http.get(requestURL);
             const result = response.data;
             console.log('(callGetDonationByPayCodeAPI) result : ', result);
             dispatch({ type: GET_DONATION_BY_PAY_CODE, payload: result });
@@ -42,11 +42,11 @@ export function callGetDonationByPayCodeAPI(payCode) {
 
 export function callPostPointDonationAPI(data, campaignInfo) {
     // 포인트로만 기부했을때 발동하는 API
-    const pointDonationURL = `http://localhost:8001/pointDonation/${campaignInfo.campaignCode}`
+    const pointDonationURL = `/pointDonation/${campaignInfo.campaignCode}`
 
     return async function postPointDonation(dispatch) {
         try {
-            const response = await axios.post(pointDonationURL, data);
+            const response = await http.post(pointDonationURL, data);
             const result = response.data;
             console.log('(callPostPointDonationAPI) result : ', result);
             dispatch({ type: POST_POINT_DONATION, payload: result });
@@ -58,11 +58,11 @@ export function callPostPointDonationAPI(data, campaignInfo) {
 
 export function callPostKakaoPayAPI(data, campaignInfo) {
     // 카카오페이API를 사용하기 위한 API
-    const kakaoPayURL = `http://localhost:8001/kakaoPay/${campaignInfo.campaignCode}`
+    const kakaoPayURL = `/kakaoPay/${campaignInfo.campaignCode}`
 
     return async function postKakaoPay(dispatch) {
         try {
-            const response = await axios.post(kakaoPayURL, data);
+            const response = await http.post(kakaoPayURL, data);
             const redirectURL = response.data.replace('redirect:', '');
             window.location.href = redirectURL;
         } catch (error) {
@@ -75,11 +75,11 @@ export function callGetDonationByCampaignCodeAPI({campaignCode}) {
     // 캠페인별 참여자 리스트
 
     console.log(campaignCode);
-    const requestURL = `http://localhost:8001/campaigns/donations/${ campaignCode }`
+    const requestURL = `/campaigns/donations/${ campaignCode }`
 
     return async function getDonationByCampaignCode(dispatch, getState) {
         try {
-            const response = await axios.get(requestURL,campaignCode);
+            const response = await http.get(requestURL,campaignCode);
             const result = response.data;
             console.log('(callGetDonationByPayCodeAPI) result : ', result);
             dispatch({ type: GET_DONATION_BY_CAMPAIGN_CODE, payload: result });
@@ -91,11 +91,11 @@ export function callGetDonationByCampaignCodeAPI({campaignCode}) {
 
 export function callGetTodayDonationAPI() {
     // 금일 총 기부금액,횟수 조회
-    const requestURL = `http://localhost:8001/campaigns/donations/today`
+    const requestURL = `/campaigns/donations/today`
 
     return async function getDonationByCampaignCode(dispatch, getState) {
         try {
-            const response = await axios.get(requestURL);
+            const response = await http.get(requestURL);
             const result = response.data;
             console.log('(callGetDonationByPayCodeAPI) result : ', result);
             dispatch({ type: GET_DONATION_BY_CAMPAIGN_CODE, payload: result });
