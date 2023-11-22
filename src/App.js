@@ -1,4 +1,3 @@
-
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Layout from './layouts/Layout';
 import Main from './pages/Main';
@@ -7,7 +6,6 @@ import Draft from './Draft';
 import Charts from './pages/charts/Charts';
 import Signup from "./pages/auth/Signup";
 import Login from "./pages/auth/Login";
-import { AuthContextProvider } from './component/auth/AuthContext';
 import { Reviews } from "./pages/reviews/Reviews";
 import { ReviewDetails } from "./pages/reviews/ReviewDetails";
 import { ReviewRegist } from "./pages/reviews/ReviewRegist";
@@ -32,24 +30,27 @@ import CampaignModify from "./pages/campaigns/CampaignModify";
 import MyPoints from "./pages/points/MyPoints";
 import Calculator from "./component/mypage/Calculator";
 import DonationReceipt from "./pages/users/Receipt";
-
+import { jwtDecode } from 'jwt-decode';
+import Chatbots from "./pages/chatbot/Chatbots";
 
 function App() {
 
   const authCtx = useContext(AuthContext);
+  const token = authCtx.token;
+
+  const decodedToken = token ? jwtDecode(token) : null;
+  console.log('Decoded Token:', decodedToken);
 
   return (
 
-      <AuthContextProvider>
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Layout />}>
-              <Route path="/login/*" 
-          element={authCtx.isLoggedIn ? <Navigate to='/' /> : <Login />}/>
+              <Route path="/login/*" element={authCtx.isLoggedIn ? <Navigate to='/' /> : <Login />}/>
               <Route path="/signup/" element={authCtx.isLoggedIn ? <Navigate to='/' /> : <Signup />} />
               <Route path="/find/" element={<Find/>}></Route>
-              
-              <Route path="/myPage" element={<MyPage/>} children={[
+              <Route path="chatbot" element={<Chatbots />} />
+              <Route path="/myPage" element={authCtx.isLoggedIn ? <MyPage /> : <Navigate to='/' />} children={[
                 <Route key="history" index element={<Navigate to="history" />} />,
                 <Route key="historyPage" path="history" element={<DonationList />} />,
                 <Route key="bookmark" path="bookmark" element={<BookmarkList />} />,
@@ -58,9 +59,7 @@ function App() {
                 <Route key="exchange" path="exchange" element={<ExchangePoint />} />,
                 <Route key="myExchangeList" path="myExchangeList" element={<MyExchanges />} />,
                 <Route key="calculator" path="calculator" element={<Calculator />} />,
-
               ]}/>
-
 
             <Route path="/">
               <Route index element={<Main />} />
@@ -82,7 +81,7 @@ function App() {
             </Route>
 
             <Route path="/campaign/:campaignCode/donations">
-              <Route index element={<Pay />} />
+              <Route index element={authCtx.isLoggedIn ? <Pay /> : <Navigate to='/' />} />
               <Route path="success" element={<Success />} />
               <Route path="cancel" element={<Cancel />} />
               <Route path="fail" element={<Fail />} />
@@ -92,11 +91,9 @@ function App() {
             <Route path="exchangeList" element={<AllExchanges />} />
             <Route path="exchangeDetail/:exchangeCode" element={<ExchangeDetail />} />
             
-
           </Route>
         </Routes>
       </BrowserRouter>
-    </AuthContextProvider>
   );
 }
 

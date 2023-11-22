@@ -2,6 +2,7 @@ import React, { useState, useRef, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../component/auth/AuthContext";
 import '../../assets/css/user.css';
+import Swal from "sweetalert2";
 
 
 import {GoogleLogin} from "@react-oauth/google";
@@ -45,7 +46,7 @@ const Login = () => {
 
         if (authCtx.isSuccess) {
             return(navigate("/", { replace: true }));
-        }
+        } 
     }
 
 

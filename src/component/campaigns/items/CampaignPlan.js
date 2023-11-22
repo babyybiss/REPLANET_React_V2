@@ -2,7 +2,7 @@ import moment from 'moment';
 import 'moment/locale/ko';
 function CampaignPlan({ campaignInfo }) {
 
-    const endDate = moment(campaignInfo.endDate).format('YYYY-MM-DD');
+    const endDate = moment(campaignInfo.endDate).subtract(1, 'months').format('YYYY-MM-DD');
     return (
         campaignInfo && (
             <div>

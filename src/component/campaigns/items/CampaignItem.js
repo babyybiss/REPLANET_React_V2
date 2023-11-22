@@ -1,31 +1,37 @@
+import axios from "axios";
 import { NavLink } from "react-router-dom";
 import { useState } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import { useDispatch, useSelector } from "react-redux";
 import { AddBookmarkAPI, DeleteBookmarkAPI } from "../../../apis/BookmarkAPI";
+import { useEffect } from "react";
+import Swal from 'sweetalert2';
 
 function CampaignItem({ campaign }) {
   // 토큰 정보 
   const token = localStorage.getItem('token');
   const decodedToken = token ? jwtDecode(token) : null;
   const dispatch = useDispatch();
-  const campaignCode = campaign.campaignCode;
-  // 북마크 
-  const result = useSelector(state => state.bookmarkReducer)
+  let campaignCode = campaign.campaignCode;
   
-  const [like, setLike] = useState(!(result? !result.book : result.book.data) )
-
+  // 파일 정보
   let fileSaveName = campaign.campaignDescfileList[0];
   const currentBudget = campaign.currentBudget;
   const goalBudget = campaign.goalBudget;
-  const percentage = Math.floor((currentBudget / goalBudget) * 100).toFixed(0);
+  const percentage = Math.ceil((currentBudget / goalBudget) * 100).toFixed(0);
 
   if (fileSaveName == null || undefined) {
     fileSaveName = false;
   } else {
     fileSaveName = true;
   }
+  // 북마크 
+  const result = useSelector(state => state.bookmarkReducer)
+  const bookmark = useSelector(state => state.bookmarkReducer.bookmark)
+  const [like, setLike] = useState(false)
 
+  console.log(result,'리절북맠');
+  console.log(bookmark,'리절북맠22');
   // 북마크 추가 
   const addBookmark = (memberCode, campaignCode) => {
     dispatch(AddBookmarkAPI({ memberCode, campaignCode }))
@@ -35,6 +41,40 @@ function CampaignItem({ campaign }) {
   const deleteBookmark = (memberCode, campaignCode) => {
     dispatch(DeleteBookmarkAPI(memberCode, campaignCode))
   };
+  useEffect(() => {
+    // 사용자가 로그인한 경우에만 찜목록을 불러오도록
+    if (token) {
+      axios.get(`http://localhost:8001/bookmarks?memberCode=${decodedToken.memberCode}`)
+        .then(res => {
+          if( res.data.num != undefined){
+            setLike(false);
+          }
+          else{
+            setLike(true);
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching wishlist:', error);
+        });
+    } else{
+      setLike(true)
+    }
+  }, [token]);
+
+  //하트 누르기
+  const clickedToggle = () => {
+		if (token) {
+			setLike((prev) => !prev);
+
+			if (like) {
+				addBookmark(decodedToken.memberCode, campaignCode);
+			} else {
+				deleteBookmark(decodedToken.memberCode,campaignCode);
+			}
+		} else {
+			Swal.fire('로그인해주세요');
+		}
+	};
 
   return (
     <div className="item">
@@ -48,21 +88,11 @@ function CampaignItem({ campaign }) {
         style={{ width: 50 }}
         alt="#"
         src={
-          like
+          like.bookmarkCode
             ? "/campaigns/default/checked.png"
             : "/campaigns/default/unChecked.png"
         }
-        onClick={() => {
-          if (like === true) {
-            setLike(!like);
-            deleteBookmark(decodedToken.memberCode,campaignCode);
-          }
-
-          if (like === false) {
-            setLike(!like);
-            addBookmark(decodedToken.memberCode, campaignCode);
-          }
-        }}
+        onClick={clickedToggle}
       />
       <progress className="progress" value={percentage} max="100"></progress>
       <div className="campaign-progress-info">
@@ -75,3 +105,17 @@ function CampaignItem({ campaign }) {
 
 export default CampaignItem;
 
+/*
+북마크 버튼
+onClick={() => {
+          if (like === true) {
+            setLike(!like);
+            deleteBookmark(decodedToken.memberCode,campaignCode);
+          }
+
+          if (like === false) {
+            setLike(!like);
+            addBookmark(decodedToken.memberCode, campaignCode);
+          }
+        }}
+ */
