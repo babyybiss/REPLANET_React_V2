@@ -201,7 +201,6 @@ export function ReviewRegist() {
                                 src={ imageUrl }
                                 alt="preview"
                             />}
-                    <img src="https://i.imgur.com/aVDuXWh.png"/>
                         <input 
                             style={ { display: 'none' }}
                             type="file" 
