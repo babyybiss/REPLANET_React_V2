@@ -8,6 +8,8 @@
     width: 33.3333%;
 }
 
+
+
 @media screen and (max-width: 1200px) {
     #container-user{width: 66.6666%;}
 }
@@ -54,3 +56,10 @@
     display: inline!important;
     margin-right: .25rem
 }
+
+
+.regexMsg
+          {font-size: 0.8rem;
+            margin-bottom: 0.35rem;
+            margin-top: -0.25rem
+          }
