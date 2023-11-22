@@ -44,7 +44,7 @@ function Participation({ participation }) {
         <table>
             <thead>
                 <tr>
-                    <th>{moment(donationInfo.donationDateTime).format('YYYY-MM-DD')}</th>
+                    <th>{moment(donationInfo.donationDateTime).subtract(1, 'months').format('YYYY-MM-DD')}</th>
                     <th>{donationInfo? maskingName(donationInfo.refMember.memberName): ""}</th>
                     <th>{totalDonation.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원 참여</th>
                 </tr>

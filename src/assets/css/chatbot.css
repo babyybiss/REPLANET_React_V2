@@ -1,0 +1,27 @@
+.chatbot-container {
+    text-align: center;
+    padding-top: calc(3rem + 80px);
+    margin-bottom: 0.625rem;
+}
+  
+.faq-container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+  
+.question {
+    cursor: pointer;
+    font-size: large;
+    margin-bottom: 10px;
+    color: #1D7151
+}
+  
+.answer {
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+.icon-button-style {
+    cursor: pointer;
+}
