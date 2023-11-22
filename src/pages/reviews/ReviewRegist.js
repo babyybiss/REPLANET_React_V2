@@ -102,7 +102,7 @@ export function ReviewRegist() {
             }));                                                                                                
             alert('리뷰 목록으로 이동합니다.');
             navigate('/reviews');
-            //window.location.reload();
+            window.location.reload();
         }
     }
 
