@@ -2,43 +2,46 @@ import "../../../assets/css/reset.css";
 import "../../../assets/css/common.css";
 import "../../../assets/css/adminexchange.css";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigationType, useParams } from "react-router-dom";
 import { adminExchangesAPI, exchangeStatusAPI, userExchangesAPI } from '../../../apis/PointAPI'
 import { useEffect, useState } from "react";
 import PointModal from "../items/PointModal";
+import { decodeJwt } from "../../../utils/TokenUtils";
 
 
 function PointExchangeList(){
 
-    const navigate = useNavigate();
     const dispatch = useDispatch();
     const params = useParams();
     const exchanges = useSelector(state => state.exchangeReducer);
-    const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 10;
-
+    
     const token = window.localStorage.getItem('token');
-    const decodedPayload = JSON.parse(atob(token.split('.')[1]));
-    const memberAuth = decodedPayload.auth;
-    const memberCode = decodedPayload.sub;
-    console.log("권한 확인 : ", memberAuth);
-    console.log("멤버코드 확인 : ", memberCode);
+    // const decodedPayload = JSON.parse(atob(token.split('.')[1]));
+    // const memberAuth = decodedPayload.auth;
+    // const memberCode = decodedPayload.sub;
+    // console.log("권한 확인 : ", memberAuth);
+    // console.log("멤버코드 확인 : ", memberCode);
+    console.log("토큰 확인 : ", decodeJwt(token));
+    const memberCode = decodeJwt(token)?.memberCode || 0;
+    const memberAuth = decodeJwt(token)?.memberRole || null;
+    console.log("신청내역 멤버코드, 권한 확인 : ", memberCode, memberAuth);
 
+    //권한에 따라 다르게 보이는 상세 조회
     const [selectedCode, setSelectedCode] = useState();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const closeModal = () => {
         setIsModalOpen(false);
     }
-
     const onClickHandler = (exchangeCode) => {
         if(memberAuth == "ROLE_USER"){
             setSelectedCode(exchangeCode);
             setIsModalOpen(true);
         } else if(memberAuth == "ROLE_ADMIN"){
-            navigate(`/exchangeDetail/${exchangeCode}`);
+            window.location=`/exchangeDetail/${exchangeCode}`;
         }
     };
 
+    //관리자측 목록 조회 조건
     const adminControl = () => {
         if(memberAuth == "ROLE_ADMIN"){
             return(
@@ -51,12 +54,15 @@ function PointExchangeList(){
             );
         } else { return <div></div>; }
     };
-    const [statusValue, setStatusValue] = useState(null);
+    const navigationType = useNavigationType();
+    const [statusValue, setStatusValue] = useState(navigationType == 'PUSH' || performance.navigation.type == 1? null : localStorage.getItem('statusValue'));
     const onChangeHandler = (e) => {
         const selectedValue = e.target.value;
         setStatusValue(selectedValue);
+        localStorage.setItem('statusValue', selectedValue);
     }
-
+    
+    //권한에 따라 보이는 내용 다르게
     useEffect(
         () => {
             if(memberAuth == "ROLE_USER"){
@@ -68,25 +74,26 @@ function PointExchangeList(){
                     dispatch(adminExchangesAPI({
                         exchangeCode: params.exchangeCode,
                         currentPage: 1
-                    }));
+                    })).then(setCurrentPage(1));
                 } else {
                     dispatch(exchangeStatusAPI({
-                        status: statusValue,
+                        status: localStorage.getItem('statusValue'),
                         exchangeCode: params.exchangeCode,
                         currentPage: 1
-                    }));
+                    })).then(setCurrentPage(1));
                 }              
             }
         }, [statusValue]
     );
 
+    //페이징
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 10;
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentItems = exchanges && exchanges.length > 0 ? exchanges.slice(indexOfFirstItem, indexOfLastItem) : [];
-
     const totalItems = exchanges.length;
     const totalPages = Math.ceil(totalItems / itemsPerPage);
-
     const handlePageChange = (newPage) => {
         if (newPage >= 1 && newPage <= totalPages) {
             setCurrentPage(newPage);

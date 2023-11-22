@@ -11,7 +11,6 @@ import { exchangeDetailAPI } from "../../apis/PointAPI";
 
 function ExchangeDetail(){
     const navigate = useNavigate();
-
     const dispatch = useDispatch();
     const params = useParams();
     const info = useSelector(state => state.exchangeReducer);
