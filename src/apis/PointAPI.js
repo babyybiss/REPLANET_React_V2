@@ -1,3 +1,4 @@
+import Swal from 'sweetalert2';
 import { GET_EXCHANGE, GET_USER_EXCHANGES, GET_EXCHANGE_DETAIL_U, PUT_EXCHANGES, POST_EXCHANGES, GET_POINTS_HISTORY, GET_ADMIN_EXCHANGES } from '../modules/PointModule';
 import axios from "axios";
 
@@ -18,16 +19,36 @@ export const pointExchangeAPI = ({formdata}) => {
             console.log(response.headers);
             if(response.status === 200){
                 dispatch({type: POST_EXCHANGES, payload: response.data});
-                alert("신청이 완료되었습니다!\n관리자 확인 후 처리 완료까지 영업일 기준 최대 2일까지 소요됩니다.");
-                window.location.reload();
+                Swal.fire({
+                    title: "신청이 완료되었습니다!",
+                    text: "관리자 확인 후 처리 완료까지 영업일 기준 최대 2일까지 소요됩니다.",
+                    showCancelButton: false,
+                    confirmButtonColor: '#1D7151',
+                    confirmButtonText: '확인'
+                }).then(result => {
+                    if(result.isConfirmed){
+                    window.location.reload();
+                }})
             }else{
                 console.log("exchange request-back-error : ", response.data);
-                alert("신청 중 오류가 발생했습니다!\n문제가 지속될 경우 고객센터로 문의 바랍니다.");
+                Swal.fire({
+                    title: "신청 중 오류가 발생했습니다!",
+                    text: "문제가 지속될 경우 고객센터로 문의 바랍니다.",
+                    showCancelButton: false,
+                    confirmButtonColor: '#1D7151',
+                    confirmButtonText: '확인'
+                })
             }
         })
         .catch((error) => {
             console.log("exchange request-front-error : ", error);
-            alert("신청 중 오류가 발생했습니다!\n문제가 지속될 경우 고객센터로 문의 바랍니다.");
+            Swal.fire({
+                title: "신청 중 오류가 발생했습니다!",
+                text: "문제가 지속될 경우 고객센터로 문의 바랍니다.",
+                showCancelButton: false,
+                confirmButtonColor: '#1D7151',
+                confirmButtonText: '확인'
+            })
         });
     }
 }
@@ -115,13 +136,25 @@ export const exchangeUpdateAPI = ({form, exchangeCode}) => {
             if(response.status === 200){
                 console.log('[PointAPI] exchangeUpdateAPI SUCCESS');
                 dispatch({type: PUT_EXCHANGES, payload: response.data});
-                alert("정상적으로 처리되었습니다.");
-                window.location.reload();
+                Swal.fire({
+                    title: "정상적으로 처리되었습니다.",
+                    showCancelButton: false,
+                    confirmButtonColor: '#1D7151',
+                    confirmButtonText: '확인'
+                }).then(result => {
+                    if(result.isConfirmed){
+                    window.location.reload();
+                }})
             }
         })
         .catch((error) => {
             console.log("[PointAPI] exchangeUpdateAPI FAIL : ", error);
-            alert("오류가 발생했습니다.");
+            Swal.fire({
+                title: "오류가 발생했습니다.",
+                showCancelButton: false,
+                confirmButtonColor: '#1D7151',
+                confirmButtonText: '확인'
+            })
         });
     }
 }
