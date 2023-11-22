@@ -49,7 +49,7 @@ function App() {
               <Route path="/login/*" element={authCtx.isLoggedIn ? <Navigate to='/' /> : <Login />}/>
               <Route path="/signup/" element={authCtx.isLoggedIn ? <Navigate to='/' /> : <Signup />} />
               <Route path="/find/" element={<Find/>}></Route>
-              {/* <Route path="chatbot" element={<Chatbots />} /> */}
+              <Route path="chatbot" element={<Chatbots />} />
               <Route path="/myPage" element={authCtx.isLoggedIn ? <MyPage /> : <Navigate to='/' />} children={[
                 <Route key="history" index element={<Navigate to="history" />} />,
                 <Route key="historyPage" path="history" element={<DonationList />} />,
