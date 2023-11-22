@@ -235,7 +235,7 @@ const onCheckEmail = (e) => {
                 <label htmlFor="email">이메일</label>
                 <div className="input-group">
                   <input className="input" type="text" name="email" id="email" onChange={handleEmail} value={email} required ref={emailInputRef} placeholder="이메일 주소를 입력해주세요." />
-                  <button type="button" className="button button-primary" onClick={onCheckEmail} disabled={!isEmailValid} id="emailCheckButton">중복확인</button>
+                  <button type="button" className="button button-primary" disabled={!isEmailValid}>중복확인</button>
                 </div>
                 <div className="regexMsg">{emailMsg}</div>
                 <div id="emailCheckResult"></div>
