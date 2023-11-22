@@ -46,6 +46,8 @@ function ExchangePoint(){
     const requestExchange = () => {
         if(title == null || title == ""){
             Swal.fire({
+                icon: "warning",
+                iconColor: '#1D7151',
                 title: "제목을 입력해주세요!",
                 text: "제목을 입력하셔야 포인트 전환 신청을 하실 수 있습니다.",
                 showCancelButton: false,
@@ -55,6 +57,8 @@ function ExchangePoint(){
         }
         if(file == null){
             Swal.fire({
+                icon: "warning",
+                iconColor: '#1D7151',
                 title: "파일을 등록해주세요!",
                 text: "봉사활동 확인서를 등록하셔야 포인트 전환 신청을 하실 수 있습니다.",
                 showCancelButton: false,
@@ -64,6 +68,8 @@ function ExchangePoint(){
         }
         if (file?.size > 2 * 1024 * 1024){
             Swal.fire({
+                icon: "warning",
+                iconColor: '#1D7151',
                 title: "파일 크기를 확인 바랍니다!",
                 text: "2MB 이하의 파일만 등록하실 수 있습니다.",
                 showCancelButton: false,
