@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
 /*topNav*/
 /* Add a black background color to the top navigation */
 .topnav-area {
@@ -85,7 +86,7 @@
   
   .topnav .brand,
   .topnav .brand a {
-	font-family: 'Anton' !important;
+	font-family: 'Anton'!important;
 	margin: 0 !important
   }
   
@@ -126,7 +127,8 @@
   
 	}
   
-	.topnav.responsive a {
+	.topnav.responsive a,
+	.topnav.responsive NavLink {
 	  float: none;
 	  display: block;
 	  text-align: right;
@@ -143,7 +145,9 @@
   
 	}
   
-	.topnav.responsive .menu a {
+	.topnav.responsive .menu a,
+	
+	.topnav.responsive .menu NavLink {
 	  text-align: right;
 	  margin-right: 0
 	}

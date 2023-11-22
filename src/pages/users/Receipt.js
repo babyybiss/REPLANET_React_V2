@@ -2,6 +2,7 @@ import "../../assets/css/reset.css";
 import "../../assets/css/common.css";
 import "../../assets/css/userexchange.css";
 import { useState } from "react";
+import Swal from "sweetalert2";
 
 
 function DonationReceipt(){
@@ -28,10 +29,22 @@ function DonationReceipt(){
     }
     const infoAgreement = () => {
         if(!check){
-            alert("정보 제공에 동의하셔야 등록하실 수 있습니다.")
+            Swal.fire({
+                title: "정보 제공에 동의하셔야 등록하실 수 있습니다.",
+                showCancelButton: false,
+                confirmButtonColor: '#1D7151',
+                confirmButtonText: '확인'
+            })
         } else {
-            alert("기부 영수증을 위한 개인정보 제공에 동의하셨습니다.");
-        window.location.reload();
+            Swal.fire({
+                title: "기부 영수증을 위한 개인정보 제공에 동의하셨습니다.",
+                showCancelButton: false,
+                confirmButtonColor: '#1D7151',
+                confirmButtonText: '확인'
+            }).then(result => {
+                if(result.isConfirmed){
+                window.location.reload();
+            }})
         }
     }
 

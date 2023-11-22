@@ -4,13 +4,14 @@ import "../../../assets/css/adminexchange.css";
 import { useRef, useState } from "react";
 import { exchangeUpdateAPI } from "../../../apis/PointAPI";
 import { useDispatch } from "react-redux";
+import Swal from "sweetalert2";
 
 
 function ExchangeInfo({info, exchangeCode}){
 
     const dispatch = useDispatch();
     const [confirm, setConfirm] = useState(null);
-    const [points, setPoints] = useState(0);
+    const [points, setPoints] = useState('');
     const [returnDetail, setReturnDetail] = useState(null);
 
     const form = useRef({});
@@ -20,8 +21,12 @@ function ExchangeInfo({info, exchangeCode}){
     };
 
     const apChangeHandler = (e) => {
-        setPoints(e.target.value);
-    }
+        const inputValue = e.target.value;
+        const isValidInput = /^\d+$/.test(e.target.value);
+        if(isValidInput){
+            setPoints(inputValue);
+        }
+    };
 
     const reChangeHangler = (e) => {
         setReturnDetail(e.target.value);
@@ -29,19 +34,39 @@ function ExchangeInfo({info, exchangeCode}){
 
     const submitConfirm = (value) => {
         if(value == '승인'){
-            form.current = {
+            if(points<10000){
+                Swal.fire({
+                    title: "포인트가 잘못 입력되었습니다!",
+                    text: "포인트는 1만 포인트 이상, 만 단위로 입력해주세요.",
+                    showCancelButton: false,
+                    confirmButtonColor: '#1D7151',
+                    confirmButtonText: '확인',
+                    })
+            } else {
+                form.current = {
                 exchangeCode: exchangeCode,
                 status: value,
                 points: points
             };
             console.log('폼 확인 : ',form.current);
             console.log('코드 확인 : ', exchangeCode);
-            if(window.confirm("전환 포인트가 올바르게 입력되었는지 확인 바랍니다.\n포인트 전환 신청을 승인하시겠습니까?")){
-                dispatch(exchangeUpdateAPI({
-                    form: form.current,
-                    exchangeCode: exchangeCode
-                }));
-            }
+            Swal.fire({
+                title: "전환 포인트가 올바르게 입력되었는지 확인 바랍니다.",
+                text: "포인트 전환 신청을 승인하시겠습니까?",
+                showCancelButton: true,
+                confirmButtonColor: '#1D7151',
+                cancelButtonColor: '#1D7151',
+                confirmButtonText: '승인',
+                cancelButtonText: '취소'
+                }).then(result => {
+                    if(result.isConfirmed){
+                        dispatch(exchangeUpdateAPI({
+                            form: form.current,
+                            exchangeCode: exchangeCode
+                        }))
+                    }
+                }
+                );}
         } else if(value == '반려'){
             form.current = {
                 exchangeCode: exchangeCode,
@@ -50,12 +75,22 @@ function ExchangeInfo({info, exchangeCode}){
             };
             console.log('폼 확인 : ',form.current);
             console.log('코드 확인 : ', exchangeCode);
-            if(window.confirm("반려 사유가 올바르게 선택됐는지 확인 바랍니다.\n포인트 전환 신청을 반려하시겠습니까?")){
-                dispatch(exchangeUpdateAPI({
-                    form: form.current,
-                    exchangeCode: exchangeCode
-                }));
-            }
+            Swal.fire({
+                title: "반려 사유가 올바르게 선택됐는지 확인 바랍니다.",
+                text: "포인트 전환 신청을 반려하시겠습니까?",
+                showCancelButton: true,
+                confirmButtonColor: '#1D7151',
+                cancelButtonColor: '#1D7151',
+                confirmButtonText: '반려',
+                cancelButtonText: '취소'
+                }).then(result => {
+                    if(result.isConfirmed){
+                        dispatch(exchangeUpdateAPI({
+                            form: form.current,
+                            exchangeCode: exchangeCode
+                        }))
+                    }
+                });
         }
     }
 
@@ -105,7 +140,7 @@ function ExchangeInfo({info, exchangeCode}){
                             <div id="approvalContent" className="content">
                                 <div style={{border: "black 1px solid", borderRadius:"4px", width:"500px"}}>
                                     <p style={{color:"gray"}}>&nbsp;전환 포인트</p>
-                                    <input onChange={apChangeHandler} type="text" placeholder="0"
+                                    <input value={points} onChange={apChangeHandler} type="text" placeholder="0"
                                         style={{textAlign:"right", width:"90px", border: "none"}} />포인트
                                 </div>
                                 <br/>

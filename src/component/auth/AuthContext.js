@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import * as authAction from './AuthAction';
-import axios from "axios";
-import { Navigate } from "react-router-dom";
+import Swal from "sweetalert2";
 let logoutTimer;
 const AuthContext = React.createContext({
     token: (email, memberName, phone) => { },
@@ -39,12 +38,15 @@ export const AuthContextProvider = (props) => {
         response.then((result) => {
             if (result !== null) {
                 setIsSuccess(true);
+                Swal.fire("회원가입 성공");
+            } else {
+                Swal.fire("회원가입 조건을 확인해 주세요!")
             }
         });
     };
     const loginHandler = (email, password) => {
         setIsSuccess(false);
-        //console.log(isSuccess);
+        console.log(isSuccess);
         const data = authAction.loginActionHandler(email, password);
         data.then((result) => {
             if (result !== null) {
@@ -53,6 +55,8 @@ export const AuthContextProvider = (props) => {
                 logoutTimer = setTimeout(logoutHandler, authAction.loginTokenHandler(loginData.accessToken, loginData.tokenExpiresIn));
                 setIsSuccess(true);
                 console.log(isSuccess);
+            }else {
+                Swal.fire("", "로그인 실패")
             }
         });
     };

@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DonationItem from "../items/DonationItem";
 import { callGetAllPaysByMemberWithDateAPI } from "../../../apis/DonationAPI";
+import Swal from 'sweetalert2';
 
 function DonationList() {
 
     const pays = useSelector(state => state.donationReducer);
+    const [loading, setLoading] = useState(true);
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
     console.log('DonationList() startDate : ', startDate);
@@ -36,7 +38,13 @@ function DonationList() {
             dispatch(callGetAllPaysByMemberWithDateAPI(startDate, endDate));
         } else if (startDate || endDate){
             console.log('DonationDetail() handleSearch() 실행 : (startDate || endDate)');
-            alert('검색 시작일자와 종료일자 둘 다 선택해주세요.')
+            Swal.fire({
+                icon: 'warning',
+                title: '<b style="color:#1D7151; font-weight:bold;">검색 일자</b>를 확인해주세요.',
+                text: '검색 시작일자와 종료일자 둘 다 선택해주세요.',
+                confirmButtonColor: '#1D7151',
+                iconColor: '#1D7151'
+            });
         } else {
             console.log('DonationDetail() handleSearch() 실행 : ()');
             dispatch(callGetAllPaysByMemberWithDateAPI(startDate, endDate));
@@ -54,7 +62,12 @@ function DonationList() {
         if (!endDate || new Date(newStartDate) <= new Date(endDate)) {
             setStartDate(newStartDate);
         } else {
-            alert('검색 시작일자를 확인해주세요.');
+            Swal.fire({
+                icon: 'warning',
+                title: '<b style="color:#1D7151; font-weight:bold;">검색 시작일자</b>를 확인해주세요.',
+                confirmButtonColor: '#1D7151',
+                iconColor: '#1D7151'
+            });
         }
     };
     
@@ -62,7 +75,12 @@ function DonationList() {
         if (!startDate || new Date(newEndDate) >= new Date(startDate)) {
             setEndDate(newEndDate);
         } else {
-            alert('검색 종료일자를 확인해주세요.');
+            Swal.fire({
+                icon: 'warning',
+                title: '<b style="color:#1D7151; font-weight:bold;">검색 종료일자</b>를 확인해주세요.',
+                confirmButtonColor: '#1D7151',
+                iconColor: '#1D7151'
+            });
         }
     };
 
@@ -73,13 +91,15 @@ function DonationList() {
         : '0';
     }
 
-    useEffect(
-        () => {
+    useEffect(() => {
+        const fetchData = async () => {
             console.log('DonationList() useEffect 실행');
-            dispatch(callGetAllPaysByMemberWithDateAPI(startDate, endDate));
-        },
-        [dispatch]
-    );
+            await dispatch(callGetAllPaysByMemberWithDateAPI(startDate, endDate));
+            setLoading(false);
+        };
+    
+        fetchData();
+        }, [dispatch]);
 
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -96,89 +116,89 @@ function DonationList() {
 
     return(
             <>
-            <div className="admin-main">
-                <div className="admin-title">
-                    <h5>기부내역</h5>
-                </div>
-                <div className='admin-title search-section'>
-                    <div>
-                        <input
-                        type='date'
-                        value={startDate}
-                        onChange={(e) => handleStartDateChange(e.target.value)}
-                        className='button button-lg button-primary-outline' />
-                        <span> ~ </span>
-                        <input
-                        type='date'
-                        value={endDate}
-                        onChange={(e) => handleEndDateChange(e.target.value)}
-                        className='button button-lg button-primary-outline' />
+                { loading? (<div>로딩중</div>) : (<div className="admin-main">
+                    <div className="admin-title">
+                        <h5>기부내역</h5>
                     </div>
-                    <div>
-                        <button className='button button-lg button-primary-outline' onClick={initSearchDate}>
-                            초기화
-                        </button>
-                        &nbsp;
-                        <button className='button button-lg button-primary' onClick={handleSearch}>
-                            검색
-                        </button>
+                    <div className='admin-title search-section'>
+                        <div>
+                            <input
+                            type='date'
+                            value={startDate}
+                            onChange={(e) => handleStartDateChange(e.target.value)}
+                            className='button button-lg button-primary-outline' />
+                            <span> ~ </span>
+                            <input
+                            type='date'
+                            value={endDate}
+                            onChange={(e) => handleEndDateChange(e.target.value)}
+                            className='button button-lg button-primary-outline' />
+                        </div>
+                        <div>
+                            <button className='button button-lg button-primary-outline' onClick={initSearchDate}>
+                                초기화
+                            </button>
+                            &nbsp;
+                            <button className='button button-lg button-primary' onClick={handleSearch}>
+                                검색
+                            </button>
+                        </div>
                     </div>
-                </div>
-                <div className='admin-title total-amount'>
-                    <div>
-                        <span className="pay-color-gray">기부내역 클릭 시 해당 캠페인으로 이동합니다.</span>
+                    <div className='admin-title total-amount'>
+                        <div>
+                            <span className="pay-color-gray">기부내역 클릭 시 해당 캠페인으로 이동합니다.</span>
+                        </div>
+                        <div>
+                            <span>기간내 총 기부액 : </span>
+                            <span className="pay-color-green">{calculateTotalAmount().toLocaleString()}원</span>
+                        </div>
                     </div>
-                    <div>
-                        <span>기간내 총 기부액 : </span>
-                        <span className="pay-color-green">{calculateTotalAmount().toLocaleString()}원</span>
-                    </div>
-                </div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>순번</th>
-                            <th>캠페인 이름</th>
-                            <th>단체</th>
-                            <th onClick={handleToggleDetailsAll} className="toggle-header">
-                                {showDetailsAll ? '기부금액 (접기)' : '기부금액 (상세보기)'}
-                            </th>
-                            <th>기부일자</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {pays && pays.length > 0 ? (
-                        currentItems.map((pay) => (
-                            <DonationItem
-                                key={pay.payCode}
-                                pay={pay}
-                                showDetails={showDetailsAll || detailsForItems[pay.payCode]}
-                                onToggleDetails={() => handleToggleDetails(pay.payCode)}
-                            />
-                            ))
-                        ) : (
+                    <table>
+                        <thead>
                             <tr>
-                                <td colSpan={5}>기부내역이 없습니다!</td>
+                                <th>순번</th>
+                                <th>캠페인 이름</th>
+                                <th>단체</th>
+                                <th onClick={handleToggleDetailsAll} className="toggle-header">
+                                    {showDetailsAll ? '기부금액 (접기)' : '기부금액 (상세보기)'}
+                                </th>
+                                <th>기부일자</th>
                             </tr>
-                        )}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                        {pays && pays.length > 0 ? (
+                            currentItems.map((pay) => (
+                                <DonationItem
+                                    key={pay.payCode}
+                                    pay={pay}
+                                    showDetails={showDetailsAll || detailsForItems[pay.payCode]}
+                                    onToggleDetails={() => handleToggleDetails(pay.payCode)}
+                                />
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan={5}>기부내역이 없습니다!</td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
 
-                <ul className="pagination">
-                    <li className="icon" onClick={() => handlePageChange(currentPage -1)}><a><span className="fas fa-angle-left">&lt;</span></a></li>
-                    {Array.from({ length: totalPages }, (_, index) => (
-                        <li
-                            key={index}
-                            onClick={() => handlePageChange(index + 1)}
-                        >
-                            <a className={currentPage === index + 1 ? "active" : ""}>
-                                {index + 1}
-                            </a>
-                        </li>
-                    ))}
-                    <li onClick={() => handlePageChange(currentPage + 1)}><a><span className="fas fa-angle-left">&gt;</span></a></li>
-                </ul>
-            </div>
-        </>
+                    <ul className="pagination">
+                        <li className="icon" onClick={() => handlePageChange(currentPage -1)}><a><span className="fas fa-angle-left">&lt;</span></a></li>
+                        {Array.from({ length: totalPages }, (_, index) => (
+                            <li
+                                key={index}
+                                onClick={() => handlePageChange(index + 1)}
+                            >
+                                <a className={currentPage === index + 1 ? "active" : ""}>
+                                    {index + 1}
+                                </a>
+                            </li>
+                        ))}
+                        <li onClick={() => handlePageChange(currentPage + 1)}><a><span className="fas fa-angle-left">&gt;</span></a></li>
+                    </ul>
+                </div>)}
+            </>
     );
 }
 

@@ -1672,3 +1672,5 @@
     color: var(--color-white);
     line-height: 2;
   }
+
+  .swal2-confirm{background-color:var(--color-primary)!important;font-size:0.9rem}

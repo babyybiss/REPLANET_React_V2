@@ -12,7 +12,7 @@ export function Review({ review, reviewExists }) {
       reviewExists === true ? (
       <NavLink to={`/reviews/${reviewCode}`}>
             <div className="item-thumb rounded-3 mb-1 v-2 v-1 ">
-              <img className="v-2 v-3" src={`/reviewImgs/${review.reviewFileList[0].fileSaveName}`} />
+              <img className="v-2 v-3" src={`/reviewImgs/${review.reviewFileList[0] ? review.reviewFileList[0].fileSaveName : null}`} />
             </div>
             <h4>{review.reviewTitle}</h4>
             <h6 style={{color: "#706f6f"}}>캠페인: <strong style={{ fontWeight: 'bold' }}>{review.campaignTitle}</strong></h6>
@@ -29,3 +29,4 @@ export function Review({ review, reviewExists }) {
     );
   
 }
+

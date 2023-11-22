@@ -1,13 +1,24 @@
-import Default from "./Default";
 import { useContext, useEffect, useState } from 'react';
 import { NavLink } from "react-router-dom";
 import AuthContext from "../auth/AuthContext";
-import { useDispatch, useSelector } from "react-redux";
-import { callGetMemberByTokenAPI } from "../../apis/MemberAPI";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 
-const Header = () => {
+function responsiveHeader() {
+    var x = document.getElementById("myTopnav");
+    if (x.className === "topnav") {
+      x.className += " responsive";
+    } else {
+      x.className = "topnav";
+    }
+  }
+
+  function toggleMenu() {
+    let NavBar = document.querySelector(".navbar");
+    NavBar.classList.toggle("open");
+  }
+
+  const Header = () => {
     const authCtx = useContext(AuthContext);
     const [memberName, setMemberName] = useState('');
     let isLogin = authCtx.isLoggedIn;
@@ -34,17 +45,6 @@ const Header = () => {
     let memberRole = null;
     if(isLogin){
         const token = localStorage.getItem('token');
-        axios.interceptors.request.use(
-            (config) => {
-            if (token) {
-                config.headers.Authorization = `Bearer ${token}`;
-            }
-            return config;
-            },
-            (error) => {
-            return Promise.reject(error);
-            }
-        );
         const decodedToken = token ? jwtDecode(token) : null;
         memberRole = decodedToken.auth;
     }
@@ -52,47 +52,48 @@ const Header = () => {
     return (
         <div className="topnav-area">
             <div className="topnav" id="myTopnav">
+                <style>
+                    @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossOrigin="anonymous" referrerPolicy="no-referrer" />
+                </style>
                 <a href="/" className="brand">Replanet</a>
                 <div className="menu">
                     {!isLogin && (
                         <>
-                        <NavLink to="/">기부하기</NavLink>
-                        <NavLink to="/reviews">캠페인후기</NavLink>
-                        <NavLink to='/login'>로그인</NavLink>                  
-                        <NavLink to='signup'>회원가입</NavLink>                   
-                        <a href="#!" className="user"><i className="fa fa-sign-in"></i></a>
-                        {/* <a href="javascript:void(0);" className="icon" >
-                        <i className="fa fa-bars"></i>
-                        </a> */}
+                            <NavLink to="/">기부하기</NavLink>
+                            <NavLink to="/reviews">캠페인후기</NavLink>
+                            <NavLink to='/login'>로그인</NavLink>
+                            <NavLink to='signup'>회원가입</NavLink>
+                            <a href="javascript:void(0);" className="icon" onClick={responsiveHeader}>
+                                <i className="fa fa-bars"></i>
+                            </a>
                         </>
                     )}
                     {isLogin && (
                         memberRole === "ROLE_USER" && (
                             <>
-                            <NavLink to="/">기부하기</NavLink>
-                            <NavLink to="/reviews">캠페인후기</NavLink>
-                            <NavLink to='/myPage'>마이페이지</NavLink>
-                            <NavLink onClick={toggleLogoutHandler}>로그아웃</NavLink>
-                            <a href="#!" className="user"><i className="fa fa-sign-in"></i></a>
-                            {/* <a href="javascript:void(0);" className="icon" >
-                            <i className="fa fa-bars"></i>
-                            </a> */}
+                                <NavLink to="/">기부하기</NavLink>
+                                <NavLink to="/reviews">캠페인후기</NavLink>
+                                <NavLink to='/myPage'>마이페이지</NavLink>
+                                <NavLink onClick={toggleLogoutHandler}>로그아웃</NavLink>
+                                <a href="javascript:void(0);" className="icon" onClick={responsiveHeader}>
+                                    <i className="fa fa-bars"></i>
+                                </a>
                             </>
-                        )||
+                        ) ||
                         (memberRole === "ROLE_ADMIN" && (
                             <>
-                            <NavLink to="exchangeList">포인트전환관리</NavLink>
-                            <NavLink to="/reviews">후기관리</NavLink>
-                            <NavLink to='charts'>캠페인현황통계</NavLink>
-                            <NavLink onClick={toggleLogoutHandler}>로그아웃</NavLink>
-                            <a href="#!" className="user"><i className="fa fa-sign-in"></i></a>
-                            {/* <a href="javascript:void(0);" className="icon" >
-                            <i className="fa fa-bars"></i>
-                            </a> */}
+                                <NavLink to="exchangeList">포인트전환관리</NavLink>
+                                <NavLink to="/reviews">후기관리</NavLink>
+                                <NavLink to='charts'>캠페인현황통계</NavLink>
+                                <NavLink onClick={toggleLogoutHandler}>로그아웃</NavLink>
+                                <a href="javascript:void(0);" className="icon" onClick={responsiveHeader}>
+                                    <i className="fa fa-bars"></i>
+                                </a>
                             </>
                         ))
                     )}
-                    
+
                 </div>
             </div>
         </div>
@@ -101,4 +102,3 @@ const Header = () => {
 
 
 export default Header;
-

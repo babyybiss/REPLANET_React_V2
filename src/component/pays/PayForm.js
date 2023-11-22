@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { GetCampaignAPI } from "../../apis/CampaignListAPI";
 import { callGetMemberByTokenAPI } from "../../apis/MemberAPI";
+import Swal from 'sweetalert2';
+import "../../assets/css/sweetalert2.css";
 
 function PayForm() {
 
@@ -95,10 +97,21 @@ function PayForm() {
 
         if (!isAgreedToTerms) {
             console.log('약관동의 이슈');
-            alert("약관 동의 후 기부를 하실 수 있습니다.");
+            Swal.fire({
+                icon: 'warning',
+                title: '약관 동의 후 <b style="color:#1D7151; font-weight:bold;">기부</b>를 하실 수 있습니다.',
+                text: '이용약관에 동의하시면 체크해주세요.',
+                confirmButtonColor: '#1D7151',
+                iconColor: '#1D7151'
+            });
         } else if (donationAmount.finalAmount < 1000) {
             console.log('최소금액 이슈');
-            alert("최소 기부금액은 1,000원입니다.");
+            Swal.fire({
+                icon: 'warning',
+                title: '최소 기부금액은 <b style="color:#1D7151; font-weight:bold;">1,000원</b>입니다.',
+                confirmButtonColor: '#1D7151',
+                iconColor: '#1D7151'
+            });
         } else {
             const data = {
                 finalAmount: donationAmount.finalAmount,
@@ -110,20 +123,64 @@ function PayForm() {
                 dispatch(callPostKakaoPayAPI(data, campaignInfo));
             } else if (donationAmount.cashAmount == 0 && donationAmount.pointAmount > 0){
                 console.log('포인트로만 기부');
-                const isPointDonation = window.confirm("포인트로만 기부하시겠습니까?");
+                const isPointDonation =
+                Swal.fire({
+                    icon: 'warning',
+                    title: '포인트로만 기부 하시겠습니까?',
+                    text: '포인트로만 기부 시 결제페이지를 거치지 않습니다.',
+                    confirmButtonColor: '#1D7151',
+                    iconColor: '#1D7151',
+                    
+                    showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
+                    // cancelButtonColor: '#DBDBDB', // cancel 버튼 색깔 지정
+                    confirmButtonText: '승인', // confirm 버튼 텍스트 지정
+                    cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+                    
+                    }).then(result => {
+                        if (result.isConfirmed) { // 만약 모달창에서 confirm 버튼을 눌렀다면
+                            console.log("포인트로만 기부 승인");
+                            console.log("data : ", data);
+                            console.log("campaignInfo : ", campaignInfo);
+                            Swal.fire({
+                                icon: 'success',
+                                title: '기부되었습니다.',
+                                confirmButtonColor: '#1D7151',
+                                iconColor: '#1D7151',
+                                confirmButtonText: '확인', // confirm 버튼 텍스트 지정
+                                }).then(() => {
+                                    dispatch(callPostPointDonationAPI(data, campaignInfo))
+                                });
+                        } else if (!result.isDenied) {
+                            console.log("포인트로만 기부 취소");
+                            Swal.fire({
+                                icon: 'success',
+                                title: '기부가 취소되었습니다!',
+                                confirmButtonColor: '#1D7151',
+                                iconColor: '#1D7151',
+                                confirmButtonText: '확인', // confirm 버튼 텍스트 지정
+                                });
+                            return;
+                        }
+                    });
 
-                if(isPointDonation) {
-                    console.log("포인트로만 기부 승인");
-                    console.log("data : ", data);
-                    console.log("campaignInfo : ", campaignInfo);
-                    dispatch(callPostPointDonationAPI(data, campaignInfo))
-                } else {
-                    console.log("포인트로만 기부 취소");
-                    return;
-                }
+                // if(isPointDonation) {
+                //     console.log("포인트로만 기부 승인");
+                //     console.log("data : ", data);
+                //     console.log("campaignInfo : ", campaignInfo);
+                //     Swal.fire('승인이 완료되었습니다.', '화끈하시네요~!', 'success');
+                //     dispatch(callPostPointDonationAPI(data, campaignInfo))
+                // } else {
+                //     console.log("포인트로만 기부 취소");
+                //     return;
+                // }
 
             } else if (donationAmount.cashAmount < 100) {
-                alert('최소로 결제 할 수 있는 금액은 100원입니다.')
+                Swal.fire({
+                    icon: 'warning',
+                    title: '최소 결제 금액은 <b style="color:#1D7151; font-weight:bold;">100원</b>입니다.',
+                    confirmButtonColor: '#1D7151',
+                    iconColor: '#1D7151'
+                });
                 return;
             }
         }
@@ -144,14 +201,24 @@ function PayForm() {
                 }));
             } else if (e.target.name === "pointAmount") {
                 if (intValue > donationAmount.finalAmount) {
-                    alert("기부금액을 초과할 수 없습니다");
+                    Swal.fire({
+                        icon: 'warning',
+                        title: '기부금액을 <b style="color:#1D7151; font-weight:bold;">초과</b>할 수 없습니다.',
+                        confirmButtonColor: '#1D7151',
+                        iconColor: '#1D7151'
+                    });
                     setDonationAmount((prevDonationAmount) => ({
                         ...prevDonationAmount,
                         pointAmount: prevDonationAmount.finalAmount,
                         cashAmount: 0,
                     }));
                 } else if (intValue > currentPoint) {
-                    alert("가용 포인트를 초과할 수 없습니다.");
+                    Swal.fire({
+                        icon: 'warning',
+                        title: '가용 포인트를 <b style="color:#1D7151; font-weight:bold;">초과</b>할 수 없습니다.',
+                        confirmButtonColor: '#1D7151',
+                        iconColor: '#1D7151'
+                    });
                     setDonationAmount((prevDonationAmount) => ({
                         ...prevDonationAmount,
                         pointAmount: currentPoint,
