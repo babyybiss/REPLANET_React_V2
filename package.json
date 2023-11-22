@@ -8,6 +8,7 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "@tinymce/tinymce-react": "^4.3.2",
     "@types/jest": "^27.0.1",
     "@types/node": "^16.7.13",
     "@types/react": "^18.0.0",
@@ -42,8 +43,10 @@
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.4.2",
     "styled-components": "^6.1.0",
+    "sweetalert": "^2.1.2",
     "sweetalert2": "^11.10.1",
     "tall": "^8.0.0",
+    "tinymce": "^6.7.3",
     "victory": "^36.6.12",
     "web-vitals": "^2.1.4"
   },

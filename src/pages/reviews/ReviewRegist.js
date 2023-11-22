@@ -102,7 +102,7 @@ export function ReviewRegist() {
             }));                                                                                                
             alert('리뷰 목록으로 이동합니다.');
             navigate('/reviews');
-            window.location.reload();
+            //window.location.reload();
         }
     }
 
@@ -201,7 +201,6 @@ export function ReviewRegist() {
                                 src={ imageUrl }
                                 alt="preview"
                             />}
-                    <img src="https://i.imgur.com/aVDuXWh.png"/>
                         <input 
                             style={ { display: 'none' }}
                             type="file" 
