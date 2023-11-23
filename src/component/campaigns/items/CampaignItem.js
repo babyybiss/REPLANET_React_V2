@@ -85,7 +85,7 @@ function CampaignItem({ campaign }) {
       <h6>{campaign.orgName}</h6>
       <img
         className=""
-        style={{ width: 50 }}
+        style={{ width: 16 }}
         alt="#"
         src={
           like.bookmarkCode
@@ -97,7 +97,7 @@ function CampaignItem({ campaign }) {
       <progress className="progress" value={percentage} max="100"></progress>
       <div className="campaign-progress-info">
         <span className="amount">{campaign.currentBudget.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</span>
-        <span className="percent float-right">{percentage > 100 ? '목표금액 초과!!(감사)' : percentage + '%'}</span>
+        <span className="percent float-right">{percentage > 100 ? '목표금액 초과! 감사합니다' : percentage + '%'}</span>
       </div>
     </div>
   );

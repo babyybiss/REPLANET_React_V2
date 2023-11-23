@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import { AddBookmarkAPI } from '../../../apis/BookmarkAPI';
+import Swal from 'sweetalert2';
 
 function CampaignSidebar({ campaignInfo }) {
     // 토큰 정보 
@@ -31,15 +32,15 @@ function CampaignSidebar({ campaignInfo }) {
 
     // 삭제 
     const deleteCampaignHandler = () => {
-        if (window.confirm("정말 삭제하시겠습니까? 복구할 수 없습니다.\n(기부내역이 있으면 삭제 불가능 합니다.)"))
+        if (window.confirm("정말 삭제하시겠습니까? 복구할 수 없습니다.\n(기부 내역이 있으면 삭제가 불가능합니다.)"))
             dispatch(DeleteCampaignAPI(campaignCode))
     }
 
     // 수정    
     const modifyCampaignHandler = () => {
-        if (window.confirm("수정 하시겠습니까?"))
+        if (window.confirm("수정하시겠습니까?"))
             if (campaignInfo.currentBudget > 0) {
-                alert('기부금 있어서 안됨')
+                Swal.fire('', '모금액이 존재하므로 수정이 불가능합니다.')
                 return;
             }
         navigate(`/modify/${campaignCode}`)

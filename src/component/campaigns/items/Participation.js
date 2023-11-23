@@ -41,12 +41,12 @@ function Participation({ participation }) {
 
     return (
         donationInfo &&(
-        <table>
-            <thead>
-                <tr>
-                    <th>{moment(donationInfo.donationDateTime).subtract(1, 'months').format('YYYY-MM-DD')}</th>
-                    <th>{donationInfo? maskingName(donationInfo.refMember.memberName): ""}</th>
-                    <th>{totalDonation.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원 참여</th>
+        <table className="text-left">
+            <thead className="text-left">
+                <tr className="text-left">
+                    <th className="text-left">{moment(donationInfo.donationDateTime).subtract(1, 'months').format('YYYY-MM-DD')}</th>
+                    <th className="text-left">{donationInfo? maskingName(donationInfo.refMember.memberName): ""}</th>
+                    <th className="text-left">{totalDonation.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원 참여</th>
                 </tr>
             </thead>
             <tbody>

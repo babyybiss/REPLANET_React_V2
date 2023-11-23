@@ -1,13 +1,13 @@
 .mypage-main {
     padding: 2rem;
-    margin-left: 10%;
-    margin-right: 10%;
+    /* margin-left: 10%;
+    margin-right: 10%; */
 }
 
 .mypage-title {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: start;
     margin-bottom: 2rem;
     color: #1D7151;
 }
@@ -30,14 +30,21 @@
 }
 
 .serviceinfo {
-    width: 60%;
-    font-size: 20px;
-    padding: 10px;
-    text-align: center;
-    line-height: 40px;
-    border-radius: 4px;
-    border: 1px solid #4AB28B;
+    width: 100%;
+    font-size: 1rem;
+    padding: 1rem;
+    /*text-align: center;
+    line-height: 40px;*/
+    line-height: 1.75;
+    border-radius: 0.5rem;
+    border: 1px solid var(--color-primary);
     margin: 0 auto;
+}
+
+.serviceinfo ul li::before {
+    content: "·";
+    display: inline-block;
+    width: 12px;
 }
 
 table {
@@ -53,19 +60,26 @@ table thead, tbody{
 }
 
 .exchange {
-    width: 60%;
+    width: 100%;
     border-radius: 8px;
     border: none;
-    box-shadow: 3px 3px 3px 3px lightgray;
     margin: 0 auto;
-    text-align: center;
+    border: solid 1px var(--color-secondary)
+}
+
+.exchange-img-area {
+    height: 200px!important;
+    overflow: hidden;
 }
 
 .exchange-img{
-    height: 210px;
     width: 100%;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
+}
+
+.exchange-body-area {
+    padding: 1rem;
 }
 
 .title-input {
@@ -78,13 +92,14 @@ table thead, tbody{
 }
 
 .exchange-file {
-    width: 50%;
-    box-shadow: 4px 4px 4px 4px lightgray;
-    border-radius: 4px;
-    color: gray;
+    width: 100%;
+    border-radius: .5rem;
+    padding: 1rem;
+    background-color: var(--color-primary);
+    color: var(--color-white);
     text-align: left;
-    padding-left: 10px;
     margin: 0 auto;
+    cursor: pointer;
 }
 
 .modal {
@@ -126,14 +141,14 @@ table thead, tbody{
 }
 
 .receiptinfo {
-    width: 70%;
-    padding: 10px;
-    border-radius: 4px;
-    border: 1px solid #4AB28B;
+    width: 100%;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--color-primary)
 }
 
 .receipt-btn {
-    background-color: #1D7151;
+    /*background-color: #1D7151;
     border: solid 1px #1D7151;
     color: white;
     height: 40px;
@@ -141,7 +156,7 @@ table thead, tbody{
     border-radius: 0.25rem;
     line-height: 40px !important;
     text-align: center;
-    font-size: 100% !important;
+    font-size: 100% !important;*/
   }
 
   .receipt-title {

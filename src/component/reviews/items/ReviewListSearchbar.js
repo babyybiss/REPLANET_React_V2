@@ -30,16 +30,23 @@ export function ReviewListSearchbar({ reviewCampaignCode, searchFilter, setSearc
     return (
         <div className="text-center">
             <div style={{ display: "flex", justifyContent: "space-evenly" }}>
+                <div class="input-group">
                 <input
                     type="text"
-                    className="searchbar"
+                    className="input"
                     value={searchFilter}
                     onChange={(e) => {
                         setSearchFilter(e.target.value);
                         handleSearchKeyPress();
                     }}
-                    placeholder="🔎 Search"
+                    placeholder="Search"
                 />
+                <button type="button" class="button button-primary"                     onChange={(e) => {
+                        setSearchFilter(e.target.value);
+                        handleSearchKeyPress();
+                    }}><i class="fa-solid fa-magnifying-glass"></i></button>
+                </div>
+
                 {decodedToken !== null && decodedToken.memberRole == "ROLE_ADMIN" ?    
                 <div>
                 <select
