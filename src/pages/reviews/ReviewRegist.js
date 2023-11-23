@@ -139,7 +139,7 @@ export function ReviewRegist() {
 
     console.log("(reviewRegist) result? : ", result);
 
-    const uploadImageCallback = (file) => {
+   /* const uploadImageCallback = (file) => {
         return new Promise((resolve, reject) => {
           const xhr = new XMLHttpRequest();
           xhr.open('POST', 'https://api.imgur.com/3/image');
@@ -171,7 +171,7 @@ export function ReviewRegist() {
       
           xhr.send(data);
         });
-      };
+      };*/
       
       
       
@@ -222,7 +222,7 @@ export function ReviewRegist() {
                     </div>
 
                     {/* Pass the callback function to TextEditor */}
-                    <TextEditor onContentChange={handleContentChange} uploadImageCallback={uploadImageCallback}/>
+                    <TextEditor onContentChange={handleContentChange} />
                     <div style={{display: "flex", justifyContent: "center"}}>
                         <button
                             onClick={ () => navigate(-1)}
