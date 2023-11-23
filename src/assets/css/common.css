@@ -1184,7 +1184,43 @@
     border: solid 1px var(--color-dark) !important;
     color: var(--color-dark) !important;
   }
+
+  .button-danger {
+    background-color: var(--color-danger) !important;
+    border: solid 1px var(--color-danger) !important;
+    color: var(--color-white) !important;
+  }
   
+  .button-danger:hover {
+    background-color: var(--color-danger-hover) !important;
+    border: solid 1px var(--color-danger-hover) !important;
+    color: var(--color-white) !important;
+  }
+  .button-danger-outline {
+    background-color: var(--color-white) !important;
+    border: solid 1px var(--color-danger) !important;
+    color: var(--color-danger) !important;
+  }
+  
+  .button-danger-outline:hover {
+    background-color: var(--color-danger-hover) !important;
+    border: solid 1px var(--color-danger-hover) !important;
+    color: var(--color-white) !important;
+  }
+  
+  .button-danger-outline:active {
+    background-color: var(--color-danger-hover) !important;
+    border: solid 1px var(--color-danger-hover) !important;
+    color: var(--color-white) !important;
+  }
+  
+  .button-danger-outline:focus {
+    background-color: var(--color-danger-hover) !important;
+    border: solid 1px var(--color-danger-hover) !important;
+    color: var(--color-white) !important;
+  }
+
+
   /*table*/
   /* Style the table */
   table {

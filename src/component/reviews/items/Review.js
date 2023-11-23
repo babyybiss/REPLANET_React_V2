@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
-import css from "../../../assets/css/common.css"
+import { stylesheet } from "../../../assets/css/common.css"
+
 export function Review({ review, reviewExists }) {
   const currentDate = new Date();
   const reviewCode = review.reviewCode;
@@ -11,7 +12,7 @@ export function Review({ review, reviewExists }) {
       review && (
       reviewExists === true ? (
       <NavLink to={`/reviews/${reviewCode}`}>
-            <div className="item-thumb rounded-3 mb-1 v-2 v-1 ">
+            <div className="stylesheet.item-thumb stylesheet.rounded-3 mb-1 ">
               <img className="v-2 v-3" src={`/reviewImgs/${review.reviewFileList[0] ? review.reviewFileList[0].fileSaveName : null}`} />
             </div>
             <h4>{review.reviewTitle}</h4>

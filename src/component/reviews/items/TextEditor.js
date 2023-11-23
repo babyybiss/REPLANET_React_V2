@@ -2,23 +2,23 @@ import React, { useState, useEffect } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 import axios from "axios";
 
-
 export function TextEditor({ onContentChange, existingReviewDescription }) {
   const [initialContent, setInitialContent] = useState(existingReviewDescription ? existingReviewDescription : "상세 내용을 입력해주세요.");
 
-  const handleEditorChange = (content, editor) => {
+  const handleEditorChange = (content, editor) => {    
     onContentChange(content);
     console.log(content);
   };
 
-  const updateImageSrc = (editor, newSrc) => {
-    const images = editor.contentDocument.getElementsByTagName('img');
-    for (let i = 0; i < images.length; i++) {
-      images[i].setAttribute('data-original', images[i].currentSrc);
-      images[i].setAttribute('src', newSrc);
-    }
+  const updateImageSrc = (image, newSrc) => {
+    // Store the original source and file name as data attributes
+    image.setAttribute('data-original', image.currentSrc);
+    image.setAttribute('data-file-name', newSrc);
+  
+    // Set the new source
+    image.setAttribute('src', newSrc);
   };
-
+  
   const imageUploadHandler = (blobInfo, success, failure, progress, content) => {
     const reader = new FileReader();
     console.log("들어옴1");
@@ -37,29 +37,38 @@ export function TextEditor({ onContentChange, existingReviewDescription }) {
       axios.post('http://localhost:8001/reviews/imageUpload', formData)
         .then((res) => {
           console.log("Image upload successful:", res.data);
-          const doc = document;
-          console.log(doc.getElementsByTagName("img")[0],  " hahahahahah");
+          const responseData = res.data;
+          const fileName = responseData.imageUrl;
+          console.log("file name? : ", fileName);
+  
+          // Get the TinyMCE editor iframe
+          const iframe = document.querySelector('iframe');
+          const iframeDoc = iframe.contentDocument;
+          
+          // Find the defaultImg element in the iframe
+          const defaultImg = iframeDoc.querySelector('img[src^="data:"]') || iframeDoc.querySelector('img[src^="blob:"]');
 
-            // Get all images in the content
-            //const images = content.getElementsByTagName('img');
-  
-            // Loop through each image and replace the source
-            //for (let i = 0; i < images.length; i++) {
-              
-           //   images[i].setAttribute('src', res.data.imageUrl);
-           // }
-  
-            // Notify TinyMCE that the upload was successful
-            if (typeof success === 'function') {
-              success(res.data.imageUrl);
+          if (defaultImg) {
+            // Change the src attribute
+            defaultImg.setAttribute('src', fileName);
+
+            for(let i = 0; i < 10; i++) {
+              // Optionally, set the alt attribute
+              defaultImg.setAttribute('alt', `reviewImg[${i}]`);
             }
-           else {
+
+          // Notify TinyMCE that the upload was successful
+          if (typeof success === 'function') {
+            success(res.data.imageUrl);
+          } else {
             // If content is not valid, notify failure if it's a function
             if (typeof failure === 'function') {
               failure('Invalid content');
             }
           }
-        })
+        }
+      })
+      
         .catch((error) => {
           console.error('Error during image upload:', error);
           // Notify failure if it's a function
@@ -72,17 +81,13 @@ export function TextEditor({ onContentChange, existingReviewDescription }) {
     // Start reading the blob
     reader.readAsArrayBuffer(blobInfo.blob());
   };
-  
-  
-  
-  const newSrc = "/reviewImgs/mceclip1.png";
 
   return (
     <Editor
       apiKey='iokd75awv5mkifdb3j4qp387rw27smpbjgoawllblis65mrq'
       init={{
         images_upload_handler: imageUploadHandler,
-        selector: 'textarea',
+        selector: 'iframe',
         plugins: [
           'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
           'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
