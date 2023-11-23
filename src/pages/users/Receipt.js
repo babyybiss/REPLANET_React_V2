@@ -50,7 +50,7 @@ function DonationReceipt(){
 
     return(
         <div className="mypage-main">
-            <h3>기부금 영수증 발급 안내</h3>
+            <h1 className="text-primary">기부금 영수증 발급 안내</h1>
             <br/>
             <div className="receiptinfo bg-primary">
                 <h4>REPLANET과 함께 해주심에 항상 감사드립니다!</h4>
@@ -72,17 +72,17 @@ function DonationReceipt(){
             </div>
             <br/>
             <div className="receiptinfo">
-                <div class="items-container ic2">
+                <div class="items-container ic3">
                 <input className="input" type="text" placeholder="이름"/>
-                <div></div>
                 </div>
-                <div className="items-container ic2">
+                <div class="items-container ic3">
                 <input className="input" type="text" value={front} onChange={handleFrontChange} placeholder="주민등록번호 앞자리"/>
                 <input className="input" type="text" value={last} onChange={handleLastChange} placeholder="주민등록번호 뒷자리"/>
                 </div>
 
-                개인정보 제공에 동의합니다 <input type="checkbox" onChange={checkBox}/><br/><br/>
-                <button className="receipt-btn" onClick={infoAgreement}>정보 제공 등록</button>
+                <input type="checkbox" onChange={checkBox} name="policyAgree"/><label htmlFor="policyAgree">개인정보 제공에 동의합니다.</label>
+                <hr></hr>
+                <button className="button button-primary" onClick={infoAgreement}>정보 제공 등록</button>
             </div>
             <br/>
             <h6>궁금하신 점은 고객센터로 문의 바랍니다.</h6>

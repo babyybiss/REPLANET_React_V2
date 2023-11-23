@@ -1003,6 +1003,12 @@
     height: 35px;
   }
   
+  .searchbar::before {
+    content: "\f002";
+    font-family: 'font Awesome 6 free';
+    display: inline-block;
+  }
+
   .input-lg,
   .button-lg,
   .select-lg,
@@ -1107,21 +1113,21 @@
   }
   
   .button-primary-outline:hover {
-    background-color: var(--color-light) !important;
+    background-color: var(--color-primary-hover) !important;
     border: solid 1px var(--color-primary-hover) !important;
-    color: var(--color-primary-hover) !important;
+    color: var(--color-white) !important;
   }
   
   .button-primary-outline:active {
-    background-color: var(--color-light) !important;
+    background-color: var(--color-primary-active) !important;
     border: solid 1px var(--color-primary-active) !important;
-    color: var(--color-primary-active) !important;
+    color: var(--color-white) !important;
   }
   
   .button-primary-outline:focus {
-    background-color: var(--color-light) !important;
-    border: solid 1px var(--color-primary-focus) !important;
-    color: var(--color-primary-focus) !important;
+    background-color: var(--color-primary-focus) !important;
+    border: solid 1px var(--color-primary-focus-border) !important;
+    color: var(--color-white) !important;
   }
   
   .button-primary-outline:disabled {

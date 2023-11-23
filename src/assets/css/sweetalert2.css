@@ -1,3 +1,15 @@
+@font-face {
+    font-family: 'Pretendard Variable';
+    font-weight: 45 920;
+    font-style: normal;
+    font-display: swap;
+    src: url('/public/font/PretendardVariable.woff2') format('woff2-variations');
+  }
+
+.swal2-popup {
+    font-family: 'Pretendard Variable', sans-serif!important;
+}
+
 .swal2-icon{
     margin: 2.5em auto .6em;
     border: 0.25em solid rgba(0,0,0,0);

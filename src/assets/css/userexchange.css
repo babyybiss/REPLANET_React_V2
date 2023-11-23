@@ -148,7 +148,7 @@ table thead, tbody{
 }
 
 .receipt-btn {
-    background-color: #1D7151;
+    /*background-color: #1D7151;
     border: solid 1px #1D7151;
     color: white;
     height: 40px;
@@ -156,5 +156,5 @@ table thead, tbody{
     border-radius: 0.25rem;
     line-height: 40px !important;
     text-align: center;
-    font-size: 100% !important;
+    font-size: 100% !important;*/
   }
