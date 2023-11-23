@@ -32,7 +32,7 @@ export function ReviewListSearchbar({ reviewCampaignCode, searchFilter, setSearc
             <div style={{ display: "flex", justifyContent: "space-evenly" }}>
                 <input
                     type="text"
-                    className="searchbar"
+                    className="searchbar input w-100"
                     value={searchFilter}
                     onChange={(e) => {
                         setSearchFilter(e.target.value);

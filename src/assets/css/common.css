@@ -134,7 +134,7 @@
   a,
   a:link {
     color: var(--color-dark);
-    text-decoration: none;
+    text-decoration: none!important;
   
   }
   
@@ -308,13 +308,11 @@
   }
 
   .text-danger {
-    background-color: var(--color-danger) !important;
-    border: solid 1px var(--color-danger) !important;
-    color: var(--color-white) !important;
+    color: var(--color-danger) !important;
   }
 
   .text-danger:hover {
-    background-color: var(--color-danger-hover) !important
+    color: var(--color-danger-hover) !important
   }
   
   /*bg color*/

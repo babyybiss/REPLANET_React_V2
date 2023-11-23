@@ -52,13 +52,13 @@ function DonationReceipt(){
         <div className="mypage-main">
             <h3>기부금 영수증 발급 안내</h3>
             <br/>
-            <div className="receiptinfo">
+            <div className="receiptinfo bg-primary">
                 <h4>REPLANET과 함께 해주심에 항상 감사드립니다!</h4>
                 <br/>
                 <h6>후원자님의 연말정산, 종합소득세 신고를 위한 기부금 영수증은 국세청 홈택스 연말정산 간소화 서비스를 통해 발급 받으실 수 있습니다.</h6>
                 <h6>리플래닛을 통한 기부의 경우, 개인정보 제공에 동의하셔야 홈택스에서 조회가 가능합니다.</h6>
                 <br/>
-                <h6 onClick={()=>window.open('http://www.hometax.go.kr')} className="externalLink">국세청 홈택스 바로가기</h6>
+                <h6 onClick={()=>window.open('http://www.hometax.go.kr')} className="externalLink text-white">국세청 홈택스 바로가기</h6>
             </div>
             <br/>
             <div className="receiptinfo">
@@ -72,9 +72,15 @@ function DonationReceipt(){
             </div>
             <br/>
             <div className="receiptinfo">
-                <input type="text" style={{width: "120px", height: "30px"}} placeholder="이름"/><br/><br/>
-                <input type="text" value={front} onChange={handleFrontChange} style={{width: "120px", height: "30px"}} placeholder="주민등록번호 앞자리"/> -&nbsp;
-                <input type="text" value={last} onChange={handleLastChange} style={{width: "120px", height: "30px"}} placeholder="주민등록번호 뒷자리"/><br/><br/>
+                <div class="items-container ic2">
+                <input className="input" type="text" placeholder="이름"/>
+                <div></div>
+                </div>
+                <div className="items-container ic2">
+                <input className="input" type="text" value={front} onChange={handleFrontChange} placeholder="주민등록번호 앞자리"/>
+                <input className="input" type="text" value={last} onChange={handleLastChange} placeholder="주민등록번호 뒷자리"/>
+                </div>
+
                 개인정보 제공에 동의합니다 <input type="checkbox" onChange={checkBox}/><br/><br/>
                 <button className="receipt-btn" onClick={infoAgreement}>정보 제공 등록</button>
             </div>

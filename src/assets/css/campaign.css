@@ -3,8 +3,16 @@
 .campaign-banner {
     width: 100%;
     padding: 1rem;
+    min-height: 30vh;
+    display: flex;
+    align-items: center;
+    justify-content: start;
     border-radius: 0.25rem;
-    margin-bottom: 40px
+    margin-bottom: 40px;
+    background-position: center center;
+    background-size: cover;
+    background-image: url('../../../public/campaigns/banner.jpg');
+    color: var(--color-white);
   }
   
   .campaign-button-area {
@@ -27,9 +35,16 @@
   
   .campaign-button-area>button {
     padding: 0 1rem;
-    width: 100%
+    width: 100%;
+    border: solid 1px var(--color-primary)!important;
   }
   
+  .campaign-button-area>button:active,
+  .campaign-button-area>button:focus {
+    background-color: var(--color-primary)!important;
+    color: var(--color-white)!important
+  }
+
   .campaign-list-container .item {
     display: grid;
     gap: 1rem;
