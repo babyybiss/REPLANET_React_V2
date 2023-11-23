@@ -49,6 +49,7 @@ function DonationReceipt(){
     }
 
     return(
+
         <div className="mypage-main">
             <h1 className="text-primary">기부금 영수증 발급 안내</h1>
             <br/>

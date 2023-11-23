@@ -32,7 +32,7 @@ function PointModal({exchangeCode, closeModal}){
                     {detail.status == "대기"? <h3 style={{color: "#1D7151"}}>현재 처리 대기 중입니다.</h3> : 
                         <>
                             {detail.status == "승인"?
-                            (<h3 style={{color : "#428BF9"}}>{processingDate}에 {detail.points}포인트가 적립되었습니다.</h3>) :
+                            (<h3 style={{color : "#428BF9"}}>{processingDate}에 {detail.points.toLocaleString()}포인트가 적립되었습니다.</h3>) :
                             (<h3 style={{color : "#C7302B"}}>{processingDate}에 [{detail.returnDetail}] 사유로 반려되었습니다.</h3>)}
                         </>
                     }

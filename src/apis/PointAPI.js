@@ -20,6 +20,8 @@ export const pointExchangeAPI = ({formdata}) => {
             if(response.status === 200){
                 dispatch({type: POST_EXCHANGES, payload: response.data});
                 Swal.fire({
+                    icon: "success",
+                    iconColor: '#1D7151',
                     title: "신청이 완료되었습니다!",
                     text: "관리자 확인 후 처리 완료까지 영업일 기준 최대 2일까지 소요됩니다.",
                     showCancelButton: false,
@@ -32,6 +34,7 @@ export const pointExchangeAPI = ({formdata}) => {
             }else{
                 console.log("exchange request-back-error : ", response.data);
                 Swal.fire({
+                    icon: "error",
                     title: "신청 중 오류가 발생했습니다!",
                     text: "문제가 지속될 경우 고객센터로 문의 바랍니다.",
                     showCancelButton: false,
@@ -43,6 +46,7 @@ export const pointExchangeAPI = ({formdata}) => {
         .catch((error) => {
             console.log("exchange request-front-error : ", error);
             Swal.fire({
+                icon: "error",
                 title: "신청 중 오류가 발생했습니다!",
                 text: "문제가 지속될 경우 고객센터로 문의 바랍니다.",
                 showCancelButton: false,
@@ -137,6 +141,8 @@ export const exchangeUpdateAPI = ({form, exchangeCode}) => {
                 console.log('[PointAPI] exchangeUpdateAPI SUCCESS');
                 dispatch({type: PUT_EXCHANGES, payload: response.data});
                 Swal.fire({
+                    icon: "success",
+                    iconColor: '#1D7151',
                     title: "정상적으로 처리되었습니다.",
                     showCancelButton: false,
                     confirmButtonColor: '#1D7151',
@@ -150,6 +156,7 @@ export const exchangeUpdateAPI = ({form, exchangeCode}) => {
         .catch((error) => {
             console.log("[PointAPI] exchangeUpdateAPI FAIL : ", error);
             Swal.fire({
+                icon: "error",
                 title: "오류가 발생했습니다.",
                 showCancelButton: false,
                 confirmButtonColor: '#1D7151',
