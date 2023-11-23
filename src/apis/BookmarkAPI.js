@@ -33,11 +33,9 @@ export function AddBookmarkAPI(bookmark){
 
 //북마크 삭제
 export function DeleteBookmarkAPI(memberCode, campaignCode){
-    console.log(memberCode, campaignCode,'이건삭제');
     return async (dispatch, getState) => {
         await axios.delete(requestURL+`bookmarks?memberCode=${memberCode}&campaignCode=${campaignCode}`)
         .then((res) =>{
-            console.log(res.data,'너도체크좀222');
           //  dispatch(postBookmark(res.data))
         })
         .catch((error) => {
@@ -48,11 +46,20 @@ export function DeleteBookmarkAPI(memberCode, campaignCode){
  
 //북마크 전체 삭제
 export function DeleteAllBookmarksAPI({bookmarkCode}){
-    console.log(bookmarkCode,'이건삭제');
     return async (dispatch, getState) => {
         await axios.put(requestURL+'AllBookmarks',bookmarkCode)
         .then((res) =>{
-            console.log(res.data,'너도체크좀222');
+            Swal.fire({
+                icon: "success",
+                iconColor: '#1D7151',
+                title: "삭제가 완료되었습니다!",
+                showCancelButton: false,
+                confirmButtonColor: '#1D7151',
+                confirmButtonText: '확인'
+            }).then(result => {
+                if(result.isConfirmed){
+                window.location = "/myPage/history";
+            }})
             dispatch(postBookmark(res.data))
         })
         .catch((error) => {
