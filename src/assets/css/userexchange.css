@@ -143,3 +143,20 @@ table thead, tbody{
     text-align: center;
     font-size: 100% !important;
   }
+
+  .receipt-title {
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2rem;
+    margin-top: 2rem;
+    text-align: center;
+    border-bottom: #DBDBDB solid 1px;
+    border-top: #DBDBDB solid 1px;
+    padding: 1rem;
+}
+
+.receipt-main {
+    padding: 2rem;
+    margin-left: 14%;
+    margin-right: 14%;
+}

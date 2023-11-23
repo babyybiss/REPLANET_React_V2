@@ -186,7 +186,7 @@ function ExchangeInfo({info, exchangeCode}){
                             <div className="confirmDetail">
                                 <p style={{color:"gray"}}>&nbsp;전환 포인트</p>
                                 <br/>
-                                <h5>&nbsp;{info.points} 포인트</h5>
+                                <h5>&nbsp;{info.points.toLocaleString()} 포인트</h5>
                             </div>
                         </>) : 
                         (<>
