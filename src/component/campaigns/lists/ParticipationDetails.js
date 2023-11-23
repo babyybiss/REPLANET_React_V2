@@ -1,5 +1,3 @@
-//참여내역 리스ㅡㅌ
-
 import { useSelector, useDispatch } from "react-redux";
 import Participation from "../items/Participation";
 import { useEffect, useState } from "react";

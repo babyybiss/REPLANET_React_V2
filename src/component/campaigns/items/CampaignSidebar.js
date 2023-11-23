@@ -1,29 +1,31 @@
 import moment from 'moment';
-import { DeleteCampaignAPI, ModifyCampaignAPI } from '../../../apis/CampaignListAPI';
-import { useDispatch, useSelector } from 'react-redux';
+import { DeleteCampaignAPI } from '../../../apis/CampaignListAPI';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from "react-router-dom";
-import { useState } from 'react';
 import { jwtDecode } from 'jwt-decode';
 
-import { AddBookmarkAPI, DeleteBookmarkAPI } from '../../../apis/BookmarkAPI';
 
 import Swal from 'sweetalert2';
-
+import HeartButton from '../../mypage/items/HeartButton';
+import { useEffect } from 'react';
 
 function CampaignSidebar({ campaignInfo }) {
+
     // 토큰 정보 
-    const token = localStorage.getItem('token');
-    const decodedToken = token ? jwtDecode(token) : null;
-
-    // 북마크 정보
-    // const result = useSelector(state => state.bookmarkReducer)
-    // console.log(result,);
-
+    let token = localStorage.getItem('token');
+    let decodedToken = token ? jwtDecode(token) : null;
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [like, setLike] = useState(false)
-    const campaignCode = campaignInfo.campaignCode;
+    let campaignCode = campaignInfo.campaignCode;
+
+    let fileSaveName = campaignInfo.campaignDescfileList[0];
+
+    if(fileSaveName == null || undefined){
+        fileSaveName = false; 
+      }else{ 
+        fileSaveName = true; 
+      }
 
     // 기부 현황
     const currentBudget = campaignInfo.currentBudget;
@@ -47,71 +49,53 @@ function CampaignSidebar({ campaignInfo }) {
                 return;
             }
         navigate(`/modify/${campaignCode}`)
-
-        //dispatch(ModifyCampaignAPI(campaignCode))
     }
-
-    const header = {
-        headers: {
-            "Content-type": "multipart/form-data charset=utf-8",
-            Accept: "*/*",
-            Authorization: localStorage.getItem('token')
-        },
-    }
-
     // 후원하기 버튼
     const goToDonation = () => {
-        decodedToken && decodedToken.memberCode != undefined  ?
-        navigate(`/campaign/${campaignInfo.campaignCode}/donations`) :
-        navigate('/login') 
-
-
+        decodedToken && decodedToken.memberCode != undefined ?
+            navigate(`/campaign/${campaignInfo.campaignCode}/donations`) :
+            navigate('/login')
 
     }
 
+    // 카카오 공유하기 버툰
 
-    // 북마크 추가 
-    const addBookmark = (memberCode, campaignCode) => {
-        dispatch(AddBookmarkAPI({memberCode, campaignCode}))
-    };
+    useEffect(() => {
+        const script = document.createElement("script");
+        script.src = "https://developers.kakao.com/sdk/js/kakao.js";
+        script.async = true;
+        document.body.appendChild(script);
+        return () => document.body.removeChild(script);
+      }, []);
 
-    // 북마크 삭제
-    const deleteBookmark = (memberCode, campaignCode) => {
-        dispatch(DeleteBookmarkAPI(memberCode, campaignCode))
+       const shareKakao = () => { // url이 id값에 따라 변경되기 때문에 route를 인자값으로 받아줌
+        if (window.Kakao) {
+          const kakao = window.Kakao;
+          if (!kakao.isInitialized()) {
+            kakao.init("75ce38ebe67c3a1280e071003e94fcd8"); // 카카오에서 제공받은 javascript key를 넣어줌 -> .env파일에서 호출시킴
+          }
+      
+          kakao.Link.sendDefault({
+            objectType: "feed", // 카카오 링크 공유 여러 type들 중 feed라는 타입 -> 자세한 건 카카오에서 확인
+            content: {
+              title: campaignInfo.campaignTitle, // 인자값으로 받은 title
+              description: campaignInfo.orgDescription, // 인자값으로 받은 title
+              imageUrl: 'https://cdn-icons-png.flaticon.com/512/5017/5017359.png',
+              link: {
+                mobileWebUrl: `http://localhost:3000/campaign/${campaignCode}`, // 인자값으로 받은 route(uri 형태)
+                webUrl: `http://localhost:3000/campaign/${campaignCode}`
+              }
+            },
+          });
+        }
       };
-
     return (
         campaignInfo && (
+
             <div className="container-sidebar">
+         
                 <div className="toggle">
-
-                    <img
-                        className=""
-                        style={{ width: 50 }}
-                        alt="#"
-                        src={
-                            like
-                                ? "/campaigns/default/checked.png"
-                                : "/campaigns/default/unChecked.png"
-                        }
-                        onClick={() => {
-                            if (like === true) {
-                                setLike(!like);
-                                deleteBookmark(decodedToken.memberCode,campaignCode);
-                            }
-
-                            if (like === false) {
-                                setLike(!like);
-                                addBookmark(decodedToken.memberCode, campaignCode);
-                            }
-                        }}
-                    />
-
-                    {/*bookMarkIcon === true ? (
-                        <button onClick={() => setbookMarkIcon(!bookMarkIcon)} >  북마크체크표시 </button>
-                    ) :
-                        <button onClick={() => setbookMarkIcon(!bookMarkIcon)}>  북마크체크미표시 </button>
-                    */}
+                    <HeartButton campaignCode={campaignCode} />
 
                 </div>
                 <h2>현재 모금액 : {campaignInfo.currentBudget.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원 </h2>
@@ -125,13 +109,13 @@ function CampaignSidebar({ campaignInfo }) {
 
                     {decodedToken !== null && decodedToken.memberRole == "ROLE_ADMIN" ?
                         <button className="button button-primary" onClick={deleteCampaignHandler}>삭제하기</button> :
-                       
-                            <button className="button button-primary" style={{ width: "100%" }} onClick={goToDonation}>후원하기</button>
-                            
+
+                        <button className="button button-primary" style={{ width: "100%" }} onClick={goToDonation}>후원하기</button>
+
                     }
                     {decodedToken !== null && decodedToken.memberRole == "ROLE_ADMIN" ?
                         <button className="button button-primary-outline" onClick={modifyCampaignHandler}>수정하기</button> :
-                        <button className="button button-primary-outline">공유하기</button>
+                        <button className="button button-primary-outline" onClick={shareKakao}>공유하기</button>
                     }
 
                 </div>
@@ -153,5 +137,3 @@ function CampaignSidebar({ campaignInfo }) {
 }
 
 export default CampaignSidebar;
-
-// <Link to={`/campaign/${campaignInfo.campaignCode}/donations`}></Link>

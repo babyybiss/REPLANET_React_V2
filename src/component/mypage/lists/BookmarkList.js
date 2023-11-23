@@ -3,7 +3,7 @@ import { jwtDecode } from 'jwt-decode';
 import { useEffect, useState } from "react";
 import { getBookmarkList, DeleteAllBookmarksAPI } from "../../../apis/BookmarkAPI";
 import Bookmark from "../items/Bookmark";
-
+import Swal from "sweetalert2";
 function BookmarkList() {
     // 토큰 정보 
     const token = localStorage.getItem('token');
@@ -20,8 +20,26 @@ function BookmarkList() {
         }, []
     )
     // 북마크 삭제
+
+    
     const deleteBookmark = () => {
-        dispatch(DeleteAllBookmarksAPI({ bookmarkCode: checkItems }))
+
+        Swal.fire({
+            icon: "question",
+            title: "북마크 삭제",
+            text: "해당 북마크를 삭제하시겠습니까?",
+            showCancelButton: true,
+            confirmButtonColor: '#1D7151',
+            cancelButtonColor: '#1D7151',
+            confirmButtonText: '승인',
+            cancelButtonText: '취소'
+            }).then(result => {
+                if(result.isConfirmed){
+                    dispatch(DeleteAllBookmarksAPI({ bookmarkCode: checkItems }))
+                }
+            }
+            );
+
     };
     // 체크박스 단일
     const [checkItems, setCheckItems] = useState([]);

@@ -9,8 +9,6 @@ function CountBox() {
   const participation = useSelector(state => state.donationReducer);
   const dispatch = useDispatch();
   let totalDonation = parseInt(participation[0]? participation[0].totalDonation: "0").toLocaleString('ko-KR');
-  
-
 
   useEffect(
     () => {
@@ -34,5 +32,4 @@ function CountBox() {
     )
   );
 }
-
 export default CountBox;
