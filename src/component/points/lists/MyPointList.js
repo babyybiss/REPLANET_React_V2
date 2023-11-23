@@ -72,7 +72,7 @@ function MyPointList(){
                 myPoints[n].remainingPoint = myPoints[n-1].remainingPoint + myPoints[n-1].changePoint;
             }
         }
-        return myPoints[n].remainingPoint;
+        return myPoints[n].remainingPoint.toLocaleString();
     }        
     
     //페이징
@@ -115,7 +115,7 @@ function MyPointList(){
                                         <td>{formatExchangeDate(points.changeDate)}</td>
                                         <td>{points.content}</td>
                                         <td style={{color: pointsColor(points.status)}}>
-                                            {points.status == "승인"? `${points.changePoint}p 적립` : `${points.changePoint}p 사용`}
+                                            {points.status == "승인"? `${points.changePoint.toLocaleString()}p 적립` : `${points.changePoint.toLocaleString()}p 사용`}
                                         </td>
                                         <td style={{color:"#1D7151"}}>{calculatePoint(startIndex + index)}p</td>
                                     </tr>
@@ -130,7 +130,7 @@ function MyPointList(){
                         </tbody>
                     </table>
                     <ul className="pagination">
-                    <li className="icon" onClick={() => handlePageChange(currentPage -1)}><a><span className="fas fa-angle-left">&lt;</span></a></li>
+                    <li className="icon" onClick={() => handlePageChange(currentPage -1)}><a className="fas fa-angle-left"></a></li>
                     {Array.from({ length: totalPages }, (_, index) => (
                         <li
                             key={index}
@@ -141,7 +141,7 @@ function MyPointList(){
                             </a>
                         </li>
                     ))}
-                    <li onClick={() => handlePageChange(currentPage + 1)}><a><span className="fas fa-angle-left">&gt;</span></a></li>
+                    <li onClick={() => handlePageChange(currentPage + 1)}><a className="fas fa-angle-right"></a></li>
                     </ul>
                 </div>
                 {isModalOpen && 

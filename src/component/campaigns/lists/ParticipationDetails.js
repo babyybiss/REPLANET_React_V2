@@ -51,20 +51,22 @@ function ParticipationDetails() {
     return (
         participation&&(
         <>
-            <h2 style={{ textAlign: "center" }}>참여 내역 </h2>
+            <h2 class="my-1">참여 내역</h2>
             {participation && participation.length > 0 ? (currentItems.map( (participation) => (
                 <Participation key={participation? participation.donationCode: '' }  participation={participation}/>
 
             ))):(
                 <tr>
-                    <td colSpan={5}>참여내역이 없습니다!</td>
+                    <td colSpan={5}>참여 내역이 없습니다!</td>
                 </tr>
             )}
                 
            
 
             <ul className="pagination">
-                    <li className="icon" onClick={() => handlePageChange(currentPage -1)}><a className="fas fa-angle-left"></a></li>
+
+                    <li className="icon" onClick={() => handlePageChange(currentPage -1)}><a><span className="fas fa-angle-left"></span></a></li>
+
                     {Array.from({ length: totalPages }, (_, index) => (
                         <li
                             key={index}
@@ -75,7 +77,9 @@ function ParticipationDetails() {
                             </a>
                         </li>
                     ))}
-                    <li onClick={() => handlePageChange(currentPage + 1)}><a className="fas fa-angle-right"></a></li>
+
+                    <li onClick={() => handlePageChange(currentPage + 1)}><a><span className="fas fa-angle-right"></span></a></li>
+
                 </ul>
         </>
         )

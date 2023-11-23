@@ -67,9 +67,9 @@ function BookmarkList() {
         <>
             <div className="admin-main">
                 <div className="admin-title">
-                    <h5>
+                    <h1 className="text-primary">
                         북마크 리스트
-                    </h5>
+                    </h1>
                 </div>
                 <div className='admin-title total-amount'>
                     <div>
@@ -80,7 +80,7 @@ function BookmarkList() {
                         <span className="pay-color-green">{totalItems}개</span>
                     </div>
                 </div>
-                <table>
+                <table class="mb-1">
                     <thead>
                         <tr>
                             <th>
@@ -112,9 +112,11 @@ function BookmarkList() {
                         }
                     </tbody>
                 </table>
-                <button onClick={deleteBookmark}>선택삭제</button>
+                <button onClick={deleteBookmark} className="button button-primary">선택삭제</button>
                 <ul className="pagination">
-                    <li className="icon" onClick={() => handlePageChange(currentPage - 1)}><a className="fas fa-angle-left"></a></li>
+
+                    <li className="icon" onClick={() => handlePageChange(currentPage - 1)}><a><span className="fas fa-angle-left"></span></a></li>
+
                     {Array.from({ length: totalPages }, (_, index) => (
                         <li
                             key={index}
@@ -126,7 +128,9 @@ function BookmarkList() {
                         </li>
                     ))}
 
-                    <li onClick={() => handlePageChange(currentPage + 1)}><a className="fas fa-angle-right"></a></li>
+
+                    <li onClick={() => handlePageChange(currentPage + 1)}><a><span className="fas fa-angle-right"></span></a></li>
+
 
                 </ul>
             </div>

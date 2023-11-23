@@ -36,6 +36,7 @@ function ExchangeInfo({info, exchangeCode}){
         if(value == '승인'){
             if(points<10000){
                 Swal.fire({
+                    icon: "error",
                     title: "포인트가 잘못 입력되었습니다!",
                     text: "포인트는 1만 포인트 이상, 만 단위로 입력해주세요.",
                     showCancelButton: false,
@@ -51,6 +52,7 @@ function ExchangeInfo({info, exchangeCode}){
             console.log('폼 확인 : ',form.current);
             console.log('코드 확인 : ', exchangeCode);
             Swal.fire({
+                icon: "question",
                 title: "전환 포인트가 올바르게 입력되었는지 확인 바랍니다.",
                 text: "포인트 전환 신청을 승인하시겠습니까?",
                 showCancelButton: true,
@@ -68,6 +70,15 @@ function ExchangeInfo({info, exchangeCode}){
                 }
                 );}
         } else if(value == '반려'){
+            if(returnDetail == null || returnDetail == ''){
+                Swal.fire({
+                    icon: "error",
+                    title: "반려 사유를 선택해 주세요!",
+                    showCancelButton: false,
+                    confirmButtonColor: '#1D7151',
+                    confirmButtonText: '확인',
+                    })
+            } else {
             form.current = {
                 exchangeCode: exchangeCode,
                 status: value,
@@ -76,6 +87,7 @@ function ExchangeInfo({info, exchangeCode}){
             console.log('폼 확인 : ',form.current);
             console.log('코드 확인 : ', exchangeCode);
             Swal.fire({
+                icon: "question",
                 title: "반려 사유가 올바르게 선택됐는지 확인 바랍니다.",
                 text: "포인트 전환 신청을 반려하시겠습니까?",
                 showCancelButton: true,
@@ -91,6 +103,7 @@ function ExchangeInfo({info, exchangeCode}){
                         }))
                     }
                 });
+            }
         }
     }
 
@@ -173,7 +186,7 @@ function ExchangeInfo({info, exchangeCode}){
                             <div className="confirmDetail">
                                 <p style={{color:"gray"}}>&nbsp;전환 포인트</p>
                                 <br/>
-                                <h5>&nbsp;{info.points} 포인트</h5>
+                                <h5>&nbsp;{info.points.toLocaleString()} 포인트</h5>
                             </div>
                         </>) : 
                         (<>

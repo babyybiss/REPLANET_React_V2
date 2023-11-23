@@ -9,7 +9,7 @@ import Swal from "sweetalert2";
 import { decodeJwt } from "../../utils/TokenUtils";
 
 
-function ExchangePoint(){
+function ExchangePoint() {
 
     const dispatch = useDispatch();
     const [file, setFile] = useState(null);
@@ -34,7 +34,7 @@ function ExchangePoint(){
         const file = e.target.files[0];
         const reader = new FileReader();
         reader.readAsArrayBuffer(file);
-        
+
         reader.onload = (e) => {
             console.log(e.target);
             console.log(e.target.result);
@@ -44,8 +44,10 @@ function ExchangePoint(){
     }
 
     const requestExchange = () => {
-        if(title == null || title == ""){
+        if (title == null || title == "") {
             Swal.fire({
+                icon: "warning",
+                iconColor: '#1D7151',
                 title: "제목을 입력해주세요!",
                 text: "제목을 입력하셔야 포인트 전환 신청을 하실 수 있습니다.",
                 showCancelButton: false,
@@ -53,8 +55,10 @@ function ExchangePoint(){
                 confirmButtonText: '확인'
             })
         }
-        if(file == null){
+        if (file == null) {
             Swal.fire({
+                icon: "warning",
+                iconColor: '#1D7151',
                 title: "파일을 등록해주세요!",
                 text: "봉사활동 확인서를 등록하셔야 포인트 전환 신청을 하실 수 있습니다.",
                 showCancelButton: false,
@@ -62,8 +66,10 @@ function ExchangePoint(){
                 confirmButtonText: '확인'
             })
         }
-        if (file?.size > 2 * 1024 * 1024){
+        if (file?.size > 2 * 1024 * 1024) {
             Swal.fire({
+                icon: "warning",
+                iconColor: '#1D7151',
                 title: "파일 크기를 확인 바랍니다!",
                 text: "2MB 이하의 파일만 등록하실 수 있습니다.",
                 showCancelButton: false,
@@ -71,15 +77,15 @@ function ExchangePoint(){
                 confirmButtonText: '확인'
             })
         }
-        if(file != null && title != null && title != ""){
+        if (file != null && title != null && title != "") {
             console.log("제목은 : ", title);
             console.log("파일은 : ", file);
             console.log("멤버코드는 : ", memberCode);
 
             const formdata = new FormData();
-            
+
             formdata.append("file", file);
-            formdata.append("title", new Blob([JSON.stringify(title)], {type: "application/json",}));
+            formdata.append("title", new Blob([JSON.stringify(title)], { type: "application/json", }));
             formdata.append("memberCode", memberCode);
 
             for (let key of formdata.keys()) {
@@ -91,34 +97,40 @@ function ExchangePoint(){
         }
     }
 
-    return(
+    return (
         <>
-                <div className="mypage-main">
-                    <div className="mypage-title">
-                        <h1>포인트 전환 신청</h1>
+            <div className="mypage-main">
+                <div className="mypage-title">
+                    <h1>포인트 전환 신청</h1>
+                </div>
+                <div className="exchange shadow">
+                    <div className="exchange-img-area">
+                        <img src={imgfile} className="exchange-img" />
                     </div>
-                    <div className="exchange">
-                        <img src={imgfile} className="exchange-img"/><br/>
-                        <h2>봉사활동 확인서 업로드</h2><br/>
-                        <input placeholder="등록할 제목을 입력하세요"
-                                className="title-input" name="title" id="title"
-                                ref={titleRef}
-                                onChange={handleChangeTitle}/><br/><br/><br/>
-                        <label htmlFor="file">
-                            <div className="exchange-file">
-                                <h5 style={{color:"#1D7151"}}>파일 선택</h5><br/>
-                                2MB 이하의 pdf 혹은 이미지 파일로 업로드 바랍니다.
-                            </div>
-                        </label>
-                        <input type="file" id="file" name="file"
-                                accept=".png, .jpeg, .jpg, .bmp, .pdf"
-                                onChange={handleChangeFile}
-                                ref={fileRef}
-                                style={{display:"none"}}/><br/>
-                        <p ref={fileNameRef}>{fileName}</p><br/>
-                        <button onClick={requestExchange} className="button button-lg button-primary-outline">포인트 전환 신청</button><br/><br/>
+                    <div className="exchange-body-area">
+
+                    
+                    <h2>봉사활동 확인서 업로드</h2><br />
+                    <input placeholder="등록할 제목을 입력하세요"
+                        className="input input-lg mb-1" name="title" id="title"
+                        ref={titleRef}
+                        onChange={handleChangeTitle} />
+                    <label htmlFor="file">
+                        <div className="exchange-file">
+                            <h5>파일 선택</h5>
+                            2MB 이하의 pdf 혹은 이미지 파일로 업로드 바랍니다.
+                        </div>
+                    </label>
+                    <input type="file" id="file" name="file"
+                        accept=".png, .jpeg, .jpg, .bmp, .pdf"
+                        onChange={handleChangeFile}
+                        ref={fileRef}
+                        style={{ display: "none" }} /><br />
+                    <p ref={fileNameRef}>{fileName}</p><br />
+                    <button onClick={requestExchange} className="button button-lg button-primary-outline">포인트 전환 신청</button>
                     </div>
                 </div>
+            </div>
         </>
     );
 }

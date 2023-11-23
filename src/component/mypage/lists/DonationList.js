@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import DonationItem from "../items/DonationItem";
 import { callGetAllPaysByMemberWithDateAPI } from "../../../apis/DonationAPI";
 import Swal from 'sweetalert2';
+import Loader from "../../common/Loader";
+
 
 function DonationList() {
 
@@ -36,7 +38,7 @@ function DonationList() {
         if (startDate && endDate) {
             console.log('DonationDetail() handleSearch() 실행 : (startDate && endDate)');
             dispatch(callGetAllPaysByMemberWithDateAPI(startDate, endDate));
-        } else if (startDate || endDate){
+        } else if (startDate || endDate) {
             console.log('DonationDetail() handleSearch() 실행 : (startDate || endDate)');
             Swal.fire({
                 icon: 'warning',
@@ -70,7 +72,7 @@ function DonationList() {
             });
         }
     };
-    
+
     const handleEndDateChange = (newEndDate) => {
         if (!startDate || new Date(newEndDate) >= new Date(startDate)) {
             setEndDate(newEndDate);
@@ -85,10 +87,10 @@ function DonationList() {
     };
 
     const calculateTotalAmount = () => {
-        console.log('pays',pays);
+        console.log('pays', pays);
         return pays && pays.length > 0
-        ? pays.reduce((total, pay) => total + (pay.payAmount || 0) + (pay.refDonation?.donationPoint || 0), 0)
-        : '0';
+            ? pays.reduce((total, pay) => total + (pay.payAmount || 0) + (pay.refDonation?.donationPoint || 0), 0)
+            : '0';
     }
 
     useEffect(() => {
@@ -97,9 +99,9 @@ function DonationList() {
             await dispatch(callGetAllPaysByMemberWithDateAPI(startDate, endDate));
             setLoading(false);
         };
-    
+
         fetchData();
-        }, [dispatch]);
+    }, [dispatch]);
 
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -114,58 +116,60 @@ function DonationList() {
         }
     };
 
-    return(
-            <>
-                { loading? (<div>로딩중</div>) : (<div className="admin-main">
-                    <div className="admin-title">
-                        <h5>기부내역</h5>
-                    </div>
-                    <div className='admin-title search-section'>
+    return (
+        <>
+            {loading ? (<div><Loader /></div>) : (<div className="admin-main">
+                <div className="admin-title">
+                    <h1 class="text-primary">기부내역</h1>
+                </div>
+                <div className=''>
+                    <div class="items-container ic4">
+                        <div class="item">
+                            <input
+                                type='date'
+                                value={startDate}
+                                onChange={(e) => handleStartDateChange(e.target.value)}
+                                className='input input-lg' />
+                        </div>
                         <div>
                             <input
-                            type='date'
-                            value={startDate}
-                            onChange={(e) => handleStartDateChange(e.target.value)}
-                            className='button button-lg button-primary-outline' />
-                            <span> ~ </span>
-                            <input
-                            type='date'
-                            value={endDate}
-                            onChange={(e) => handleEndDateChange(e.target.value)}
-                            className='button button-lg button-primary-outline' />
+                                type='date'
+                                value={endDate}
+                                onChange={(e) => handleEndDateChange(e.target.value)}
+                                className='input input-lg' />
                         </div>
-                        <div>
-                            <button className='button button-lg button-primary-outline' onClick={initSearchDate}>
-                                초기화
-                            </button>
-                            &nbsp;
-                            <button className='button button-lg button-primary' onClick={handleSearch}>
-                                검색
-                            </button>
+                        <div class="item"><button className='button button-lg button-primary-outline w-50' onClick={initSearchDate}>
+                            초기화
+                        </button>&nbsp;
+                        <button className='button button-lg button-primary w-50' onClick={handleSearch}>
+                            검색 <i class="fas fa-search"></i>
+                        </button>
                         </div>
+
                     </div>
-                    <div className='admin-title total-amount'>
-                        <div>
-                            <span className="pay-color-gray">기부내역 클릭 시 해당 캠페인으로 이동합니다.</span>
-                        </div>
-                        <div>
-                            <span>기간내 총 기부액 : </span>
-                            <span className="pay-color-green">{calculateTotalAmount().toLocaleString()}원</span>
-                        </div>
+                </div>
+                <div className='admin-title total-amount'>
+                    <div>
+                        <span className="pay-color-gray">기부내역 클릭 시 해당 캠페인으로 이동합니다.</span>
                     </div>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>순번</th>
-                                <th>캠페인 이름</th>
-                                <th>단체</th>
-                                <th onClick={handleToggleDetailsAll} className="toggle-header">
-                                    {showDetailsAll ? '기부금액 (접기)' : '기부금액 (상세보기)'}
-                                </th>
-                                <th>기부일자</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+                    <div>
+                        <span>기간내 총 기부액 : </span>
+                        <span className="pay-color-green">{calculateTotalAmount().toLocaleString()}원</span>
+                    </div>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>순번</th>
+                            <th>캠페인 이름</th>
+                            <th>단체</th>
+                            <th onClick={handleToggleDetailsAll} className="toggle-header">
+                                {showDetailsAll ? '기부금액 (접기)' : '기부금액 (상세보기)'}
+                            </th>
+                            <th>기부일자</th>
+                        </tr>
+                    </thead>
+                    <tbody>
                         {pays && pays.length > 0 ? (
                             currentItems.map((pay) => (
                                 <DonationItem
@@ -174,31 +178,31 @@ function DonationList() {
                                     showDetails={showDetailsAll || detailsForItems[pay.payCode]}
                                     onToggleDetails={() => handleToggleDetails(pay.payCode)}
                                 />
-                                ))
-                            ) : (
-                                <tr>
-                                    <td colSpan={5}>기부내역이 없습니다!</td>
-                                </tr>
-                            )}
-                        </tbody>
-                    </table>
+                            ))
+                        ) : (
+                            <tr>
+                                <td colSpan={5}>기부내역이 없습니다!</td>
+                            </tr>
+                        )}
+                    </tbody>
+                </table>
 
-                    <ul className="pagination">
-                        <li className="icon" onClick={() => handlePageChange(currentPage -1)}><a><span className="fas fa-angle-left">&lt;</span></a></li>
-                        {Array.from({ length: totalPages }, (_, index) => (
-                            <li
-                                key={index}
-                                onClick={() => handlePageChange(index + 1)}
-                            >
-                                <a className={currentPage === index + 1 ? "active" : ""}>
-                                    {index + 1}
-                                </a>
-                            </li>
-                        ))}
-                        <li onClick={() => handlePageChange(currentPage + 1)}><a><span className="fas fa-angle-left">&gt;</span></a></li>
-                    </ul>
-                </div>)}
-            </>
+                <ul className="pagination">
+                    <li className="icon" onClick={() => handlePageChange(currentPage - 1)}><a><span className="fas fa-angle-left"></span></a></li>
+                    {Array.from({ length: totalPages }, (_, index) => (
+                        <li
+                            key={index}
+                            onClick={() => handlePageChange(index + 1)}
+                        >
+                            <a className={currentPage === index + 1 ? "active" : ""}>
+                                {index + 1}
+                            </a>
+                        </li>
+                    ))}
+                    <li onClick={() => handlePageChange(currentPage + 1)}><a><span className="fas fa-angle-right"></span></a></li>
+                </ul>
+            </div>)}
+        </>
     );
 }
 

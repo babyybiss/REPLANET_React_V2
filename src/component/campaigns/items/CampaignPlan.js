@@ -6,13 +6,13 @@ function CampaignPlan({ campaignInfo }) {
     return (
         campaignInfo && (
             <div>
-                <h2 style={{ textAlign: "center" }}>기부금 사용 계획</h2>
+                <h2 className="mb-1">기부금 사용 계획</h2>
 
-                <div className="item">
+                {/* <div className="item">
                     {campaignInfo.campaignCategory}
-                </div>
+                </div> */}
 
-                <div >
+                <div className="items-container ic1">
                     <div className="item">
                         <div className="card">
                             <div className="card-body">
