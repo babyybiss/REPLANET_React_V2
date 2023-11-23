@@ -31,8 +31,13 @@ footer,header,hgroup,menu,nav,section {
     display:block;
 }
 
-ul,ol,li {
+ul, li {
     list-style:none;
+}
+
+ol, ol li {
+    list-style-type: decimal!important;
+    padding-left: 1rem
 }
 
 blockquote, q {

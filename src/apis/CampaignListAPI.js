@@ -1,5 +1,6 @@
 import axios from "axios";
 import { getContinue, getComplete, getCampaign, postCampaign, getCategoryByCampaign, postBookmark} from '../modules/CampaignModule';
+import Swal from "sweetalert2";
 
 
 export const requestURL = 'http://localhost:8001/';
@@ -74,7 +75,7 @@ export function PostCampaignAPI({ inputs }, header) {
                 //dispatch(postCampaign(result));
                 window.location = "/";
             }).catch((error) => { alert(error.response.data) })
-        } catch (error) { alert('관리자 문의 바람') }
+        } catch (error) { Swal.fire('', '관리자 문의 바람') }
     }
 
 }
@@ -86,7 +87,7 @@ export function DeleteCampaignAPI( campaignCode) {
         try {
             await axios.delete(requestURL + `campaigns/${campaignCode}`, campaignCode)
                 .then((res) => {
-                    alert('삭제되었읍니다.')
+                    Swal.fire('', '삭제되었습니다.')
                     console.log(res);
                     window.location = "/";
                 }).catch((error) => {
@@ -103,7 +104,7 @@ export function DeleteCampaignAPI( campaignCode) {
 
 // 캠페인 수정
 export function ModifyCampaignAPI({ inputs }, campaignCode) {
-    console.log(inputs, '이거슨? ' ,campaignCode, '캠코');
+    console.log(inputs, '이것은? ' ,campaignCode, '캠페인 코드');
     console.log('[Review Registration] campaignTitle : ', inputs.get("campaignTitle"));
 
 
@@ -112,7 +113,7 @@ export function ModifyCampaignAPI({ inputs }, campaignCode) {
 
             await axios.put(requestURL + `campaigns/${campaignCode}`, inputs)
                 .then((res) => {
-                    alert('수정 되었습니다.')
+                    Swal.fire('', '수정되었습니다.')
                     console.log(res);
                     window.location = "/";
                 }).catch((error) => {
