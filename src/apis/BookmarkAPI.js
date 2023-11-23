@@ -23,10 +23,10 @@ export function AddBookmarkAPI(bookmark){
     return async (dispatch, getState) => {
         await axios.post(requestURL+'bookmarks',bookmark)
         .then((res) =>{
-            dispatch(postBookmark(res.data))
+         //   dispatch(postBookmark(res.data))
         })
         .catch((error) => {
-            alert( error,'에러발생')
+            Swal.fire('에러발생',error);
         })
     }
 }
@@ -38,10 +38,10 @@ export function DeleteBookmarkAPI(memberCode, campaignCode){
         await axios.delete(requestURL+`bookmarks?memberCode=${memberCode}&campaignCode=${campaignCode}`)
         .then((res) =>{
             console.log(res.data,'너도체크좀222');
-            dispatch(postBookmark(res.data))
+          //  dispatch(postBookmark(res.data))
         })
         .catch((error) => {
-            alert( error,'에러발생')
+            Swal.fire('에러발생',error);
         })
     }
 }
@@ -50,20 +50,13 @@ export function DeleteBookmarkAPI(memberCode, campaignCode){
 export function DeleteAllBookmarksAPI({bookmarkCode}){
     console.log(bookmarkCode,'이건삭제');
     return async (dispatch, getState) => {
-        await axios({
-            method: 'delete',
-            url: requestURL+'AllBookmarks',
-            data: {bookmarkCode: bookmarkCode},
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
+        await axios.put(requestURL+'AllBookmarks',bookmarkCode)
         .then((res) =>{
             console.log(res.data,'너도체크좀222');
             dispatch(postBookmark(res.data))
         })
         .catch((error) => {
-            alert( error,'에러발생')
+            Swal.fire('에러발생',error);
         })
     }
 }

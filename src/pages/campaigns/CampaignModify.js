@@ -11,7 +11,7 @@ import DraftEditor from "../../component/common/DraftEditor";
 import '../../assets/css/editor.css';
 
 const categoryList = [
-    { key: "0", name: "선택 해주세요" },
+    { key: "0", name: "카테고리 선택" },
     { key: "1", name: "아동-청소년" },
     { key: "2", name: "어르신" },
     { key: "3", name: "환경보호" },
@@ -20,7 +20,7 @@ const categoryList = [
 ];
 
 function CampaignModify() {
-    //캠펜 정보 가져오는 놈
+    //캠페인 정보 불러오기
     const campaigns = useSelector(state => state.campaignReducer);
     const campaignInfo = campaigns.campaigninfo;
     const { campaignCode } = useParams();
@@ -43,7 +43,7 @@ function CampaignModify() {
     const imageInput = useRef();
 
     const beforeUrl = campaignInfo.campaignDescfileList[0].fileSaveName;
-    // 수정 하기 전 내용 가져오기 
+    // 수정하기 전 내용 가져오기 
     useEffect(() => {
         dispatch(GetCampaignAPI(campaignCode))
         setInputs(campaignInfo)

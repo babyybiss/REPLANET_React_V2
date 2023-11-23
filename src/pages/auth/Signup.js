@@ -207,7 +207,7 @@ const onCheckEmail = (e) => {
       }
   }, [privacyCheck, useCheck]);
 
-  const isAllValid = isEmailValid && isPasswordValid && isPasswordConfirmValid && isMemberNameValid && isPhoneValid && (privacyCheck == true) && (useCheck == true);
+  const isAllValid = isEmailValid && isPasswordValid && isPasswordConfirmValid && isMemberNameValid && isPhoneValid && privacyCheck && useCheck;
 
   const submitHandler = (e) => {
 
