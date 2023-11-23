@@ -2,7 +2,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { jwtDecode } from 'jwt-decode';
 import { useEffect, useState } from "react";
 import { getBookmarkList, DeleteAllBookmarksAPI } from "../../../apis/BookmarkAPI";
-
 import Bookmark from "../items/Bookmark";
 
 function BookmarkList() {
@@ -22,7 +21,7 @@ function BookmarkList() {
     )
     // 북마크 삭제
     const deleteBookmark = () => {
-        dispatch(DeleteAllBookmarksAPI({bookmarkCode:checkItems }))
+        dispatch(DeleteAllBookmarksAPI({ bookmarkCode: checkItems }))
     };
     // 체크박스 단일
     const [checkItems, setCheckItems] = useState([]);
@@ -47,9 +46,7 @@ function BookmarkList() {
         }
     }
     useEffect(() => {
-        console.log(checkItems)
     }, [checkItems])
-
 
     //페이징
     const [currentPage, setCurrentPage] = useState(1);
@@ -65,8 +62,7 @@ function BookmarkList() {
             setCheckItems([])
         }
     };
-    console.log(checkItems,'너 갯수확인하자');
-
+    console.log(totalItems, '너 갯수확인하자');
     return (
         <>
             <div className="admin-main">
@@ -80,8 +76,8 @@ function BookmarkList() {
                         <span className="pay-color-gray">북마크 클릭 시 해당 캠페인으로 이동합니다.</span>
                     </div>
                     <div style={{ padding: 20 }}>
-                        <span>총 관심 기부 개수 : </span>
-                        <span className="pay-color-green">0개</span>
+                        <span>총 관심 기부 갯수 : </span>
+                        <span className="pay-color-green">{totalItems}개</span>
                     </div>
                 </div>
                 <table>
@@ -118,7 +114,7 @@ function BookmarkList() {
                 </table>
                 <button onClick={deleteBookmark}>선택삭제</button>
                 <ul className="pagination">
-                    <li className="icon" onClick={() => handlePageChange(currentPage - 1)}><a><span className="fas fa-angle-left">&lt;</span></a></li>
+                    <li className="icon" onClick={() => handlePageChange(currentPage - 1)}><a className="fas fa-angle-left"></a></li>
                     {Array.from({ length: totalPages }, (_, index) => (
                         <li
                             key={index}
@@ -130,7 +126,7 @@ function BookmarkList() {
                         </li>
                     ))}
 
-                    <li onClick={() => handlePageChange(currentPage + 1)}><a><span className="fas fa-angle-left">&gt;</span></a></li>
+                    <li onClick={() => handlePageChange(currentPage + 1)}><a className="fas fa-angle-right"></a></li>
 
                 </ul>
             </div>

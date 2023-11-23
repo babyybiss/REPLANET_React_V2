@@ -64,7 +64,7 @@ function ParticipationDetails() {
            
 
             <ul className="pagination">
-                    <li className="icon" onClick={() => handlePageChange(currentPage -1)}><a><span className="fas fa-angle-left">&lt;</span></a></li>
+                    <li className="icon" onClick={() => handlePageChange(currentPage -1)}><a className="fas fa-angle-left"></a></li>
                     {Array.from({ length: totalPages }, (_, index) => (
                         <li
                             key={index}
@@ -75,7 +75,7 @@ function ParticipationDetails() {
                             </a>
                         </li>
                     ))}
-                    <li onClick={() => handlePageChange(currentPage + 1)}><a><span className="fas fa-angle-left">&gt;</span></a></li>
+                    <li onClick={() => handlePageChange(currentPage + 1)}><a className="fas fa-angle-right"></a></li>
                 </ul>
         </>
         )

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import { useState } from 'react';
 import { jwtDecode } from 'jwt-decode';
-import { AddBookmarkAPI } from '../../../apis/BookmarkAPI';
+import { AddBookmarkAPI, DeleteBookmarkAPI } from '../../../apis/BookmarkAPI';
 
 function CampaignSidebar({ campaignInfo }) {
     // 토큰 정보 
@@ -72,9 +72,9 @@ function CampaignSidebar({ campaignInfo }) {
     };
 
     // 북마크 삭제
-    const deleteBookmark = (id, campaignCode) => {
-        //dispatch(DeleteBookmark(id,campaignCode))
-    };
+    const deleteBookmark = (memberCode, campaignCode) => {
+        dispatch(DeleteBookmarkAPI(memberCode, campaignCode))
+      };
 
     return (
         campaignInfo && (
@@ -93,7 +93,7 @@ function CampaignSidebar({ campaignInfo }) {
                         onClick={() => {
                             if (like === true) {
                                 setLike(!like);
-                                //deleteBookmark(decodedToken.memberCode,campaignCode);
+                                deleteBookmark(decodedToken.memberCode,campaignCode);
                             }
 
                             if (like === false) {

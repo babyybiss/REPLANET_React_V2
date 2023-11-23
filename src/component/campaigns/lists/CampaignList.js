@@ -33,16 +33,12 @@ function CampaignList() {
 
     const categoryClickHandler = (category) => {
         if (category === "전체") {
-            
             return setCategories(undefined)
         }
         const cf = campaignList.filter((curData) => {
-                return curData.campaignCategory === category;
-           
+            return curData.campaignCategory === category;
         })
-
         setCategories(getCategoryByCampaign(cf))
-
     }
     const goToRegist = () => {
         navigate('/regist')
@@ -64,8 +60,8 @@ function CampaignList() {
                         </button>
                     ))}
                     {decodedToken !== null && decodedToken.memberRole == "ROLE_ADMIN" ?
-                    <button className="button button-primary" onClick={goToRegist}>캠페인 등록</button>: ""
-                }
+                        <button className="button button-primary" onClick={goToRegist}>캠페인 등록</button> : ""
+                    }
                 </div>
             </div>
             {campaignList && (

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getContinue, getComplete, getCampaign, postCampaign, getCategoryByCampaign, postBookmark} from '../modules/CampaignModule';
+import { getContinue, getComplete, getCampaign, getCategoryByCampaign, postBookmark, GET_CATEGORY_BY_CAMPAIGN} from '../modules/CampaignModule';
 
 
 export const requestURL = 'http://localhost:8001/';
@@ -11,6 +11,9 @@ export function CampaignListAPI() {
         try {
             const result = await axios.get(requestURL)
             dispatch(getContinue(result.data))
+            //dispatch({ type: GET_CATEGORY_BY_CAMPAIGN, payload: "전체" })
+            
+            
             
         } catch (error) {
             console.error('에러 발생:', error);
