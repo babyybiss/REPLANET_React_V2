@@ -41,7 +41,8 @@ export function ReviewListSearchbar({ reviewCampaignCode, searchFilter, setSearc
                     }}
                     placeholder="Search"
                 />
-                <button type="button" class="button button-primary"                     onChange={(e) => {
+                <button type="button" class="button button-primary"                     
+                        onChange={(e) => {
                         setSearchFilter(e.target.value);
                         handleSearchKeyPress();
                     }}><i class="fa-solid fa-magnifying-glass"></i></button>
