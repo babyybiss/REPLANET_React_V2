@@ -72,7 +72,7 @@ function MyPointList(){
                 myPoints[n].remainingPoint = myPoints[n-1].remainingPoint + myPoints[n-1].changePoint;
             }
         }
-        return myPoints[n].remainingPoint.toLocaleString();
+        return myPoints[n].remainingPoint?.toLocaleString();
     }        
     
     //페이징
@@ -115,7 +115,7 @@ function MyPointList(){
                                         <td>{formatExchangeDate(points.changeDate)}</td>
                                         <td>{points.content}</td>
                                         <td style={{color: pointsColor(points.status)}}>
-                                            {points.status == "승인"? `${points.changePoint.toLocaleString()}p 적립` : `${points.changePoint.toLocaleString()}p 사용`}
+                                            {points.status == "승인"? `${points.changePoint?.toLocaleString()}p 적립` : `${points.changePoint?.toLocaleString()}p 사용`}
                                         </td>
                                         <td style={{color:"#1D7151"}}>{calculatePoint(startIndex + index)}p</td>
                                     </tr>

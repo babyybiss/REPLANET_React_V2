@@ -1,6 +1,7 @@
 import Swal from 'sweetalert2';
-import { GET_EXCHANGE, GET_USER_EXCHANGES, GET_EXCHANGE_DETAIL_U, PUT_EXCHANGES, POST_EXCHANGES, GET_POINTS_HISTORY, GET_ADMIN_EXCHANGES } from '../modules/PointModule';
+import { GET_EXCHANGE, GET_USER_EXCHANGES, GET_EXCHANGE_DETAIL_U, PUT_EXCHANGES, POST_EXCHANGES, GET_POINTS_HISTORY, GET_ADMIN_EXCHANGES, PUT_PROVIDE_INFO } from '../modules/PointModule';
 import axios from "axios";
+import { async } from 'q';
 
 
 export const pointExchangeAPI = ({formdata}) => {
@@ -35,6 +36,7 @@ export const pointExchangeAPI = ({formdata}) => {
                 console.log("exchange request-back-error : ", response.data);
                 Swal.fire({
                     icon: "error",
+                    iconColor: "#DB524E",
                     title: "신청 중 오류가 발생했습니다!",
                     text: "문제가 지속될 경우 고객센터로 문의 바랍니다.",
                     showCancelButton: false,
@@ -47,6 +49,7 @@ export const pointExchangeAPI = ({formdata}) => {
             console.log("exchange request-front-error : ", error);
             Swal.fire({
                 icon: "error",
+                iconColor: "#DB524E",
                 title: "신청 중 오류가 발생했습니다!",
                 text: "문제가 지속될 경우 고객센터로 문의 바랍니다.",
                 showCancelButton: false,
@@ -157,6 +160,7 @@ export const exchangeUpdateAPI = ({form, exchangeCode}) => {
             console.log("[PointAPI] exchangeUpdateAPI FAIL : ", error);
             Swal.fire({
                 icon: "error",
+                iconColor: "#DB524E",
                 title: "오류가 발생했습니다.",
                 showCancelButton: false,
                 confirmButtonColor: '#1D7151',
@@ -192,5 +196,63 @@ export function exchangeStatusAPI({status, exchangeCode, currentPage}){
         } catch (error) {
             console.error('PointAPI exchangeStatusAPI 에러 발생 : ', error);
         }
+    }
+}
+
+export function provideInfoAPI({body}){
+    console.log("API 단계 memberCode 확인 : ", body.memberCode);
+    console.log("API 단계 name 확인 : ", body.name);
+    console.log("API 단계 idNumber 확인 : ", body.idNumber);
+    
+    const requestURL = 'http://localhost:8001/provideInfo';
+
+    return async (dispatch, getState) => {
+            await axios.put(requestURL, {
+                memberCode: body.memberCode,
+                memberName: body.name,
+                idNumber: body.idNumber
+            }, {headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "*/*"
+                }}
+            )
+            .then(function(response){
+                console.log('[PointAPI] provideInfoAPI RESULT : ', response);
+                if(response.status === 200){
+                    console.log('[PointAPI] provideInfoAPI SUCCESS');
+                    dispatch({type: PUT_PROVIDE_INFO, payload: response.data});
+                    Swal.fire({
+                        icon: "success",
+                        iconColor: '#1D7151',
+                        title: "기부 영수증을 위한 개인정보 제공에 동의하셨습니다.",
+                        showCancelButton: false,
+                        confirmButtonColor: '#1D7151',
+                        confirmButtonText: '확인'
+                    }).then(result => {
+                        if(result.isConfirmed){
+                        window.location.reload();
+                    }})
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        iconColor: "#DB524E",
+                        title: "서버 오류가 발생했습니다.",
+                        showCancelButton: false,
+                        confirmButtonColor: '#1D7151',
+                        confirmButtonText: '확인'
+                    })
+                }
+            })
+            .catch((error) => {
+                console.log("[PointAPI] provideInfoAPI FAIL : ", error);
+                Swal.fire({
+                    icon: "error",
+                    iconColor: "#DB524E",
+                    title: "오류가 발생했습니다.",
+                    showCancelButton: false,
+                    confirmButtonColor: '#1D7151',
+                    confirmButtonText: '확인'
+                })
+            });       
     }
 }

@@ -65,19 +65,17 @@ function ExchangePoint() {
                 confirmButtonColor: '#1D7151',
                 confirmButtonText: '확인'
             })
-        }
-        if (file?.size > 2 * 1024 * 1024) {
+        } else if (file?.size > 1 * 1024 * 1024) {
             Swal.fire({
                 icon: "warning",
                 iconColor: '#1D7151',
                 title: "파일 크기를 확인 바랍니다!",
-                text: "2MB 이하의 파일만 등록하실 수 있습니다.",
+                text: "1MB 이하의 파일만 등록하실 수 있습니다.",
                 showCancelButton: false,
                 confirmButtonColor: '#1D7151',
                 confirmButtonText: '확인'
             })
-        }
-        if (file != null && title != null && title != "") {
+        } else if (file != null && title != null && title != "") {
             console.log("제목은 : ", title);
             console.log("파일은 : ", file);
             console.log("멤버코드는 : ", memberCode);
@@ -118,7 +116,7 @@ function ExchangePoint() {
                     <label htmlFor="file">
                         <div className="exchange-file">
                             <h5>파일 선택</h5>
-                            2MB 이하의 pdf 혹은 이미지 파일로 업로드 바랍니다.
+                            1MB 이하의 pdf 혹은 이미지 파일로 업로드 바랍니다.
                         </div>
                     </label>
                     <input type="file" id="file" name="file"
