@@ -53,8 +53,8 @@ function ExchangeInfo({info, exchangeCode}){
             console.log('코드 확인 : ', exchangeCode);
             Swal.fire({
                 icon: "question",
-                title: "전환 포인트가 올바르게 입력되었는지 확인 바랍니다.",
-                text: "포인트 전환 신청을 승인하시겠습니까?",
+                title: "포인트 전환 신청을 승인하시겠습니까?",
+                text: "전환 포인트가 올바르게 입력되었는지 확인 바랍니다.",
                 showCancelButton: true,
                 confirmButtonColor: '#1D7151',
                 cancelButtonColor: '#1D7151',
@@ -70,7 +70,7 @@ function ExchangeInfo({info, exchangeCode}){
                 }
                 );}
         } else if(value == '반려'){
-            if(returnDetail == null || returnDetail == ''){
+            if(returnDetail == null || returnDetail == '선택'){
                 Swal.fire({
                     icon: "error",
                     title: "반려 사유를 선택해 주세요!",
@@ -88,8 +88,8 @@ function ExchangeInfo({info, exchangeCode}){
             console.log('코드 확인 : ', exchangeCode);
             Swal.fire({
                 icon: "question",
-                title: "반려 사유가 올바르게 선택됐는지 확인 바랍니다.",
-                text: "포인트 전환 신청을 반려하시겠습니까?",
+                title: "포인트 전환 신청을 반려하시겠습니까?",
+                text: "반려 사유가 올바르게 선택됐는지 확인 바랍니다.",
                 showCancelButton: true,
                 confirmButtonColor: '#1D7151',
                 cancelButtonColor: '#1D7151',
