@@ -1,10 +1,25 @@
-import { useState } from "react";
-import '../../assets/css/chatbot.css'
-import ChatbotIcon from "../../assets/images/icon/ChatbotIcon";
-import ModalChatbot from "../../component/modals/ModalChatbot";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { callGetSupportbotListAPI } from "../../apis/SupportbotAPI";
+import RepeatBubble from "../chatbots/item/RepeatBubble";
+import ResMessageBubble from "../chatbots/item/ResMessageBubble";
+import ModalHeader from "./ModalHeader";
+import ClickBubble from "../chatbots/item/ClickBubble";
 
-function TestChatbot() {
+function ModalChatbot({ setIsShow }) {
 
+    const callApiResult = useSelector(state => state.supportbotReducer)
+    const supportbotDataList = callApiResult.supportbotDataList;
+    const dispatch = useDispatch();
+
+    useEffect(
+        () => {
+            dispatch(callGetSupportbotListAPI());
+        },
+        []
+    );
+
+    /*
     const testData = [
         {
             questionCode: 1,
@@ -32,74 +47,20 @@ function TestChatbot() {
             answerContent: "결제한 이력이 존재하는 건에 대하여 후원자로 등록된 회원님에 한해 포인트 사용분을 제외한 기부금영수증이 신청 가능합니다. 기부금 영수증과 관련한 안내는 마이페이지 기부금영수증 탭에서 확인이 가능합니다."
           }
     ];
+    */
+   // console.log(setIsShow)
+   return (
+    supportbotDataList && (
+        <div className={'modal-content'}>
+            <ModalHeader setIsShow={(setIsShow)} />
+            
+            <ClickBubble supportbotDataList={supportbotDataList.results} />
 
-    const [selectedQuestion, setSelectedQuestion] = useState(null);
-    const [isShow, setIsShow] = useState(false);
-    const [iconBackgroundStyle, setIconBackgroundStyle] = useState({
-        backgroundColor: 'darksalmon'
-    });
-
-    const iconClickHandler = () => {
-        setIsShow(isShow === false ? true : false)
-    }
-    const iconOverHandler = () => {
-        setIconBackgroundStyle({
-            backgroundColor: 'indianred'
-        })
-    }
-    const iconOutHandler = () => {
-        setIconBackgroundStyle({
-            backgroundColor: 'darksalmon'
-        })
-    }
-
-    const questionClickHandler = (questionCode) => {
-        setSelectedQuestion(questionCode);
-    };
-
-    return (
-        <>
-            <div className="chatbot-container">
-                <div className="faq-container">
-                    {testData.map((faqItem) => (
-                        <div 
-                            key={faqItem.questionCode}
-                            className="question"
-                            onClick={() => questionClickHandler(faqItem.questionCode)}
-                        >
-                            {faqItem.questionContent}
-                        </div>
-                    ))}
-                    {selectedQuestion !== null && (
-                        <div
-                            className="answer"
-                        >
-                            {testData.find((item) => item.questionCode === selectedQuestion).answerContent}
-                        </div>
-                    )}
-                </div>
-            </div>
-            <button
-                onClick={iconClickHandler}
-                onMouseOver={iconOverHandler}
-                onMouseOut={iconOutHandler}
-                className="icon-button-style"
-                style={iconBackgroundStyle}
-            >
-                <ChatbotIcon/>
-            </button>
-            { isShow && 
-                <div 
-                    className={'modal-container'}
-                    onClick={ e => {
-                        console.log(e)
-                    }}
-                >
-                    <ModalChatbot setIsShow={(setIsShow)} />
-                </div>
-            }
-        </>
-    );
+            {/*<RepeatBubble supportbotDataList={supportbotDataList.results} />
+            <ResMessageBubble supportbotDataList={supportbotDataList.results} />*/}
+        </div>
+    )
+    
+   );
 }
-
-export default TestChatbot;
+export default ModalChatbot;

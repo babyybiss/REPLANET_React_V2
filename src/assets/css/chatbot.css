@@ -24,4 +24,48 @@
 
 .icon-button-style {
     cursor: pointer;
+    position: fixed;
+    bottom: 30px;
+    right: 35px;
+    border-radius: 100%;
+    border: none;
+}
+
+.modal-container {
+    bottom: 100px;
+    right: 34px;
+    position: fixed;
+}
+.modal-content {
+    background-color: darksalmon;
+    width: 300px;
+    height: 500px;
+    padding: 3px;
+}
+.modal-close-btn {
+    display: block;
+    margin-left: auto;
+    cursor: pointer;
+    background-color: darksalmon;
+    border: #FFFFFF;
+}
+.requset-box {
+    display: block;
+    float: right;
+    text-align: left;
+    background-color: #FFFFFF;
+    border-radius: 5px;
+    padding: 3px;
+    margin: 5px;
+    user-select: none;
+}
+.response-box {
+    display: block;
+    float: left;
+    text-align: left;
+    background-color: #FFFFFF;
+    border-radius: 5px;
+    padding: 3px;
+    margin: 5px;
+    user-select: none;
 }
