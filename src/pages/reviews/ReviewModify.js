@@ -13,28 +13,26 @@ export function ReviewModify () {
     const review = useSelector((state) => state.reviewReducer.review);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-
-        useEffect (
-        () => { dispatch(callGetSpecificReviewAPI(reviewCode))
-    }, [reviewCode])
-
-    console.log(review);
     const existingReviewTitle = review.reviewTitle;
-
     const existingReviewDescription = review.reviewDescription;
 
-    const [reviewTitle, setReviewTitle] = useState(existingReviewTitle);
-    const [reviewContent, setReviewContent] = useState('');
+    useEffect(() => {
+        dispatch(callGetSpecificReviewAPI(reviewCode));
+    }, [reviewCode]);
+
+    console.log(review);
+
+    const [orgReviewTitle, setOrgReviewTitle] = useState(existingReviewTitle);
     const [reviewThumbnail, setReviewThumbnail] = useState('');
-    const [convertedContent, setConvertedContent] = useState(null);
+    const [convertedContent, setConvertedContent] = useState('');
     const [image, setImage] = useState('')
     const [imageUrl, setImageUrl] = useState('');
     const imageInput = useRef();
     const maxSizeInBytes = 1048576; // 1 MB
     
     const [form, setForm] = useState({
-        reviewTitle: '',
-        reviewDescription: '',
+        reviewTitle: orgReviewTitle,
+        reviewDescription: existingReviewDescription,
         reviewCode: review.reviewCode,
     });
 
@@ -72,19 +70,17 @@ export function ReviewModify () {
     const onChangeHandler = (e) => {
         setForm({
             ...form,
-            [e.target.name] : e.target.value
+            reviewTitle : e.target.value
         });
 
-        if (e.target.name === "reviewTitle") {
-            setReviewTitle(e.target.value);
+        if (e.target.name === "orgReviewTitle") {
+            setOrgReviewTitle(e.target.value);
         };
     };
 
 
     const onClickReviewRegistrationHandler = () => {
         console.log('[Review Registration] onClickReviewRegistrationHandler');
-
-
         
         const formData = new FormData();
         const reviewCode = review.reviewCode;
@@ -103,10 +99,10 @@ export function ReviewModify () {
         console.log('[Review Modify] formData : ', formData.get("reviewCode"));
         console.log('[Review Modify] formData : ', formData.get("imageFile"));
 
-        if(reviewTitle === "" || convertedContent === "" || image === "") {
+       /* if(reviewTitle === "" || convertedContent === "" || image === "") {
             window.alert("모두 입력 바랍니다.");
             return;
-        }else {
+        }else {*/
             console.log("뭐징ㅇㅇㅇㅇ: ", formData)
             dispatch(callPutReview({
                 form: formData
@@ -115,7 +111,7 @@ export function ReviewModify () {
             alert('리뷰 목록으로 이동합니다.');
             navigate('/reviews');
             window.location.reload();
-        }
+        
     }
 
     // Callback function to receive HTML content from TextEditor
@@ -168,8 +164,8 @@ export function ReviewModify () {
                     <div className="text-center">
                         <input 
                             type="text" 
-                            value={reviewTitle} 
-                            name="reviewTitle"
+                            value={orgReviewTitle} 
+                            name="orgReviewTitle"
                             className="searchbar" 
                             placeholder="제목을 입력해주세요" 
                             onChange={ onChangeHandler }
