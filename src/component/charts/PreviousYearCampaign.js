@@ -4,15 +4,14 @@ import "../../assets/css/chart.css";
 function PreviousYearCampaign(chartDataListProps) {
   
   /* chartData from API */
-  /*
+  
   const { chartDataList } = chartDataListProps;
 
   const tickValuesAttributes = chartDataList.map((attribute, index) => index + 1);
   const tickFormatAttributes = chartDataList.map(monthlyName => `${monthlyName.monthly}월`)
-  */
   
   /* TestData */
-    
+  /*
   const monthlyData = [
     {
       monthly: 1, campaigns: 12
@@ -51,10 +50,11 @@ function PreviousYearCampaign(chartDataListProps) {
       monthly: 12, campaigns: 8
     }
   ];
-
+  
   const tickValuesAttributes = monthlyData.map((attribute, index) => index + 1);
   const tickFormatAttributes = monthlyData.map(monthlyName => `${monthlyName.monthly}월`)
-    
+  */
+
   /* chart figure */ 
   const width = 1500;
   const height = 700;
@@ -115,7 +115,7 @@ function PreviousYearCampaign(chartDataListProps) {
               style={toolTipStyle}
             />
           }
-          data={monthlyData}
+          data={chartDataList}
           x={stringX}
           y={stringY}
         >
