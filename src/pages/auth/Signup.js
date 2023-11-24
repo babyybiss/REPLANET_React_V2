@@ -172,6 +172,26 @@ const onCheckEmail = (e) => {
     }
     
   }, []);
+  
+  const handleSendSMS = async () => {
+    const enteredPhone = phoneInputRef.current.value;
+    const url = `/users/sms`;
+    const body = { u_phone: enteredPhone };
+  
+    try {
+      const response = await axios.post(url, body);
+      if (response.status === 200) {
+        console.log('인증번호 전송 성공');
+        Swal.fire("", "입력하신 번호로 인증번호가 전송되었습니다.");
+      } else {
+        console.error('인증번호 전송 실패');
+        Swal.fire("", "전송 실패! 휴대전화 번호를 다시 확인해 주세요.");
+      }
+    } catch (error) {
+      console.error('API 호출 중 오류 발생', error);
+      Swal.fire("", "API 호출 중 오류 발생");
+    }
+  };
 
   const [allCheck, setAllCheck] = useState(false);
   const [privacyCheck, setPrivacyCheck] = useState(false);
@@ -206,8 +226,6 @@ const onCheckEmail = (e) => {
           setUseCheck(false)
       }
   };
-
-
 
   useEffect(() => {
       if (privacyCheck === true && useCheck === true) {
@@ -258,9 +276,14 @@ const onCheckEmail = (e) => {
                 <label htmlFor="phone">휴대전화</label>
                 <div className="input-group">
                   <input className="input" type="text" id="phone" required ref={phoneInputRef} value={phone} placeholder="- 없이 휴대폰 번호를 입력해주세요." onChange={handlePhone} />
-                  <button type="button" className="button button-primary" disabled={!isPhoneValid}>인증</button>
+                  <button type="button" className="button button-primary" disabled={!isPhoneValid} name="smsButton" onClick={handleSendSMS}>인증번호 요청</button>
                 </div>
                 <div className="regexMsg">{phoneMsg}</div>
+                <div className="input-group">
+                  <input className="input" type="text" id="phone" required placeholder="전송받으신 인증번호 4자리를 입력해 주세요." disabled={!isPhoneValid}/>
+                  <button type="button" className="button button-primary" disabled={!isPhoneValid}>인증번호 입력</button>
+                </div>
+                
               </div>
               <div className="item">
                 <div className="container-policy mb-1">
