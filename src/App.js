@@ -88,8 +88,8 @@ function App() {
             </Route>
 
             
-            <Route path="exchangeList" element={<AllExchanges />} />
-            <Route path="exchangeDetail/:exchangeCode" element={<ExchangeDetail />} />
+            <Route path="exchangeList" element={authCtx.isLoggedIn ? <AllExchanges /> : <Navigate to='/' />} />
+            <Route path="exchangeDetail/:exchangeCode" element={authCtx.isLoggedIn ? <ExchangeDetail /> : <Navigate to='/' />} />
             
           </Route>
         </Routes>
