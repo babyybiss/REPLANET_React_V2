@@ -92,14 +92,13 @@ export function DeleteCampaignAPI( campaignCode) {
         try {
             await axios.delete(requestURL + `campaigns/${campaignCode}`, campaignCode)
                 .then((res) => {
-                    Swal.fire('', '삭제되었습니다.')
+                    //Swal.fire('', '삭제되었습니다.')
                     console.log(res);
                     window.location = "/";
                 }).catch((error) => {
-                    console.log(error);
-                    alert(error.response.data)
+                    Swal.fire('',error.response.data)
                 })
-        } catch (error) { alert(error.response.data) }
+        } catch (error) { Swal.fire('', '관리자 문의 바랍니다.') }
 
         //dispatch(deleteReview(result));
     }
@@ -109,10 +108,8 @@ export function DeleteCampaignAPI( campaignCode) {
 
 // 캠페인 수정
 export function ModifyCampaignAPI({ inputs }, campaignCode) {
-    console.log(inputs, '이것은? ' ,campaignCode, '캠페인 코드');
-    console.log('[Review Registration] campaignTitle : ', inputs.get("campaignTitle"));
 
-
+    console.log('타이트,ㄹ : ', inputs.get("campaignContent"));
     return async (dispatch, getState) => {
         try {
 
@@ -123,11 +120,12 @@ export function ModifyCampaignAPI({ inputs }, campaignCode) {
                     window.location = "/";
                 }).catch((error) => {
                     console.log(error);
-                    alert(error.response.data)
+                    Swal.fire('',error.response.data)
+                   // Swal.fire('', '관리자 문의 바랍니다.')
                 })
 
             //dispatch(deleteReview(result));
-        } catch (error) { alert(error,'실패캐치') }
+        } catch (error) { Swal.fire('', '관리자 문의 바랍니다.') }
     }
 
 } 

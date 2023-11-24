@@ -7,6 +7,7 @@ import { useRef } from "react";
 import draftToHtml from 'draftjs-to-html';
 import DraftEditor from "../../component/common/DraftEditor";
 import '../../assets/css/editor.css';
+import { useNavigate } from "react-router-dom";
 
 const categoryList = [
     { key: "0", name: "선택 해주세요" },
@@ -20,6 +21,7 @@ const categoryList = [
 function CampaignRegist() {
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
     const [inputs, setInputs] = useState([]);
+    const navigate = useNavigate();
 
 
     const [imgPreview, setImgPreview] = useState("");
@@ -94,8 +96,7 @@ function CampaignRegist() {
     //     imageInput.current.click();
     // }
     // db 전송
-    const submitHandler = (event) => {
-        event.preventDefault();
+    const submitHandler = () => {
 
         const formData = new FormData();
 
@@ -122,54 +123,54 @@ function CampaignRegist() {
     }
     return (
         <>
-            <form onSubmit={submitHandler}>
-                <div className="container-first">
-                    <h1 className="py-3 container-centered">캠페인 등록</h1>
-                    {/*카테고리 셀렉 */}
-                    <select className="category" name="campaignCategory" onChange={onChange}>
-                        {categoryList.map((item) => (
-                            <option key={item.key} value={item.name} >
-                                {item.name}
-                            </option>
-                        ))}
-                    </select>
-                    {/* 제목 & 텍스트 에디터 */}
-                    <input className="input" name="campaignTitle" maxLength="20" placeholder="제목 입력." onChange={onChange} required />
-                    <DraftEditor onChange={onChangeContent} editorState={editorState} />
+            <div className="container-first">
+                <h1 className="py-3 container-centered">캠페인 등록</h1>
+                {/*카테고리 셀렉 */}
+                <select className="category" name="campaignCategory" onChange={onChange}>
+                    {categoryList.map((item) => (
+                        <option key={item.key} value={item.name} >
+                            {item.name}
+                        </option>
+                    ))}
+                </select>
+                {/* 제목 & 텍스트 에디터 */}
+                <input className="input" name="campaignTitle" maxLength="20" placeholder="제목 입력." onChange={onChange} required />
+                <DraftEditor onChange={onChangeContent} editorState={editorState} />
 
-                    <input 
-                        type="file"
-                        accept="image/*"
-                        onChange={
-                            (e) => {
-                                const image = e.target.files[0];
-                                setImgPreview(image)
-                                imageInput.current.click();
-                            }}
-                        ref={imageInput}
-                        placeholder="메인 이미지 1장을 업로드 해주세요"
-                    />
-                    {imageUrl && <img
-                        src={imageUrl}
-                        alt="preview"
-                    />}
-                </div>
+                <input
+                    type="file"
+                    accept="image/*"
+                    onChange={
+                        (e) => {
+                            const image = e.target.files[0];
+                            setImgPreview(image)
+                            imageInput.current.click();
+                        }}
+                    ref={imageInput}
+                    placeholder="메인 이미지 1장을 업로드 해주세요"
+                />
+                {imageUrl && <img
+                    src={imageUrl}
+                    alt="preview"
+                />}
+            </div>
 
-                <div className="container" id="container-user">
-                    <h3 className="text-center">기부금 사용 계획 </h3>
-                    <div className="items-container ic1">
-                        <label>목표금액<input className="input" type="text" maxLength="20" name="goalBudget" placeholder="총 목표 금액을 입력하세요.(10억 이하로)" value={inputs.goalBudget} onChange={priceChangeHandler} required /></label>
-                        <label htmlFor="endDate">캠페인 마감일 <input type="date" id="endDate" name="endDate" className="input" onChange={onChange} /></label>
-                        <label>단체명<input className="input" name="orgName" maxLength="50" placeholder="단체명을 입력해주세요." onChange={onChange} required /></label>
-                        <label>단체 한줄소개<input className="input" name="orgDescription" maxLength="50" placeholder="단체 한줄소개를 입력해주세요." onChange={onChange} required /></label>
-                        <label>단체 연락처<input className="input" name="orgTel" maxLength="13" placeholder="전화번호를 입력해주세요." onChange={onChange} required /></label>
-                    </div>
+            <div className="container" id="container-user">
+                <h3 className="text-center">기부금 사용 계획 </h3>
+                <div className="items-container ic1">
+                    <label>목표금액<input className="input" type="text" maxLength="13" name="goalBudget" placeholder="총 목표 금액을 입력하세요.(10억 이하로)" value={inputs.goalBudget} onChange={priceChangeHandler} required /></label>
+                    <label htmlFor="endDate">캠페인 마감일 <input type="date" id="endDate" name="endDate" className="input" onChange={onChange} /></label>
+                    <label>단체명<input className="input" name="orgName" maxLength="50" placeholder="단체명을 입력해주세요." onChange={onChange} required /></label>
+                    <label>단체 한줄소개<input className="input" name="orgDescription" maxLength="50" placeholder="단체 한줄소개를 입력해주세요." onChange={onChange} required /></label>
+                    <label>단체 연락처<input className="input" name="orgTel" maxLength="13" placeholder="전화번호를 입력해주세요." onChange={onChange} required /></label>
                 </div>
-                <div >
-                    <button className="button button-primary" type="submit">등록하기</button><div></div>
-                    <button className="button button-primary-outline">취소</button>
-                </div>
-            </form >
+            </div>
+            <div >
+                <button className="button button-primary" onClick={submitHandler} >등록하기</button>
+                <button className="button button-primary-outline" onClick={() => navigate(-1)}>취소</button>
+
+            </div>
+
         </>
     );
 }

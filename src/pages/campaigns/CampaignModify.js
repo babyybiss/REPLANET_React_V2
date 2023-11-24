@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 import { ModifyCampaignAPI } from "../../apis/CampaignListAPI";
 import { useDispatch, useSelector } from 'react-redux';
 import { useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { GetCampaignAPI } from "../../apis/CampaignListAPI";
 
 import draftToHtml from 'draftjs-to-html';
@@ -24,6 +24,7 @@ function CampaignModify() {
     const campaigns = useSelector(state => state.campaignReducer);
     const campaignInfo = campaigns.campaigninfo;
     const { campaignCode } = useParams();
+    const navigate = useNavigate();
 
     const [editorState, setEditorState] = useState(() => {
         if (campaignInfo) {
@@ -48,16 +49,16 @@ function CampaignModify() {
         dispatch(GetCampaignAPI(campaignCode))
         setInputs(campaignInfo)
         //setImagePre(campaignInfo.campaignDescfileList[0])
-        
-        if(imagePre){
+
+        if (imagePre) {
             const fileReader = new FileReader();
-                fileReader.onload = (e) => {
-                    const { result } = e.target;
-                    if( result ) {
-                        setImageUrl(result);
-                    }
+            fileReader.onload = (e) => {
+                const { result } = e.target;
+                if (result) {
+                    setImageUrl(result);
                 }
-                fileReader.readAsDataURL(imagePre);
+            }
+            fileReader.readAsDataURL(imagePre);
         }
     }, [imagePre]);
 
@@ -128,8 +129,7 @@ function CampaignModify() {
     }, [imagePre]);
 
     // db 전송
-    const submitHandler = (event) => {
-        event.preventDefault();
+    const submitHandler = () => {
 
         const formData = new FormData();
 
@@ -146,64 +146,67 @@ function CampaignModify() {
             formData.append("imageFile", imagePre);
         }
 
-        console.log('[Review Registration] campaignTitle : ', formData.get("campaignTitle"));
+        console.log('타이트,ㄹ : ', formData.get("campaignTitle"));
+
+
+
+
 
         dispatch(ModifyCampaignAPI({
             inputs: formData,
             header,
-        },campaignCode));
+        }, campaignCode));
 
     }
 
     return (
         <>
-            <form onSubmit={submitHandler}>
-                <div className="container-first">
-                    <h1 className="py-3 container-centered">캠페인 수정</h1>
+            <div className="container-first">
+                <h1 className="py-3 container-centered">캠페인 수정</h1>
 
-                    {/*카테고리 셀렉 */}
-                    <select className="category" name="campaignCategory" onChange={onChange} value={inputs.campaignCategory}>
-                        {categoryList.map((item) => (
-                            <option key={item.key} value={item.name} >
-                                {item.name}
-                            </option>
+                {/*카테고리 셀렉 */}
+                <select className="category" name="campaignCategory" onChange={onChange} value={inputs.campaignCategory}>
+                    {categoryList.map((item) => (
+                        <option key={item.key} value={item.name} >
+                            {item.name}
+                        </option>
 
-                        ))}
-                    </select>
-                    {/* 제목 & 텍스트 에디터 */}
-                    <input className="input" name="campaignTitle" maxLength="20" onChange={onChange} value={inputs.campaignTitle} required />
-                    <DraftEditor onChange={onChangeContent} editorState={editorState} inputs={inputs} />
+                    ))}
+                </select>
+                {/* 제목 & 텍스트 에디터 */}
+                <input className="input" name="campaignTitle" maxLength="20" onChange={onChange} value={inputs.campaignTitle} required />
+                <DraftEditor onChange={onChangeContent} editorState={editorState} inputs={inputs} />
 
-                    <input
-                        type="file"
-                        accept="image/*"
-                        onChange={
-                            (e) => {
-                                const image = e.target.files[0];
-                                setImagePre(image)
-                                imageInput.current.click();
-                            }}
-                        ref={imageInput}
-                        placeholder="메인 이미지 1장을 업로드 해주세요"
-                    />
-                    <img
-                        src={imageUrl || '/campaigns/' + beforeUrl}
-                        alt="preview"
-                    />
+                <input
+                    type="file"
+                    accept="image/*"
+                    onChange={
+                        (e) => {
+                            const image = e.target.files[0];
+                            setImagePre(image)
+                            imageInput.current.click();
+                        }}
+                    ref={imageInput}
+                    placeholder="메인 이미지 1장을 업로드 해주세요"
+                />
+                <img
+                    src={imageUrl || '/campaigns/' + beforeUrl}
+                    alt="preview"
+                />
+            </div>
+
+            <div className="container" id="container-user">
+                <h3 className="text-center">기부금 사용 계획 </h3>
+                <div className="items-container ic1">
+                    <label>목표금액<input className="input" type="text" maxLength="20" name="goalBudget" placeholder="총 목표 금액을 입력하세요." value={inputs.goalBudget} onChange={priceChangeHandler} required /></label>
+                    <label htmlFor="endDate">캠페인 마감일 <input type="date" id="endDate" name="endDate" className="input" onChange={onChange} value={inputs.endDate} /></label>
+                    <label>단체명<input className="input" name="orgName" maxLength="50" placeholder="단체명을 입력해주세요." onChange={onChange} value={inputs.orgName} required /></label>
+                    <label>단체 한줄소개<input className="input" name="orgDescription" maxLength="50" placeholder="단체 한줄소개를 입력해주세요." value={inputs.orgDescription} onChange={onChange} required /></label>
+                    <label>단체 연락처<input className="input" name="orgTel" maxLength="13" placeholder="전화번호를 입력해주세요." onChange={onChange} value={inputs.orgTel} required /></label>
                 </div>
-
-                <div className="container" id="container-user">
-                    <h3 className="text-center">기부금 사용 계획 </h3>
-                    <div className="items-container ic1">
-                        <label>목표금액<input className="input" type="text" maxLength="20" name="goalBudget" placeholder="총 목표 금액을 입력하세요." value={inputs.goalBudget} onChange={priceChangeHandler} required /></label>
-                        <label htmlFor="endDate">캠페인 마감일 <input type="date" id="endDate" name="endDate" className="input" onChange={onChange} value={inputs.endDate} /></label>
-                        <label>단체명<input className="input" name="orgName" maxLength="50" placeholder="단체명을 입력해주세요." onChange={onChange} value={inputs.orgName} required /></label>
-                        <label>단체 한줄소개<input className="input" name="orgDescription" maxLength="50" placeholder="단체 한줄소개를 입력해주세요." value={inputs.orgDescription} onChange={onChange} required /></label>
-                        <label>단체 연락처<input className="input" name="orgTel" maxLength="13" placeholder="전화번호를 입력해주세요." onChange={onChange} value={inputs.orgTel} required /></label>
-                    </div>
-                </div>
-                <div >
-                    {/*canSubmit() ? (
+            </div>
+            <div >
+                {/*canSubmit() ? (
                 <button className="button button-primary" type="submit">등록하기</button>
                 ) : (
                     <button className="button button-primary">
@@ -211,11 +214,10 @@ function CampaignModify() {
                     </button>
 
                 ) */}
-                    <button className="button button-primary" type="submit">등록하기</button>
+                <button className="button button-primary" onClick={submitHandler}>등록하기</button>
 
-                    <button className="button button-primary-outline">취소</button>
-                </div>
-            </form >
+                <button className="button button-primary-outline" onClick={() => navigate(-1)}>취소</button>
+            </div>
         </>
     );
 }
