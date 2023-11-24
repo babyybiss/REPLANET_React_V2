@@ -26,7 +26,7 @@ function PointModal({exchangeCode, closeModal}){
     return(
         detail && (
             <div className="modal">
-                <div className="modal-content">
+                <div className="point-modal">
                     <h3>신청 제목 _ {detail.title}</h3>
                     <h3>신청 일자 _ {exchangeDate}</h3>
                     {detail.status == "대기"? <h3 style={{color: "#1D7151"}}>현재 처리 대기 중입니다.</h3> : 

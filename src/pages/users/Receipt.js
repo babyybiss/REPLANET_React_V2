@@ -11,9 +11,9 @@ import { decodeJwt } from "../../utils/TokenUtils";
 function DonationReceipt(){
 
     const token = window.localStorage.getItem('token');
-    console.log("토큰 확인 : ", decodeJwt(token));
+    // console.log("토큰 확인 : ", decodeJwt(token));
     const memberCode = decodeJwt(token)?.memberCode || 0;
-    console.log("기부금영수증 멤버코드 확인 : ", memberCode);
+    // console.log("기부금영수증 멤버코드 확인 : ", memberCode);
 
     const dispatch = useDispatch();
     const [name, setName] = useState('');
@@ -73,11 +73,9 @@ function DonationReceipt(){
                 confirmButtonText: '확인'
             })
         } else {
-            console.log("이름 확인 : ", name);
-            console.log("주민번호 확인 : ", front + last);
             const body = {
                 memberCode : memberCode,
-                name : name,
+                check : check ? 'Y' : 'N',
                 idNumber : front + last
             };
             dispatch(provideInfoAPI({

@@ -112,7 +112,7 @@ table thead, tbody{
     height: 100%;
 }
 
-.modal-content {
+.point-modal {
     background-color: white;
     margin: auto;
     padding: 20px;

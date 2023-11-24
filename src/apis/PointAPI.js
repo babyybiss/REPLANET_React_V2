@@ -201,7 +201,7 @@ export function exchangeStatusAPI({status, exchangeCode, currentPage}){
 
 export function provideInfoAPI({body}){
     console.log("API 단계 memberCode 확인 : ", body.memberCode);
-    console.log("API 단계 name 확인 : ", body.name);
+    console.log("API 단계 check 확인 : ", body.check);
     console.log("API 단계 idNumber 확인 : ", body.idNumber);
     
     const requestURL = 'http://localhost:8001/provideInfo';
@@ -209,8 +209,8 @@ export function provideInfoAPI({body}){
     return async (dispatch, getState) => {
             await axios.put(requestURL, {
                 memberCode: body.memberCode,
-                memberName: body.name,
-                idNumber: body.idNumber
+                infoConsent: body.check,
+                residentNum: body.idNumber
             }, {headers: {
                     "Content-Type": "application/json",
                     "Accept": "*/*"
@@ -225,6 +225,7 @@ export function provideInfoAPI({body}){
                         icon: "success",
                         iconColor: '#1D7151',
                         title: "기부 영수증을 위한 개인정보 제공에 동의하셨습니다.",
+                        text: "자세한 내용은 홈택스에서 확인하실 수 있습니다.",
                         showCancelButton: false,
                         confirmButtonColor: '#1D7151',
                         confirmButtonText: '확인'
@@ -237,6 +238,7 @@ export function provideInfoAPI({body}){
                         icon: "error",
                         iconColor: "#DB524E",
                         title: "서버 오류가 발생했습니다.",
+                        text: "문제가 계속될 경우 고객센터로 문의 바랍니다.",
                         showCancelButton: false,
                         confirmButtonColor: '#1D7151',
                         confirmButtonText: '확인'
@@ -249,6 +251,7 @@ export function provideInfoAPI({body}){
                     icon: "error",
                     iconColor: "#DB524E",
                     title: "오류가 발생했습니다.",
+                    text: "문제가 계속될 경우 고객센터로 문의 바랍니다.",
                     showCancelButton: false,
                     confirmButtonColor: '#1D7151',
                     confirmButtonText: '확인'
