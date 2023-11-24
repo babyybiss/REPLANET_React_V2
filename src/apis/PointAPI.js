@@ -1,5 +1,5 @@
 import Swal from 'sweetalert2';
-import { GET_EXCHANGE, GET_USER_EXCHANGES, GET_EXCHANGE_DETAIL_U, PUT_EXCHANGES, POST_EXCHANGES, GET_POINTS_HISTORY, GET_ADMIN_EXCHANGES, PUT_PROVIDE_INFO } from '../modules/PointModule';
+import { GET_EXCHANGE, GET_USER_EXCHANGES, GET_EXCHANGE_DETAIL_U, PUT_EXCHANGES, POST_EXCHANGES, GET_POINTS_HISTORY, GET_ADMIN_EXCHANGES, PUT_PROVIDE_INFO, GET_PRIVACY_STATUS } from '../modules/PointModule';
 import axios from "axios";
 import { async } from 'q';
 
@@ -256,5 +256,19 @@ export function provideInfoAPI({body}){
                     confirmButtonText: '확인'
                 })
             });       
+    }
+}
+
+export function getPrivacyStatusAPI(memberCode) {
+    const requestURL = `http://localhost:8001/${memberCode}`;
+    console.log("API까지 오니??");
+    return async (dispatch, getState) => {
+        try{
+            const result = await axios.get(requestURL);
+            console.log('PointAPI getPrivacyStatusAPI RESULT : ', result.data);
+            dispatch({type: GET_PRIVACY_STATUS, payload: result.data});
+        } catch (error){
+            console.error('PointAPI getPrivacyStatusAPI 에러 발생 : ', error);
+        }
     }
 }

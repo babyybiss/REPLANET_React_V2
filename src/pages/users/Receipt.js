@@ -3,8 +3,8 @@ import "../../assets/css/common.css";
 import "../../assets/css/userexchange.css";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import { useDispatch } from "react-redux";
-import { provideInfoAPI } from "../../apis/PointAPI";
+import { useDispatch, useSelector } from "react-redux";
+import { getPrivacyStatusAPI, provideInfoAPI } from "../../apis/PointAPI";
 import { decodeJwt } from "../../utils/TokenUtils";
 
 
@@ -15,7 +15,16 @@ function DonationReceipt(){
     const memberCode = decodeJwt(token)?.memberCode || 0;
     const memberName = decodeJwt(token)?.memberName || "";
     // console.log("기부금영수증 멤버코드 확인 : ", memberCode);
-    console.log("이름 확인 : ", memberName);
+    // console.log("이름 확인 : ", memberName);
+
+    const privacyStatus = useSelector(state => state.modalReducer);
+    console.log("privacyStatus 확인 : ", privacyStatus);
+
+    useEffect(
+        () => {
+            dispatch(getPrivacyStatusAPI(memberCode))
+        },[]
+    )
 
     const dispatch = useDispatch();
     const [name, setName] = useState('');
@@ -137,7 +146,7 @@ function DonationReceipt(){
             </div>
             <br/>
             <div className="receiptinfo">
-                {decodeJwt(token).privacyStatus?
+                {decodeJwt(token).privacyStatus == 'N'?
                 <>
                     <div class="items-container ic3">
                     <input className="input" type="text" value={name} onChange={handleName} placeholder="이름"/>
