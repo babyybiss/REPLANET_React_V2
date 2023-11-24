@@ -1,10 +1,32 @@
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { callGetSupportbotListAPI } from "../../apis/SupportbotAPI";
 import '../../assets/css/supportbot.css'
 import SupportbotIcon from "../../assets/images/icon/SupportbotIcon";
 import ModalSupportbot from "../../component/modals/ModalSupportbot";
 
+
 function TestChatbot() {
 
+    const callApiResult = useSelector(state => state.supportbotReducer)
+    const supportbotDataList = callApiResult.supportbotDataList;
+    const dispatch = useDispatch();
+
+    const [questionList, setQuestionList] = useState({})
+    const [isShow, setIsShow] = useState(false);
+    const [iconBackgroundStyle, setIconBackgroundStyle] = useState({
+        backgroundColor: 'darksalmon'
+    });
+
+    useEffect(
+        () => {
+            dispatch(callGetSupportbotListAPI());
+            setQuestionList(supportbotDataList)
+            console.log(questionList)
+        },
+        []
+    );
+    console.log(questionList)
     const testData = [
         {
             questionCode: 1,
@@ -34,11 +56,6 @@ function TestChatbot() {
     ];
 
     const [selectedQuestion, setSelectedQuestion] = useState(null);
-    
-    const [isShow, setIsShow] = useState(false);
-    const [iconBackgroundStyle, setIconBackgroundStyle] = useState({
-        backgroundColor: 'darksalmon'
-    });
 
     const iconClickHandler = () => {
         setIsShow(isShow === false ? true : false)
@@ -60,7 +77,6 @@ function TestChatbot() {
     const questionClickHandler = (questionCode) => {
         setSelectedQuestion(questionCode);
     };
-
 
     return (
         <>
@@ -84,20 +100,26 @@ function TestChatbot() {
                     )}
                 </div>
             </div>
+            { supportbotDataList && 
             <button
                 onClick={iconClickHandler}
+                /*
                 onMouseOver={iconOverHandler}
                 onMouseOut={iconOutHandler}
+                */
                 className="icon-button-style"
                 style={iconBackgroundStyle}
             >
                 <SupportbotIcon/>
-            </button>
-            { isShow && 
+            </button>}
+            { isShow &&
                 <div 
                     className={'modal-container'}
                 >
-                    <ModalSupportbot setIsShow={(setIsShow)}/>
+                    <ModalSupportbot 
+                        setIsShow={(setIsShow)} 
+                        supportbotDataList={supportbotDataList.results.allSupportData} 
+                    />
                 </div>
             }
         </>

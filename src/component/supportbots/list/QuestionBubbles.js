@@ -1,16 +1,39 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import FirstResBubble from "../items/responseitem/FirstResBubble";
 
-function QuestionBubbles(supportbotDataProps) {
+function QuestionBubbles({supportbotDataList}) {
 
-    const { supportbotDataList } = supportbotDataProps;
-    // console.log(questionContent) 오버 아웃이벤트와 함께 계속 동작
+    console.log(supportbotDataList)
+    /*
+    const callApiResult = useSelector(state => state.supportbotReducer)
+    const supportbotDataList = callApiResult.supportbotDataList.results.allSupportData;
+    */
+    /* 질문코드 상태 */ 
+    const [questionCode, setQuestionCode] = useState(0);
 
-    const [selectedQuestion, setSelectedQuestion] = useState(0);
     const questionClickHandler = (questionCode) => {
-        setSelectedQuestion(questionCode)
+        setQuestionCode(questionCode)
     }
-    console.log(selectedQuestion)
 
+    
+    const selectRenderComponents = () => {
+        switch (questionCode) {
+            case 1:
+                return <FirstResBubble questionCode={questionCode} />;
+            /*case 2:
+                return <SecondResBubble />;
+            case 3:
+                return <ThirdResBubble />;
+            case 4:
+                return <FourthResBubble />;
+            case 5:
+                return <FifthResBubble />;*/
+            default:
+                return null;
+        }
+    }
+    
     return(
         <>
            {supportbotDataList.map((question) => (
@@ -22,6 +45,8 @@ function QuestionBubbles(supportbotDataProps) {
                 {question.questionContent}
             </div>
            ))}
+           
+           {selectRenderComponents()}
         </>
     );
 }

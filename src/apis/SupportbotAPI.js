@@ -1,5 +1,6 @@
 import { request } from "./CommonAPI";
-import { getSupportbotlist } from "../modules/SupportbotModule";
+import { getSupportbotList } from "../modules/SupportbotModule";
+import { getSupportbotAnswer } from "../modules/SupportbotModule";
 
 export function callGetSupportbotListAPI() {
 
@@ -7,6 +8,16 @@ export function callGetSupportbotListAPI() {
 
         const response = await request('GET', '/chatbots/list');
 
-        dispatch(getSupportbotlist(response));
+        dispatch(getSupportbotList(response));
+    }
+}
+
+export function callGetSupportbotAnswerAPI(questionCode) {
+
+    return async (dispatch, getState) => {
+
+        const response = await request('GET', `/chatbots/${questionCode}`);
+
+        dispatch(getSupportbotAnswer(response));
     }
 }
