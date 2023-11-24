@@ -4,6 +4,7 @@ import { callGetSupportbotAnswerAPI } from "../../../../apis/SupportbotAPI";
 
 function FirstResBubble({questionCode}) {
 
+    /*
     const callApiResult = useSelector(state => state.supportbotReducer)
     const supportbotData = callApiResult.supportbotAnswer;
     const dispatch = useDispatch();
@@ -14,9 +15,10 @@ function FirstResBubble({questionCode}) {
         }
     );
 
+    */
     return (
         <div className="response-box">
-            {supportbotData}
+            {questionCode}
         </div>
     );
 }

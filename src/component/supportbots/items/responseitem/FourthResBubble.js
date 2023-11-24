@@ -1,9 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
 
-function FourthResBubble() {
+function FourthResBubble({questionCode}) {
     return (
         <div className="response-box">
-
+            {questionCode}
         </div>
     );
 }

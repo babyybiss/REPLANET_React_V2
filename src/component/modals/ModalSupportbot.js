@@ -1,14 +1,13 @@
+import BubbleList from "../supportbots/list/BubbleList";
 import ModalHeader from "./ModalHeader";
-import QuestionBubbles from "../supportbots/list/QuestionBubbles";
 import { useEffect } from "react";
 
-function ModalSupportbot({ setIsShow, supportbotDataList }) {
+function ModalSupportbot({ setIsShow }) {
  
-
     return (
         <div className={'modal-box'}>
             <ModalHeader setIsShow={(setIsShow)} />   
-            <QuestionBubbles supportbotDataList={supportbotDataList} />
+            <BubbleList />
         </div>
     );
 }

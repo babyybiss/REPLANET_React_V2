@@ -12,7 +12,6 @@ function TestChatbot() {
     const supportbotDataList = callApiResult.supportbotDataList;
     const dispatch = useDispatch();
 
-    const [questionList, setQuestionList] = useState({})
     const [isShow, setIsShow] = useState(false);
     const [iconBackgroundStyle, setIconBackgroundStyle] = useState({
         backgroundColor: 'darksalmon'
@@ -21,12 +20,10 @@ function TestChatbot() {
     useEffect(
         () => {
             dispatch(callGetSupportbotListAPI());
-            setQuestionList(supportbotDataList)
-            console.log(questionList)
+            console.log(supportbotDataList)
         },
         []
     );
-    console.log(questionList)
     const testData = [
         {
             questionCode: 1,
@@ -60,15 +57,13 @@ function TestChatbot() {
     const iconClickHandler = () => {
         setIsShow(isShow === false ? true : false)
     }
-    const iconOverHandler = (e) => {
-        //console.log('마우스오버',e) svg 문제인거 같은데 마우스오버와 아웃이 svg 내에서 path가 바뀔때마다 작동하는 것으로 추측
+    const iconOverHandler = () => {
         setIconBackgroundStyle({
             backgroundColor: 'indianred'
         })
        
     }
-    const iconOutHandler = (e) => {
-        //console.log('마우스아웃',e) 마우스 오버와 동일
+    const iconOutHandler = () => {
         setIconBackgroundStyle({
             backgroundColor: 'darksalmon'
         })
@@ -103,10 +98,8 @@ function TestChatbot() {
             { supportbotDataList && 
             <button
                 onClick={iconClickHandler}
-                /*
                 onMouseOver={iconOverHandler}
                 onMouseOut={iconOutHandler}
-                */
                 className="icon-button-style"
                 style={iconBackgroundStyle}
             >
@@ -117,8 +110,7 @@ function TestChatbot() {
                     className={'modal-container'}
                 >
                     <ModalSupportbot 
-                        setIsShow={(setIsShow)} 
-                        supportbotDataList={supportbotDataList.results.allSupportData} 
+                        setIsShow={(setIsShow)}
                     />
                 </div>
             }
