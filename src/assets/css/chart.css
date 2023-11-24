@@ -1,17 +1,21 @@
-.pageContainer {
+
+/*.pageContainer {
     display: grid;
     grid-auto-flow: dense;
     grid-template-columns: 1fr 16fr;
     grid-gap: 0.625rem;
     margin-bottom: 0.625rem;
     padding-top: calc(3rem + 80px);
+}*/
+
+* {
+    font-family: "Pretendard Variable"!important;
 }
 
 .chartbox {
-    width: 1500px;
-    margin-left: 3.6em;
+
 }
 .chartbox h4 {
-    text-align: center;
+    font-size: 0.9rem;
 }
 
