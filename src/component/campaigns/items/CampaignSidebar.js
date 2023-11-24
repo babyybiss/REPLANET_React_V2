@@ -40,18 +40,47 @@ function CampaignSidebar({ campaignInfo }) {
 
     // 삭제 
     const deleteCampaignHandler = () => {
-        if (window.confirm("정말 삭제하시겠습니까? 복구할 수 없습니다.\n(기부 내역이 있으면 삭제가 불가능합니다.)"))
-            dispatch(DeleteCampaignAPI(campaignCode))
+        Swal.fire({
+            icon: "question",
+            title: "캠페인 삭제",
+            text: "해당 캠페인을 삭제하시겠습니까?",
+            showCancelButton: true,
+            confirmButtonColor: '#1D7151',
+            cancelButtonColor: '#1D7151',
+            confirmButtonText: '승인',
+            cancelButtonText: '취소'
+        }).then(result => {
+            if (result.isConfirmed) {
+                dispatch(DeleteCampaignAPI(campaignCode))
+            }
+        }
+        );
+
+        // if (window.confirm("정말 삭제하시겠습니까? 복구할 수 없습니다.\n(기부 내역이 있으면 삭제가 불가능합니다.)"))
+        //     dispatch(DeleteCampaignAPI(campaignCode))
     }
 
     // 수정    
     const modifyCampaignHandler = () => {
-        if (window.confirm("수정하시겠습니까?"))
-            if (campaignInfo.currentBudget > 0) {
-                Swal.fire('', '모금액이 존재하므로 수정이 불가능합니다.')
-                return;
+        Swal.fire({
+            icon: "question",
+            title: "캠페인 수정",
+            text: "해당 캠페인을 수정하시겠습니까?",
+            showCancelButton: true,
+            confirmButtonColor: '#1D7151',
+            cancelButtonColor: '#1D7151',
+            confirmButtonText: '승인',
+            cancelButtonText: '취소'
+        }).then(result => {
+            if (result.isConfirmed) {
+                if (campaignInfo.currentBudget > 0) {
+                    Swal.fire('', '모금액이 존재하므로 수정이 불가능합니다.')
+                    return;
+                }
+                navigate(`/modify/${campaignCode}`)
             }
-        navigate(`/modify/${campaignCode}`)
+        }
+        );
     }
     // 후원하기 버튼
     const goToDonation = () => {
