@@ -8,6 +8,8 @@ import HistoryChart from "../../component/charts/HistoryChart";
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { callGetChartListAPI } from '../../apis/ChartAPI'
+import "../../assets/css/common.css";
+import Sidebar from "../../component/common/Sidebar";
 
 
 function Chart() {
@@ -18,30 +20,82 @@ function Chart() {
 
     useEffect(
         () => {
-        /* chartData from API */
-        dispatch(callGetChartListAPI());
+            /* chartData from API */
+            dispatch(callGetChartListAPI());
         },
         []
     );
 
     return (
         chartDataList && (
-            <div className="pageContainer">
-                <div className='chartbox'>
-                    <h2>캠페인 모금액 통계</h2>
-                    <GoalCampaign chartDataList={chartDataList.results.categoryData}/>
-                    <CategoryCampaign chartDataList={chartDataList.results.categoryData}/>
-                    <HistoryChart chartDataList={chartDataList.results.donationByTimeData}/>
-                    <h2>카테고리별 캠페인 통계</h2>
-                    <h2>연도별 및 월별 통계</h2>
-                    <CurrentYearCampaign chartDataList={chartDataList.results.currentYearData}/>
-                    <PreviousYearCampaign chartDataList={chartDataList.results.previousYearData}/>
-                    <h2>ㅌ테테테테테스트용</h2>
-                    <TestChart chartDataList={chartDataList.results.categoryData}/>
+            <div className="container-first">
+                
+                <h1 className="text-primary">통계</h1>
+                <hr></hr>
+                <div className="items-container ic2">
+                    <div className="card">
+                        <div className="card-header bg-primary">
+                            캠페인 모금액 통계
+                            <i class="fa-solid fa-cog"></i>
+                        </div>
+                        <div className="card-body">
+                            <GoalCampaign chartDataList={chartDataList.results.categoryData} />
+                        </div>
+                    </div>
+                    <div className="card">
+                    <div className="card-header bg-primary">
+                            카테고리별 캠페인 통계
+                            <i class="fa-solid fa-cog"></i>
+                        </div>
+                        <div className="card-body">
+                            <CategoryCampaign chartDataList={chartDataList.results.categoryData} />
+                        </div>
+
+                    </div>
+
                 </div>
+                <div className="items-container ic2">
+                    <div className="card">
+                        <div className="card-header border-bottom border-light">
+                            캠페인 월간 통계
+                            <i class="fa-solid fa-cog text-secondary"></i>
+                        </div>
+                        <div className="card-body">
+                            <HistoryChart chartDataList={chartDataList.results.donationByTimeData} />
+                        </div>
+                    </div>
+                    <div className="card">
+                    <div className="card-header border-bottom border-light">
+                            캠페인 연간 통계
+                            <i class="fa-solid fa-cog text-secondary"></i>
+                        </div>
+                        <div className="card-body"><CurrentYearCampaign chartDataList={chartDataList.results.currentYearData} /></div>
+                    </div>
+                </div>
+                <div class="items-container ic2">
+                    <div className="card">
+                    <div className="card-header border-bottom border-light">
+                            캠페인 연간 통계
+                            <i class="fa-solid fa-cog text-secondary"></i>
+                        </div>
+                        <div className="card-body">
+                            <PreviousYearCampaign chartDataList={chartDataList.results.previousYearData} />
+                        </div>
+                    </div>
+                    <div className="card">
+                    <div className="card-header border-bottom border-light">
+                            테스트
+                            <i class="fa-solid fa-cog text-secondary"></i>
+                        </div>
+                        <div className="card-body">
+                            <TestChart chartDataList={chartDataList.results.categoryData} />
+                        </div>
+                    </div>
+                </div>
+
             </div>
         )
-        
+
     );
 }
 

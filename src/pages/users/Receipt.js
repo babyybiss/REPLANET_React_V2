@@ -1,7 +1,7 @@
 import "../../assets/css/reset.css";
 import "../../assets/css/common.css";
 import "../../assets/css/userexchange.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { useDispatch } from "react-redux";
 import { provideInfoAPI } from "../../apis/PointAPI";
@@ -13,7 +13,9 @@ function DonationReceipt(){
     const token = window.localStorage.getItem('token');
     // console.log("토큰 확인 : ", decodeJwt(token));
     const memberCode = decodeJwt(token)?.memberCode || 0;
+    const memberName = decodeJwt(token)?.memberName || "";
     // console.log("기부금영수증 멤버코드 확인 : ", memberCode);
+    console.log("이름 확인 : ", memberName);
 
     const dispatch = useDispatch();
     const [name, setName] = useState('');
@@ -22,9 +24,11 @@ function DonationReceipt(){
     const [check, setCheck] = useState(false);
     const handleName = (e) => {
         const inputValue = e.target.value;
-        const isValidInput = /^[ㄱ-ㅎ가-힣]+$/.test(inputValue);
+        const isValidInput = /^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]+$/.test(inputValue);
         if(isValidInput && inputValue.length <= 10) {
             setName(inputValue);
+        } else {
+            setName(prevState => prevState.slice(0, -1));
         }
     }
     const handleFrontChange = (e) => {
@@ -32,6 +36,8 @@ function DonationReceipt(){
         const isValidInput = /^\d+$/.test(inputValue);
         if (isValidInput && inputValue.length <= 6) {
             setFront(inputValue);
+        } else {
+            setFront(prevState => prevState.slice(0, -1));
         }
     };
     const handleLastChange = (e) => {
@@ -39,44 +45,66 @@ function DonationReceipt(){
         const isValidInput = /^\d+$/.test(inputValue);
         if (isValidInput && inputValue.length <= 7) {
             setLast(inputValue);
+        } else {
+            setLast(prevState => prevState.slice(0, -1));
         }
     };
     const checkBox = () => {
         setCheck(!check);
     }
-    const infoAgreement = () => {
-        if(name == null || name == ""){
-            Swal.fire({
-                icon: "warning",
-                iconColor: '#1D7151',
-                title: "이름을 입력해주세요.",
-                showCancelButton: false,
-                confirmButtonColor: '#1D7151',
-                confirmButtonText: '확인'
-            })
-        } else if(front?.length != 6 || last?.length != 7 || front == null || last == null){
-            Swal.fire({
-                icon: "warning",
-                iconColor: '#1D7151',
-                title: "주민등록번호를 입력해주세요.",
-                showCancelButton: false,
-                confirmButtonColor: '#1D7151',
-                confirmButtonText: '확인'
-            })
-        } else if(!check){
-            Swal.fire({
-                icon: "warning",
-                iconColor: '#1D7151',
-                title: "정보 제공에 동의하셔야 등록하실 수 있습니다.",
-                showCancelButton: false,
-                confirmButtonColor: '#1D7151',
-                confirmButtonText: '확인'
-            })
-        } else {
+    const infoAgreement = (value) => {
+        if(value == '동의'){
+            console.log("적힌 이름 확인 : ", name);
+            if(name == null || name == ""){
+                Swal.fire({
+                    icon: "warning",
+                    iconColor: '#1D7151',
+                    title: "이름을 입력해주세요.",
+                    showCancelButton: false,
+                    confirmButtonColor: '#1D7151',
+                    confirmButtonText: '확인'
+                })
+            } else if(name != memberName){
+                Swal.fire({
+                    icon: "warning",
+                    iconColor: '#1D7151',
+                    title: "이름이 일치하지 않습니다.",
+                    showCancelButton: false,
+                    confirmButtonColor: '#1D7151',
+                    confirmButtonText: '확인'
+                })
+            } else if(front?.length != 6 || last?.length != 7 || front == null || last == null){
+                Swal.fire({
+                    icon: "warning",
+                    iconColor: '#1D7151',
+                    title: "주민등록번호를 입력해주세요.",
+                    showCancelButton: false,
+                    confirmButtonColor: '#1D7151',
+                    confirmButtonText: '확인'
+                })
+            } else if(!check){
+                Swal.fire({
+                    icon: "warning",
+                    iconColor: '#1D7151',
+                    title: "정보 제공에 동의하셔야 등록하실 수 있습니다.",
+                    showCancelButton: false,
+                    confirmButtonColor: '#1D7151',
+                    confirmButtonText: '확인'
+                })
+            } else {
+                const body = {
+                    memberCode : memberCode,
+                    check : check ? 'Y' : 'N',
+                    idNumber : front + last
+                };
+                dispatch(provideInfoAPI({
+                    body: body
+                }));
+            }
+        } else if(value == '철회'){
             const body = {
                 memberCode : memberCode,
-                check : check ? 'Y' : 'N',
-                idNumber : front + last
+                check : 'N'
             };
             dispatch(provideInfoAPI({
                 body: body
@@ -109,6 +137,8 @@ function DonationReceipt(){
             </div>
             <br/>
             <div className="receiptinfo">
+                {decodeJwt(token).privacyStatus?
+                <>
                     <div class="items-container ic3">
                     <input className="input" type="text" value={name} onChange={handleName} placeholder="이름"/>
                     </div>
@@ -119,7 +149,12 @@ function DonationReceipt(){
                     <br/>
                     <input type="checkbox" onChange={checkBox}/><span> 개인정보 제공에 동의합니다.</span>
                     <hr></hr>
-                    <button className="button button-primary" onClick={infoAgreement}>정보 제공 등록</button>
+                    <button className="button button-primary" onClick={() =>infoAgreement('동의')}>정보 제공 등록</button>
+                </> :
+                <>
+                    <h5>개인 정보 제공에 동의하셨습니다.</h5><br/>
+                    <button className="button button-primary" onClick={() =>infoAgreement('철회')}>동의 철회하기</button>
+                </>}
             </div>
             <br/>
             <h6>궁금하신 점은 고객센터로 문의 바랍니다.</h6>
