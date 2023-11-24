@@ -154,13 +154,23 @@ const onCheckEmail = (e) => {
   const handleMemberName = useCallback((e) => {
     const currMemberName = e.target.value;
     setMemberName(currMemberName);
-    setMemberNameMsg("한글 또는 로마자 알파벳으로 실명을 입력해 주세요.");
+    if (!validateMemberName(currMemberName)) {
+      setMemberNameMsg("한글 또는 로마자 알파벳으로 실명을 입력해 주세요.");
+    } else {
+      setMemberNameMsg("");
+    }
+    
   }, []);
 
   const handlePhone = useCallback((e) => {
     const currPhone = e.target.value;
     setPhone(currPhone);
-    setPhoneMsg("-을 제외한 숫자만 입력해 주세요.");
+    if (!validatePhone(currPhone)) {
+      setPhoneMsg("-을 제외한 9~11자리의 숫자만 입력 가능합니다.");
+    } else {
+      setPhoneMsg("입력하신 번호로 문자인증을 진행해 주세요.");
+    }
+    
   }, []);
 
   const [allCheck, setAllCheck] = useState(false);
