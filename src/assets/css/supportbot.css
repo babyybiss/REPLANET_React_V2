@@ -1,4 +1,4 @@
-.chatbot-container {
+.supportbot-container {
     text-align: center;
     padding-top: calc(3rem + 80px);
     margin-bottom: 0.625rem;
@@ -22,6 +22,7 @@
     padding: 10px;
 }
 
+/* modals css */
 .icon-button-style {
     cursor: pointer;
     position: fixed;
@@ -30,17 +31,17 @@
     border-radius: 100%;
     border: none;
 }
-
 .modal-container {
     bottom: 100px;
     right: 34px;
     position: fixed;
 }
-.modal-content {
+.modal-box {
     background-color: darksalmon;
     width: 300px;
     height: 500px;
     padding: 3px;
+    border-radius: 8px;
 }
 .modal-close-btn {
     display: block;
@@ -68,4 +69,15 @@
     padding: 3px;
     margin: 5px;
     user-select: none;
+}
+.click-box {
+    display: block;
+    float: left;
+    text-align: left;
+    background-color: #FFFFFF;
+    border-radius: 5px;
+    padding: 3px;
+    margin: 5px;
+    user-select: none;
+    cursor: pointer;
 }

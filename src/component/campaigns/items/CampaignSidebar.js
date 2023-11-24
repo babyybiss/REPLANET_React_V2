@@ -8,6 +8,7 @@ import { jwtDecode } from 'jwt-decode';
 import Swal from 'sweetalert2';
 import HeartButton from '../../mypage/items/HeartButton';
 import { useEffect } from 'react';
+import { now } from 'lodash';
 
 function CampaignSidebar({ campaignInfo }) {
 
@@ -21,19 +22,21 @@ function CampaignSidebar({ campaignInfo }) {
 
     let fileSaveName = campaignInfo.campaignDescfileList[0];
 
-    if(fileSaveName == null || undefined){
-        fileSaveName = false; 
-      }else{ 
-        fileSaveName = true; 
-      }
+    if (fileSaveName == null || undefined) {
+        fileSaveName = false;
+    } else {
+        fileSaveName = true;
+    }
 
     // 기부 현황
-    const currentBudget = campaignInfo.currentBudget;
-    const goalBudget = campaignInfo.goalBudget;
-    const percentage = Math.ceil((currentBudget / goalBudget) * 100).toFixed(0)
+    let currentBudget = campaignInfo.currentBudget;
+    let goalBudget = campaignInfo.goalBudget;
+    let percentage = Math.ceil((currentBudget / goalBudget) * 100).toFixed(0)
     // 날짜 
-    const startDate = moment(campaignInfo.startDate).subtract(1, 'months').format('YYYY-MM-DD');
-    const endDate = moment(campaignInfo.endDate).subtract(1, 'months').format('YYYY-MM-DD');
+    let startDate = moment(campaignInfo.startDate).subtract(1, 'months').format('YYYY-MM-DD');
+    let endDate = moment(campaignInfo.endDate).subtract(1, 'months').format('YYYY-MM-DD');
+    let endDate2 = new Date(endDate)
+    let today = new Date();
 
     // 삭제 
     const deleteCampaignHandler = () => {
@@ -52,50 +55,79 @@ function CampaignSidebar({ campaignInfo }) {
     }
     // 후원하기 버튼
     const goToDonation = () => {
+        if (today > endDate2) {
+            Swal.fire({
+                icon: "error",
+                title: "모금 종료!",
+                text: "모금이 종료 되었습니다.",
+                showCancelButton: false,
+                confirmButtonColor: '#1D7151',
+                confirmButtonText: '확인',
+            })
+            return
+        }
         decodedToken && decodedToken.memberCode != undefined ?
             navigate(`/campaign/${campaignInfo.campaignCode}/donations`) :
             navigate('/login')
 
     }
+    console.log(today, '오늘');
 
     // 카카오 공유하기 버툰
 
     useEffect(() => {
+
         const script = document.createElement("script");
         script.src = "https://developers.kakao.com/sdk/js/kakao.js";
         script.async = true;
         document.body.appendChild(script);
         return () => document.body.removeChild(script);
-      }, []);
+    }, []);
 
-       const shareKakao = () => { // url이 id값에 따라 변경되기 때문에 route를 인자값으로 받아줌
-        if (window.Kakao) {
-          const kakao = window.Kakao;
-          if (!kakao.isInitialized()) {
-            kakao.init("75ce38ebe67c3a1280e071003e94fcd8"); // 카카오에서 제공받은 javascript key를 넣어줌 -> .env파일에서 호출시킴
-          }
-      
-          kakao.Link.sendDefault({
-            objectType: "feed", // 카카오 링크 공유 여러 type들 중 feed라는 타입 -> 자세한 건 카카오에서 확인
-            content: {
-              title: campaignInfo.campaignTitle, // 인자값으로 받은 title
-              description: campaignInfo.orgDescription, // 인자값으로 받은 title
-              imageUrl: 'https://cdn-icons-png.flaticon.com/512/5017/5017359.png',
-              link: {
-                mobileWebUrl: `http://localhost:3000/campaign/${campaignCode}`, // 인자값으로 받은 route(uri 형태)
-                webUrl: `http://localhost:3000/campaign/${campaignCode}`
-              }
-            },
-          });
+    const shareKakao = () => { // url이 id값에 따라 변경되기 때문에 route를 인자값으로 받아줌
+        if (today > endDate2) {
+            Swal.fire({
+                icon: "error",
+                title: "모금 종료!",
+                text: "모금이 종료 되었습니다.",
+                showCancelButton: false,
+                confirmButtonColor: '#1D7151',
+                confirmButtonText: '확인',
+            })
+            return
         }
-      };
+
+        if (window.Kakao) {
+            const kakao = window.Kakao;
+            if (!kakao.isInitialized()) {
+                kakao.init("75ce38ebe67c3a1280e071003e94fcd8"); // 카카오에서 제공받은 javascript key를 넣어줌 -> .env파일에서 호출시킴
+            }
+
+            kakao.Link.sendDefault({
+                objectType: "feed", // 카카오 링크 공유 여러 type들 중 feed라는 타입 -> 자세한 건 카카오에서 확인
+                content: {
+                    title: campaignInfo.campaignTitle, // 인자값으로 받은 title
+                    description: campaignInfo.orgDescription, // 인자값으로 받은 title
+                    imageUrl: 'https://cdn-icons-png.flaticon.com/512/5017/5017359.png',
+                    link: {
+                        mobileWebUrl: `http://localhost:3000/campaign/${campaignCode}`, // 인자값으로 받은 route(uri 형태)
+                        webUrl: `http://localhost:3000/campaign/${campaignCode}`
+                    }
+                },
+            });
+        }
+    };
     return (
         campaignInfo && (
 
             <div className="container-sidebar">
-         
+
                 <div className="toggle">
-                    <HeartButton campaignCode={campaignCode} />
+                    {today > endDate2 ?
+                        "" :
+                        <HeartButton campaignCode={campaignCode} />
+                    }
+
 
                 </div>
                 <h2>현재 모금액 : {campaignInfo.currentBudget.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원 </h2>

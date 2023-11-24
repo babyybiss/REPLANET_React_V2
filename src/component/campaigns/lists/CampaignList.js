@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CampaignItem from "../items/CampaignItem";
-import { CampaignListAPI } from "../../../apis/CampaignListAPI";
+import { CampaignListAPI, CampaignListDoneAPI } from "../../../apis/CampaignListAPI";
 import { getCategoryByCampaign } from "../../../modules/CampaignModule";
 import { jwtDecode } from 'jwt-decode';
 
@@ -27,6 +27,7 @@ function CampaignList() {
     const [categories, setCategories] = useState(result.category);
     //const [campaignList, setCampaignList] = useState(campaignLists);
 
+    
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -44,10 +45,24 @@ function CampaignList() {
         navigate('/regist')
     };
     useEffect(() => {
-        dispatch(CampaignListAPI());
+        dispatch(CampaignListAPI())
     },
         []
     );
+
+    //페이징
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 3;
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = campaignList && campaignList.length > 0 ? campaignList.slice(indexOfFirstItem, indexOfLastItem) : [];
+    const totalItems = campaignList ? campaignList.length : '';
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+    const handlePageChange = (newPage) => {
+        if (newPage >= 1 && newPage <= totalPages) {
+            setCurrentPage(newPage);
+        }
+    };
     return (
         <>
             <div className="campaign-button-container">
@@ -68,9 +83,25 @@ function CampaignList() {
                 <div className="items-container ic3 g-gap3 campaign-list-container">
                     {categories != undefined ?
                         categories.payload.category.map(campaign => <CampaignItem key={campaign.campaignCode} campaign={campaign} />)
-                        : campaignList.map(campaign => <CampaignItem key={campaign.campaignCode} campaign={campaign} />)}
+                        : currentItems.map(campaign => <CampaignItem key={campaign.campaignCode} campaign={campaign} />)}
                 </div>
             )}
+            <ul className="pagination">
+                <li className="icon" onClick={() => handlePageChange(currentPage - 1)}><a><span className="fas fa-angle-left"></span></a></li>
+                {Array.from({ length: totalPages }, (_, index) => (
+                    <li
+                        key={index}
+                        onClick={() => handlePageChange(index + 1)}
+                    >
+                        <a className={currentPage === index + 1 ? "active" : ""}>
+                            {index + 1}
+                        </a>
+                    </li>
+                ))}
+                <li onClick={() => handlePageChange(currentPage + 1)}><a><span className="fas fa-angle-right"></span></a></li>
+            </ul>
+            <button >더보기</button>
+
         </>
     )
 }
