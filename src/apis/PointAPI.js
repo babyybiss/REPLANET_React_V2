@@ -209,7 +209,7 @@ export function provideInfoAPI({body}){
     return async (dispatch, getState) => {
             await axios.put(requestURL, {
                 memberCode: body.memberCode,
-                infoConsent: body.check,
+                privacyStatus: body.check,
                 residentNum: body.idNumber
             }, {headers: {
                     "Content-Type": "application/json",
@@ -224,8 +224,7 @@ export function provideInfoAPI({body}){
                     Swal.fire({
                         icon: "success",
                         iconColor: '#1D7151',
-                        title: "기부 영수증을 위한 개인정보 제공에 동의하셨습니다.",
-                        text: "자세한 내용은 홈택스에서 확인하실 수 있습니다.",
+                        title: "정상적으로 처리되었습니다.",
                         showCancelButton: false,
                         confirmButtonColor: '#1D7151',
                         confirmButtonText: '확인'
