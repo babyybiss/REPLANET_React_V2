@@ -80,7 +80,6 @@ function BookmarkList() {
             setCheckItems([])
         }
     };
-    console.log(totalItems, '너 갯수확인하자');
     return (
         <>
             <div className="admin-main">

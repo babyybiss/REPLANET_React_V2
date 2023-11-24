@@ -1,11 +1,16 @@
 import { NavLink } from "react-router-dom";
 import HeartButton from "../../mypage/items/HeartButton";
+import moment from 'moment';
 
 function CampaignItem({ campaign }) {
   let currentBudget = campaign.currentBudget;
   let goalBudget = campaign.goalBudget;
   let percentage = Math.ceil((currentBudget / goalBudget) * 100).toFixed(0);
   let campaignCode = campaign.campaignCode;
+
+  let endDate = moment(campaign.endDate).subtract(1, 'months').format('YYYY-MM-DD');
+  let endDate2 = new Date(endDate)
+  let today = new Date();
 
 
   // 파일 정보
@@ -24,8 +29,12 @@ function CampaignItem({ campaign }) {
       </NavLink>
       <h4> {campaign.campaignTitle}</h4>
       <h6>{campaign.orgName}</h6>
-      <HeartButton campaignCode={campaignCode}/>
-      
+      {today > endDate2 ?
+        "" :
+        <HeartButton campaignCode={campaignCode} />
+      }
+
+
       <progress className="progress" value={percentage} max="100"></progress>
       <div className="campaign-progress-info">
         <span className="amount">{campaign.currentBudget.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</span>
