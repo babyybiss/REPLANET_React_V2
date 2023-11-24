@@ -192,15 +192,16 @@ function PayForm() {
 
         if (/^[1-9]\d*$|^0$/.test(inputValue)) {
             const intValue = parseInt(inputValue, 10);
+            const clampedValue = Math.min(intValue, 2000000000);
         
             if (e.target.name === "finalAmount") {
                 setDonationAmount((prevDonationAmount) => ({
                     ...prevDonationAmount,
-                    finalAmount: intValue,
-                    cashAmount: intValue - prevDonationAmount.pointAmount,
+                    finalAmount: clampedValue,
+                    cashAmount: clampedValue - prevDonationAmount.pointAmount,
                 }));
             } else if (e.target.name === "pointAmount") {
-                if (intValue > donationAmount.finalAmount) {
+                if (clampedValue > donationAmount.finalAmount) {
                     Swal.fire({
                         icon: 'warning',
                         title: '기부금액을 <b style="color:#1D7151; font-weight:bold;">초과</b>할 수 없습니다.',
@@ -212,7 +213,7 @@ function PayForm() {
                         pointAmount: prevDonationAmount.finalAmount,
                         cashAmount: 0,
                     }));
-                } else if (intValue > currentPoint) {
+                } else if (clampedValue > currentPoint) {
                     Swal.fire({
                         icon: 'warning',
                         title: '가용 포인트를 <b style="color:#1D7151; font-weight:bold;">초과</b>할 수 없습니다.',
@@ -227,8 +228,8 @@ function PayForm() {
                 } else {
                     setDonationAmount((prevDonationAmount) => ({
                         ...prevDonationAmount,
-                        pointAmount: intValue,
-                        cashAmount: prevDonationAmount.finalAmount - intValue,
+                        pointAmount: clampedValue,
+                        cashAmount: prevDonationAmount.finalAmount - clampedValue,
                     }));
                 }
             }
@@ -254,7 +255,7 @@ function PayForm() {
                     />
                     <h4>원</h4>
                 </div>
-                <span className="pay-color-gray">기부 금액을 입력해주세요. 최소 기부 가능 금액 : 1,000원</span>
+                <span className="pay-color-gray">기부 금액을 입력해주세요.  최소 기부 가능 금액 : 1,000원,  최대 기부 가능 금액 : 2,000,000,000원 </span>
             </div>
             <div className="container-centered pay-container">
                 <div className="pay-box">
