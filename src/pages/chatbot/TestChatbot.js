@@ -1,7 +1,7 @@
-import { useState } from "react";
-import '../../assets/css/chatbot.css'
-import ChatbotIcon from "../../assets/images/icon/ChatbotIcon";
-import ModalChatbot from "../../component/modals/ModalChatbot";
+import { useEffect, useState } from "react";
+import '../../assets/css/supportbot.css'
+import SupportbotIcon from "../../assets/images/icon/SupportbotIcon";
+import ModalSupportbot from "../../component/modals/ModalSupportbot";
 
 function TestChatbot() {
 
@@ -34,6 +34,7 @@ function TestChatbot() {
     ];
 
     const [selectedQuestion, setSelectedQuestion] = useState(null);
+    
     const [isShow, setIsShow] = useState(false);
     const [iconBackgroundStyle, setIconBackgroundStyle] = useState({
         backgroundColor: 'darksalmon'
@@ -42,12 +43,15 @@ function TestChatbot() {
     const iconClickHandler = () => {
         setIsShow(isShow === false ? true : false)
     }
-    const iconOverHandler = () => {
+    const iconOverHandler = (e) => {
+        //console.log('마우스오버',e) svg 문제인거 같은데 마우스오버와 아웃이 svg 내에서 path가 바뀔때마다 작동하는 것으로 추측
         setIconBackgroundStyle({
             backgroundColor: 'indianred'
         })
+       
     }
-    const iconOutHandler = () => {
+    const iconOutHandler = (e) => {
+        //console.log('마우스아웃',e) 마우스 오버와 동일
         setIconBackgroundStyle({
             backgroundColor: 'darksalmon'
         })
@@ -57,9 +61,10 @@ function TestChatbot() {
         setSelectedQuestion(questionCode);
     };
 
+
     return (
         <>
-            <div className="chatbot-container">
+            <div className="supportbot-container">
                 <div className="faq-container">
                     {testData.map((faqItem) => (
                         <div 
@@ -86,16 +91,13 @@ function TestChatbot() {
                 className="icon-button-style"
                 style={iconBackgroundStyle}
             >
-                <ChatbotIcon/>
+                <SupportbotIcon/>
             </button>
             { isShow && 
                 <div 
                     className={'modal-container'}
-                    onClick={ e => {
-                        console.log(e)
-                    }}
                 >
-                    <ModalChatbot setIsShow={(setIsShow)} />
+                    <ModalSupportbot setIsShow={(setIsShow)}/>
                 </div>
             }
         </>

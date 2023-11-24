@@ -1,4 +1,4 @@
-import '../../assets/css/chatbot.css'
+import '../../assets/css/supportbot.css'
 import CloseIcon from '../../assets/images/icon/CloseIcon';
 
 function ModalHeader({ setIsShow }) {

@@ -21,15 +21,15 @@ function CustomFlyout(flyoutComponentProps) {
 function GoalCampaign(chartDataListProps) {
 
   /* chartData from API */
-  /*
+  
   const { chartDataList } = chartDataListProps;
 
   const tickValuesAttributes = chartDataList.map((attribute, index) => index + 1);
   const tickFormatAttributes = chartDataList.map(categoryname => categoryname.campaignCategory)
-  */
+  
 
   /* TestData */
-  
+  /*
   const categoryData = [
     {
         campaignCategory: "가", sumCurrentBudget: 300000, sumGoalBudget: 600000
@@ -50,7 +50,7 @@ function GoalCampaign(chartDataListProps) {
 
   const tickValuesAttributes = categoryData.map((attribute, index) => index + 1);
   const tickFormatAttributes = categoryData.map(categoryname => categoryname.campaignCategory)
-  
+  */
 
   /* Event function setting */ 
   const mouseEventsHandler = [
@@ -78,7 +78,7 @@ function GoalCampaign(chartDataListProps) {
                     }
                 }
             ];
-        }/*,
+        },
         onClick: () => {
             return [
                 {
@@ -92,14 +92,14 @@ function GoalCampaign(chartDataListProps) {
                     target: "labels",
                     mutation: ({data, index, text}) => {
                         // const {data, index, text} = eventProps;
-                        const currentBudget = data[index].currentBudget
+                        const currentBudget = data[index].sumCurrentBudget
                         // console.log(e);
                         // console.log(e.data[e.index].campaings);
-                        return text !== `${currentBudget/10000}만원` ? { text: `${currentBudget/10000}만원` } : null 
+                        return text !== `${Math.round(currentBudget/10000)}만원` ? { text: `${Math.round(currentBudget/10000)}만원` } : null 
                     }
                 }
             ];
-        }*/
+        }
       }
     }
   ];
@@ -162,7 +162,7 @@ function GoalCampaign(chartDataListProps) {
         containerComponent={
           <VictoryVoronoiContainer 
             labels={
-              ({ datum }) => `${datum._y}원`
+              ({ datum }) => `${Math.round(datum._y/10000)}만원`
             }
             labelComponent={
               <VictoryTooltip
@@ -180,12 +180,12 @@ function GoalCampaign(chartDataListProps) {
           style={axisStyle}
         />
         <VictoryAxis dependentAxis
-          tickFormat={(x) => `${x}원`}
+          tickFormat={(x) => `${Math.round(x/10000000)}천만원`}
           style={axisStyle}
         />
         <VictoryBar 
-          data={categoryData} 
-          //labels={""}
+          data={chartDataList} 
+          labels={""}
           barWidth={40}
           events={mouseEventsHandler} 
           style={barStyle}
