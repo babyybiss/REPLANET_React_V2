@@ -93,35 +93,35 @@ function Success() {
                         </div>
                         <table>
                             <tbody>
-                                <tr>
+                                <tr className='success-header-row'>
                                     <td colSpan={2}><h4>기부자</h4></td>
                                 </tr>
-                                <tr>
+                                <tr className='success-body-row'>
                                     <td><h5>성함</h5></td>
                                     <td><h5>{memberName}</h5></td>
                                 </tr>
-                                <tr>
+                                <tr className='success-body-row'>
                                     <td><h5>기부금</h5></td>
                                     <td><h5>{donationAmount}원</h5> <span>( {payAmount}원 (결제) + {donationPoint}P (포인트) )</span>
                                     </td>
                                 </tr>
-                                <tr>
+                                <tr className='success-body-row'>
                                     <td><h5>기부일시</h5></td>
                                     <td><h5>{formattedDateTime}</h5>
                                     </td>
                                 </tr>
-                                <tr>
+                                <tr className='success-header-row'>
                                     <td colSpan={2}><h4>캠페인</h4></td>
                                 </tr>
-                                <tr>
+                                <tr className='success-body-row'>
                                     <td><h5>캠페인 이름</h5></td>
                                     <td><h5>{campaignTitle}</h5></td>
                                 </tr>
-                                <tr>
+                                <tr className='success-body-row'>
                                     <td><h5>단체명</h5></td>
                                     <td><h5>{orgName}</h5></td>
                                 </tr>
-                                <tr>
+                                <tr className='success-body-row'>
                                     <td><h5>연락처</h5></td>
                                     <td><h5>{orgTel}</h5></td>
                                 </tr>

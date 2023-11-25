@@ -22,9 +22,9 @@ function ExchangePoint() {
     const token = window.localStorage.getItem('token');
     // const decodedPayload = JSON.parse(atob(token.split('.')[1]));
     // const memberCode = decodedPayload.sub;
-    console.log("토큰 확인 : ", decodeJwt(token));
+    // console.log("토큰 확인 : ", decodeJwt(token));
     const memberCode = decodeJwt(token)?.memberCode || 0;
-    console.log("포인트전환 멤버코드 확인 : ", memberCode);
+    // console.log("포인트전환 멤버코드 확인 : ", memberCode);
 
     const handleChangeTitle = (e) => {
         setTitle(e.target.value);
