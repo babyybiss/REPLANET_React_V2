@@ -45,7 +45,7 @@ function CampaignList() {
         navigate('/regist')
     };
     useEffect(() => {
-        dispatch(CampaignListAPI())
+        dispatch(CampaignListAPI("ing"))
     },
         []
     );

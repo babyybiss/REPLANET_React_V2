@@ -11,7 +11,7 @@ function CampaignItem({ campaign }) {
   let endDate = moment(campaign.endDate).subtract(1, 'months').format('YYYY-MM-DD');
   let endDate2 = new Date(endDate)
   let today = new Date();
-
+  today.setDate(today.getDate() - 1);
 
   // 파일 정보
   let fileSaveName = campaign.campaignDescfileList[0];
@@ -29,7 +29,7 @@ function CampaignItem({ campaign }) {
       </NavLink>
       <h4> {campaign.campaignTitle}</h4>
       <h6>{campaign.orgName}</h6>
-      {today > endDate2 ?
+      {today >= endDate2 ?
         "" :
         <HeartButton campaignCode={campaignCode} />
       }

@@ -116,8 +116,8 @@ function BookmarkList() {
                     </thead>
                     <tbody>
                         {bookmark && bookmark.length > 0 ? (
-                            currentItems.map((bookmark) =>
-                                <Bookmark key={bookmark.bookmarkCode} id={bookmark.bookmarkCode}
+                            currentItems.map((bookmark,index) =>
+                                <Bookmark index={index} key={bookmark.bookmarkCode} id={bookmark.bookmarkCode}
                                     checkedItemHandler={checkedItemHandler}
                                     checked={checkItems.indexOf(bookmark.bookmarkCode) >= 0 ? true : false}
                                     bookmark={bookmark}
