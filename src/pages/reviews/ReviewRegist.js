@@ -183,7 +183,7 @@ export function ReviewRegist() {
         <>
             <div className="container-first">
                     <h1 className="py-3 container-centered">캠페인 후기 등록</h1>
-                    <h5 className="container-centered">{result && result.orgName}</h5>
+                    <h4 className="container-centered">{result && result.orgName}</h4>
                     <div className="text-center">
                         <input 
                             type="text" 
@@ -216,10 +216,10 @@ export function ReviewRegist() {
                         <button 
                             onClick={ onClickImageUpload }
                             className="button button-primary"
-                        >이미지 업로드
+                        >썸네일 업로드
                         </button>
                         </div>
-                    </div>
+                    </div><br />
 
                     {/* Pass the callback function to TextEditor */}
                     <TextEditor onContentChange={handleContentChange} />
