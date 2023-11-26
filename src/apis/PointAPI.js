@@ -260,8 +260,7 @@ export function provideInfoAPI({body}){
 }
 
 export function getPrivacyStatusAPI(memberCode) {
-    const requestURL = `http://localhost:8001/${memberCode}`;
-    console.log("API까지 오니??");
+    const requestURL = `http://localhost:8001/privacyStatus/${memberCode}`;
     return async (dispatch, getState) => {
         try{
             const result = await axios.get(requestURL);

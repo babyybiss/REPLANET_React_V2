@@ -146,7 +146,7 @@ function DonationReceipt(){
             </div>
             <br/>
             <div className="receiptinfo">
-                {decodeJwt(token).privacyStatus == 'N'?
+                {privacyStatus == 'N'?
                 <>
                     <div class="items-container ic3">
                     <input className="input" type="text" value={name} onChange={handleName} placeholder="이름"/>
