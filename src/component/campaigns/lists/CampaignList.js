@@ -1,11 +1,12 @@
 
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CampaignItem from "../items/CampaignItem";
-import { CampaignListAPI, CampaignListDoneAPI } from "../../../apis/CampaignListAPI";
+import { CampaignListAPI, getCampaignSearchByCategory } from "../../../apis/CampaignListAPI";
 import { getCategoryByCampaign } from "../../../modules/CampaignModule";
 import { jwtDecode } from 'jwt-decode';
+import GoToTopButton from "../items/GotoTopButton";
 
 const categoryList = [
     { key: "0", name: "전체" },
@@ -17,52 +18,83 @@ const categoryList = [
 ];
 
 function CampaignList() {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
     // 토큰 정보 
     const token = localStorage.getItem('token');
     const decodedToken = token ? jwtDecode(token) : null;
 
+    // 카테고리 필터링
     const result = useSelector(state => state.campaignReducer)
-    const campaignList = result.campaignlist || result.campaignDoneList;
-
-    const [categories, setCategories] = useState(result.category);
-    //const [campaignList, setCampaignList] = useState(campaignLists);
-
-    
-
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
-
+    const [categories, setCategories] = useState();
+    //const [campignListFilter, setCampignListFilter] = useState()
+    const campaignList = result.campaignlist;
+    const campaignFilter = categories ? categories.payload : undefined;
     const categoryClickHandler = (category) => {
         if (category === "전체") {
             return setCategories(undefined)
         }
         const cf = campaignList.filter((curData) => {
+
             return curData.campaignCategory === category;
         })
         setCategories(getCategoryByCampaign(cf))
+        setCurrentPage(1)
     }
+
+    useEffect(() => {
+        setCategories(undefined)
+    },
+        [campaignList]
+    );
+
+    // 기간별 소팅
+    // const onChangeHandler = (e) => {
+    //     const selectedValue = e.target.value;
+    //     if (campaignFilter === undefined) {
+    //         const sortedCampaigns = sortCampaigns(selectedValue, campaignList);
+    //         setCampignListFilter(sortedCampaigns)
+    //     } else {
+    //         const sortedCampaigns = sortCampaigns(selectedValue, campaignFilter);
+    //         setCategories(sortedCampaigns);
+    //     }
+    // }
+    const sortCampaigns = (selectedValue, campaign) => {
+        switch (selectedValue) {
+            case 'latest':
+                return campaign.sort((a, b) => new Date(b.startDate) - new Date(a.startDate));
+            case 'earliest':
+                return campaign.sort((a, b) => new Date(a.endDate) - new Date(b.endDate));
+            default:
+                return campaign;
+        }
+    };
+
+    // 처음 로딩시 화면 
+    useEffect(() => {
+        dispatch(CampaignListAPI("ing")).then(
+        )
+    }, []
+    );
+
     const goToRegist = () => {
         navigate('/regist')
     };
-    useEffect(() => {
-        dispatch(CampaignListAPI())
-    },
-        []
-    );
 
     //페이징
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 3;
-    const indexOfLastItem = currentPage * itemsPerPage;
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = campaignList && campaignList.length > 0 ? campaignList.slice(indexOfFirstItem, indexOfLastItem) : [];
-    const totalItems = campaignList ? campaignList.length : '';
+    const currentItems = campaignList && campaignList.length > 0 ? campaignList.slice(0, currentPage * itemsPerPage) : [];
+    const totalItems = campaignList ? campaignList.length : 0;
     const totalPages = Math.ceil(totalItems / itemsPerPage);
-    const handlePageChange = (newPage) => {
-        if (newPage >= 1 && newPage <= totalPages) {
-            setCurrentPage(newPage);
+    const handleMoreButtonClick = () => {
+        const nextPage = currentPage + 1;
+        if (nextPage <= totalPages) {
+            setCurrentPage(nextPage);
         }
     };
+
     return (
         <>
             <div className="campaign-button-container">
@@ -74,34 +106,37 @@ function CampaignList() {
                             {category.name}
                         </button>
                     ))}
-                    {decodedToken !== null && decodedToken.memberRole == "ROLE_ADMIN" ?
+                    {decodedToken !== null && decodedToken.memberRole === "ROLE_ADMIN" ?
                         <button className="button button-primary" onClick={goToRegist}>캠페인 등록</button> : ""
                     }
                 </div>
             </div>
+
+            {/* <select onChange={onChangeHandler} style={{ width: "100px" }}>
+                    <option value="">이거안됨</option>
+                    <option value="latest">최신 순</option>
+                    <option value="earliest">종료 임박순</option>
+                </select> */}
+
             {campaignList && (
                 <div className="items-container ic3 g-gap3 campaign-list-container">
-                    {categories != undefined ?
-                        categories.payload.category.map(campaign => <CampaignItem key={campaign.campaignCode} campaign={campaign} />)
-                        : currentItems.map(campaign => <CampaignItem key={campaign.campaignCode} campaign={campaign} />)}
+                    {campaignFilter !== undefined ?
+                        campaignFilter.category.map(campaign => <CampaignItem key={campaign.campaignCode} campaign={campaign} />)
+                        //: campignListFilter ? campignListFilter.map(campaign => <CampaignItem key={campaign.campaignCode} campaign={campaign} />)
+                        :
+                        currentItems.map(campaign => <CampaignItem key={campaign.campaignCode} campaign={campaign} />)}
                 </div>
-            )}
-            <ul className="pagination">
-                <li className="icon" onClick={() => handlePageChange(currentPage - 1)}><a><span className="fas fa-angle-left"></span></a></li>
-                {Array.from({ length: totalPages }, (_, index) => (
-                    <li
-                        key={index}
-                        onClick={() => handlePageChange(index + 1)}
-                    >
-                        <a className={currentPage === index + 1 ? "active" : ""}>
-                            {index + 1}
-                        </a>
-                    </li>
-                ))}
-                <li onClick={() => handlePageChange(currentPage + 1)}><a><span className="fas fa-angle-right"></span></a></li>
-            </ul>
-            <button >더보기</button>
 
+            )}
+            {categories !== undefined ?
+                currentPage < totalPages && categories.length < totalItems ?
+                    <button className="button" onClick={handleMoreButtonClick}>더보기</button> :
+                    "" :
+                currentPage < totalPages && currentItems.length < totalItems ?
+                    <button className="button" onClick={handleMoreButtonClick}>더보기</button> :
+                    ""
+            }
+            <GoToTopButton />
         </>
     )
 }

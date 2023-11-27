@@ -194,10 +194,10 @@ export function ReviewModify () {
                         <button 
                             onClick={ onClickImageUpload }
                             className="button button-primary"
-                        >이미지 업로드
+                        >썸네일 변경
                         </button>
                         </div>
-                    </div>
+                    </div><br />
 
                     {/* Pass the callback function to TextEditor */}
                     <TextEditor existingReviewDescription={existingReviewDescription} onContentChange={handleContentChange} uploadImageCallback={uploadImageCallback}/>

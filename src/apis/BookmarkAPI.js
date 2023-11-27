@@ -58,7 +58,6 @@ export function DeleteAllBookmarksAPI({bookmarkCode}){
                 confirmButtonText: '확인'
             }).then(result => {
                 if(result.isConfirmed){
-                window.location = "/myPage/history";
             }})
             dispatch(postBookmark(res.data))
         })

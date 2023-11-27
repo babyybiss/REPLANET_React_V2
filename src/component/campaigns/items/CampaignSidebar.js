@@ -8,7 +8,6 @@ import { jwtDecode } from 'jwt-decode';
 import Swal from 'sweetalert2';
 import HeartButton from '../../mypage/items/HeartButton';
 import { useEffect } from 'react';
-import { now } from 'lodash';
 
 function CampaignSidebar({ campaignInfo }) {
 
@@ -37,6 +36,7 @@ function CampaignSidebar({ campaignInfo }) {
     let endDate = moment(campaignInfo.endDate).subtract(1, 'months').format('YYYY-MM-DD');
     let endDate2 = new Date(endDate)
     let today = new Date();
+today.setDate(today.getDate() - 1);
 
     // 삭제 
     const deleteCampaignHandler = () => {
@@ -76,6 +76,9 @@ function CampaignSidebar({ campaignInfo }) {
                 if (campaignInfo.currentBudget > 0) {
                     Swal.fire('', '모금액이 존재하므로 수정이 불가능합니다.')
                     return;
+                }else if(today > endDate2){
+                    Swal.fire('', '마감 날짜가 지났습니다.')
+                    return;
                 }
                 navigate(`/modify/${campaignCode}`)
             }
@@ -100,9 +103,11 @@ function CampaignSidebar({ campaignInfo }) {
             navigate('/login')
 
     }
-    console.log(today, '오늘');
 
     // 카카오 공유하기 버툰
+
+    console.log('오늘',today );
+    console.log('엔드데이트:' ,endDate2);
 
     useEffect(() => {
 

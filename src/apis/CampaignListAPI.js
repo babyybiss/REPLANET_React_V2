@@ -8,36 +8,19 @@ import Swal from "sweetalert2";
 export const requestURL = 'http://localhost:8001/';
 
 // 진행중 캠페인 조회
-export function CampaignListAPI() {
+export function CampaignListAPI(status) {
 
     return async (dispatch, getState) => {
         try {
-            const result = await axios.get(requestURL)
+            const result = await axios.get(requestURL, {
+                params: { status: status }
+              })
             dispatch(getContinue(result.data))
-            //dispatch({ type: GET_CATEGORY_BY_CAMPAIGN, payload: "전체" })
-            
-            
-            
         } catch (error) {
             console.error('에러 발생:', error);
         }
     }
 }
-// 완료된 캠페인 조회
-export function CampaignListDoneAPI() {
-
-    return async (dispatch, getState) => {
-        try {
-            const result = await axios.get(requestURL + 'done');
-            console.log(result.data, '여기가 api 리절트');
-            dispatch(getComplete(result.data))
-
-        } catch (error) {
-            console.error('에러 발생:', error);
-        }
-    }
-}
-
 
 // 캠페인 상세조회
 export function GetCampaignAPI(campaignCode) {
@@ -53,16 +36,16 @@ export function GetCampaignAPI(campaignCode) {
     }
 }
 
-// 카테고리별 캠페인 조회 
-export function getCampaignSearchByCategory(category){
+// 카테고리별 & 기간별 캠페인 조회 
+export function getCampaignSearchByCategory(selectedValue){
     return async (dispatch, getState) => {
-        const result = await axios.get(requestURL+`category?${category}`).then(
-            console.log(result),
-        dispatch(getCategoryByCampaign(result))
-        ).catch( (error) => {
-            console.log(error);
-        }
-        )
+        const result = await axios.get(requestURL+'category',{
+            params: { selectedValue: selectedValue }
+          });
+          console.log(result.data, '이고 되나 화긴해보자');
+        dispatch(getContinue(result.data))
+        
+    
     }
 }
 
@@ -77,7 +60,6 @@ export function PostCampaignAPI({ inputs }, header) {
             await axios.post(requestURL + 'campaigns', inputs).then((res) => {
 
                 console.log(res.data);
-                //dispatch(postCampaign(result));
                 window.location = "/";
             }).catch((error) => { alert(error.response.data) })
         } catch (error) { Swal.fire('', '관리자 문의 바람') }
@@ -99,8 +81,6 @@ export function DeleteCampaignAPI( campaignCode) {
                     Swal.fire('',error.response.data)
                 })
         } catch (error) { Swal.fire('', '관리자 문의 바랍니다.') }
-
-        //dispatch(deleteReview(result));
     }
 }
 
@@ -129,3 +109,32 @@ export function ModifyCampaignAPI({ inputs }, campaignCode) {
     }
 
 } 
+
+
+// // 완료된 캠페인 조회
+// export function CampaignListDoneAPI() {
+
+//     return async (dispatch, getState) => {
+//         try {
+//             const result = await axios.get(requestURL + 'done');
+//             dispatch(getComplete(result.data))
+
+//         } catch (error) {
+//             console.error('에러 발생:', error);
+//         }
+//     }
+// }
+
+
+// // 카테고리별 캠페인 조회 
+// export function getCampaignSearchByCategory(category){
+//     return async (dispatch, getState) => {
+//         const result = await axios.get(requestURL+`category?${category}`).then(
+//             console.log(result),
+//         dispatch(getCategoryByCampaign(result))
+//         ).catch( (error) => {
+//             console.log(error);
+//         }
+//         )
+//     }
+// }

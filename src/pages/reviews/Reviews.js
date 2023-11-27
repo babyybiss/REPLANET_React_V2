@@ -65,7 +65,7 @@ export function Reviews() {
     return (
         <>
             <div className="container-first">
-                <div className="item">
+                <div className="item mb-1">
                     <h1 className="py-3 container-centered">캠페인 완료 후기</h1>
                     <ReviewListSearchbar
                         reviewCampaignCode={reviewCampaignCode}
