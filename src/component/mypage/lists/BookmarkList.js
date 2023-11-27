@@ -5,6 +5,7 @@ import { getBookmarkList, DeleteAllBookmarksAPI } from "../../../apis/BookmarkAP
 import Bookmark from "../items/Bookmark";
 import Swal from "sweetalert2";
 function BookmarkList() {
+    const dispatch = useDispatch();
     // 토큰 정보 
     const token = localStorage.getItem('token');
     const decodedToken = token ? jwtDecode(token) : null;
@@ -12,37 +13,44 @@ function BookmarkList() {
 
     // 북마크 리스트 정보
     const bookmark = useSelector(state => state.bookmarkReducer.bookmark)
+    const [checkItems, setCheckItems] = useState([]);
 
-    const dispatch = useDispatch();
-    useEffect(
-        () => {
-            dispatch(getBookmarkList(memberCode))
-        }, []
-    )
     // 북마크 삭제
-
-    
     const deleteBookmark = () => {
+        if (checkItems.length === 0) {
+            Swal.fire({
+                icon: "error",
+                title: "삭제 불가!",
+                text: "선택된 북마크가 없습니다.",
+                showCancelButton: false,
+                confirmButtonColor: '#1D7151',
+                confirmButtonText: '확인',
+            })
+            return
+        } else {
 
-        Swal.fire({
-            icon: "question",
-            title: "북마크 삭제",
-            text: "해당 북마크를 삭제하시겠습니까?",
-            showCancelButton: true,
-            confirmButtonColor: '#1D7151',
-            cancelButtonColor: '#1D7151',
-            confirmButtonText: '승인',
-            cancelButtonText: '취소'
+            Swal.fire({
+                icon: "question",
+                title: "북마크 삭제",
+                text: "해당 북마크를 삭제하시겠습니까?",
+                showCancelButton: true,
+                confirmButtonColor: '#1D7151',
+                cancelButtonColor: '#1D7151',
+                confirmButtonText: '승인',
+                cancelButtonText: '취소'
             }).then(result => {
-                if(result.isConfirmed){
-                    dispatch(DeleteAllBookmarksAPI({ bookmarkCode: checkItems }))
+                if (result.isConfirmed) {
+                    dispatch(DeleteAllBookmarksAPI({ bookmarkCode: checkItems })).then( () => {
+                        dispatch(getBookmarkList(memberCode))
+                        setCurrentPage(1);
+                    })
                 }
             }
             );
+        }
 
     };
     // 체크박스 단일
-    const [checkItems, setCheckItems] = useState([]);
 
     const checkedItemHandler = (id, checked) => {
         let code = parseInt(id)
@@ -63,8 +71,6 @@ function BookmarkList() {
             setCheckItems([])
         }
     }
-    useEffect(() => {
-    }, [checkItems])
 
     //페이징
     const [currentPage, setCurrentPage] = useState(1);
@@ -80,6 +86,13 @@ function BookmarkList() {
             setCheckItems([])
         }
     };
+
+    useEffect(
+        () => {
+            dispatch(getBookmarkList(memberCode))
+        }, [currentPage]
+    )
+
     return (
         <>
             <div className="admin-main">
@@ -116,11 +129,14 @@ function BookmarkList() {
                     </thead>
                     <tbody>
                         {bookmark && bookmark.length > 0 ? (
-                            currentItems.map((bookmark,index) =>
-                                <Bookmark index={index} key={bookmark.bookmarkCode} id={bookmark.bookmarkCode}
+                            currentItems.map((bookmark, index) =>
+                                <Bookmark 
+                                index={index + (currentPage - 1) * itemsPerPage}
+                                key={bookmark.bookmarkCode} id={bookmark.bookmarkCode}
                                     checkedItemHandler={checkedItemHandler}
                                     checked={checkItems.indexOf(bookmark.bookmarkCode) >= 0 ? true : false}
                                     bookmark={bookmark}
+                                    
                                 />)
                         ) :
                             <tr>

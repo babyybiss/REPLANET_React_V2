@@ -16,8 +16,6 @@ export function CampaignListAPI(status) {
                 params: { status: status }
               })
             dispatch(getContinue(result.data))
-            //dispatch({ type: GET_CATEGORY_BY_CAMPAIGN, payload: "전체" })
-            
         } catch (error) {
             console.error('에러 발생:', error);
         }
@@ -38,6 +36,19 @@ export function GetCampaignAPI(campaignCode) {
     }
 }
 
+// 카테고리별 & 기간별 캠페인 조회 
+export function getCampaignSearchByCategory(selectedValue){
+    return async (dispatch, getState) => {
+        const result = await axios.get(requestURL+'category',{
+            params: { selectedValue: selectedValue }
+          });
+          console.log(result.data, '이고 되나 화긴해보자');
+        dispatch(getContinue(result.data))
+        
+    
+    }
+}
+
 // 캠페인 등록 
 export function PostCampaignAPI({ inputs }, header) {
 
@@ -49,7 +60,6 @@ export function PostCampaignAPI({ inputs }, header) {
             await axios.post(requestURL + 'campaigns', inputs).then((res) => {
 
                 console.log(res.data);
-                //dispatch(postCampaign(result));
                 window.location = "/";
             }).catch((error) => { alert(error.response.data) })
         } catch (error) { Swal.fire('', '관리자 문의 바람') }
@@ -71,8 +81,6 @@ export function DeleteCampaignAPI( campaignCode) {
                     Swal.fire('',error.response.data)
                 })
         } catch (error) { Swal.fire('', '관리자 문의 바랍니다.') }
-
-        //dispatch(deleteReview(result));
     }
 }
 

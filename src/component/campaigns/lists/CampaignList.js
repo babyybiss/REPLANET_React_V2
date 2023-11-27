@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CampaignItem from "../items/CampaignItem";
-import { CampaignListAPI } from "../../../apis/CampaignListAPI";
+import { CampaignListAPI, getCampaignSearchByCategory } from "../../../apis/CampaignListAPI";
 import { getCategoryByCampaign } from "../../../modules/CampaignModule";
 import { jwtDecode } from 'jwt-decode';
 import GoToTopButton from "../items/GotoTopButton";
@@ -27,9 +27,10 @@ function CampaignList() {
 
     // 카테고리 필터링
     const result = useSelector(state => state.campaignReducer)
-    const [categories, setCategories] = useState(result.category);
+    const [categories, setCategories] = useState();
+    //const [campignListFilter, setCampignListFilter] = useState()
     const campaignList = result.campaignlist;
-
+    const campaignFilter = categories ? categories.payload : undefined;
     const categoryClickHandler = (category) => {
         if (category === "전체") {
             return setCategories(undefined)
@@ -38,8 +39,6 @@ function CampaignList() {
 
             return curData.campaignCategory === category;
         })
-        console.log(cf, '필터');
-
         setCategories(getCategoryByCampaign(cf))
         setCurrentPage(1)
     }
@@ -49,6 +48,39 @@ function CampaignList() {
     },
         [campaignList]
     );
+
+    // 기간별 소팅
+    // const onChangeHandler = (e) => {
+    //     const selectedValue = e.target.value;
+    //     if (campaignFilter === undefined) {
+    //         const sortedCampaigns = sortCampaigns(selectedValue, campaignList);
+    //         setCampignListFilter(sortedCampaigns)
+    //     } else {
+    //         const sortedCampaigns = sortCampaigns(selectedValue, campaignFilter);
+    //         setCategories(sortedCampaigns);
+    //     }
+    // }
+    const sortCampaigns = (selectedValue, campaign) => {
+        switch (selectedValue) {
+            case 'latest':
+                return campaign.sort((a, b) => new Date(b.startDate) - new Date(a.startDate));
+            case 'earliest':
+                return campaign.sort((a, b) => new Date(a.endDate) - new Date(b.endDate));
+            default:
+                return campaign;
+        }
+    };
+
+    // 처음 로딩시 화면 
+    useEffect(() => {
+        dispatch(CampaignListAPI("ing")).then(
+        )
+    }, []
+    );
+
+    const goToRegist = () => {
+        navigate('/regist')
+    };
 
     //페이징
     const [currentPage, setCurrentPage] = useState(1);
@@ -61,16 +93,6 @@ function CampaignList() {
         if (nextPage <= totalPages) {
             setCurrentPage(nextPage);
         }
-    };
-
-    // 처음 로딩시 화면 
-    useEffect(() => {
-        dispatch(CampaignListAPI("ing"))
-    },[]
-    );
-
-    const goToRegist = () => {
-        navigate('/regist')
     };
 
     return (
@@ -89,12 +111,22 @@ function CampaignList() {
                     }
                 </div>
             </div>
+
+            {/* <select onChange={onChangeHandler} style={{ width: "100px" }}>
+                    <option value="">이거안됨</option>
+                    <option value="latest">최신 순</option>
+                    <option value="earliest">종료 임박순</option>
+                </select> */}
+
             {campaignList && (
                 <div className="items-container ic3 g-gap3 campaign-list-container">
-                    {categories !== undefined ?
-                        categories.payload.category.map(campaign => <CampaignItem key={campaign.campaignCode} campaign={campaign} />)
-                        : currentItems.map(campaign => <CampaignItem key={campaign.campaignCode} campaign={campaign} />)}
+                    {campaignFilter !== undefined ?
+                        campaignFilter.category.map(campaign => <CampaignItem key={campaign.campaignCode} campaign={campaign} />)
+                        //: campignListFilter ? campignListFilter.map(campaign => <CampaignItem key={campaign.campaignCode} campaign={campaign} />)
+                        :
+                        currentItems.map(campaign => <CampaignItem key={campaign.campaignCode} campaign={campaign} />)}
                 </div>
+
             )}
             {categories !== undefined ?
                 currentPage < totalPages && categories.length < totalItems ?

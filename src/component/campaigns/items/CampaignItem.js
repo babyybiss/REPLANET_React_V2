@@ -14,7 +14,7 @@ function CampaignItem({ campaign }) {
   today.setDate(today.getDate() - 1);
 
   // 파일 정보
-  let fileSaveName = campaign.campaignDescfileList[0];
+  let fileSaveName = campaign? campaign.campaignDescfileList[0] : ''
   if (fileSaveName == null || undefined) {
     fileSaveName = false;
   } else {
