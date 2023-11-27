@@ -21,8 +21,8 @@ export function Review({ review, reviewExists }) {
       </NavLink>
       ):(
           <div>
-            <h4>{review.campaignTitle}<br/><h6 style={{color: "#706f6f"}}>캠페인 </h6></h4>
-            <h4>{review.orgName}<br /><h6 style={{color: "#706f6f"}}>재단</h6></h4>
+            <h4>{review.campaignTitle}<br/><h6 style={{color: "#706f6f"}}>캠페인명 </h6></h4>
+            <h4>{review.orgName}<br /><h6 style={{color: "#706f6f"}}>재단명</h6></h4>
             <NavLink to={`/reviews/reviewRegist/${review.campaignCode}`}><button className="button button-primary mr-1">리뷰 등록하기</button></NavLink>
           </div>
       )
