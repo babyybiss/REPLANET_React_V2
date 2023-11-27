@@ -10,6 +10,7 @@ export const GET_EXCHANGE_DETAIL_U = 'exchange/GET_EXCHANGE_DETAIL_U';
 export const PUT_EXCHANGES = 'exchange/PUT_EXCHANGES';
 export const GET_POINTS_HISTORY = 'exchange/GET_POINTS_HISTORY';
 export const PUT_PROVIDE_INFO = 'exchange/PUT_PROVIDE_INFO';
+export const GET_PRIVACY_STATUS = 'exchange/GET_PRIVACY_STATUS';
 
 const actions = createAction({
     [POST_EXCHANGES]: () => {},
@@ -19,7 +20,8 @@ const actions = createAction({
     [GET_EXCHANGE_DETAIL_U]: () => {},
     [PUT_EXCHANGES]: () => {},
     [GET_POINTS_HISTORY]: () => {},
-    [PUT_PROVIDE_INFO]: () => {}
+    [PUT_PROVIDE_INFO]: () => {},
+    [GET_PRIVACY_STATUS]: () => {}
 });
 
 export const exchangeReducer = handleActions(
@@ -52,6 +54,9 @@ export const exchangeReducer = handleActions(
 export const modalReducer = handleActions(
     {
         [GET_EXCHANGE_DETAIL_U]: (state, {payload}) => {
+            return payload;
+        },
+        [GET_PRIVACY_STATUS]: (state, {payload}) => {
             return payload;
         }
     },
