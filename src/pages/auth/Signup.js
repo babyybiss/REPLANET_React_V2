@@ -14,14 +14,18 @@ const Signup = () => {
   const passwordInputRef = useRef(null);
   const memberNameInputRef = useRef(null);
   const phoneInputRef = useRef(null);
+  const verificationCodeInputRef = useRef(null);
+
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
   const [memberName, setMemberName] = useState('');
   const [phone, setPhone] = useState('');
+  const [verificationCode, setVerificationCode] = useState('');
 
   const [checkEmail, setCheckEmail] = useState(false);
+
 
 
   const validateEmail = (email) => {
@@ -44,7 +48,12 @@ const Signup = () => {
 
   const validatePhone = (phone) => {
     return phone
-      .match(/^[0-9].{9,11}$/)
+      .match(/^[0-9].{8,10}$/)
+  }
+
+  const validateVerificationCode = (verificationCode) => {
+    return verificationCode
+      .match(/^[0-9].{0,3}}$/)
   }
 
 
@@ -106,12 +115,14 @@ const onCheckEmail = (e) => {
   const [passwordConfirmMsg, setPasswordConfirmMsg] = useState("");
   const [memberNameMsg, setMemberNameMsg] = useState("");
   const [phoneMsg, setPhoneMsg] = useState("");
+  const [verificationCodeMsg, setVerificationCodeMsg] = useState("");
 
   const isEmailValid = validateEmail(email);
   const isPasswordValid = validatePassword(password);
   const isPasswordConfirmValid = password === passwordConfirm;
   const isMemberNameValid = validateMemberName(memberName);
   const isPhoneValid = validatePhone(phone);
+  const isVerificationCodeValid = validateVerificationCode(verificationCode);
 
   const handleEmail = useCallback(async (e) => {
     const currEmail = e.target.value;
@@ -173,6 +184,16 @@ const onCheckEmail = (e) => {
     
   }, []);
   
+  const handleVerificationCode = useCallback((e) => {
+    const currVerificationCode = e.target.value;
+    setVerificationCode(currVerificationCode);
+    if (!validateVerificationCode(currVerificationCode)) {
+      setVerificationCodeMsg("4자리의 숫자만 입력 가능합니다.");
+    } else {
+      setVerificationCodeMsg("확인 버튼을 눌러 인증을 완료해 주세요.");
+    }
+  }, []);
+
   const handleSendSMS = async () => {
     const enteredPhone = phoneInputRef.current.value;
     const url = `/users/sms`;
@@ -192,6 +213,27 @@ const onCheckEmail = (e) => {
       Swal.fire("", "API 호출 중 오류 발생");
     }
   };
+
+  const handleSendVerificationCode = async () => {
+    const enteredVerificationCode = verificationCodeInputRef.current.value;
+    const url = `/users/smscheck`;
+    const body = { cerNum: enteredVerificationCode };
+  
+    try {
+      const response = await axios.post(url, body);
+      if (body) {
+        console.log('인증번호 확인 성공');
+        Swal.fire("", "ㅊㅋ");
+      } else {
+        console.error('인증번호 확인 실패');
+        Swal.fire("", "ㄴㄴ");
+      }
+    } catch (error) {
+      console.error('API 호출 중 오류 발생', error);
+      Swal.fire("", "API 호출 중 오류 발생");
+    }
+  };
+
 
   const [allCheck, setAllCheck] = useState(false);
   const [privacyCheck, setPrivacyCheck] = useState(false);
@@ -280,10 +322,11 @@ const onCheckEmail = (e) => {
                 </div>
                 <div className="regexMsg">{phoneMsg}</div>
                 <div className="input-group">
-                  <input className="input" type="text" id="phone" required placeholder="전송받으신 인증번호 4자리를 입력해 주세요." disabled={!isPhoneValid}/>
-                  <button type="button" className="button button-primary" disabled={!isPhoneValid}>인증번호 입력</button>
+                  <input className="input" type="text" ref={verificationCodeInputRef} value={verificationCode} id="verificationCode" required placeholder="전송받으신 인증번호 4자리를 입력해 주세요." onChange={handleVerificationCode}  disabled={!isPhoneValid}/>
+                  <button type="button" className="button button-primary" onClick={handleSendVerificationCode} disabled={!isPhoneValid}>인증번호 입력</button>
+                  
                 </div>
-                
+                <div className="regexMsg">{verificationCodeMsg}</div>
               </div>
               <div className="item">
                 <div className="container-policy mb-1">
