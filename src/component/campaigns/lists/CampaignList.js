@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CampaignItem from "../items/CampaignItem";
-import { CampaignListAPI, getCampaignSearchByCategory } from "../../../apis/CampaignListAPI";
+import { CampaignListAPI } from "../../../apis/CampaignListAPI";
 import { getCategoryByCampaign } from "../../../modules/CampaignModule";
 import { jwtDecode } from 'jwt-decode';
 import GoToTopButton from "../items/GotoTopButton";
@@ -45,6 +45,7 @@ function CampaignList() {
 
     useEffect(() => {
         setCategories(undefined)
+        setCurrentPage(1)
     },
         [campaignList]
     );
@@ -73,8 +74,7 @@ function CampaignList() {
 
     // 처음 로딩시 화면 
     useEffect(() => {
-        dispatch(CampaignListAPI("ing")).then(
-        )
+        dispatch(CampaignListAPI("ing"))
     }, []
     );
 
@@ -82,7 +82,7 @@ function CampaignList() {
         navigate('/regist')
     };
 
-    //페이징
+    // 페이징
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 3;
     const currentItems = campaignList && campaignList.length > 0 ? campaignList.slice(0, currentPage * itemsPerPage) : [];
@@ -126,14 +126,13 @@ function CampaignList() {
                         :
                         currentItems.map(campaign => <CampaignItem key={campaign.campaignCode} campaign={campaign} />)}
                 </div>
-
             )}
             {categories !== undefined ?
                 currentPage < totalPages && categories.length < totalItems ?
-                    <button className="button" onClick={handleMoreButtonClick}>더보기</button> :
+                    <div className="campaignMoreButton" onClick={handleMoreButtonClick}>Read More</div> :
                     "" :
                 currentPage < totalPages && currentItems.length < totalItems ?
-                    <button className="button" onClick={handleMoreButtonClick}>더보기</button> :
+                    <div className="campaignMoreButton" onClick={handleMoreButtonClick}>Read More</div> :
                     ""
             }
             <GoToTopButton />
