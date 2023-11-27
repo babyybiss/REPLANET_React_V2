@@ -48,14 +48,16 @@ export function ReviewComment ({ review }) {
 
     console.log("comment is???: ", revCommentContent)
 
-    const handleCommentSubmit = (e) => {
-
-        e.preventDefault();
-        dispatch(callPostReviewComment({
-          form: formData,
-          reviewCode
-        }));
-        window.location.reload();
+    const handleCommentSubmit = async (e) => {
+      e.preventDefault();
+      await dispatch(callPostReviewComment({ form: formData, reviewCode }));
+      // Fetch the updated comments without reloading the page
+      await dispatch(callGetReviewComments(reviewCode));
+      // Clear the comment input field
+      setForm({
+        ...form,
+        revCommentContent: '',
+      });
     };
 
     const handleModifyComment = (e, revCommentCode, existingCommentContent) => {
@@ -64,43 +66,33 @@ export function ReviewComment ({ review }) {
       setCommentState(existingCommentContent);
     }
 
-    const handleDeleteComment = (e, revCommentCode) => {
-
-      if(decodedToken && decodedToken.memberRole === "ROLE_ADMIN") {
-        dispatch(callputMonitoredComment(reviewCode, revCommentCode));
-        window.location.reload();
+    const handleDeleteComment = async (e, revCommentCode) => {
+      e.preventDefault();
+    
+      if (decodedToken && decodedToken.memberRole === 'ROLE_ADMIN') {
+        await dispatch(callputMonitoredComment(reviewCode, revCommentCode));
       } else {
-        e.preventDefault();
-        const reviewCode = review.reviewCode;
-        console.log(revCommentCode);
-        console.log(reviewCode);
-        dispatch(callDeleteReviewComment(revCommentCode, reviewCode));
-        window.location.reload();
-    }
-  }
+        await dispatch(callDeleteReviewComment(revCommentCode, reviewCode));
+      }
+    
+      // Fetch the updated comments without reloading the page
+      await dispatch(callGetReviewComments(reviewCode));
+    };
 
-    const handleSubmitModifiedComment = (revCommentCode, memberCode, reviewCode) => {
-      console.log("what comment will be modified? : ", revCommentCode);
-      console.log("what has the comment been modified to? : ", commentState);
-
+    const handleSubmitModifiedComment = async (revCommentCode, memberCode, reviewCode) => {
       const formData = new FormData();
-
-      formData.append("revCommentContent", commentState);
-      formData.append("memberCode", memberCode);
-      formData.append("revCommentCode", revCommentCode);
-      formData.append("reviewCode", reviewCode);
-
-      console.log('[Comment modify] formData : ', formData.get("revCommentContent"));
-      console.log('[Comment modify] formData : ', formData.get("memberCode"));
-      console.log('[Comment modify] formData : ', formData.get("revCommentCode"));
-      console.log('[Comment modify] formData : ', formData.get("reviewCode"));
-
-      dispatch(callPutSpecificCommentModify({
-        form: formData
-      }));
-
-      window.location.reload();
-    }
+      formData.append('revCommentContent', commentState);
+      formData.append('memberCode', memberCode);
+      formData.append('revCommentCode', revCommentCode);
+      formData.append('reviewCode', reviewCode);
+    
+      await dispatch(callPutSpecificCommentModify({ form: formData }));
+      // Fetch the updated comments without reloading the page
+      await dispatch(callGetReviewComments(reviewCode));
+      // Reset the modification state
+      setModify(false);
+      setCommentBeingModified(null);
+    };
 
     const onChangeHandler = (e) => {
       setForm({

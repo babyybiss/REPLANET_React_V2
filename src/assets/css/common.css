@@ -484,7 +484,11 @@
   .mt-1 {
     margin-top: 0.625rem !important;
   }
-  
+    
+  .mt-2 {
+    margin-top: 0.625rem !important;
+  }
+
   .mb-1 {
     margin-bottom: 0.625rem !important;
   }
