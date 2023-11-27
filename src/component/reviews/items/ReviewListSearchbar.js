@@ -45,8 +45,9 @@ export function ReviewListSearchbar({ reviewCampaignCode, searchFilter, setSearc
                         onChange={(e) => {
                         setSearchFilter(e.target.value);
                         handleSearchKeyPress();
-                    }}><i class="fa-solid fa-magnifying-glass"></i></button>
-                </div>
+                        }}><i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+                </div>&emsp;
 
                 {decodedToken !== null && decodedToken.memberRole == "ROLE_ADMIN" ?    
                 <div>
@@ -56,8 +57,8 @@ export function ReviewListSearchbar({ reviewCampaignCode, searchFilter, setSearc
                     style={{ width: 200 + "px" }}
                     onChange={handleSelectChange}
                 >
-                    <option value="false">미등록 후기</option>
-                    <option value="true">등록 후기</option>
+                    <option value="false">후기 미등록 캠페인</option>
+                    <option value="true">후기 등록 캠페인</option>
                 </select>
                 </div> :
                 null

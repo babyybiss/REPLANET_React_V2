@@ -47,7 +47,7 @@ export function ReviewDetailsIntroductionBox({ review }) {
             {decodedToken !== null && decodedToken.memberRole == "ROLE_ADMIN" ?
           <div className="m-1">
             <NavLink to={`/reviews/reviewUpdate/${review.reviewCode}`}><button className="button button-primary w-20 mr-1">수정하기</button></NavLink>
-            <button className="button text-danger w-20" onClick={deleteReviewHandler}>삭제하기</button>
+            <button className="button button-danger w-20" onClick={deleteReviewHandler}>삭제하기</button>
           </div>  
             : null
             } 

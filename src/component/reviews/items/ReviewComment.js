@@ -247,7 +247,7 @@ export function ReviewComment ({ review }) {
               { (!commentBeingModified && decodedToken && (decodedToken.memberRole === "ROLE_ADMIN" || decodedToken.memberRole === "ROLE_USER" && decodedToken.memberCode === comment.memberCode)) && (
                 <>
                   <span>
-                    <button className="button1 text-danger w-5" onClick={(e) => handleDeleteComment(e, comment.revCommentCode)}>
+                    <button className="button1 button-danger w-5" onClick={(e) => handleDeleteComment(e, comment.revCommentCode)}>
                       삭제
                     </button>
                   </span>
