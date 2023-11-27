@@ -1,11 +1,13 @@
 import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+/*
 import FirstResBubble from "../items/responseitem/FirstResBubble";
 import SecondResBubble from "../items/responseitem/SecondResBubble";
 import ThirdResBubble from "../items/responseitem/ThirdResBubble";
 import FourthResBubble from "../items/responseitem/FourthResBubble";
 import FifthResBubble from "../items/responseitem/FifthResBubble";
 import AnyQuestion from "../items/textitem/AnyQuestion";
+*/
 
 
 function BubbleList() {
@@ -26,11 +28,13 @@ function BubbleList() {
         }
     ])
     /* 질문코드 상태 */
-    const [questionCode, setQuestionCode] = useState(0); 
+    // const [questionCode, setQuestionCode] = useState(0);
 
+    /* 
     const questionClickHandler = (questionCode) => {
         setQuestionCode(questionCode)
     }
+    */
 
     /* 질문을 눌렀을 경우 기존 말풍선 리스트에 답변 말풍선을 추가하고 싶음 */ 
     /*
@@ -42,6 +46,7 @@ function BubbleList() {
     }
     */
 
+    /*
     const selectRenderComponents = () => {
         switch (questionCode) {
             case 1:
@@ -58,8 +63,11 @@ function BubbleList() {
                 return null;
         }
     }
+    */
+
     return(
         <>
+            {/*
             {supportbotDataList.map((question) => (
                 <div
                     key={question.questionCode}
@@ -72,6 +80,7 @@ function BubbleList() {
             ))}
             {selectRenderComponents()}
             <AnyQuestion />
+            */}
         </>
     );
 
