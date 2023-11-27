@@ -1,6 +1,3 @@
-const emailCheck = document.querySelector('#emailCheckButton');
-const emailCheckResult = document.querySelector('#emailCheckResult');
-
 let emailCheckPass = false;
 
 const onCheckEmail = async () => {
