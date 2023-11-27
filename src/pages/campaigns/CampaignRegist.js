@@ -8,6 +8,7 @@ import draftToHtml from 'draftjs-to-html';
 import DraftEditor from "../../component/common/DraftEditor";
 import '../../assets/css/editor.css';
 import { useNavigate } from "react-router-dom";
+import Swal from 'sweetalert2';
 
 const categoryList = [
     { key: "0", name: "선택 해주세요" },
@@ -41,6 +42,16 @@ function CampaignRegist() {
 
     const onChange = (e) => {
         const { value, name } = e.target;
+        if(e.target.name == "endDate"){
+            if(new Date(e.target.value) < new Date()){
+                Swal.fire({
+                    icon: 'warning',
+                    title: '마감일은 <b style="color:#1D7151; font-weight:bold;">현재 날짜보다</b> </br>작을 수 없습니다.',
+                    confirmButtonColor: '#1D7151',
+                    iconColor: '#1D7151'
+                });
+            }
+        }
         setInputs({
             ...inputs,
             [name]: value
@@ -50,8 +61,9 @@ function CampaignRegist() {
     // 가격 원화 설정 
     const priceChangeHandler = (event) => {
         let price = event.target.value;
-        const { name } = event.target;
         price = Number(price.replaceAll(',', ''));
+        const clampedValue = Math.min(price, 1000000000);
+        const { name } = event.target;
         if (isNaN(price)) {
             setInputs({
                 ...inputs,
@@ -60,7 +72,7 @@ function CampaignRegist() {
         } else {
             setInputs({
                 ...inputs,
-                [name]: price.toLocaleString('ko-KR')
+                [name]: clampedValue.toLocaleString('ko-KR')
             });
         }
     }
