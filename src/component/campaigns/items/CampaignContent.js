@@ -1,6 +1,9 @@
-function CampaignContent({ campaignInfo }) {
+function CampaignContent({ campaign }) {
     // 파일 이름이 있는지 체크
-    let fileSaveName = campaignInfo.campaignDescfileList[0];
+    console.log(campaign,'dd');
+    let fileSaveName = campaign? campaign.campaignDescFileList : ''
+    //let fileSaveName = campaignInfo.campaignDescFileList[0];
+    
 
     if(fileSaveName == null || undefined){
         fileSaveName = false; 
@@ -8,10 +11,10 @@ function CampaignContent({ campaignInfo }) {
         fileSaveName = true; 
       }
     return (
-        campaignInfo && (
+        campaign && (
             <div className="item" >
-                <img src={ fileSaveName? `/campaigns/${campaignInfo.campaignDescfileList[0].fileSaveName}` : '/campaigns/default/noImage.png'} alt="캠페인 이미지" />
-                <div dangerouslySetInnerHTML={{ __html: campaignInfo.campaignContent }}>
+                <img src={ fileSaveName? `/campaigns/${campaign.campaignDescFileList[0].fileSaveName}` : '/campaigns/default/noImage.png'} alt="캠페인 이미지" />
+                <div dangerouslySetInnerHTML={{ __html: campaign.campaignContent }}>
                 
                 </div>
             </div>

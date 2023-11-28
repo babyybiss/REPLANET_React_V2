@@ -16,6 +16,7 @@ export function CampaignListAPI(status) {
                 params: { status: status }
               })
             dispatch(getContinue(result.data))
+            console.log(result.data,'데이타 화긴')
         } catch (error) {
             console.error('에러 발생:', error);
         }
