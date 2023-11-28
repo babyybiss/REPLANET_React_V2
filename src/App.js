@@ -35,7 +35,7 @@ import TestChatbot from "./pages/chatbot/TestChatbot";
 import EditOrg from "./pages/EditOrg";
 import PwdConfirm from "./pages/EditPwdConfirm";
 import { ChangePassword } from "./component/auth/ChangePassword";
-import Email from "./pages/auth/Email";
+import SendEmail from "./pages/auth/SendEmail";
 
 function App() {
 
@@ -65,7 +65,7 @@ function App() {
                 <Route key="myExchangeList" path="myExchangeList" element={<MyExchanges />} />,
                 <Route key="calculator" path="calculator" element={<Calculator />} />,
               ]}/>
-              <Route path="/email/" element={<Email/>}></Route>
+              <Route path="/sendemail" element={<SendEmail/>}></Route>
 
             <Route path="/">
               <Route index element={<Main />} />
