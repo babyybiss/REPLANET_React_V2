@@ -172,9 +172,9 @@ function CampaignRegist() {
                 <div className="items-container ic1">
                     <label>목표금액<input className="input" type="text" maxLength="13" name="goalBudget" placeholder="총 목표 금액을 입력하세요.(10억 이하로)" value={inputs.goalBudget} onChange={priceChangeHandler} required /></label>
                     <label htmlFor="endDate">캠페인 마감일 <input type="date" id="endDate" name="endDate" className="input" onChange={onChange} /></label>
-                    <label>단체명<input className="input" name="orgName" maxLength="50" placeholder="단체명을 입력해주세요." onChange={onChange} required /></label>
+                    {/* <label>단체명<input className="input" name="orgName" maxLength="50" placeholder="단체명을 입력해주세요." onChange={onChange} required /></label>
                     <label>단체 한줄소개<input className="input" name="orgDescription" maxLength="50" placeholder="단체 한줄소개를 입력해주세요." onChange={onChange} required /></label>
-                    <label>단체 연락처<input className="input" name="orgTel" maxLength="13" placeholder="전화번호를 입력해주세요." onChange={onChange} required /></label>
+                    <label>단체 연락처<input className="input" name="orgTel" maxLength="13" placeholder="전화번호를 입력해주세요." onChange={onChange} required /></label> */}
                 </div>
             </div>
             <div >

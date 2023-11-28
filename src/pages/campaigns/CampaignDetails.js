@@ -16,27 +16,27 @@ function CampaignDetail() {
     const result = useSelector(state => state.campaignReducer);
     const { campaignCode } = useParams();
 
-    const campaignInfo = result.campaigninfo;
+    const campaign = result.campaigninfo;
     const dispatch = useDispatch();
-
+console.log(campaign,'이거 디텔');
     useEffect(
         () => {
             dispatch(GetCampaignAPI(campaignCode));
         },[]
     );
     return (
-        campaignInfo && (
+        campaign && (
             <div>
                 <div className="container-first">
-                    <h1>{campaignInfo.campaignTitle} </h1>
+                    <h1>{campaign.campaignTitle} </h1>
                     <div className="container-content">
                         <div>
-                            <CampaignContent campaignInfo={campaignInfo} />
-                            <CampaignPicture campaignInfo={campaignInfo} />
-                            <CampaignPlan campaignInfo={campaignInfo} />
+                            <CampaignContent campaign={campaign} />
+                            {/* <CampaignPicture campaign={campaign} />
+                            <CampaignPlan campaign={campaign} /> */}
                             <ParticipationDetails />
                         </div>
-                        <CampaignSidebar campaignInfo={campaignInfo} />
+                        {/* <CampaignSidebar campaign={campaign} /> */}
                     </div>
                 </div>
             </div>
