@@ -61,12 +61,10 @@ function MyPage() {
                 <div className="header-admin-menu">
                     <h5>총 기부 횟수</h5>
                     <h3 className="text-primary">{totalDonation}회</h3>
-                    {/* 회원의 총 기부 횟수 구해야함 */}
                 </div>
                 <div className="header-admin-menu">
-                    <h6>총 기부 액수</h6>
+                    <h5>총 기부 액수</h5>
                     <h4 className="text-primary">{totalAmount}원</h4>
-                    {/* 회원의 기부 액수 총합 구해야함 */}
                 </div>
             </div>
             <div className="container-admin">
