@@ -32,6 +32,8 @@ import Calculator from "./component/mypage/Calculator";
 import DonationReceipt from "./pages/users/Receipt";
 import { jwtDecode } from 'jwt-decode';
 import TestChatbot from "./pages/chatbot/TestChatbot";
+import { ChangePassword } from "./component/auth/ChangePassword";
+import Email from "./pages/auth/Email";
 
 function App() {
 
@@ -49,6 +51,7 @@ function App() {
               <Route path="/login/*" element={authCtx.isLoggedIn ? <Navigate to='/' /> : <Login />}/>
               <Route path="/signup/" element={authCtx.isLoggedIn ? <Navigate to='/' /> : <Signup />} />
               <Route path="/find/" element={<Find/>}></Route>
+              <Route path="/password/" element={<ChangePassword/>}></Route>
               <Route path="testChatbot" element={<TestChatbot/>} />
               <Route path="/myPage" element={authCtx.isLoggedIn ? <MyPage /> : <Navigate to='/' />} children={[
                 <Route key="history" index element={<Navigate to="history" />} />,
@@ -60,6 +63,7 @@ function App() {
                 <Route key="myExchangeList" path="myExchangeList" element={<MyExchanges />} />,
                 <Route key="calculator" path="calculator" element={<Calculator />} />,
               ]}/>
+              <Route path="/email/" element={<Email/>}></Route>
 
             <Route path="/">
               <Route index element={<Main />} />
