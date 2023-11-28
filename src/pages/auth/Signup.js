@@ -7,6 +7,7 @@ import axios from 'axios';
 
 
 
+
 const Signup = () => {
   let navigate = useNavigate();
   const authCtx = useContext(AuthContext);
@@ -24,7 +25,7 @@ const Signup = () => {
   const [phone, setPhone] = useState('');
   const [verificationCode, setVerificationCode] = useState('');
 
-  const [checkEmail, setCheckEmail] = useState(false);
+  //const [checkEmail, setCheckEmail] = useState(false);
 
 
 
@@ -57,59 +58,55 @@ const Signup = () => {
   }
 
 
-// 아이디 유효성 검사 후 중복 검사 
-const onCheckEmail = (e) => {
-    axios
-      .get(`${process.env.REACT_APP_API_URL}/auth/emailcheck`)
-      .then((res) => {
-        const resMessge = res.data.message;
-        if (resMessge === "사용 가능한 아이디입니다.") {
-          Swal.fire("ok")
-        } else if (resMessge === "이미 사용중인 아이디입니다.") {
-          Swal.fire("No")
-        }
-      });
-
-};
-
-  // const onCheckEmail = (e) => {
-  //   e.preventDefault();
-
-  //   axios.post("/auth/emailcheck", {email})
-  //   .then((res) => {
-  //     const { result } = res.data;
-  //     if (!result) {
-  //       setEmailMsg("사용 가능한 이메일 주소입니다.");
-  //     } else {
-  //       setEmailMsg("이미 등록된 이메일 주소입니다.");
-  //     }
-  //   });
-  // }
-
-  // const onCheckEmail = async (e) => {
-  //   e.preventDefault();
-
-  //   try { 
-  //     const Api = "http://localhost:8001";
-  //     const res = await Api.post("/auth/emailcheck", {email});
-
-  //     const { result } = res.data;
-
-  //     if (!result) {
-  //         setEmailMsg("이미 등록된 메일입니다. 다시 입력해주세요.");
-  //         setCheckEmail(false);
-  //     } else {
-  //       setEmailMsg("사용 가능한 메일입니다.");
-  //       setCheckEmail(true);
-  //     }
-
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // }
-
-
+  // const onCheckEmail = async () => {
+  //   const email = emailInputRef.current.value;
+  //   const url = 'http://localhost:8001/auth/emailcheck';
+  //   const body = { email: email };
   
+  //   const response = await axios.post(url, body);
+  //   const data = response.data;
+
+  //   if (data) {
+  //     Swal.fire("사용 가능")
+  //   } else {
+  //     Swal.fire("중복")
+  //   }
+  // };
+  
+
+
+  // 아이디 유효성 검사 후 중복 검사 
+  const onCheckEmail = () => {
+
+    axios.post("/auth/emailcheck", {
+      email: email
+    }).then(function (response) {
+        if(response.data.code == 0){
+            Swal.fire({
+                open: true,
+                title: "Confirm",
+                message: "사용 가능", 
+            });
+        } else {
+            let message = response.data.message;
+            if(response.data.code == 10000){
+                message = "중복 계정"
+            }
+            Swal.fire({
+                open: true,
+                title: "Error",
+                message: message
+            });
+        }
+    }).catch(function (error) {
+        console.log(error);
+    });
+  }
+
+
+
+
+
   const [emailMsg, setEmailMsg] = useState("");
   const [passwordMsg, setPasswordMsg] = useState('');
   const [passwordConfirmMsg, setPasswordConfirmMsg] = useState("");
@@ -170,7 +167,7 @@ const onCheckEmail = (e) => {
     } else {
       setMemberNameMsg("");
     }
-    
+
   }, []);
 
   const handlePhone = useCallback((e) => {
@@ -181,9 +178,9 @@ const onCheckEmail = (e) => {
     } else {
       setPhoneMsg("입력하신 번호로 문자인증을 진행해 주세요.");
     }
-    
+
   }, []);
-  
+
   const handleVerificationCode = useCallback((e) => {
     const currVerificationCode = e.target.value;
     setVerificationCode(currVerificationCode);
@@ -198,7 +195,7 @@ const onCheckEmail = (e) => {
     const enteredPhone = phoneInputRef.current.value;
     const url = `/users/sms`;
     const body = { u_phone: enteredPhone };
-  
+
     try {
       const response = await axios.post(url, body);
       if (response.status === 200) {
@@ -218,10 +215,10 @@ const onCheckEmail = (e) => {
     const enteredVerificationCode = verificationCodeInputRef.current.value;
     const url = `/users/smscheck`;
     const body = { cerNum: enteredVerificationCode };
-  
+
     try {
       const response = await axios.post(url, body);
-      if (body) {
+      if (response.status === 200) {
         console.log('인증번호 확인 성공');
         Swal.fire("", "ㅊㅋ");
       } else {
@@ -240,41 +237,41 @@ const onCheckEmail = (e) => {
   const [useCheck, setUseCheck] = useState(false);
 
   const allBtnEvent = () => {
-      if (allCheck === false) {
-          setAllCheck(true);
-          setPrivacyCheck(true);
-          setUseCheck(true);
+    if (allCheck === false) {
+      setAllCheck(true);
+      setPrivacyCheck(true);
+      setUseCheck(true);
 
-      } else {
-          setAllCheck(false);
-          setPrivacyCheck(false);
-          setUseCheck(false);
+    } else {
+      setAllCheck(false);
+      setPrivacyCheck(false);
+      setUseCheck(false);
 
-      }
+    }
   };
 
   const ageBtnEvent = () => {
-      if (privacyCheck === false) {
-          setPrivacyCheck(true)
-      } else {
-          setPrivacyCheck(false)
-      }
+    if (privacyCheck === false) {
+      setPrivacyCheck(true)
+    } else {
+      setPrivacyCheck(false)
+    }
   };
 
   const useBtnEvent = () => {
-      if (useCheck === false) {
-          setUseCheck(true)
-      } else {
-          setUseCheck(false)
-      }
+    if (useCheck === false) {
+      setUseCheck(true)
+    } else {
+      setUseCheck(false)
+    }
   };
 
   useEffect(() => {
-      if (privacyCheck === true && useCheck === true) {
-          setAllCheck(true)
-      } else {
-          setAllCheck(false)
-      }
+    if (privacyCheck === true && useCheck === true) {
+      setAllCheck(true)
+    } else {
+      setAllCheck(false)
+    }
   }, [privacyCheck, useCheck]);
 
   const isAllValid = isEmailValid && isPasswordValid && isPasswordConfirmValid && isMemberNameValid && isPhoneValid && privacyCheck && useCheck;
@@ -290,7 +287,7 @@ const onCheckEmail = (e) => {
 
     if (password === passwordConfirm && authCtx.isSuccess) {
       navigate("/login", { replace: true });
-    } 
+    }
 
   }
 
@@ -305,7 +302,7 @@ const onCheckEmail = (e) => {
                 <label htmlFor="email">이메일</label>
                 <div className="input-group">
                   <input className="input" type="text" name="email" id="email" onChange={handleEmail} value={email} required ref={emailInputRef} placeholder="이메일 주소를 입력해주세요." />
-                  <button type="button" className="button button-primary" disabled={!isEmailValid}>중복확인</button>
+                  <button type="button" className="button button-primary" disabled={!isEmailValid} onClick={onCheckEmail}>중복확인</button>
                 </div>
                 <div className="regexMsg">{emailMsg}</div>
                 <div id="emailCheckResult"></div>
@@ -322,41 +319,41 @@ const onCheckEmail = (e) => {
                 </div>
                 <div className="regexMsg">{phoneMsg}</div>
                 <div className="input-group">
-                  <input className="input" type="text" ref={verificationCodeInputRef} value={verificationCode} id="verificationCode" required placeholder="전송받으신 인증번호 4자리를 입력해 주세요." onChange={handleVerificationCode}  disabled={!isPhoneValid}/>
-                  <button type="button" className="button button-primary" onClick={handleSendVerificationCode} disabled={!isPhoneValid}>인증번호 입력</button>
-                  
+                  <input className="input" type="text" ref={verificationCodeInputRef} value={verificationCode} id="verificationCode" required placeholder="전송받으신 인증번호 4자리를 입력해 주세요." onChange={handleVerificationCode} disabled={!isPhoneValid} />
+                  <button type="button" className="button button-primary" onClick={handleSendVerificationCode}>인증번호 입력</button>
+
                 </div>
                 <div className="regexMsg">{verificationCodeMsg}</div>
               </div>
               <div className="item">
                 <div className="container-policy mb-1">
-                    <pre>
-                        <h4>개인정보처리방침</h4>
-                        본 이용약관은 개인정보보호위원회(이하‘운영기관’이라 한다)에서 운영하는 “가명정보 활용 종합지원플랫폼”에 대한 이용조건 및 절차, 운영기관과 회원의 권리ㆍ의무, 기타 필요한 사항을 규정함을 목적으로 합니다.
+                  <pre>
+                    <h4>개인정보처리방침</h4>
+                    본 이용약관은 개인정보보호위원회(이하‘운영기관’이라 한다)에서 운영하는 “가명정보 활용 종합지원플랫폼”에 대한 이용조건 및 절차, 운영기관과 회원의 권리ㆍ의무, 기타 필요한 사항을 규정함을 목적으로 합니다.
 
-                        제1조 약관의 효력과 변경
-                        1. 회원이 본 이용약관 내용에 동의하는 경우 가명정보 활용 종합지원플랫폼의 서비스 제공 행위 및 회원의 서비스 사용 행위에 대하여는 본 약관이 우선적으로 적용됩니다.
-                        2. 운영기관은 본 이용약관을 사전 고지 없이 변경할 수 있고, 변경된 약관은 가명정보 활용 종합지원플랫폼 내에 공지와 동시에 그 효력이 발생됩니다. 회원이 변경된 약관에 동의하지 않는 경우, 회원은 본인의 회원등록을 취소(회원탈퇴)할 수 있으며 계속 사용의 경우는 약관 변경에 대한 동의로 간주됩니다.
-                    </pre>
+                    제1조 약관의 효력과 변경
+                    1. 회원이 본 이용약관 내용에 동의하는 경우 가명정보 활용 종합지원플랫폼의 서비스 제공 행위 및 회원의 서비스 사용 행위에 대하여는 본 약관이 우선적으로 적용됩니다.
+                    2. 운영기관은 본 이용약관을 사전 고지 없이 변경할 수 있고, 변경된 약관은 가명정보 활용 종합지원플랫폼 내에 공지와 동시에 그 효력이 발생됩니다. 회원이 변경된 약관에 동의하지 않는 경우, 회원은 본인의 회원등록을 취소(회원탈퇴)할 수 있으며 계속 사용의 경우는 약관 변경에 대한 동의로 간주됩니다.
+                  </pre>
                 </div>
                 <input id="policy1" type="checkbox" className="mb-1" checked={privacyCheck} onChange={ageBtnEvent} />
                 <label htmlFor="policy1">개인정보처리방침에 동의합니다.(필수)</label>
                 <div className="container-policy mb-1">
-                    <pre>
-                        <h4>이용약관</h4>
-                        본 이용약관은 개인정보보호위원회(이하‘운영기관’이라 한다)에서 운영하는 “가명정보 활용 종합지원플랫폼”에 대한 이용조건 및 절차, 운영기관과 회원의 권리ㆍ의무, 기타 필요한 사항을 규정함을 목적으로 합니다.
+                  <pre>
+                    <h4>이용약관</h4>
+                    본 이용약관은 개인정보보호위원회(이하‘운영기관’이라 한다)에서 운영하는 “가명정보 활용 종합지원플랫폼”에 대한 이용조건 및 절차, 운영기관과 회원의 권리ㆍ의무, 기타 필요한 사항을 규정함을 목적으로 합니다.
 
-                        제1조 약관의 효력과 변경
-                        1. 회원이 본 이용약관 내용에 동의하는 경우 가명정보 활용 종합지원플랫폼의 서비스 제공 행위 및 회원의 서비스 사용 행위에 대하여는 본 약관이 우선적으로 적용됩니다.
-                        2. 운영기관은 본 이용약관을 사전 고지 없이 변경할 수 있고, 변경된 약관은 가명정보 활용 종합지원플랫폼 내에 공지와 동시에 그 효력이 발생됩니다. 회원이 변경된 약관에 동의하지 않는 경우, 회원은 본인의 회원등록을 취소(회원탈퇴)할 수 있으며 계속 사용의 경우는 약관 변경에 대한 동의로 간주됩니다.
-                    </pre>
+                    제1조 약관의 효력과 변경
+                    1. 회원이 본 이용약관 내용에 동의하는 경우 가명정보 활용 종합지원플랫폼의 서비스 제공 행위 및 회원의 서비스 사용 행위에 대하여는 본 약관이 우선적으로 적용됩니다.
+                    2. 운영기관은 본 이용약관을 사전 고지 없이 변경할 수 있고, 변경된 약관은 가명정보 활용 종합지원플랫폼 내에 공지와 동시에 그 효력이 발생됩니다. 회원이 변경된 약관에 동의하지 않는 경우, 회원은 본인의 회원등록을 취소(회원탈퇴)할 수 있으며 계속 사용의 경우는 약관 변경에 대한 동의로 간주됩니다.
+                  </pre>
                 </div>
                 <input id="policy2" type="checkbox" className="mb-1" checked={useCheck} onChange={useBtnEvent} />
                 <label htmlFor="policy2">이용약관에 동의합니다.(필수)</label>
                 <hr />
                 <input id="policy1" type="checkbox" className="mb-1" checked={allCheck} onChange={allBtnEvent} />
                 <label htmlFor="policy1">약관 전체동의</label>
-            </div>
+              </div>
               <button className="button button-primary w-100" type="submit" disabled={!isAllValid}>회원가입</button>
             </div>
           </form>

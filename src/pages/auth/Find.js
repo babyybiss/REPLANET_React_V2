@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import AuthContext from "../../component/auth/AuthContext";
 import KakaoLogin from "./KakaoLogin";
 import '../../assets/css/user.css';
-import Signup from "./Signup";
+import { Signup } from "./Signup";
+import { ChangePassword } from "../../component/auth/ChangePassword";
 function Find() {
     return (
         <div className="container-first container-centered">
@@ -11,7 +12,7 @@ function Find() {
 
             <div className="tabs">
                 <input id="tab1" type="radio" name="tab_item" defaultChecked/>
-                <label className="tab_item ti2" for="tab1">아이디 찾기</label>
+                <label className="tab_item ti2" for="tab1">계정 찾기</label>
                 <input id="tab2" type="radio" name="tab_item"/>
                 <label className="tab_item ti2" for="tab2">비밀번호 찾기</label>
           
@@ -31,6 +32,9 @@ function Find() {
                 <div className="tab_content" id="tab2_content">
                   <div className="items-container ic1">
 
+                  <ChangePassword/>
+
+{/* 
                       <input type="text" className="input" placeholder="id"/>
 
                     <div className="input-group">
@@ -38,7 +42,7 @@ function Find() {
                       <button className="button button-primary">인증</button>
                     </div>
                     
-                    <button type="submit" className="button button-primary">비밀번호 찾기</button>
+                    <button type="submit" className="button button-primary">비밀번호 찾기</button> */}
                   </div>
 
             

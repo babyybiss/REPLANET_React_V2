@@ -1,12 +1,12 @@
 import BubbleList from "../supportbots/list/BubbleList";
 import ModalHeader from "./ModalHeader";
-import { useEffect } from "react";
 
 function ModalSupportbot({ setIsShow }) {
  
+    console.log()
     return (
         <div className={'modal-box'}>
-            <ModalHeader setIsShow={(setIsShow)} />   
+            <ModalHeader setIsShow={(setIsShow)} /> 
             <BubbleList />
         </div>
     );

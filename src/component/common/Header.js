@@ -81,6 +81,15 @@ function responsiveHeader() {
                                 </a>
                             </>
                         ) ||
+                        (memberRole === "ROLE_ORG" && (
+                            <>
+                                <NavLink to='/myPage'>마이페이지</NavLink>
+                                <NavLink onClick={toggleLogoutHandler}>로그아웃</NavLink>
+                                <a href="javascript:void(0);" className="icon" onClick={responsiveHeader}>
+                                    <i className="fa fa-bars"></i>
+                                </a>
+                            </>
+                        )) ||
                         (memberRole === "ROLE_ADMIN" && (
                             <>
                                 <NavLink to="exchangeList">포인트전환관리</NavLink>

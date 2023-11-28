@@ -7,22 +7,27 @@ export function TextEditor({ onContentChange, existingReviewDescription }) {
 
   const handleEditorChange = (content, editor) => {    
     onContentChange(content);
+
     console.log(content);
   };
 
-  const updateImageSrc = (image, newSrc) => {
+  const updateImageSrc = (content, fileName, iframeDoc) => {
+    const image = iframeDoc.querySelector('img[src^="data:"]') || iframeDoc.querySelector('img[src^="blob:"]');
+    image.setAttribute('src', fileName);
+    
+
     // Store the original source and file name as data attributes
-    image.setAttribute('data-original', image.currentSrc);
-    image.setAttribute('data-file-name', newSrc);
+   // image.setAttribute('data-original', image.currentSrc);
+   // image.setAttribute('data-file-name', newSrc);
   
     // Set the new source
-    image.setAttribute('src', newSrc);
+   // image.setAttribute('src', newSrc);
   };
   
-  const imageUploadHandler = (blobInfo) => {
+  const imageUploadHandler = (blobInfo, content) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
-      console.log("들어옴1");
+      console.log("imageUploadHandler 들어옴1");
   
       // Wait for the file to be loaded
       reader.onloadend = () => {
@@ -57,6 +62,8 @@ export function TextEditor({ onContentChange, existingReviewDescription }) {
                 // Optionally, set the alt attribute
                 defaultImg.setAttribute('alt', `reviewImg[${i}]`);
               }
+
+              updateImageSrc(fileName, content, iframeDoc);
   
               // Resolve the promise with the response data
               resolve(res.data);

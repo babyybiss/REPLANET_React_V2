@@ -40,7 +40,7 @@ export const AuthContextProvider = (props) => {
                 setIsSuccess(true);
                 Swal.fire("회원가입 성공");
             } else {
-                Swal.fire("회원가입 조건을 확인해 주세요!")
+                Swal.fire("회원가입 조건을 확인해 주세요!", "이메일 주소가 중복되었거나 필수 기입 항목이 누락되었습니다.")
             }
         });
     };

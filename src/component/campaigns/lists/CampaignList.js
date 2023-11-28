@@ -26,10 +26,10 @@ function CampaignList() {
     const decodedToken = token ? jwtDecode(token) : null;
 
     // 카테고리 필터링
-    const result = useSelector(state => state.campaignReducer)
+    const result = useSelector(state => state.campaignReducer.campaignlist)
     const [categories, setCategories] = useState();
     //const [campignListFilter, setCampignListFilter] = useState()
-    const campaignList = result.campaignlist;
+    const campaignList = result? result.results.campaignList : "";
     const campaignFilter = categories ? categories.payload : undefined;
     const categoryClickHandler = (category) => {
         if (category === "전체") {
@@ -106,9 +106,7 @@ function CampaignList() {
                             {category.name}
                         </button>
                     ))}
-                    {decodedToken !== null && decodedToken.memberRole === "ROLE_ADMIN" ?
                         <button className="button button-primary" onClick={goToRegist}>캠페인 등록</button> : ""
-                    }
                 </div>
             </div>
 
