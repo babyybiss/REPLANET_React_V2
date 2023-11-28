@@ -484,7 +484,11 @@
   .mt-1 {
     margin-top: 0.625rem !important;
   }
-  
+    
+  .mt-2 {
+    margin-top: 0.625rem !important;
+  }
+
   .mb-1 {
     margin-bottom: 0.625rem !important;
   }
@@ -980,6 +984,7 @@
     height: 40px !important;
     cursor: pointer;
     border-radius: .25rem !important;
+    resize: none;
   }
 
   .button1 {

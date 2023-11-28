@@ -2,15 +2,20 @@ import { createActions, handleActions } from "redux-actions";
 
 const initialState= {};
 
-const GET_SUPPORTBOTLIST = 'supportbot/GET_SUPPORTBOTLIST';
+const GET_SUPPORTBOT_LIST = 'supportbot/GET_SUPPORTBOT_LIST';
+const GET_SUPPORTBOT_ANSWER = 'supportbot/GET_SUPPORTBOT_ANSWER';
 
-export const { supportbot: { getSupportbotlist }} = createActions({
-    [GET_SUPPORTBOTLIST]: (res) => ({ supportbotDataList: res })
+export const { supportbot: { getSupportbotList, getSupportbotAnswer }} = createActions({
+    [GET_SUPPORTBOT_LIST]: (res) => ({ supportbotDataList: res }),
+    [GET_SUPPORTBOT_ANSWER]: (res) => ({ supportbotAnswer: res })
 });
 
 const supportbotReducer = handleActions(
     {
-        [GET_SUPPORTBOTLIST]: (state, { payload }) => {
+        [GET_SUPPORTBOT_LIST]: (state, { payload }) => {
+            return payload;
+        },
+        [GET_SUPPORTBOT_ANSWER]: (state, { payload }) => {
             return payload;
         }
     },

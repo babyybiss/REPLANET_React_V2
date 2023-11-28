@@ -81,3 +81,15 @@
     background-color: var(--color-primary-disabled);
     border-radius: .5rem;
   }
+
+  .campaignMoreButton {
+    width: 30%;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    text-align: center;
+    font-weight: 500;
+    margin: 0 auto;
+    cursor: pointer;
+  }

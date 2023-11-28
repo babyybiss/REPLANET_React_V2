@@ -31,12 +31,12 @@ function InnerCircle({ origin }) {
 /* 가운데 라벨 관리 함수 */ 
 function CenterLabel({ active, datum }) {
     const campaignCategory = datum.xName;
-    const sumCurrentBudget = datum.sumCurrentBudget;
     const sumGoalBudget = datum.sumGoalBudget;
+    const displaySumCurrentBudget = datum.displaySumCurrentBudget;
     const cursorY1 = datum._y1;
 
     const changeText = cursorY1 === sumGoalBudget ? "목표" : "현재";
-    const currentPercentage = Math.round((sumCurrentBudget / sumGoalBudget * 100) * 100) / 100; 
+    const currentPercentage = Math.round((displaySumCurrentBudget / sumGoalBudget * 100) * 100) / 100; 
 
     const labelText = [ `${campaignCategory} ${changeText}모금액: ${cursorY1}원`, `달성률 : ${currentPercentage}%` ];
 
@@ -59,7 +59,7 @@ function CategoryCampaign(chartDataListProps) {
     /* x축(round), y축(radius) 기준 설정 */
     const stringX = 'campaignCategory';
     const stringY1 = 'sumCurrentBudget';
-    const stringY2 = 'sumExpectBudget';
+    const stringY2 = (d) => (d.sumGoalBudget-d.displaySumCurrentBudget);
 
     /* bar 너비 */ 
     const barWidth = 100;
@@ -121,7 +121,7 @@ function CategoryCampaign(chartDataListProps) {
     /* style setting */
     /* y축 (반지름) */
     const radiusAxisStyle = {
-        axis: { stroke: "#10573C" },
+        axis: { stroke: "#10573C" }
     }
 
     /* x축 (둘레) */
