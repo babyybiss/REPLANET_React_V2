@@ -86,6 +86,18 @@ function responsiveHeader() {
                                 <NavLink to="exchangeList">포인트전환관리</NavLink>
                                 <NavLink to="/reviews">후기관리</NavLink>
                                 <NavLink to='charts'>캠페인현황통계</NavLink>
+                                <NavLink to='org'>기부처관리</NavLink>
+                                <NavLink onClick={toggleLogoutHandler}>로그아웃</NavLink>
+                                <a href="javascript:void(0);" className="icon" onClick={responsiveHeader}>
+                                    <i className="fa fa-bars"></i>
+                                </a>
+                            </>
+                        )) ||
+                        (memberRole === "ROLE_ORG" && (
+                            <>
+                                <NavLink to="/reviews">후기관리</NavLink>
+                                <NavLink to='charts'>캠페인관리</NavLink>
+                                <NavLink to='/myPageOrg'>마이페이지</NavLink>
                                 <NavLink onClick={toggleLogoutHandler}>로그아웃</NavLink>
                                 <a href="javascript:void(0);" className="icon" onClick={responsiveHeader}>
                                     <i className="fa fa-bars"></i>
