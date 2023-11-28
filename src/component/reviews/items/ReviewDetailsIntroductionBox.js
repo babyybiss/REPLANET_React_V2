@@ -51,15 +51,15 @@ export function ReviewDetailsIntroductionBox({ review }) {
           </div>  
             : null
             } 
-            <h2>모금액 총 {review.campaignCurrentBudget.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} 원으로</h2>
+            <h2>모금액 총 {review.campaign.currentBudget.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} 원으로</h2>
             <h3>따뜻한 손길을 내어줄 수 있었습니다 </h3>
           </div>
         
           <hr/>
         
         <div className="item p-2 border">
-          <h5>{review.campaignOrgName}</h5>
-          <p>{review.campaignOrgDescription}</p>
+          <h5>{review.campaign.organization.member.memberName}</h5>
+          <p>{review.campaign.organization.orgDescription}</p>
         </div><br />
         
           <ul>

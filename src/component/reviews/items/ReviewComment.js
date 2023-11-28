@@ -58,6 +58,7 @@ export function ReviewComment ({ review }) {
         ...form,
         revCommentContent: '',
       });
+      window.location.reload();
     };
 
     const handleModifyComment = (e, revCommentCode, existingCommentContent) => {
@@ -213,7 +214,7 @@ export function ReviewComment ({ review }) {
 
                   {comment.revCommentMonitorized === "Y" ? (
                     <>
-                    <h5>{commentEmail[comment.memberCode]}</h5>
+                    <h5>{hideEmailCharacters(commentEmail[comment.memberCode])}</h5>
                     <h6 style={{color: "#1D7151", fontWeight: 'bold'}}>부적절한 표현을 감지하여 리플래닛 클린봇에 의해 삭제 된 댓글입니다 🧹</h6>
                     {endDate}
                     </>
