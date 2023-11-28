@@ -58,50 +58,18 @@ const Signup = () => {
   }
 
 
-  // const onCheckEmail = async () => {
-  //   const email = emailInputRef.current.value;
-  //   const url = 'http://localhost:8001/auth/emailcheck';
-  //   const body = { email: email };
-  
-  //   const response = await axios.post(url, body);
-  //   const data = response.data;
-
-  //   if (data) {
-  //     Swal.fire("사용 가능")
-  //   } else {
-  //     Swal.fire("중복")
-  //   }
-  // };
-  
-
-
-  // 아이디 유효성 검사 후 중복 검사 
-  const onCheckEmail = () => {
-
-    axios.post("/auth/emailcheck", {
-      email: email
-    }).then(function (response) {
-        if(response.data.code == 0){
-            Swal.fire({
-                open: true,
-                title: "Confirm",
-                message: "사용 가능", 
-            });
-        } else {
-            let message = response.data.message;
-            if(response.data.code == 10000){
-                message = "중복 계정"
-            }
-            Swal.fire({
-                open: true,
-                title: "Error",
-                message: message
-            });
-        }
-    }).catch(function (error) {
-        console.log(error);
-    });
+  const onCheckEmail = async (email) => {
+    console.log(email);
+    try {
+      const response = await axios.post("http://localhost:8001/auth/emailcheck/{email}", email);
+      Swal.fire("사용 가능");
+      console.log(response.data);
+    } catch(error) {
+      console.log(error);
+      Swal.fire("사용 불가");
   }
+};
+  
 
 
 
@@ -211,13 +179,11 @@ const Signup = () => {
     }
   };
 
-  const handleSendVerificationCode = async () => {
-    const enteredVerificationCode = verificationCodeInputRef.current.value;
-    const url = `/users/smscheck`;
-    const body = { cerNum: enteredVerificationCode };
+  const handleSendVerificationCode = async (verificationCode) => {
 
     try {
-      const response = await axios.post(url, body);
+        const response = await axios.post("http://localhost:8001/users/smscheck/{verificationcode}", { cerNum: verificationCode });
+        console.log(response.data);
       if (response.status === 200) {
         console.log('인증번호 확인 성공');
         Swal.fire("", "ㅊㅋ");
@@ -230,7 +196,6 @@ const Signup = () => {
       Swal.fire("", "API 호출 중 오류 발생");
     }
   };
-
 
   const [allCheck, setAllCheck] = useState(false);
   const [privacyCheck, setPrivacyCheck] = useState(false);
