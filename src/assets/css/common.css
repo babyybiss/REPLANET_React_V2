@@ -984,6 +984,7 @@
     height: 40px !important;
     cursor: pointer;
     border-radius: .25rem !important;
+    resize: none;
   }
 
   .button1 {

@@ -32,6 +32,8 @@ import Calculator from "./component/mypage/Calculator";
 import DonationReceipt from "./pages/users/Receipt";
 import { jwtDecode } from 'jwt-decode';
 import TestChatbot from "./pages/chatbot/TestChatbot";
+import EditOrg from "./pages/EditOrg";
+import PwdConfirm from "./pages/EditPwdConfirm";
 
 function App() {
 
@@ -91,6 +93,11 @@ function App() {
             <Route path="exchangeList" element={authCtx.isLoggedIn ? <AllExchanges /> : <Navigate to='/' />} />
             <Route path="exchangeDetail/:exchangeCode" element={authCtx.isLoggedIn ? <ExchangeDetail /> : <Navigate to='/' />} />
             
+            <Route path="editOrg">
+              <Route index element={<PwdConfirm />} />
+              <Route path="modifyOrg" element={authCtx.isLoggedIn ? <EditOrg /> : <Navigate to='/' />} />
+            </Route>
+
           </Route>
         </Routes>
       </BrowserRouter>

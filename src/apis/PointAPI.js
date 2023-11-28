@@ -1,8 +1,6 @@
 import Swal from 'sweetalert2';
-import { GET_EXCHANGE, GET_USER_EXCHANGES, GET_EXCHANGE_DETAIL_U, PUT_EXCHANGES, POST_EXCHANGES, GET_POINTS_HISTORY, GET_ADMIN_EXCHANGES, PUT_PROVIDE_INFO, GET_PRIVACY_STATUS } from '../modules/PointModule';
+import { GET_EXCHANGE, GET_USER_EXCHANGES, GET_EXCHANGE_DETAIL_U, PUT_EXCHANGES, POST_EXCHANGES, GET_POINTS_HISTORY, GET_ADMIN_EXCHANGES, PUT_PROVIDE_INFO, GET_PRIVACY_STATUS, GET_ORG_INFORMATION } from '../modules/PointModule';
 import axios from "axios";
-import { async } from 'q';
-
 
 export const pointExchangeAPI = ({formdata}) => {
     const requestURL = 'http://localhost:8001/exchanges';
@@ -217,9 +215,9 @@ export function provideInfoAPI({body}){
                 }}
             )
             .then(function(response){
-                console.log('[PointAPI] provideInfoAPI RESULT : ', response);
+                console.log('[ReceiptAPI] provideInfoAPI RESULT : ', response);
                 if(response.status === 200){
-                    console.log('[PointAPI] provideInfoAPI SUCCESS');
+                    console.log('[ReceiptAPI] provideInfoAPI SUCCESS');
                     dispatch({type: PUT_PROVIDE_INFO, payload: response.data});
                     Swal.fire({
                         icon: "success",
@@ -245,7 +243,7 @@ export function provideInfoAPI({body}){
                 }
             })
             .catch((error) => {
-                console.log("[PointAPI] provideInfoAPI FAIL : ", error);
+                console.log("[ReceiptAPI] provideInfoAPI FAIL : ", error);
                 Swal.fire({
                     icon: "error",
                     iconColor: "#DB524E",
@@ -264,10 +262,47 @@ export function getPrivacyStatusAPI(memberCode) {
     return async (dispatch, getState) => {
         try{
             const result = await axios.get(requestURL);
-            console.log('PointAPI getPrivacyStatusAPI RESULT : ', result.data);
+            console.log('[ReceiptAPI] getPrivacyStatusAPI RESULT : ', result.data);
             dispatch({type: GET_PRIVACY_STATUS, payload: result.data});
         } catch (error){
-            console.error('PointAPI getPrivacyStatusAPI 에러 발생 : ', error);
+            console.error('[ReceiptAPI] getPrivacyStatusAPI 에러 발생 : ', error);
+        }
+    }
+}
+
+export function VerifyPwdAPI({orgCode, orgPwd}){
+    console.log('[OrgAPI] verifyPwdAPI 시작');
+    const requestURL = `http://localhost:8001/orgInfo/${orgCode}`;
+    return async (dispatch, getState) => {
+        try {
+            console.log("비밀번호? ", orgPwd);
+            const result = await axios.get(requestURL, {params : {orgPwd}});
+            console.log('[OrgAPI] verifyPwdAPI RESULT : ', result.data);
+            dispatch({type: GET_ORG_INFORMATION, payload: result.data});
+            localStorage.setItem("orgData", JSON.stringify(result.data[0]));
+            window.location.href='/editOrg/modifyOrg';
+        } catch (error){
+            console.error('[OrgAPI] verifyPwdAPI 에러 발생 : ', error);
+            if(error.response?.status == 400){
+                Swal.fire({
+                    icon: "error",
+                    iconColor: "#DB524E",
+                    title: "비밀번호를 다시 확인해 주세요.",
+                    showCancelButton: false,
+                    confirmButtonColor: '#1D7151',
+                    confirmButtonText: '확인'
+                })
+            }else{
+                Swal.fire({
+                    icon: "error",
+                    iconColor: "#DB524E",
+                    title: "처리 중 오류가 발생했습니다 (" + error.response?.status + ")",
+                    text: "문제가 지속될 경우 고객센터로 문의 바랍니다.",
+                    showCancelButton: false,
+                    confirmButtonColor: '#1D7151',
+                    confirmButtonText: '확인'
+                })
+            }
         }
     }
 }
