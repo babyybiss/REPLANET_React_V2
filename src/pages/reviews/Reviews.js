@@ -9,78 +9,99 @@ import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import { callGetReviewsAPI } from "../../apis/ReviewAPI";
 import { callGetCampaignsWithoutAReview } from "../../apis/ReviewAPI";
+import { callGetOrgReviewAPI } from "../../apis/ReviewAPI";
+import { callGetOrgCampaignsWithoutReview } from "../../apis/ReviewAPI";
 
 
 export function Reviews() {
+  const token = localStorage.getItem('token');
+  const decodedToken = token ? jwtDecode(token) : null;
+
+  const currentUrl = window.location.href;
+  const memberUI = currentUrl.includes('http://localhost:3000/reviews');
+  const orgUI = currentUrl.includes('http://localhost:3000/myPageOrg/review');
+
+  const [reviews, setReviews] = useState([]);
+  const [filteredResult, setFilteredResult] = useState([]);
+  const [reviewCampaignCode, setReviewCampaignCode] = useState(0);
+  const [searchFilter, setSearchFilter] = useState('');
+  const [reviewExists, setReviewExists] = useState(true);
+  const [searching, setSearching] = useState(false);
+
+  const dispatch = useDispatch();
+
+  console.log('Decoded Token:', decodedToken);
+
+  useEffect(() => {
+    const isPageReloaded = performance.navigation.type === 1;
     
-    const token = localStorage.getItem('token');
-    const decodedToken = token ? jwtDecode(token) : null;
-  
-    console.log('Decoded Token:', decodedToken);
-  
-    const dispatch = useDispatch();
+console.log("reviewexists?? ", reviewExists);
+    if (memberUI && reviewExists == false) {
+      dispatch(callGetCampaignsWithoutAReview());
+    } else if (memberUI && reviewExists == true) {
+      dispatch(callGetReviewsAPI());
+    } else if (orgUI && reviewExists == false) {
+        const memberCode = decodedToken.memberCode;
+      dispatch(callGetOrgCampaignsWithoutReview(memberCode));
+    } else if (orgUI && reviewExists == true) {
+        const memberCode = decodedToken.memberCode;
+      console.log("재단 api!");
+      dispatch(callGetOrgReviewAPI(memberCode));
+    };
+  }, [reviewExists]);
 
-    //const result = useSelector(state => state.reviewReducer.ReviewList || state.reviewReducer.getReviewNeededCampaign)
-    //const completedCampaigns = result.campaignlist || result.campaignDoneList;
-
-    const [reviewCampaignCode, setReviewCampaignCode] = useState(0);
-    const [searchFilter, setSearchFilter] = useState('');
-    const [reviewExists, setReviewExists] = useState(true);
-
-    useEffect(
-        () => {
-            console.log(reviewExists);
-            if(searchFilter == '') {
-                dispatch(callGetReviewsBySearchFilter(searchFilter));
-            }
-        },[searchFilter]
-    );
-
-    const handleSearchKeyPress = () => {
-        // Dispatch your action here with the searchFilter value
-        dispatch(callGetReviewsBySearchFilter(searchFilter));
+  useEffect(() => {
+    if (searching) {
+      // Filter reviews based on searchFilter
+      const newFilteredResult = result.filter((item) =>
+        item.reviewTitle.toLowerCase().includes(searchFilter.toLowerCase())
+      );
+      setFilteredResult(newFilteredResult);
+      console.log("Filtered Result: ", newFilteredResult);
     }
+  }, [searching, searchFilter]);
 
+  const result = useSelector((state) => {
+    if (memberUI && reviewExists === false) {
+      return state.reviewReducer.getReviewNeededCampaign;
+    } else if (memberUI && reviewExists === true) {
+      return state.reviewReducer.reviewList;
+    } else if (orgUI && reviewExists === false) {
+        console.log("리뷰 없는 재단꺼!");
+      return state.reviewReducer.orgReviewNeededCampaign;
+    } else if (orgUI && reviewExists === true) {
+      console.log("재단꺼!");
+      return state.reviewReducer.orgReviewList;
+    }
+  });
 
-    const result = useSelector((state) => {
-        if (reviewExists === false) {
-            return state.reviewReducer.getReviewNeededCampaign;
-        } else if (reviewExists === true) {
-            return state.reviewReducer.reviewList;
+  console.log(result);
+
+  return (
+    <>
+      <div className="container-first">
+        {orgUI &&
+          <div className="admin-title m-4">
+            <h1 class="text-primary">캠페인 리뷰 목록</h1>
+          </div>
         }
-    });
-
-    useEffect(() => {
-        const isPageReloaded = performance.navigation.type === 1;
-
-        if (reviewExists === false) {
-            dispatch(callGetCampaignsWithoutAReview());
-        } else if (reviewExists === true || isPageReloaded ) {
-            dispatch(callGetReviewsAPI());
-        }
-    }, [reviewExists]);
-
-
-
-    return (
-        <>
-            <div className="container-first">
-                <div className="item mb-1">
-                    <h1 className="py-3 container-centered">캠페인 완료 후기</h1>
-                    <ReviewListSearchbar
-                        reviewCampaignCode={reviewCampaignCode}
-                        searchFilter={searchFilter}
-                        setSearchFilter={setSearchFilter}
-                        reviewExists={reviewExists}
-                        setReviewExists={setReviewExists}
-                        handleSearchKeyPress={handleSearchKeyPress} // Pass the handler
-                        //handleCompletedCampaign={handleCompletedCampaign}
-                    />
-                </div>
-                <div class="items-container ic3 g-gap3 campaign-list-container">
-                    <ReviewList result={result} reviewExists={reviewExists} searchFilter={searchFilter} />
-                </div>
-            </div>
-        </>
-    );
+        <div className="item mb-1">
+          {memberUI &&
+            <h1 className="py-3 container-centered">캠페인 후기</h1>
+          }
+          <ReviewListSearchbar
+            reviewCampaignCode={reviewCampaignCode}
+            searchFilter={searchFilter}
+            setSearchFilter={setSearchFilter}
+            reviewExists={reviewExists}
+            setReviewExists={setReviewExists}
+            setSearching={setSearching}
+          />
+        </div>
+        <div class="items-container ic3 g-gap3 campaign-list-container">
+          <ReviewList result={searching ? filteredResult : result} reviewExists={reviewExists} searchFilter={searchFilter} />
+        </div>
+      </div>
+    </>
+  );
 }

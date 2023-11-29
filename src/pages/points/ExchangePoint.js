@@ -54,8 +54,7 @@ function ExchangePoint() {
                 confirmButtonColor: '#1D7151',
                 confirmButtonText: '확인'
             })
-        }
-        if (file == null) {
+        } else if (file == null) {
             Swal.fire({
                 icon: "warning",
                 iconColor: '#1D7151',
@@ -75,7 +74,7 @@ function ExchangePoint() {
                 confirmButtonColor: '#1D7151',
                 confirmButtonText: '확인'
             })
-        } else if (file != null && title != null && title != "") {
+        } else {
             console.log("제목은 : ", title);
             console.log("파일은 : ", file);
             console.log("멤버코드는 : ", memberCode);

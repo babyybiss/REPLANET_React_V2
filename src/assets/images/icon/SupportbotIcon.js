@@ -1,8 +1,8 @@
 function SupportbotIcon()  {
     return(
         <svg 
-            width="60" 
-            height="60" 
+            width="45" 
+            height="45" 
             viewBox="0 0 60 60" 
             fill="none" 
             xmlns="http://www.w3.org/2000/svg"

@@ -54,7 +54,7 @@ export const getUserActionHandler = (token) => {
   return response;
 };
 export const changePasswordActionHandler = (exPassword, newPassword, token) => {
-  const URL = '/';
+  const URL = '/auth/password';
   const changePasswordObj = { exPassword, newPassword };
   const response = POST(URL, changePasswordObj, createTokenHeader(token));
   return response;

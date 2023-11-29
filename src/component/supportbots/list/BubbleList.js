@@ -22,6 +22,12 @@ function BubbleList() {
         }
     };
 
+    const scrollToTop = () => {
+        if(scrollRef.current) {
+            scrollRef.current.scrollTop = 0;
+        }
+    }
+
     useEffect(() => {
         scrollToBottom();
     },[bubbles]);
@@ -30,7 +36,7 @@ function BubbleList() {
     let requestCssClass = "requestBoxClass"
     let responseCssClass = "responseBoxClass"
     
-    const testQuestionClickHandler = (questionCode) => {
+    const QuestionClickHandler = (questionCode) => {
         
         const changeBubbles = bubbles.concat({
             key: madeKey,
@@ -51,10 +57,13 @@ function BubbleList() {
         scrollToBottom();
     }
 
-    /* 다른 질문하기를 놀렀을 경우 초기 상태로 되돌리고 싶음; */
-    const testResetClickHandler = () => {
+    const ResetClickHandler = () => {
         setAnyQuestion(false)
         setBubbles(supportbotDataList)
+    }
+
+    const ScrollTopClickHandler = () => {
+        scrollToTop();
     }
     
     return(
@@ -72,7 +81,7 @@ function BubbleList() {
                         question.cssCondition === requestCssClass ? "requset-box" : 
                         question.cssCondition === responseCssClass ? "response-box" : "click-box"
                     }
-                    onClick={() => testQuestionClickHandler(question.questionCode)}
+                    onClick={() => QuestionClickHandler(question.questionCode)}
                 >
                     {question.questionContent}
                 </div> 
@@ -80,9 +89,17 @@ function BubbleList() {
             {anyQuestion && 
                 <div
                     className="reset-box"
-                    onClick={() => testResetClickHandler()}
+                    onClick={() => ResetClickHandler()}
                 >
-                    다른 질문을 하고 싶어요
+                    처음으로
+                </div>
+            }
+            {anyQuestion && 
+                <div
+                    className="scroll-top-box"
+                    onClick={() => ScrollTopClickHandler()}
+                >
+                    위로 가기
                 </div>
             }
         </div>

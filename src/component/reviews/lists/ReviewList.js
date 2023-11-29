@@ -8,8 +8,6 @@ import { callGetCampaignsWithoutAReview } from "../../../apis/ReviewAPI";
 
 export function ReviewList({ result, reviewExists, searchFilter, completedCampaigns }) {
 
-    const dispatch = useDispatch();
-
     console.log(result)
 
     return (

@@ -9,33 +9,33 @@ function ParticipationDetails() {
     const campaignCode = useParams();
     const dispatch = useDispatch();
     const itemsPerPage = 10;
-
     const pageInfo = participation;
+    const participationList = participation.results ? participation.results.campaign : "";
 
     const [start, setStart] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
 
     const pageNumber = [];
-    if(pageInfo){
-        for(let i = 1; i <= pageInfo.pageEnd ; i++){
+    if (pageInfo) {
+        for (let i = 1; i <= pageInfo.pageEnd; i++) {
             pageNumber.push(i);
         }
     }
     useEffect(
         () => {
             setStart((currentPage - 1) * 5);
-            dispatch(callGetDonationByCampaignCodeAPI({	
+            dispatch(callGetDonationByCampaignCodeAPI({
                 campaignCode: campaignCode.campaignCode,
                 currentPage: currentPage
-            }));            
+            }));
         }
-        ,[dispatch]
+        , [dispatch]
     );
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = participation && participation.length > 0 ? participation.slice(indexOfFirstItem, indexOfLastItem) : [];
+    const currentItems = participationList && participationList.length > 0 ? participationList.slice(indexOfFirstItem, indexOfLastItem) : [];
 
-    const totalItems = participation.length;
+    const totalItems = participationList.length;
     const totalPages = Math.ceil(totalItems / itemsPerPage);
 
 
@@ -44,27 +44,23 @@ function ParticipationDetails() {
             setCurrentPage(newPage);
         }
     };
-// participation.map(participation => <Participation key={participation.donationCode}  participation={participation}/>
+    // participation.map(participation => <Participation key={participation.donationCode}  participation={participation}/>
 
     return (
-        participation&&(
-        <>
-            <h2 class="my-1">참여 내역</h2>
-            {participation && participation.length > 0 ? (currentItems.map( (participation) => (
-                <Participation key={participation? participation.donationCode: '' }  participation={participation}/>
+        participationList && (
+            <>
+                <h2 className="my-1">참여 내역</h2>
+                {participationList && participationList.length > 0 ? (currentItems.map((participation) => (
+                    <Participation key={participation ? participation.donationCode : ''} participation={participation} />
 
-            ))):(
-                <tr>
-                    <td colSpan={5}>참여 내역이 없습니다!</td>
-                </tr>
-            )}
-                
-           
+                ))) : (
+                    <tr>
+                        <td colSpan={5}>참여 내역이 없습니다!</td>
+                    </tr>
+                )}
 
-            <ul className="pagination">
-
-                    <li className="icon" onClick={() => handlePageChange(currentPage -1)}><a><span className="fas fa-angle-left"></span></a></li>
-
+                <ul className="pagination">
+                    <li className="icon" onClick={() => handlePageChange(currentPage - 1)}><a><span className="fas fa-angle-left"></span></a></li>
                     {Array.from({ length: totalPages }, (_, index) => (
                         <li
                             key={index}
@@ -75,11 +71,9 @@ function ParticipationDetails() {
                             </a>
                         </li>
                     ))}
-
                     <li onClick={() => handlePageChange(currentPage + 1)}><a><span className="fas fa-angle-right"></span></a></li>
-
                 </ul>
-        </>
+            </>
         )
     );
 }

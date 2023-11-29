@@ -1,10 +1,6 @@
 function CampaignContent({ campaign }) {
     // 파일 이름이 있는지 체크
-    console.log(campaign,'dd');
-    let fileSaveName = campaign? campaign.campaignDescFileList : ''
-    //let fileSaveName = campaignInfo.campaignDescFileList[0];
-    
-
+    let fileSaveName = campaign.campaignDescFileList[0] ? campaign.campaignDescFileList[0] : null
     if(fileSaveName == null || undefined){
         fileSaveName = false; 
       }else{ 
