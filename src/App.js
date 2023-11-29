@@ -39,8 +39,7 @@ import MyPageOrg from "./pages/org/MyPageOrg";
 import OrgCamList from "./component/org/lists/OrgCamList";
 import OrgEdit from "./pages/org/OrgEdit";
 import OrgWithdraw from "./pages/org/OrgWithdraw";
-import EditOrg from "./pages/EditOrg";
-import PwdConfirm from "./pages/EditPwdConfirm";
+import PwdConfirm from "./pages/org/EditPwdConfirm";
 import { ChangePassword } from "./component/auth/ChangePassword";
 import SendEmail from "./pages/auth/SendEmail";
 
@@ -115,13 +114,10 @@ function App() {
               // ROLE_ORG의 마이페이지
               <Route key="list" index element={<Navigate to="list" />} />,
               <Route key="listPage" path="list" element={<OrgCamList />} />,
-              <Route key="edit" path="edit" element={<OrgEdit />} />,
+              <Route key="confirmPwd" path="confirmPwd" element={<PwdConfirm />} />,
+              <Route key="modify" path="modify" element={<OrgEdit />} />,
               <Route key="withdraw" path="withdraw" element={<OrgWithdraw />} />,
             ]}/>
-            <Route path="editOrg">
-              <Route index element={<PwdConfirm />} />
-              <Route path="modifyOrg" element={authCtx.isLoggedIn ? <EditOrg /> : <Navigate to='/' />} />
-            </Route>
 
           </Route>
         </Routes>
