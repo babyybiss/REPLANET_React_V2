@@ -1,29 +1,5 @@
-.supportbot-container {
-    text-align: center;
-    padding-top: calc(3rem + 80px);
-    margin-bottom: 0.625rem;
-}
-  
-.faq-container {
-    max-width: 600px;
-    margin: 0 auto;
-}
-  
-.question {
-    cursor: pointer;
-    font-size: large;
-    margin-bottom: 10px;
-    color: #1D7151
-}
-  
-.answer {
-    margin-top: 10px;
-    border: 1px solid #ccc;
-    padding: 10px;
-}
-
-/* modals css */
-.icon-button-style {
+/* icon css */
+.supportbot-button-style {
     cursor: pointer;
     position: fixed;
     bottom: 30px;
@@ -31,6 +7,8 @@
     border-radius: 100%;
     border: none;
 }
+
+/* modal css */
 .modal-container {
     bottom: 100px;
     right: 34px;
@@ -69,6 +47,8 @@
     user-select: none;
     pointer-events: none;
 }
+
+/* 모달 내 말풍선 */
 .requset-box {
     display: block;
     float: right;
@@ -117,8 +97,21 @@
     background-color: #FFFFFF;
     border-radius: 18px;
     padding: 8px;
-    margin: 5px;
+    margin: 8px;
     font-size: 13px;
     user-select: none;
     cursor: pointer;
+}
+.scroll-top-box {
+    display: block;
+    float: right;
+    text-align: left;
+    background-color: #FFFFFF;
+    border-radius: 18px;
+    padding: 8px;
+    margin: 8px;
+    font-size: 13px;
+    user-select: none;
+    cursor: pointer;
+
 }

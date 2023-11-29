@@ -10,54 +10,12 @@ function CurrentYearCampaign(chartDataListProps) {
   const tickValuesAttributes = chartDataList.map((attribute, index) => index + 1);
   const tickFormatAttributes = chartDataList.map(monthlyName => `${monthlyName.monthly}월`)
 
-  /* TestData */
-  /*
-  const monthlyData = [
-    {
-      monthly: 1, campaigns: 5
-    },
-    {
-      monthly: 2, campaigns: 15
-    },
-    {
-      monthly: 3, campaigns: 2
-    },
-    {
-      monthly: 4, campaigns: 3
-    },
-    {
-      monthly: 5, campaigns: 4
-    },
-    {
-      monthly: 6, campaigns: 5
-    },
-    {
-      monthly: 7, campaigns: 1
-    },
-    {
-      monthly: 8, campaigns: 0
-    },
-    {
-      monthly: 9, campaigns: 6
-    },
-    {
-      monthly: 10, campaigns: 8
-    },
-    {
-      monthly: 11, campaigns: 1
-    },
-    {
-      monthly: 12, campaigns: 2
-    }
-  ];
-  
-  const tickValuesAttributes = monthlyData.map((attribute, index) => index + 1);
-  const tickFormatAttributes = monthlyData.map(monthlyName => `${monthlyName.monthly}월`)
-  */
-
   /* chart figure */ 
   const width = 1500;
   const height = 700;
+
+  /* chart padding */ 
+  const chartPadding = { left: 100, right: 50, top: 50, bottom: 50 }
 
   /* x축, y축 기준 설정 */
   const stringX = 'monthly';
@@ -67,9 +25,9 @@ function CurrentYearCampaign(chartDataListProps) {
   const baseFillStyle = { fill: "#10573C" }
 
   const axisStyle = {
-      axis: { stroke: "#10573C", strokeWidth: 3 },
-      axisLabel: { fontSize: 14, padding: 36, ...baseFillStyle },
-      tickLabels: { fontSize: 18, padding: 4, ...baseFillStyle }
+      axis: { stroke: "#10573C", strokeWidth: 2 },
+      axisLabel: { fontSize: 20, padding: 36, ...baseFillStyle },
+      tickLabels: { fontSize: 20, padding: 10, ...baseFillStyle }
   }
 
   const toolTipStyle = {
@@ -91,6 +49,7 @@ function CurrentYearCampaign(chartDataListProps) {
       <h4>당해 등록된 캠페인 수</h4>
       <VictoryChart 
         width={width} height={height}
+        padding={chartPadding}
         domainPadding={50} 
         containerComponent={
           <VictoryVoronoiContainer />
