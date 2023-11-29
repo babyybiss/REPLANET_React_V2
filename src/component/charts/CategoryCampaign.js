@@ -1,7 +1,8 @@
 import {VictoryBar, VictoryChart, VictoryLabel, VictoryVoronoiContainer, VictoryPolarAxis, VictoryStack} from 'victory';
 import "../../assets/css/chart.css";
+import { numberFormatToKorean } from '../../utils/NumberFormatToKorean';
 
-/* chart figure */ 
+/* category campaign common figure */
 const width = 1500;
 const height = 700;
 
@@ -38,7 +39,7 @@ function CenterLabel({ active, datum }) {
     const changeText = cursorY1 === sumGoalBudget ? "목표" : "현재";
     const currentPercentage = Math.round((displaySumCurrentBudget / sumGoalBudget * 100) * 100) / 100; 
 
-    const labelText = [ `${campaignCategory} ${changeText}모금액: ${cursorY1}원`, `달성률 : ${currentPercentage}%` ];
+    const labelText = [ `${campaignCategory} ${changeText}모금액: ${numberFormatToKorean(cursorY1)}원`, `달성률 : ${currentPercentage}%` ];
 
     const baseLabelStyle = { fill: "#10573C", textAnchor: "middle" };
     const completeLabelStyle = [
@@ -59,42 +60,17 @@ function CategoryCampaign(chartDataListProps) {
     /* x축(round), y축(radius) 기준 설정 */
     const stringX = 'campaignCategory';
     const stringY1 = 'sumCurrentBudget';
-    const stringY2 = (d) => (d.sumGoalBudget-d.displaySumCurrentBudget);
+    const stringY2 = (standardData) => (standardData.sumGoalBudget-standardData.displaySumCurrentBudget);
 
     /* bar 너비 */ 
     const barWidth = 100;
 
     /* chartData from API */
-    
     const { chartDataList } = chartDataListProps;
 
     const tickValuesAttributes = chartDataList.map((attribute, index) => index + 1);
     const tickFormatAttributes = chartDataList.map(categoryname => categoryname.campaignCategory)
     
-
-    /* TestData */ 
-    /*
-    const categoryData = [
-        {
-            campaignCategory: "재난", campaings: 15, sumGoalBudget: 600000, sumCurrentBudget: 400000, sumExpectBudget: 200000
-        },
-        {
-            campaignCategory: "지구촌", campaings: 35, sumGoalBudget: 500000, sumCurrentBudget: 350000, sumExpectBudget: 150000
-        },
-        {
-            campaignCategory: "아동", campaings: 20, sumGoalBudget: 800000, sumCurrentBudget: 800000, sumExpectBudget: 0
-        },
-        {
-            campaignCategory: "노인", campaings: 10, sumGoalBudget: 300000, sumCurrentBudget: 200000, sumExpectBudget: 100000
-        },
-        {
-            campaignCategory: "소외", campaings: 9, sumGoalBudget: 220000, sumCurrentBudget: 200000, sumExpectBudget: 20000
-        }
-    ];
-
-    const tickValuesAttributes = categoryData.map((attribute, index) => index + 1);
-    const tickFormatAttributes = categoryData.map(categoryname => categoryname.campaignCategory)
-    */
 
     /* Event function setting */
     const mouseEventHandler = [
@@ -121,12 +97,12 @@ function CategoryCampaign(chartDataListProps) {
     /* style setting */
     /* y축 (반지름) */
     const radiusAxisStyle = {
-        axis: { stroke: "#10573C" }
+        axis: { stroke: "#10573C", strokeWidth: 0.6 }
     }
 
     /* x축 (둘레) */
     const roundAxisStyle = {
-        axis: { stroke: "#10573C", strokeWidth: 3 },
+        axis: { stroke: "#10573C", strokeWidth: 2 },
         tickLabels: { fontSize: 20, padding: 20, fill: "#10573C" }
     } 
 

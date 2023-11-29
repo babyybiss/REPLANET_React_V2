@@ -1,5 +1,6 @@
 import {VictoryVoronoiContainer, VictoryBar, VictoryChart, VictoryAxis, VictoryTooltip} from 'victory';
 import "../../assets/css/chart.css";
+import { numberFormatToKorean } from '../../utils/NumberFormatToKorean';
 
 /* customToolTipBox */ 
 function CustomFlyout(flyoutComponentProps) {
@@ -26,31 +27,6 @@ function GoalCampaign(chartDataListProps) {
 
   const tickValuesAttributes = chartDataList.map((attribute, index) => index + 1);
   const tickFormatAttributes = chartDataList.map(categoryname => categoryname.campaignCategory)
-  
-
-  /* TestData */
-  /*
-  const categoryData = [
-    {
-        campaignCategory: "가", sumCurrentBudget: 300000, sumGoalBudget: 600000
-    },
-    {
-        campaignCategory: "나", sumCurrentBudget: 400000, sumGoalBudget: 500000
-    },
-    {
-        campaignCategory: "다", sumCurrentBudget: 300000, sumGoalBudget: 800000
-    },
-    {
-        campaignCategory: "라", sumCurrentBudget: 200000, sumGoalBudget: 300000
-    },
-    {
-        campaignCategory: "마", sumCurrentBudget: 150000, sumGoalBudget: 220000
-    }
-  ];
-
-  const tickValuesAttributes = categoryData.map((attribute, index) => index + 1);
-  const tickFormatAttributes = categoryData.map(categoryname => categoryname.campaignCategory)
-  */
 
   /* Event function setting */ 
   const mouseEventsHandler = [
@@ -95,7 +71,7 @@ function GoalCampaign(chartDataListProps) {
                         const currentBudget = data[index].sumCurrentBudget
                         // console.log(e);
                         // console.log(e.data[e.index].campaings);
-                        return text !== `${Math.round(currentBudget/10000)}만원` ? { text: `${Math.round(currentBudget/10000)}만원` } : null 
+                        return text !== `${numberFormatToKorean(currentBudget)}원` ? { text: `${numberFormatToKorean(currentBudget)}원` } : null 
                     }
                 }
             ];
@@ -107,6 +83,9 @@ function GoalCampaign(chartDataListProps) {
   /* chart figure */ 
   const width = 1500;
   const height = 700;
+
+  /* chart padding */ 
+  const chartPadding = { left: 100, right: 50, top: 50, bottom: 50 }
 
   /* x축, y축 기준 설정 */
   const stringX = 'campaignCategory';
@@ -124,9 +103,9 @@ function GoalCampaign(chartDataListProps) {
   }
 
   const axisStyle = {
-    axis: { ...baseStrokeStyle, strokeWidth: 3 },
-    axisLabel: {fontSize: 14, padding: 36, ...baseFillStyle},
-    tickLabels: {fontSize: 15, padding: 4, ...baseFillStyle}
+    axis: { ...baseStrokeStyle, strokeWidth: 2 },
+    axisLabel: {fontSize: 20, padding: 36, ...baseFillStyle},
+    tickLabels: {fontSize: 20, padding: 10, ...baseFillStyle}
   } 
 
   const barStyle = {
@@ -150,7 +129,7 @@ function GoalCampaign(chartDataListProps) {
     onLoad: { duration: 1000 }
   }
   */
-
+  
   /* render */ 
   return(
     <div className='chartbox'>
@@ -159,10 +138,11 @@ function GoalCampaign(chartDataListProps) {
         domainPadding={50} 
         style={chartStyle}
         width={width} height={height}
+        padding={chartPadding}
         containerComponent={
           <VictoryVoronoiContainer 
             labels={
-              ({ datum }) => `${Math.round(datum._y/10000)}만원`
+              ({ datum }) => `${numberFormatToKorean(datum._y)}원`
             }
             labelComponent={
               <VictoryTooltip
@@ -180,12 +160,12 @@ function GoalCampaign(chartDataListProps) {
           style={axisStyle}
         />
         <VictoryAxis dependentAxis
-          tickFormat={(x) => `${Math.round(x/10000000)}천만원`}
+          tickFormat={(x) => `${numberFormatToKorean(x, false)}`}
           style={axisStyle}
         />
         <VictoryBar 
           data={chartDataList} 
-          labels={""}
+          labels={() => ""}
           barWidth={40}
           events={mouseEventsHandler} 
           style={barStyle}
