@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 import { PostCampaignAPI } from "../../apis/CampaignListAPI";
 import { useDispatch } from 'react-redux';
 import { useRef } from "react";
-
+import { jwtDecode } from 'jwt-decode';
 import draftToHtml from 'draftjs-to-html';
 import DraftEditor from "../../component/common/DraftEditor";
 import '../../assets/css/editor.css';
@@ -20,25 +20,20 @@ const categoryList = [
 ];
 
 function CampaignRegist() {
+    // 토큰 정보 
+    const token = localStorage.getItem('token');
+    const decodedToken = token ? jwtDecode(token) : null;
+
+    // 텍스트 
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
     const [inputs, setInputs] = useState([]);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
-
+    // 이미지
     const [imgPreview, setImgPreview] = useState("");
     const [imageUrl, setImageUrl] = useState('');
     const imageInput = useRef();
-
-    const dispatch = useDispatch();
-
-    const header = {
-        headers: {
-            //Authorization: `${getItem('token')}`,
-            "Content-type": "multipart/form-data charset=utf-8",
-            Accept: "*/*",
-            Authorization: "Bearer " + window.localStorage.getItem("accessToken")
-        },
-    };
 
     const onChange = (e) => {
         const { value, name } = e.target;
@@ -89,7 +84,6 @@ function CampaignRegist() {
 
     }, [inputs]);
 
-
     useEffect(() => {
         // 이미지 업로드시 미리보기 세팅
         if (imgPreview) {
@@ -117,18 +111,17 @@ function CampaignRegist() {
         formData.append("campaignTitle", inputs.campaignTitle);
         formData.append("endDate", inputs.endDate);
         formData.append("goalBudget", inputs.goalBudget);
-        formData.append("orgDescription", inputs.orgDescription);
-        formData.append("orgName", inputs.orgName);
-        formData.append("orgTel", inputs.orgTel);
-
-
+        formData.append("orgCode", decodedToken.memberCode);
+        // formData.append("orgDescription", inputs.orgDescription);
+        // formData.append("orgName", inputs.orgName);
+        // formData.append("orgTel", inputs.orgTel);
 
         if (imgPreview) {
             formData.append("imageFile", imgPreview);
         }
         dispatch(PostCampaignAPI({	// 상품 상세 정보 조회
             inputs: formData,
-            header,
+            //header,
 
         }));
 

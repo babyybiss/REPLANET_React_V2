@@ -22,14 +22,17 @@ const categoryList = [
 
 function CampaignModify() {
     //캠페인 정보 불러오기
-    const campaigns = useSelector(state => state.campaignReducer);
-    const campaignInfo = campaigns.campaigninfo;
+    const result = useSelector(state => state.campaignReducer.campaigninfo);
+    const campaign = result.results? result.results.campaign : "";
     const { campaignCode } = useParams();
     const navigate = useNavigate();
 
+    console.log(campaignCode, 'ㅇㅇㅇㅇㅇㅇ');
+
+    // 캠페인 내용 가져오기
     const [editorState, setEditorState] = useState(() => {
-        if (campaignInfo) {
-            const contentBlock = convertFromHTML(campaignInfo.campaignContent);
+        if (campaign) {
+            const contentBlock = convertFromHTML(campaign.campaignContent);
             const contentState = ContentState.createFromBlockArray(contentBlock);
             return EditorState.createWithContent(contentState);
         } else {
@@ -44,11 +47,13 @@ function CampaignModify() {
     const [imageUrl, setImageUrl] = useState('');
     const imageInput = useRef();
 
-    const beforeUrl = campaignInfo.campaignDescfileList[0].fileSaveName;
+    let beforeUrl = campaign.campaignDescFileList[0] ? campaign.campaignDescFileList[0].fileSaveName : null
+
+    //const beforeUrl = campaignInfo.campaignDescfileList[0].fileSaveName;
     // 수정하기 전 내용 가져오기 
     useEffect(() => {
         dispatch(GetCampaignAPI(campaignCode))
-        setInputs(campaignInfo)
+        setInputs(campaign)
         //setImagePre(campaignInfo.campaignDescfileList[0])
 
         if (imagePre) {
@@ -63,23 +68,10 @@ function CampaignModify() {
         }
     }, [imagePre]);
 
-
-    // const canSubmit = useCallback(() => {
-    //     return inputs !== "" && editorState !== "";
-    //   }, [inputs]);
-    const header = {
-        headers: {
-            //Authorization: `${getItem('token')}`,
-            "Content-type": "multipart/form-data charset=utf-8",
-            Accept: "*/*",
-            Authorization: "Bearer " + window.localStorage.getItem("accessToken")
-        },
-    };
-
     const onChange = (e) => {
         const { value, name } = e.target;
-        if(e.target.name == "endDate"){
-            if(new Date(e.target.value) < new Date()){
+        if (e.target.name == "endDate") {
+            if (new Date(e.target.value) < new Date()) {
                 Swal.fire({
                     icon: 'warning',
                     title: '마감일은 <b style="color:#1D7151; font-weight:bold;">현재 날짜보다</b> </br>작을 수 없습니다.',
@@ -111,7 +103,7 @@ function CampaignModify() {
                 [name]: clampedValue.toLocaleString('ko-KR')
             });
         }
-        if(price > 1000000000) {
+        if (price > 1000000000) {
             Swal.fire({
                 icon: 'warning',
                 title: '<b style="color:#1D7151; font-weight:bold;">10억 초과 금액은 </b> </br>모금 할 수 없습니다.',
@@ -158,9 +150,6 @@ function CampaignModify() {
         formData.append("campaignTitle", inputs.campaignTitle);
         formData.append("endDate", inputs.endDate);
         formData.append("goalBudget", inputs.goalBudget);
-        formData.append("orgDescription", inputs.orgDescription);
-        formData.append("orgName", inputs.orgName);
-        formData.append("orgTel", inputs.orgTel);
 
         if (imagePre) {
             formData.append("imageFile", imagePre);
@@ -168,7 +157,6 @@ function CampaignModify() {
 
         dispatch(ModifyCampaignAPI({
             inputs: formData,
-            header,
         }, campaignCode));
 
     }
@@ -214,22 +202,10 @@ function CampaignModify() {
                 <div className="items-container ic1">
                     <label>목표금액<input className="input" type="text" maxLength="20" name="goalBudget" placeholder="총 목표 금액을 입력하세요." value={inputs.goalBudget} onChange={priceChangeHandler} required /></label>
                     <label htmlFor="endDate">캠페인 마감일 <input type="date" id="endDate" name="endDate" className="input" onChange={onChange} value={inputs.endDate} /></label>
-                    <label>단체명<input className="input" name="orgName" maxLength="50" placeholder="단체명을 입력해주세요." onChange={onChange} value={inputs.orgName} required /></label>
-                    <label>단체 한줄소개<input className="input" name="orgDescription" maxLength="50" placeholder="단체 한줄소개를 입력해주세요." value={inputs.orgDescription} onChange={onChange} required /></label>
-                    <label>단체 연락처<input className="input" name="orgTel" maxLength="13" placeholder="전화번호를 입력해주세요." onChange={onChange} value={inputs.orgTel} required /></label>
                 </div>
             </div>
             <div >
-                {/*canSubmit() ? (
-                <button className="button button-primary" type="submit">등록하기</button>
-                ) : (
-                    <button className="button button-primary">
-                        전부 수정하세욧!
-                    </button>
-
-                ) */}
                 <button className="button button-primary" onClick={submitHandler}>등록하기</button>
-
                 <button className="button button-primary-outline" onClick={() => navigate(-1)}>취소</button>
             </div>
         </>

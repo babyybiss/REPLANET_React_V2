@@ -1,9 +1,9 @@
 
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CampaignItem from "../items/CampaignItem";
-import { CampaignListAPI } from "../../../apis/CampaignListAPI";
+import { CampaignListAPI, GetCampaignByOrgAPI } from "../../../apis/CampaignListAPI";
 import { getCategoryByCampaign } from "../../../modules/CampaignModule";
 import { jwtDecode } from 'jwt-decode';
 import GoToTopButton from "../items/GotoTopButton";
@@ -21,16 +21,20 @@ function CampaignList() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
+    let orgURL = "http://localhost:3000/myPageOrg/list";
+
+    console.log();
     // 토큰 정보 
     const token = localStorage.getItem('token');
     const decodedToken = token ? jwtDecode(token) : null;
+    let orgCode = decodedToken && decodedToken.memberRole === "ROLE_ORG" ? decodedToken.memberCode : "" ;
 
     // 카테고리 필터링
     const result = useSelector(state => state.campaignReducer.campaignlist)
     const [categories, setCategories] = useState();
-    //const [campignListFilter, setCampignListFilter] = useState()
-    const campaignList = result? result.results.campaignList : "";
+    const campaignList = result ? result.results.campaignList : "";
     const campaignFilter = categories ? categories.payload : undefined;
+
     const categoryClickHandler = (category) => {
         if (category === "전체") {
             return setCategories(undefined)
@@ -74,7 +78,11 @@ function CampaignList() {
 
     // 처음 로딩시 화면 
     useEffect(() => {
-        dispatch(CampaignListAPI("ing"))
+        if (orgURL === window.location.href) {
+            dispatch(GetCampaignByOrgAPI(orgCode))
+        } else {
+            dispatch(CampaignListAPI("ing"))
+        }
     }, []
     );
 
@@ -94,7 +102,6 @@ function CampaignList() {
             setCurrentPage(nextPage);
         }
     };
-
     return (
         <>
             <div className="campaign-button-container">
@@ -106,7 +113,9 @@ function CampaignList() {
                             {category.name}
                         </button>
                     ))}
+                    {decodedToken !== null && decodedToken.memberRole === "ROLE_ORG" ?
                         <button className="button button-primary" onClick={goToRegist}>캠페인 등록</button> : ""
+                    }
                 </div>
             </div>
 
@@ -119,10 +128,10 @@ function CampaignList() {
             {campaignList && (
                 <div className="items-container ic3 g-gap3 campaign-list-container">
                     {campaignFilter !== undefined ?
-                        campaignFilter.category.map(campaign => <CampaignItem key={campaign.campaignCode} campaign={campaign} />)
+                        campaignFilter.category.map(campaign => <CampaignItem decodedToken={decodedToken} key={campaign.campaignCode} campaign={campaign} />)
                         //: campignListFilter ? campignListFilter.map(campaign => <CampaignItem key={campaign.campaignCode} campaign={campaign} />)
                         :
-                        currentItems.map(campaign => <CampaignItem key={campaign.campaignCode} campaign={campaign} />)}
+                        currentItems.map(campaign => <CampaignItem decodedToken={decodedToken} key={campaign.campaignCode} campaign={campaign} />)}
                 </div>
             )}
             {categories !== undefined ?
