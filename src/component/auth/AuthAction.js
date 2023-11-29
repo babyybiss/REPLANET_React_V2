@@ -32,9 +32,9 @@ export const retrieveStoredToken = () => {
       duration: remaingTime
   };
 };
-export const signupActionHandler = (email, password, memberName, phone) => {
+export const signupActionHandler = (email, password, memberName, phone, memberRole) => {
   const URL = '/auth/signup';
-  const signupObject = { email, password, memberName, phone };
+  const signupObject = { email, password, memberName, phone, memberRole };
   const response = POST(URL, signupObject, {});
   return response;
 };
@@ -57,5 +57,12 @@ export const changePasswordActionHandler = (exPassword, newPassword, token) => {
   const URL = '/auth/password';
   const changePasswordObj = { exPassword, newPassword };
   const response = POST(URL, changePasswordObj, createTokenHeader(token));
+  return response;
+};
+
+export const successRegistOrgActionHandler = ( email, title, message ) => {
+  const URL = '/sendEmailToOrg';
+  const changePasswordObj = { email, title, message };
+  const response = POST(URL, changePasswordObj, {});
   return response;
 };
