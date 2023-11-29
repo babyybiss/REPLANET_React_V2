@@ -15,7 +15,7 @@ const Signup = () => {
   const passwordInputRef = useRef(null);
   const memberNameInputRef = useRef(null);
   const phoneInputRef = useRef(null);
-  const verificationCodeInputRef = useRef(null);
+  const smsCodeInputRef = useRef(null);
 
 
   const [email, setEmail] = useState('');
@@ -23,7 +23,7 @@ const Signup = () => {
   const [passwordConfirm, setPasswordConfirm] = useState('');
   const [memberName, setMemberName] = useState('');
   const [phone, setPhone] = useState('');
-  const [verificationCode, setVerificationCode] = useState('');
+  const [smsCode, setSmsCode] = useState('');
 
   //const [checkEmail, setCheckEmail] = useState(false);
 
@@ -52,42 +52,24 @@ const Signup = () => {
       .match(/^[0-9].{8,10}$/)
   }
 
-  const validateVerificationCode = (verificationCode) => {
-    return verificationCode
+  const validateSmsCode = (smsCode) => {
+    return smsCode
       .match(/^[0-9].{0,3}}$/)
   }
-
-
-  const onCheckEmail = async (email) => {
-    console.log(email);
-    try {
-      const response = await axios.post("http://localhost:8001/auth/emailcheck/{email}", email);
-      Swal.fire("사용 가능");
-      console.log(response.data);
-    } catch(error) {
-      console.log(error);
-      Swal.fire("사용 불가");
-  }
-};
-  
-
-
-
-
 
   const [emailMsg, setEmailMsg] = useState("");
   const [passwordMsg, setPasswordMsg] = useState('');
   const [passwordConfirmMsg, setPasswordConfirmMsg] = useState("");
   const [memberNameMsg, setMemberNameMsg] = useState("");
   const [phoneMsg, setPhoneMsg] = useState("");
-  const [verificationCodeMsg, setVerificationCodeMsg] = useState("");
+  const [smsCodeMsg, setSmsCodeMsg] = useState("");
 
   const isEmailValid = validateEmail(email);
   const isPasswordValid = validatePassword(password);
   const isPasswordConfirmValid = password === passwordConfirm;
   const isMemberNameValid = validateMemberName(memberName);
   const isPhoneValid = validatePhone(phone);
-  const isVerificationCodeValid = validateVerificationCode(verificationCode);
+  const isSmsCodeValid = validateSmsCode(smsCode);
 
   const handleEmail = useCallback(async (e) => {
     const currEmail = e.target.value;
@@ -149,13 +131,13 @@ const Signup = () => {
 
   }, []);
 
-  const handleVerificationCode = useCallback((e) => {
-    const currVerificationCode = e.target.value;
-    setVerificationCode(currVerificationCode);
-    if (!validateVerificationCode(currVerificationCode)) {
-      setVerificationCodeMsg("4자리의 숫자만 입력 가능합니다.");
+  const handleSmsCode = useCallback((e) => {
+    const currSmsCode = e.target.value;
+    setSmsCode(currSmsCode);
+    if (!validateSmsCode(currSmsCode)) {
+      setSmsCodeMsg("4자리의 숫자만 입력 가능합니다.");
     } else {
-      setVerificationCodeMsg("확인 버튼을 눌러 인증을 완료해 주세요.");
+      setSmsCodeMsg("확인 버튼을 눌러 인증을 완료해 주세요.");
     }
   }, []);
 
@@ -168,7 +150,9 @@ const Signup = () => {
       const response = await axios.post(url, body);
       if (response.status === 200) {
         console.log('인증번호 전송 성공');
+        console.log({enteredPhone});
         Swal.fire("", "입력하신 번호로 인증번호가 전송되었습니다.");
+
       } else {
         console.error('인증번호 전송 실패');
         Swal.fire("", "전송 실패! 휴대전화 번호를 다시 확인해 주세요.");
@@ -179,21 +163,40 @@ const Signup = () => {
     }
   };
 
-  const handleSendVerificationCode = async (verificationCode) => {
+
+
+  const handleSendSmsCode = () => {
+    fetch('http://localhost:8001/users/sms', {
+      method: 'POST', // http의 method
+      body: JSON.stringify({ // 기존의 js object를 JSON String의 형태로 변환
+        smsCode: smsCode
+      }),
+    })
+      .then(response => response.json())
+      .then(result => console.log('결과: ', result));
+      setSmsCode(smsCode);
+
+  };
+
+  const onCheckEmail = async () => {
+    console.log(email);
+    const url = "http://localhost:8001/auth/emailcheck/" + email;
+    const body = { email: email };
 
     try {
-        const response = await axios.post("http://localhost:8001/users/smscheck/{verificationcode}", { cerNum: verificationCode });
-        console.log(response.data);
+      const response = await axios.post(url, body);
       if (response.status === 200) {
-        console.log('인증번호 확인 성공');
-        Swal.fire("", "ㅊㅋ");
-      } else {
-        console.error('인증번호 확인 실패');
-        Swal.fire("", "ㄴㄴ");
+        console.log('사용 가능한 이메일입니다');
+        setEmailMsg("사용 가능한 이메일입니다.");
       }
     } catch (error) {
-      console.error('API 호출 중 오류 발생', error);
-      Swal.fire("", "API 호출 중 오류 발생");
+      if (error.response && error.response.status === 400) {
+        console.log('이미 사용 중인 이메일입니다.');
+        setEmailMsg("이미 사용 중인 이메일입니다.");
+      } else {
+        console.log('예상치 못한 오류가 발생했습니다.');
+        setEmailMsg("예상치 못한 오류가 발생했습니다.");
+      }
     }
   };
 
@@ -239,7 +242,7 @@ const Signup = () => {
     }
   }, [privacyCheck, useCheck]);
 
-  const isAllValid = isEmailValid && isPasswordValid && isPasswordConfirmValid && isMemberNameValid && isPhoneValid && privacyCheck && useCheck;
+  const isAllValid = isEmailValid && isPasswordValid && isPasswordConfirmValid && isMemberNameValid && isPhoneValid && onCheckEmail && privacyCheck && useCheck;
 
   const submitHandler = (e) => {
 
@@ -284,11 +287,11 @@ const Signup = () => {
                 </div>
                 <div className="regexMsg">{phoneMsg}</div>
                 <div className="input-group">
-                  <input className="input" type="text" ref={verificationCodeInputRef} value={verificationCode} id="verificationCode" required placeholder="전송받으신 인증번호 4자리를 입력해 주세요." onChange={handleVerificationCode} disabled={!isPhoneValid} />
-                  <button type="button" className="button button-primary" onClick={handleSendVerificationCode}>인증번호 입력</button>
+                  <input className="input" type="text" ref={smsCodeInputRef} value={smsCode} id="smsCode" required placeholder="전송받으신 인증번호 4자리를 입력해 주세요." onChange={handleSmsCode} disabled={!isPhoneValid} />
+                  <button type="button" className="button button-primary" onClick={handleSendSmsCode}>인증번호 입력</button>
 
                 </div>
-                <div className="regexMsg">{verificationCodeMsg}</div>
+                <div className="regexMsg">{smsCodeMsg}</div>
               </div>
               <div className="item">
                 <div className="container-policy mb-1">
@@ -316,8 +319,8 @@ const Signup = () => {
                 <input id="policy2" type="checkbox" className="mb-1" checked={useCheck} onChange={useBtnEvent} />
                 <label htmlFor="policy2">이용약관에 동의합니다.(필수)</label>
                 <hr />
-                <input id="policy1" type="checkbox" className="mb-1" checked={allCheck} onChange={allBtnEvent} />
-                <label htmlFor="policy1">약관 전체동의</label>
+                <input id="policy3" type="checkbox" className="mb-1" checked={allCheck} onChange={allBtnEvent} />
+                <label htmlFor="policy3">약관 전체동의</label>
               </div>
               <button className="button button-primary w-100" type="submit" disabled={!isAllValid}>회원가입</button>
             </div>

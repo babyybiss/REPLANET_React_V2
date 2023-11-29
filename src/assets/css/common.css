@@ -747,6 +747,7 @@
       display: none;
       margin-right: 0 !important;
       padding-right: 0 !important;
+      margin-top: 1rem;
     }
     
     /* When the screen is less than 992 pixels wide, hide all links, except for the first one ("Home"). Show the link that contains should open and close the topnav (.icon) */
@@ -759,9 +760,10 @@
         display: none;
       }
     
-      .topnav a.icon {
+      .topnav .icon {
         float: right;
         display: block;
+        
       }
     
     }
@@ -772,7 +774,7 @@
         position: relative;
       }
     
-      .topnav.responsive a.icon {
+      .topnav.responsive .icon {
         position: absolute;
         right: 5vw;
         top: 0;

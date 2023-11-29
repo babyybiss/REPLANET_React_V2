@@ -31,7 +31,6 @@ import MyPoints from "./pages/points/MyPoints";
 import Calculator from "./component/mypage/Calculator";
 import DonationReceipt from "./pages/users/Receipt";
 import { jwtDecode } from 'jwt-decode';
-import TestChatbot from "./pages/chatbot/TestChatbot";
 import OrgManagement from "./pages/org/OrgManagement";
 import OrgList from "./component/org/lists/OrgList";
 import OrgRegist from "./pages/org/OrgRegist";
@@ -39,8 +38,7 @@ import MyPageOrg from "./pages/org/MyPageOrg";
 import OrgCamList from "./component/org/lists/OrgCamList";
 import OrgEdit from "./pages/org/OrgEdit";
 import OrgWithdraw from "./pages/org/OrgWithdraw";
-import EditOrg from "./pages/EditOrg";
-import PwdConfirm from "./pages/EditPwdConfirm";
+import PwdConfirm from "./pages/org/EditPwdConfirm";
 import { ChangePassword } from "./component/auth/ChangePassword";
 import SendEmail from "./pages/auth/SendEmail";
 
@@ -61,7 +59,6 @@ function App() {
               <Route path="/signup/" element={authCtx.isLoggedIn ? <Navigate to='/' /> : <Signup />} />
               <Route path="/find/" element={<Find/>}></Route>
               <Route path="/password/" element={<ChangePassword/>}></Route>
-              <Route path="testChatbot" element={<TestChatbot/>} />
               <Route path="/myPage" element={authCtx.isLoggedIn ? <MyPage /> : <Navigate to='/' />} children={[
                 <Route key="history" index element={<Navigate to="history" />} />,
                 <Route key="historyPage" path="history" element={<DonationList />} />,
@@ -115,14 +112,13 @@ function App() {
               // ROLE_ORG의 마이페이지
               <Route key="list" index element={<Navigate to="list" />} />,
               <Route key="listPage" path="list" element={<OrgCamList />} />,
+
               <Route key="review" path="review" element={<Reviews />} />,
               <Route key="edit" path="edit" element={<OrgEdit />} />,
+              <Route key="confirmPwd" path="confirmPwd" element={<PwdConfirm />} />,
+              <Route key="modify" path="modify" element={<OrgEdit />} />,
               <Route key="withdraw" path="withdraw" element={<OrgWithdraw />} />,
             ]}/>
-            <Route path="editOrg">
-              <Route index element={<PwdConfirm />} />
-              <Route path="modifyOrg" element={authCtx.isLoggedIn ? <EditOrg /> : <Navigate to='/' />} />
-            </Route>
 
           </Route>
         </Routes>

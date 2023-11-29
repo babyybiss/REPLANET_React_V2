@@ -1,55 +1,61 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { VictoryChart, VictoryZoomContainer, VictoryBrushContainer, VictoryLine, VictoryAxis, VictoryScatter, VictoryGroup, VictoryTooltip } from "victory"
-import "../../assets/css/chart.css"
+import "../../assets/css/chart.css";
+import { dateFormatToKorean } from "../../utils/DateFormatToKorean";
+import { numberFormatToKorean } from "../../utils/NumberFormatToKorean";
 
 function HistoryChart(chartDataListProps) {
 
     /* chartData from API */
-    
     const { chartDataList } = chartDataListProps;
     
-    const [zoomDomain, setZoomDomain] = useState({
-        zoomDomain: {
-            x: [new Date('2023-09-01'), new Date('2023-12-31')],
-            y: [0, 5000000]
-        }
-    });
+    /* zoom 초기값 설정을 위한 변수 세팅 */ 
+    const today = new Date();
+    const fifteenDaysAgo = new Date();
+    const fifteenDaysLater = new Date();
 
+    fifteenDaysAgo.setDate(today.getDate() - 15)
+    fifteenDaysLater.setDate(today.getDate() + 15);
+
+
+    useEffect(() => {
+        console.log(chartDataList)
+        const donationPointArray = chartDataList.map(point => point.donationPoint) 
+        console.log(donationPointArray)
+
+    },[]);
+
+    
+    /*
+    const diffDays = fifteenDaysLater-fifteenDaysAgo;
+    const subNumber = 24 * 60 * 60 * 1000;
+    
+    console.log(fifteenDaysAgo)
+    console.log(fifteenDaysLater)
+    console.log(diffDays/subNumber)
+    */
+
+    /* zoom state */ 
+    const [zoomDomain, setZoomDomain] = useState({
+            x: [new Date(fifteenDaysAgo), new Date(fifteenDaysLater)],
+            y: [0, 5000000000]
+    });
+    
     const zoomDomainHandler = (domain) => setZoomDomain(domain);
 
-    /* TestData */ 
-    /*
-    const testData = [
-        {
-            donationDate: 1700035529000, campaigns: 10, donationPoint: 25000, sumGoalBudget: 50000, sumExpectBudget: 25000
-        },
-        {
-            donationDate: 1700130137000, campaigns: 8, donationPoint: 50000, sumGoalBudget: 100000, sumExpectBudget: 50000
-        },
-        {
-            donationDate: 1700284100000, campaigns: 2, donationPoint: 70000, sumGoalBudget: 150000, sumExpectBudget: 80000
-        },
-        {
-            donationDate: 1700292445000, campaigns: 9, donationPoint: 20000, sumGoalBudget: 50000, sumExpectBudget: 30000
-        },
-        {
-            donationDate: 1700535240000, campaigns: 5, donationPoint: 30000, sumGoalBudget: 80000, sumExpectBudget: 50000
-        },
-        {
-            donationDate: 1700535349000, campaigns: 3, donationPoint: 10000, sumGoalBudget: 31233, sumExpectBudget: 21233
-        }
-    ];
-    */
-    
     /* chart figure */ 
     const width = 1500;
     const height = 700;
     const brushChartHeight = 200;
-    const brushTickValues = [new Date('2023-11-15'), new Date('2023-11-21')];
+    const brushTickValues = [new Date(fifteenDaysAgo), new Date(fifteenDaysLater)];
 
-    /* x축, y축 기준 설정 */
+    /* chart padding */ 
+    const zoomChartPadding = { left: 100, right: 50, top: 50, bottom: 50 }
+    const brushChartPadding = { left: 100, right: 50, top: 0, bottom: 30 }
+
+    /* x축, y축 기준이 될 데이터 설정 */
     const stringX = 'donationDate';
-    const stringY = 'donationPoint';
+    const stringY = (standardData) => (standardData.donationPoint+standardData.payAmount)
     
     /* style setting */
     const baseFillStyle = { fill: "#10573C" }
@@ -65,9 +71,9 @@ function HistoryChart(chartDataListProps) {
     }
 
     const axisStyle = {
-        axis: { ...baseStrokeStyle , strokeWidth: 3 },
-        axisLabel: { fontSize: 14, padding: 36, ...baseFillStyle },
-        tickLabels: { fontSize: 16, padding: 4, ...baseFillStyle }
+        axis: { ...baseStrokeStyle , strokeWidth: 2 },
+        axisLabel: { fontSize: 20, padding: 36, ...baseFillStyle },
+        tickLabels: { fontSize: 20, padding: 8, ...baseFillStyle }
     }
     
     /* render */ 
@@ -76,6 +82,7 @@ function HistoryChart(chartDataListProps) {
             <h4>일별 모금액 추이</h4>
             <VictoryChart
                 width={width} height={height}
+                padding={zoomChartPadding}
                 domainPadding={{x: 50, y: 50}} 
                 // scale={{ x: "time" }}
                 containerComponent={
@@ -91,16 +98,16 @@ function HistoryChart(chartDataListProps) {
             >
                 <VictoryAxis
                     style={axisStyle}
-                    tickFormat={(x) => `${new Date(x).getFullYear()}년${new Date(x).getMonth() + 1}월${new Date(x).getDate()}일`}
+                    tickFormat={(x) => dateFormatToKorean(x, false)}
                 />
                 <VictoryAxis 
                     dependentAxis
-                    tickFormat={(x) => `${x}원`}
+                    tickFormat={(x) => `${numberFormatToKorean(x, false)}원`}
                     style={axisStyle}
                 />
                 <VictoryGroup
                     color="#10573C"
-                    labels={({ datum }) => `${new Date(datum._x).getFullYear()}년${new Date(datum._x).getMonth() + 1}월${new Date(datum._x).getDate()}일${new Date(datum._x).getHours()}시${new Date(datum._x).getMinutes()}분${new Date(datum._x).getSeconds()}초, ${datum._y}원`}
+                    labels={({ datum }) => `${dateFormatToKorean(datum._x)}, ${numberFormatToKorean(datum._y)}원`}
                     labelComponent={
                         <VictoryTooltip
                             style={toolTipStyle}
@@ -124,13 +131,14 @@ function HistoryChart(chartDataListProps) {
                 </VictoryGroup>
             </VictoryChart>
             <VictoryChart
-                padding={{ top: 0, left: 50, right: 50, bottom: 30 }}
+                padding={brushChartPadding}
                 domainPadding={{x: 50, y: 10}}
                 width={width} height={brushChartHeight}
                 // scale={{ x: "time" }}
                 containerComponent={
                     <VictoryBrushContainer
                         // responsive={false}
+                        allowDraw={false}
                         brushDimension="x"
                         brushDomain={zoomDomain}
                         onBrushDomainChange={zoomDomainHandler}   
@@ -139,7 +147,7 @@ function HistoryChart(chartDataListProps) {
             >
                 <VictoryAxis
                     tickValues={brushTickValues}
-                    tickFormat={(x) => `${new Date(x).getFullYear()}년${new Date(x).getMonth() + 1}월`}
+                    tickFormat={(x) => `${dateFormatToKorean(x, false)}`}
                     style={axisStyle}
                 />
                 <VictoryLine

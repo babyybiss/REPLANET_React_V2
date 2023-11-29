@@ -31,7 +31,7 @@ function MyPageOrg() {
     }
 
     const navigateEditOrgInfo = () => {
-        navigate('edit');
+        navigate('confirmPwd');
     }
 
     const navigateRequestWithdraw = () => {

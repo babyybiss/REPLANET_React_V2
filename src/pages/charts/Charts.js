@@ -9,7 +9,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { callGetChartListAPI } from '../../apis/ChartAPI'
 import "../../assets/css/common.css";
-import Sidebar from "../../component/common/Sidebar";
 
 
 function Chart() {
@@ -22,73 +21,82 @@ function Chart() {
         () => {
             /* chartData from API */
             dispatch(callGetChartListAPI());
-        },
-        []
+        },[]
     );
 
     return (
         chartDataList && (
             <div className="container-first">
-                
                 <h1 className="text-primary">통계</h1>
-                <hr></hr>
+                <hr/>
+                <GoalCampaign chartDataList={chartDataList.results.categoryData} />
+                <hr/>
+                <CategoryCampaign chartDataList={chartDataList.results.categoryData} />
+                <hr/>
+                <HistoryChart chartDataList={chartDataList.results.donationByTimeData} />
+                <hr/>
+                <CurrentYearCampaign chartDataList={chartDataList.results.currentYearData} />
+                <hr/>
+                <PreviousYearCampaign chartDataList={chartDataList.results.previousYearData} />
+                <hr/>
+                <TestChart chartDataList={chartDataList.results.categoryData} />
                 <div className="items-container ic2">
                     <div className="card">
                         <div className="card-header bg-primary">
                             캠페인 모금액 통계
-                            <i class="fa-solid fa-cog"></i>
+                            <i className="fa-solid fa-cog"></i>
                         </div>
                         <div className="card-body">
-                            <GoalCampaign chartDataList={chartDataList.results.categoryData} />
+                            {/*<GoalCampaign chartDataList={chartDataList.results.categoryData} />*/}
                         </div>
                     </div>
                     <div className="card">
                     <div className="card-header bg-primary">
                             카테고리별 캠페인 통계
-                            <i class="fa-solid fa-cog"></i>
+                            <i className="fa-solid fa-cog"></i>
                         </div>
                         <div className="card-body">
-                            <CategoryCampaign chartDataList={chartDataList.results.categoryData} />
+                            {/*<CategoryCampaign chartDataList={chartDataList.results.categoryData} />*/}
                         </div>
-
                     </div>
-
                 </div>
                 <div className="items-container ic2">
                     <div className="card">
                         <div className="card-header border-bottom border-light">
                             캠페인 월간 통계
-                            <i class="fa-solid fa-cog text-secondary"></i>
+                            <i className="fa-solid fa-cog text-secondary"></i>
                         </div>
                         <div className="card-body">
-                            <HistoryChart chartDataList={chartDataList.results.donationByTimeData} />
+                            {/*<HistoryChart chartDataList={chartDataList.results.donationByTimeData} />*/}
                         </div>
                     </div>
                     <div className="card">
-                    <div className="card-header border-bottom border-light">
+                        <div className="card-header border-bottom border-light">
                             캠페인 연간 통계
-                            <i class="fa-solid fa-cog text-secondary"></i>
+                            <i className="fa-solid fa-cog text-secondary"></i>
                         </div>
-                        <div className="card-body"><CurrentYearCampaign chartDataList={chartDataList.results.currentYearData} /></div>
+                        <div className="card-body">
+                            {/*<CurrentYearCampaign chartDataList={chartDataList.results.currentYearData} />*/}
+                        </div>
                     </div>
                 </div>
-                <div class="items-container ic2">
+                <div className="items-container ic2">
                     <div className="card">
-                    <div className="card-header border-bottom border-light">
+                        <div className="card-header border-bottom border-light">
                             캠페인 연간 통계
-                            <i class="fa-solid fa-cog text-secondary"></i>
+                            <i className="fa-solid fa-cog text-secondary"></i>
                         </div>
                         <div className="card-body">
-                            <PreviousYearCampaign chartDataList={chartDataList.results.previousYearData} />
+                            {/*<PreviousYearCampaign chartDataList={chartDataList.results.previousYearData} />*/}
                         </div>
                     </div>
                     <div className="card">
-                    <div className="card-header border-bottom border-light">
+                        <div className="card-header border-bottom border-light">
                             테스트
-                            <i class="fa-solid fa-cog text-secondary"></i>
+                            <i className="fa-solid fa-cog text-secondary"></i>
                         </div>
                         <div className="card-body">
-                            <TestChart chartDataList={chartDataList.results.categoryData} />
+                            {/*<TestChart chartDataList={chartDataList.results.categoryData} />*/}
                         </div>
                     </div>
                 </div>
