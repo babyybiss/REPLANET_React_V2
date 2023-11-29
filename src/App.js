@@ -112,6 +112,9 @@ function App() {
               // ROLE_ORG의 마이페이지
               <Route key="list" index element={<Navigate to="list" />} />,
               <Route key="listPage" path="list" element={<OrgCamList />} />,
+
+              <Route key="review" path="review" element={<Reviews />} />,
+              <Route key="edit" path="edit" element={<OrgEdit />} />,
               <Route key="confirmPwd" path="confirmPwd" element={<PwdConfirm />} />,
               <Route key="modify" path="modify" element={<OrgEdit />} />,
               <Route key="withdraw" path="withdraw" element={<OrgWithdraw />} />,

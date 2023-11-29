@@ -260,7 +260,7 @@ export function ReviewComment ({ review }) {
   </div>
 ))}
         </div>
-        {decodedToken && decodedToken.memberCode !== undefined  ? (
+        {decodedToken && decodedToken.memberCode !== undefined && decodedToken.memberRole == "ROLE_USER" ? (
             <form onSubmit={handleCommentSubmit} className="m-21">
               <p className="w-100">
                 <input
@@ -274,19 +274,30 @@ export function ReviewComment ({ review }) {
                 <button className="button-primary v-5 rounded" type="submit">댓글등록</button>
               </p>
             </form>
-              ) : (
+              ) : ( 
+                (decodedToken.memberRole == "ROLE_ORG" ?  
                 <form className="m-21">
-                <p className="w-100">
-                <input
-                  className="commentDisable"
-                  type="text"
-                  placeholder="로그인 후 이용 가능한 서비스입니다."
-                  onClick={NavigateToLoginPageHandler}
-                />
-              </p>
-              </form>
-              )}
-        
+                  <p className="w-100">
+                    <input
+                      className="commentDisable"
+                      type="text"
+                      placeholder="일반 회원께서만 댓글 가능합니다."
+                      onClick={NavigateToLoginPageHandler}
+                    />
+                  </p>
+                </form>
+                :
+                <form className="m-21">
+                  <p className="w-100">
+                  <input
+                    className="commentDisable"
+                    type="text"
+                    placeholder="로그인 후 이용 가능한 서비스입니다."
+                    onClick={NavigateToLoginPageHandler}
+                  />
+                  </p>
+                </form>
+                ))}
       </li>    
     </ul>
   );
