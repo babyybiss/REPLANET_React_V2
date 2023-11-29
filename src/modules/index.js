@@ -7,6 +7,7 @@ import memberReducer from './MemberModule';
 import chartReducer from './ChartModule';
 import bookmarkReducer from './BookmarkModule';
 import supportbotReducer from './SupportbotModule';
+import orgReducer from './OrgModule';
 
 const rootReducer = combineReducers({
     campaignReducer,
@@ -17,7 +18,8 @@ const rootReducer = combineReducers({
     memberReducer,
     chartReducer,
     bookmarkReducer,
-    supportbotReducer
+    supportbotReducer,
+    orgReducer
 });
 
 export default rootReducer;

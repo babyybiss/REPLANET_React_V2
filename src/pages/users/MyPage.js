@@ -91,7 +91,7 @@ function MyPage() {
                         </NavLink>
                     </div>
                     <NavLink to="receipt" className="admin-sidebar-menu">
-                        기부영수증 안내
+                        기부금영수증 안내
                     </NavLink>
                     <NavLink to="bookmark" className='admin-sidebar-menu'>
                         관심리스트
