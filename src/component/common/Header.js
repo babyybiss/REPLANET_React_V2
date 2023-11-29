@@ -64,9 +64,7 @@ function responsiveHeader() {
                             <NavLink to="/reviews">캠페인후기</NavLink>
                             <NavLink to='/login'>로그인</NavLink>
                             <NavLink to='signup' style={{marginRight:"0"}}>회원가입</NavLink>
-                            <a href="javascript:void(0);" className="icon" onClick={responsiveHeader}>
-                                <i className="fa fa-bars"></i>
-                            </a>
+
                         </>
                     )}
                     {isLogin && (
@@ -76,9 +74,9 @@ function responsiveHeader() {
                                 <NavLink to="/reviews">캠페인후기</NavLink>
                                 <NavLink to='/myPage'>마이페이지</NavLink>
                                 <NavLink onClick={toggleLogoutHandler} style={{marginRight:"0"}}>로그아웃</NavLink>
-                                <a href="javascript:void(0);" className="icon" onClick={responsiveHeader}>
+                                {/* <a href="javascript:void(0);" className="icon" onClick={responsiveHeader}>
                                     <i className="fa fa-bars"></i>
-                                </a>
+                                </a> */}
                             </>
                         ) ||
                         (memberRole === "ROLE_ADMIN" && (
@@ -88,9 +86,7 @@ function responsiveHeader() {
                                 <NavLink to='charts'>캠페인현황통계</NavLink>
                                 <NavLink to='org'>기부처관리</NavLink>
                                 <NavLink onClick={toggleLogoutHandler} style={{marginRight:"0"}}>로그아웃</NavLink>
-                                <a href="javascript:void(0);" className="icon" onClick={responsiveHeader}>
-                                    <i className="fa fa-bars"></i>
-                                </a>
+
                             </>
                         )) ||
                         (memberRole === "ROLE_ORG" && (
@@ -99,13 +95,13 @@ function responsiveHeader() {
                                 <NavLink to='charts'>캠페인관리</NavLink>
                                 <NavLink to='/myPageOrg'>마이페이지</NavLink>
                                 <NavLink onClick={toggleLogoutHandler} style={{marginRight:"0"}}>로그아웃</NavLink>
-                                <a href="javascript:void(0);" className="icon" onClick={responsiveHeader}>
-                                    <i className="fa fa-bars"></i>
-                                </a>
+
                             </>
                         ))
                     )}
-
+                            <div className="icon" onClick={responsiveHeader}>
+                                <i className="fa fa-bars"></i>
+                            </div>
                 </div>
             </div>
         </div>
