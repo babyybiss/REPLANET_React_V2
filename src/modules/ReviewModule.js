@@ -21,10 +21,12 @@ export const PUT_COMMENT = "review/PUT_COMMENT";
 export const PUT_MONITORED_COMMENT = "review/PUT_MONITORED_COMMENT";
 export const GET_REVIEW_NEEDED_CAMPAIGN = "review/GET_REVIEW_NEEDED_CAMPAIGN";
 export const GET_CAMPAIGN_FOR_REVIEW = "review/GET_CAMPAIGN";
+export const GET_ORG_REVIEWS = "review/GET_ORG_REVIEWS";
+export const GET_REVIEW_NEEDED_ORG_CAMPAIGN = "review/GET_REVIEW_NEEDED_ORG_CAMPAIGN";
 
 
  //declare action function
-export const { review: {getReviews,getReview, getCampaign, postReview, getSearchResult, getCompletedCampaigns, getThumbnailPath, putReview, deleteReview, getMemberCode, postReviewComment, getReviewComments, deleteReviewComment, putComment, putMonitoredComment, getReviewNeededCampaign } } = createActions({
+export const { review: {getReviews,getReview, getCampaign, postReview, getSearchResult, getCompletedCampaigns, getThumbnailPath, putReview, deleteReview, getMemberCode, postReviewComment, getReviewComments, deleteReviewComment, putComment, putMonitoredComment, getReviewNeededCampaign, getOrgReviews, getReviewNeededOrgCampaign } } = createActions({
     [GET_REVIEWS] : (res) => ({ reviewList: res }),
     [GET_REVIEW] : (res) => ({ review : res }),
     [GET_CAMPAIGN_FOR_REVIEW] : (res) => ({ campaign : res }),
@@ -40,7 +42,9 @@ export const { review: {getReviews,getReview, getCampaign, postReview, getSearch
     [DELETE_REVIEW_COMMENT] : (res) => ({ deleteComment : res}),
     [PUT_COMMENT] : (res) => ({ modifyComment : res }),
     [PUT_MONITORED_COMMENT] : (res) => ({ monitoredComment : res }),
-    [GET_REVIEW_NEEDED_CAMPAIGN] : (res) => ({ getReviewNeededCampaign : res})
+    [GET_REVIEW_NEEDED_CAMPAIGN] : (res) => ({ getReviewNeededCampaign : res}),
+    [GET_ORG_REVIEWS] : (res) => ({ orgReviewList: res }),
+    [GET_REVIEW_NEEDED_ORG_CAMPAIGN] : (res) => ({ orgReviewNeededCampaign: res })
 });
 
 // declare reducer function
@@ -114,6 +118,14 @@ const reviewReducer = handleActions(
         },
         [GET_REVIEW_NEEDED_CAMPAIGN] : (state, {payload}) => {
             console.log('Review reducer: GET_REVIEW_NEEDED_CAMPAIGN 들어옴 : ', payload);
+            return payload;
+        },
+        [GET_ORG_REVIEWS] : (state, {payload}) => {
+            console.log("Review reducer: GET_ORG_REVIEW 들어옴 : ", payload);
+            return payload;
+        },
+        [GET_REVIEW_NEEDED_ORG_CAMPAIGN] : (state, {payload}) => {
+            console.log("Review reducer: GET_REVIEW_NEEDED_ORG_CAMPAIGN 들어옴 : ", payload);
             return payload;
         }
 

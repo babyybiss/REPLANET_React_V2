@@ -2,7 +2,7 @@ import '../../assets/css/reset.css';
 import '../../assets/css/common.css';
 import '../../assets/css/user.css';
 import '../../assets/css/mypage.css';
-
+ 
 import { useNavigate } from 'react-router-dom';
 import { Outlet } from 'react-router-dom';
 import { useEffect, useState } from 'react';
@@ -15,6 +15,7 @@ function MyPageOrg() {
     const navigate = useNavigate();
 
     const result = useSelector(state => state.memberReducer);
+
     console.log('MyPage() result : ', result);
     const memberName = result.member?.memberName || '로딩중...';
     const totalAmount = result.totalAmount !== undefined && result.totalAmount !== null? result.totalAmount.toLocaleString() : '로딩중...';
@@ -25,8 +26,12 @@ function MyPageOrg() {
         navigate('list');
     }
 
+    const navigateToOrgRevList = () => {
+        navigate('review');
+    }
+
     const navigateEditOrgInfo = () => {
-        navigate('edit');
+        navigate('confirmPwd');
     }
 
     const navigateRequestWithdraw = () => {
@@ -66,6 +71,10 @@ function MyPageOrg() {
                             캠페인 관리
                             {/* 캠페인 리스트가 나와서 누르면 해당 캠페인으로 갈 수 있게 */}
                         </button>
+                        <button className='button button-primary-outline' onClick={navigateToOrgRevList}>
+                            리뷰 관리
+                            {/* 리뷰 리스트가 나와서 누르면 해당 리뷰로 갈 수 있게 */}
+                        </button>
                         <button className="button button-primary-outline" onClick={navigateEditOrgInfo}>
                             정보 수정
                             {/* 기부처 정보 수정 */}
@@ -77,6 +86,7 @@ function MyPageOrg() {
                     </div>
                     <div>
                         <Outlet/>
+                        
                     </div>
 
                 </div>

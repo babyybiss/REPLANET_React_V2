@@ -8,6 +8,11 @@ import { getCategoryByCampaign } from "../../../modules/CampaignModule";
 import { jwtDecode } from 'jwt-decode';
 import GoToTopButton from "../items/GotoTopButton";
 
+import { callGetSupportbotListAPI } from "../../../apis/SupportbotAPI";
+import '../../../assets/css/supportbot.css'
+import SupportbotIcon from "../../../assets/images/icon/SupportbotIcon";
+import ModalSupportbot from "../../modals/ModalSupportbot";
+
 const categoryList = [
     { key: "0", name: "전체" },
     { key: "1", name: "아동-청소년" },
@@ -47,6 +52,33 @@ function CampaignList() {
         setCurrentPage(1)
     }
 
+    // Store 등록 서포트봇 API 사용
+    const callSupportList = useSelector(state => state.supportbotReducer)
+    const supportbotDataList = callSupportList.supportbotDataList;
+    // 모달 show, 모달버튼 바탕색 상태
+    const [isShow, setIsShow] = useState(false);
+    const [iconBackgroundStyle, setIconBackgroundStyle] = useState({
+        backgroundColor: 'darksalmon'
+    })
+    //모달 아이콘 이벤트
+    const iconClickHandler = () => {
+        setIsShow(isShow === false ? true : false)
+    }
+    /*
+    const iconOverHandler = () => {
+        setIconBackgroundStyle({
+            backgroundColor: 'indianred'
+        })
+       
+    }
+    const iconOutHandler = () => {
+        setIconBackgroundStyle({
+            backgroundColor: 'darksalmon'
+        })
+    }
+    */
+
+
     useEffect(() => {
         setCategories(undefined)
         setCurrentPage(1)
@@ -83,6 +115,7 @@ function CampaignList() {
         } else {
             dispatch(CampaignListAPI("ing"))
         }
+        dispatch(callGetSupportbotListAPI());
     }, []
     );
 
@@ -143,6 +176,23 @@ function CampaignList() {
                     ""
             }
             <GoToTopButton />
+            { supportbotDataList && 
+            <button
+                onClick={iconClickHandler}
+                className="supportbot-button-style"
+                style={iconBackgroundStyle}
+            >
+                <SupportbotIcon/>
+            </button>}
+            { isShow &&
+                <div 
+                    className={'modal-container'}
+                >
+                    <ModalSupportbot 
+                        setIsShow={(setIsShow)}
+                    />
+                </div>
+            }
         </>
     )
 }

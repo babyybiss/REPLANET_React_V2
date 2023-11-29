@@ -10,7 +10,11 @@ function KakaoLogin() {
     const loginKaKao = () => {
       window.open(url, "_blank", "noopener, noreferrer");
     }
-    return (<div className="tab_item ti2" onClick={loginKaKao}>소셜 로그인</div>)  }
+    return (
+    <div className="container-first">
+      <div className="tab_item ti2" onClick={loginKaKao}>소셜 로그인</div>
+    </div>
+    )  }
   
 
 

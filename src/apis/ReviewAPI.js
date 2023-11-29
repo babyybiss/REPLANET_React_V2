@@ -18,8 +18,8 @@ import { putComment } from "../modules/ReviewModule";
 import { putMonitoredComment } from "../modules/ReviewModule";
 import { getReviewNeededCampaign } from "../modules/ReviewModule";
 import { getCampaign } from "../modules/ReviewModule";
-
-
+import { getOrgReviews } from "../modules/ReviewModule";
+import { getReviewNeededOrgCampaign } from "../modules/ReviewModule";
 
 const DOMAIN = 'http://localhost:8001'
 const requestURL = 'http://localhost:8001/reviews/';
@@ -260,5 +260,36 @@ export function callGetCampaignsWithoutAReview() {
         console.log('getReviewList result: ', result);
 
         dispatch(getReviewNeededCampaign(result));
+    }
+}
+
+export function callGetOrgReviewAPI(memberCode) {
+    return async(dispatch, getState) => {
+        console.log("org campaign 들어옴");
+        const result = await request('GET', `/reviews/org/${memberCode}`);
+        console.log("org review List : ", result);
+
+        dispatch(getOrgReviews(result));
+    }
+}
+
+export function callGetOrgReviewsBySearchFilter(searchFilter) {
+    console.log('callGetReviewsBySearchResultFilter : ', searchFilter);
+
+    return async (dispatch, getState) => {
+        
+        const result = await request('GET', `/reviews?sort=${searchFilter}`);
+
+        dispatch(getSearchResult(result));
+    }
+}
+
+export function callGetOrgCampaignsWithoutReview(memberCode) {
+    return async(dispatch, getState) => {
+    
+        const result = await request('GET', `/reviews/org/nonExisting/${memberCode}`);
+        console.log('callGetOrgCampaignsWithoutReview result: ', result);
+
+        dispatch(getReviewNeededOrgCampaign(result));
     }
 }

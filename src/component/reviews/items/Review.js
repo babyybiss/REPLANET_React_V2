@@ -7,6 +7,10 @@ export function Review({ review, reviewExists }) {
   // Check if review has endDate and if it's greater than or equal to the current date
   const isEndDateValid = review.campaignEndDate && new Date(review.campaignEndDate) <= currentDate;
 
+  const currentUrl = window.location.href;
+  const memberUI = currentUrl.includes('http://localhost:3000/reviews');
+  const orgUI = currentUrl.includes('http://localhost:3000/myPageOrg/review');
+
 
     return (
       review && (
@@ -21,9 +25,18 @@ export function Review({ review, reviewExists }) {
       </NavLink>
       ):(
           <div>
-            <h4>{review.campaignTitle}<br/><h6 style={{color: "#706f6f"}}>캠페인명 </h6></h4>
+            {memberUI ? 
+            <NavLink to={`/campaign/${review.campaignCode}`}>
+              <h4>{review.campaignTitle}<br/><h6 style={{color: "#706f6f"}}>캠페인명 </h6></h4>
             <h4>{review.organization.member.memberName}<br /><h6 style={{color: "#706f6f"}}>재단명</h6></h4>
+            </NavLink>
+            :
+            <>
+            <h4>{review.campaign.campaignTitle}<br/><h6 style={{color: "#706f6f"}}>캠페인명 </h6></h4>
+            <h4>{review.campaign.organization.member.memberName}<br /><h6 style={{color: "#706f6f"}}>재단명</h6></h4>
             <NavLink to={`/reviews/reviewRegist/${review.campaignCode}`}><button className="button button-primary mr-1">리뷰 등록하기</button></NavLink>
+            </>}
+            
           </div>
       )
     )
