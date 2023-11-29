@@ -1,25 +1,21 @@
-import moment from 'moment';
-import { DeleteCampaignAPI } from '../../../apis/CampaignListAPI';
-import { useDispatch } from 'react-redux';
+import { DeleteCampaignAPI, GetCampaignsByOrgAPI } from '../../../apis/CampaignListAPI';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from 'jwt-decode';
-
-
 import Swal from 'sweetalert2';
 import HeartButton from '../../mypage/items/HeartButton';
 import { useEffect } from 'react';
 
-function CampaignSidebar({ campaignInfo }) {
-
+function CampaignSidebar({ campaign }) {
     // 토큰 정보 
     let token = localStorage.getItem('token');
     let decodedToken = token ? jwtDecode(token) : null;
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    let campaignCode = campaignInfo.campaignCode;
+    let campaignCode = campaign.campaignCode;
 
-    let fileSaveName = campaignInfo.campaignDescfileList[0];
+    let fileSaveName = campaign.organization ? campaign.organization.fileSaveName : null
 
     if (fileSaveName == null || undefined) {
         fileSaveName = false;
@@ -27,17 +23,30 @@ function CampaignSidebar({ campaignInfo }) {
         fileSaveName = true;
     }
 
+    console.log(campaign,'사이드바');
     // 기부 현황
-    let currentBudget = campaignInfo.currentBudget;
-    let goalBudget = campaignInfo.goalBudget;
+    let currentBudget = campaign.currentBudget;
+    let goalBudget = campaign.goalBudget;
     let percentage = Math.ceil((currentBudget / goalBudget) * 100).toFixed(0)
-    // 날짜 
-    let startDate = moment(campaignInfo.startDate).subtract(1, 'months').format('YYYY-MM-DD');
-    let endDate = moment(campaignInfo.endDate).subtract(1, 'months').format('YYYY-MM-DD');
-    let endDate2 = new Date(endDate)
-    let today = new Date();
-today.setDate(today.getDate() - 1);
+    // 마감 날짜 
+    let getEndDate = new Date(campaign.endDate[0], campaign.endDate[1] - 1, campaign.endDate[2]);
+    let endDate = new Intl.DateTimeFormat('ko-KR', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+    }).format(getEndDate);
+    // 시작 날짜
+    let getStartDate = new Date(campaign.startDate[0], campaign.startDate[1] - 1, campaign.startDate[2]);
+    let startDate = new Intl.DateTimeFormat('ko-KR', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+    }).format(getStartDate);
 
+    // 끝남 or 진행
+    let today = new Date();
+    let curEndDate = new Date(campaign.endDate[0], campaign.endDate[1] - 1, campaign.endDate[2] + 1);
+    let campaignStatus = ((curEndDate) - (today));
     // 삭제 
     const deleteCampaignHandler = () => {
         Swal.fire({
@@ -55,9 +64,6 @@ today.setDate(today.getDate() - 1);
             }
         }
         );
-
-        // if (window.confirm("정말 삭제하시겠습니까? 복구할 수 없습니다.\n(기부 내역이 있으면 삭제가 불가능합니다.)"))
-        //     dispatch(DeleteCampaignAPI(campaignCode))
     }
 
     // 수정    
@@ -73,10 +79,10 @@ today.setDate(today.getDate() - 1);
             cancelButtonText: '취소'
         }).then(result => {
             if (result.isConfirmed) {
-                if (campaignInfo.currentBudget > 0) {
+                if (campaign.currentBudget > 0) {
                     Swal.fire('', '모금액이 존재하므로 수정이 불가능합니다.')
                     return;
-                }else if(today > endDate2){
+                } else if (campaignStatus < 0) {
                     Swal.fire('', '마감 날짜가 지났습니다.')
                     return;
                 }
@@ -87,7 +93,7 @@ today.setDate(today.getDate() - 1);
     }
     // 후원하기 버튼
     const goToDonation = () => {
-        if (today > endDate2) {
+        if (campaignStatus < 0) {
             Swal.fire({
                 icon: "error",
                 title: "모금 종료!",
@@ -99,18 +105,13 @@ today.setDate(today.getDate() - 1);
             return
         }
         decodedToken && decodedToken.memberCode != undefined ?
-            navigate(`/campaign/${campaignInfo.campaignCode}/donations`) :
+            navigate(`/campaign/${campaign.campaignCode}/donations`) :
             navigate('/login')
 
     }
 
     // 카카오 공유하기 버툰
-
-    console.log('오늘',today );
-    console.log('엔드데이트:' ,endDate2);
-
     useEffect(() => {
-
         const script = document.createElement("script");
         script.src = "https://developers.kakao.com/sdk/js/kakao.js";
         script.async = true;
@@ -119,7 +120,7 @@ today.setDate(today.getDate() - 1);
     }, []);
 
     const shareKakao = () => { // url이 id값에 따라 변경되기 때문에 route를 인자값으로 받아줌
-        if (today > endDate2) {
+        if (campaignStatus < 0) {
             Swal.fire({
                 icon: "error",
                 title: "모금 종료!",
@@ -140,8 +141,8 @@ today.setDate(today.getDate() - 1);
             kakao.Link.sendDefault({
                 objectType: "feed", // 카카오 링크 공유 여러 type들 중 feed라는 타입 -> 자세한 건 카카오에서 확인
                 content: {
-                    title: campaignInfo.campaignTitle, // 인자값으로 받은 title
-                    description: campaignInfo.orgDescription, // 인자값으로 받은 title
+                    title: campaign.campaignTitle, // 인자값으로 받은 title
+                    description: campaign.orgDescription, // 인자값으로 받은 title
                     imageUrl: 'https://cdn-icons-png.flaticon.com/512/5017/5017359.png',
                     link: {
                         mobileWebUrl: `http://localhost:3000/campaign/${campaignCode}`, // 인자값으로 받은 route(uri 형태)
@@ -151,39 +152,33 @@ today.setDate(today.getDate() - 1);
             });
         }
     };
+
     return (
-        campaignInfo && (
-
+        campaign && (
             <div className="container-sidebar">
-
                 <div className="toggle">
-                    {today > endDate2 ?
+                    {campaignStatus < 0 || decodedToken && decodedToken.memberRole === "ROLE_ORG" ?
                         "" :
                         <HeartButton campaignCode={campaignCode} />
                     }
 
-
                 </div>
-                <h2>현재 모금액 : {campaignInfo.currentBudget.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원 </h2>
-                <h6>목표 모금액 : {campaignInfo.goalBudget.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원 </h6>
+                <h2>현재 모금액 : {campaign.currentBudget.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원 </h2>
+                <h6>목표 모금액 : {campaign.goalBudget.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원 </h6>
                 <progress className="progress mt-1" value={percentage} max="100"></progress>
                 <div className="campaign-progress-info mt-1 pt-1">
                     <span className="amount">{startDate} ~ {endDate}</span>
                     <span className="percent float-right">{percentage > 100 ? '목표금액 초과!!' : percentage + '%'}</span>
                 </div>
                 <div className="items-container ic2 mt-1 pt-1">
-
-                    {decodedToken !== null && decodedToken.memberRole == "ROLE_ADMIN" ?
+                    {decodedToken !== null && decodedToken.memberRole == "ROLE_ORG" ?
                         <button className="button button-primary" onClick={deleteCampaignHandler}>삭제하기</button> :
-
                         <button className="button button-primary" style={{ width: "100%" }} onClick={goToDonation}>후원하기</button>
-
                     }
-                    {decodedToken !== null && decodedToken.memberRole == "ROLE_ADMIN" ?
+                    {decodedToken !== null && decodedToken.memberRole == "ROLE_ORG" ?
                         <button className="button button-primary-outline" onClick={modifyCampaignHandler}>수정하기</button> :
                         <button className="button button-primary-outline" onClick={shareKakao}>공유하기</button>
                     }
-
                 </div>
                 <div className="items-container ic1">
                     <div className="item p-2 border">
@@ -193,7 +188,12 @@ today.setDate(today.getDate() - 1);
                     </div>
                     <div className="item p-2 border">
                         <p>
-                            {campaignInfo.orgDescription}
+                            {campaign.organization ? campaign.organization.orgDescription : ""}
+                        </p>
+                    </div>
+                    <div className="item p-2 border">
+                        <p>
+                        <img src={ fileSaveName? `/campaigns/${campaign.organization.fileSaveName}` : '/campaigns/default/noImage.png'} alt="캠페인 이미지" />
                         </p>
                     </div>
                 </div>

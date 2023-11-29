@@ -1,6 +1,6 @@
-function CampaignPicture({campaignInfo}) {
+function CampaignPicture({campaign}) {
     return (
-        campaignInfo && (
+        campaign && (
         <div>
             {/* <h2>사진 리스트 </h2> */}
         </div>

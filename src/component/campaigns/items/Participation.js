@@ -1,14 +1,12 @@
 import { useEffect, useState } from "react";
 
-import moment from 'moment';
-
 function Participation({ participation }) {
-    const donationInfo = participation.donation;
-    const payInfo = participation;
+    const donationInfo = participation? participation : "";
 
     const [totalDonation, setTotalDonation] = useState(0);
-    const [point, setPoint] = useState(donationInfo? donationInfo.donationPoint: '0');
-    const [cash, setCash] = useState(payInfo.payAmount);
+    const [point, setPoint] = useState(donationInfo? donationInfo.donation.donationPoint: '0');
+    const [cash, setCash] = useState(donationInfo.payAmount);
+
     useEffect(
         () => {
             if (typeof point == "undefined" || point == null || point == "") {
@@ -30,22 +28,30 @@ function Participation({ participation }) {
         if (typeof originName == "undefined" || originName == null || originName == "") {
             return originName;
         } else {
-            if (nameLength < 3) {
+            if (nameLength) {
                 maskingName = originName.replace(/(?<=.{1})./gi, "*");
-            } else {
-                maskingName = originName.replace(/(?<=.{2})./gi, "*");
-            }
+            } 
+            // else {
+            //     maskingName = originName.replace(/(?<=.{1})./gi, "*");
+            // }
             return maskingName;
         }
     }
-
+    
+    // 시작 날짜
+    let getDonationtDate = new Date(donationInfo.donation.donationDateTime[0], donationInfo.donation.donationDateTime[1] - 1, donationInfo.donation.donationDateTime[2]);
+    let donationtDate = new Intl.DateTimeFormat('ko-KR', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+    }).format(getDonationtDate);
     return (
         donationInfo &&(
         <table className="text-left">
             <thead className="text-left">
                 <tr className="text-left">
-                    <th className="text-left">{moment(donationInfo.donationDateTime).subtract(1, 'months').format('YYYY-MM-DD')}</th>
-                    <th className="text-left">{donationInfo? maskingName(donationInfo.refMember.memberName): ""}</th>
+                    <th className="text-left">{donationtDate}</th>
+                    <th className="text-left">{donationInfo? maskingName(donationInfo.donation.member.memberName): ""}</th>
                     <th className="text-left">{totalDonation.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원 참여</th>
                 </tr>
             </thead>

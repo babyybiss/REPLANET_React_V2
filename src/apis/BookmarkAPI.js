@@ -6,8 +6,6 @@ export const requestURL = 'http://localhost:8001/';
 
 // 북마크 조회 
 export function getBookmarkList(memberCode){
-    console.log(memberCode,'멤코');
-
     return async (dispatch, getState) => {
         try{
          const result = await axios.get(requestURL+`bookmarks?memberCode=${memberCode}`);
@@ -19,7 +17,6 @@ export function getBookmarkList(memberCode){
 }
 //북마크 등록
 export function AddBookmarkAPI(bookmark){
-    console.log(bookmark,'이건등록');
     return async (dispatch, getState) => {
         await axios.post(requestURL+'bookmarks',bookmark)
         .then((res) =>{
