@@ -33,7 +33,6 @@ function DonationItem({ pay, showDetails, onToggleDetails }) {
 
     return(
         <>
-            {/* 해당 캠페인으로 가는 링크 걸기 */}
             <tr onClick={handleRowClick}>
                 <td>{ donationCode }</td>
                 <td>{ campaignTitle }</td>

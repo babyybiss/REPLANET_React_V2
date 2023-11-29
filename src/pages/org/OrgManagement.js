@@ -21,7 +21,7 @@ function OrgManagement(){
             </div>
             <div className="container">
                 <div className='campaign-button-container'>
-                    <div className="campaign-button-area" style={{marginBottom: "10px"}}>
+                    <div className="campaign-button-area" style={{marginBottom: "10px", display:"grid", gridTemplateColumns: "repeat(2, 1fr)"}}>
                         <button className="button button-lg button-primary-outline" onClick={navigateToOrgList}>
                             기부처 목록
                         </button>
