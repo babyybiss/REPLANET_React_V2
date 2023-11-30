@@ -12,12 +12,12 @@ function CampaignPlan({ campaign }) {
         campaign && (
             <div>
                 <h2 className="mb-1">기부금 사용 계획</h2>
-                <div className="item">
+                <div className="button button-primary" style={{width: '10%', textAlign:'center'}}>
                     {campaign.campaignCategory}
                 </div>
 
                 <div className="items-container ic1">
-                    <div className="item">
+                    <div className="item" style={{width: '50%'}}>
                         <div className="card">
                             <div className="card-body">
                                 <h3 className="text-primary">총 목표 금액</h3>
@@ -25,7 +25,7 @@ function CampaignPlan({ campaign }) {
                             </div>
                         </div>
                     </div>
-                    <div className="item">
+                    <div className="item" style={{width: '50%'}}>
                         <div className="card">
                             <div className="card-body">
                                 <h3 className="text-primary">캠페인 마감일</h3>
@@ -33,7 +33,7 @@ function CampaignPlan({ campaign }) {
                             </div>
                         </div>
                     </div>
-                    <div className="item">
+                    <div className="item" style={{width: '50%'}}>
                         <div className="card">
                             <div className="card-body">
                                 <h3 className="text-primary">단체명</h3>
@@ -41,7 +41,7 @@ function CampaignPlan({ campaign }) {
                             </div>
                         </div>
                     </div>
-                    <div className="item">
+                    <div className="item" style={{width: '50%'}}>
                         <div className="card">
                             <div className="card-body">
                                 <h3 className="text-primary">단체 연락처</h3>

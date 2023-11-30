@@ -10,8 +10,14 @@
     font-family: 'Pretendard Variable', sans-serif!important;
 }
 
+.swal2-title {
+    font-size: 1.5rem;
+}
+
 .swal2-icon{
     margin: 2.5em auto .6em;
     border: 0.25em solid rgba(0,0,0,0);
     line-height: 5em;
 }
+
+

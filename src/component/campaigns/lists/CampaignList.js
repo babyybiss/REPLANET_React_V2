@@ -1,5 +1,4 @@
-
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CampaignItem from "../items/CampaignItem";
@@ -10,7 +9,6 @@ import GoToTopButton from "../items/GotoTopButton";
 
 import { callGetSupportbotListAPI } from "../../../apis/SupportbotAPI";
 import '../../../assets/css/supportbot.css'
-import SupportbotIcon from "../../../assets/images/icon/SupportbotIcon";
 import ModalSupportbot from "../../modals/ModalSupportbot";
 
 const categoryList = [
@@ -32,24 +30,27 @@ function CampaignList() {
     // 토큰 정보 
     const token = localStorage.getItem('token');
     const decodedToken = token ? jwtDecode(token) : null;
-    let orgCode = decodedToken && decodedToken.memberRole === "ROLE_ORG" ? decodedToken.memberCode : "" ;
+    let orgCode = decodedToken && decodedToken.memberRole === "ROLE_ORG" ? decodedToken.memberCode : "";
 
     // 카테고리 필터링
     const result = useSelector(state => state.campaignReducer.campaignlist)
     const [categories, setCategories] = useState();
-    const campaignList = result ? result.results.campaignList : "";
+    const campaignList = result && result.results.campaignList;
     const campaignFilter = categories ? categories.payload : undefined;
 
+    // 카테고리 버튼
     const categoryClickHandler = (category) => {
-        if (category === "전체") {
-            return setCategories(undefined)
-        }
-        const cf = campaignList.filter((curData) => {
+        if (campaignList) {
+            if (category === "전체") {
+                return setCategories(undefined)
+            }
+            const cf = campaignList.filter((curData) => {
 
-            return curData.campaignCategory === category;
-        })
-        setCategories(getCategoryByCampaign(cf))
-        setCurrentPage(1)
+                return curData.campaignCategory === category;
+            })
+            setCategories(getCategoryByCampaign(cf))
+            setCurrentPage(1)
+        }
     }
 
     // Store 등록 서포트봇 API 사용
@@ -57,7 +58,7 @@ function CampaignList() {
     const supportbotDataList = callSupportList.supportbotDataList;
     // 모달 show, 모달버튼 바탕색 상태
     const [isShow, setIsShow] = useState(false);
-    const [iconBackgroundStyle, setIconBackgroundStyle] = useState({
+    const [iconBackgroundStyle, /*setIconBackgroundStyle*/] = useState({
         backgroundColor: 'darksalmon'
     })
     //모달 아이콘 이벤트
@@ -86,17 +87,17 @@ function CampaignList() {
         [campaignList]
     );
 
-    // 기간별 소팅
-    // const onChangeHandler = (e) => {
-    //     const selectedValue = e.target.value;
-    //     if (campaignFilter === undefined) {
-    //         const sortedCampaigns = sortCampaigns(selectedValue, campaignList);
-    //         setCampignListFilter(sortedCampaigns)
-    //     } else {
-    //         const sortedCampaigns = sortCampaigns(selectedValue, campaignFilter);
-    //         setCategories(sortedCampaigns);
-    //     }
-    // }
+    /*기간별 소팅
+    const onChangeHandler = (e) => {
+        const selectedValue = e.target.value;
+        if (campaignFilter === undefined) {
+            const sortedCampaigns = sortCampaigns(selectedValue, campaignList);
+            setCampignListFilter(sortedCampaigns)
+        } else {
+            const sortedCampaigns = sortCampaigns(selectedValue, campaignFilter);
+            setCategories(sortedCampaigns);
+        }
+    }
     const sortCampaigns = (selectedValue, campaign) => {
         switch (selectedValue) {
             case 'latest':
@@ -107,6 +108,7 @@ function CampaignList() {
                 return campaign;
         }
     };
+    */
 
     // 처음 로딩시 화면 
     useEffect(() => {
@@ -116,7 +118,7 @@ function CampaignList() {
             dispatch(CampaignListAPI("ing"))
         }
         dispatch(callGetSupportbotListAPI());
-    }, []
+    }, [dispatch]
     );
 
     const goToRegist = () => {
@@ -176,19 +178,20 @@ function CampaignList() {
                     ""
             }
             <GoToTopButton />
-            { supportbotDataList && 
-            <button
-                onClick={iconClickHandler}
-                className="supportbot-button-style"
-                style={iconBackgroundStyle}
-            >
-                <SupportbotIcon/>
-            </button>}
-            { isShow &&
-                <div 
+            {supportbotDataList && 
+              !(orgURL === window.location.href) ? 
+                <button
+                    onClick={iconClickHandler}
+                    className="supportbot-button-style"
+              
+                >
+                    <i className="fa-solid fa-comment"></i>
+                </button> :  "" }
+            {isShow &&
+                <div
                     className={'modal-container'}
                 >
-                    <ModalSupportbot 
+                    <ModalSupportbot
                         setIsShow={(setIsShow)}
                     />
                 </div>

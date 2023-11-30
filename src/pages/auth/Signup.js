@@ -25,8 +25,9 @@ const Signup = () => {
   const [phone, setPhone] = useState('');
   const [smsCode, setSmsCode] = useState('');
 
-  //const [checkEmail, setCheckEmail] = useState(false);
-
+  const [isOnCheckEmail, setIsOnCheckEmail] = useState(false);
+  const [isOnCheckPhone, setIsOnCheckPhone] = useState(false);
+  const [isOnCheckSmsCode, setIsOnCheckSmsCode] = useState(false);
 
 
   const validateEmail = (email) => {
@@ -52,24 +53,18 @@ const Signup = () => {
       .match(/^[0-9].{8,10}$/)
   }
 
-  const validateSmsCode = (smsCode) => {
-    return smsCode
-      .match(/^[0-9].{0,3}}$/)
-  }
 
   const [emailMsg, setEmailMsg] = useState("");
   const [passwordMsg, setPasswordMsg] = useState('');
   const [passwordConfirmMsg, setPasswordConfirmMsg] = useState("");
   const [memberNameMsg, setMemberNameMsg] = useState("");
   const [phoneMsg, setPhoneMsg] = useState("");
-  const [smsCodeMsg, setSmsCodeMsg] = useState("");
 
   const isEmailValid = validateEmail(email);
   const isPasswordValid = validatePassword(password);
   const isPasswordConfirmValid = password === passwordConfirm;
   const isMemberNameValid = validateMemberName(memberName);
   const isPhoneValid = validatePhone(phone);
-  const isSmsCodeValid = validateSmsCode(smsCode);
 
   const handleEmail = useCallback(async (e) => {
     const currEmail = e.target.value;
@@ -89,7 +84,7 @@ const Signup = () => {
     setPassword(currPassword);
 
     if (!validatePassword(currPassword)) {
-      setPasswordMsg("영문, 숫자, 특수기호 조합으로 8자리 이상 입력해주세요.")
+      setPasswordMsg("영문, 숫자, 특수기호를 조합한 8~24자리로 입력해주세요.")
     } else {
       setPasswordMsg("안전한 비밀번호입니다.")
     }
@@ -101,7 +96,7 @@ const Signup = () => {
     const currPasswordConfirm = e.target.value;
     setPasswordConfirm(currPasswordConfirm);
     if (!validatePassword(password)) {
-      setPasswordConfirmMsg("먼저 비밀번호를 영문, 숫자, 특수기호 조합으로 8자리 이상 입력해주세요.")
+      setPasswordConfirmMsg("먼저 비밀번호를 영문, 숫자, 특수기호를 조합한 8~24자리로 입력해주세요.")
     } else if (currPasswordConfirm !== password) {
       setPasswordConfirmMsg("비밀번호 입력값이 일치하지 않습니다.")
     } else {
@@ -126,20 +121,11 @@ const Signup = () => {
     if (!validatePhone(currPhone)) {
       setPhoneMsg("-을 제외한 9~11자리의 숫자만 입력 가능합니다.");
     } else {
-      setPhoneMsg("입력하신 번호로 문자인증을 진행해 주세요.");
+      setPhoneMsg("중복확인 후 문자인증을 진행해 주세요.");
     }
 
   }, []);
 
-  const handleSmsCode = useCallback((e) => {
-    const currSmsCode = e.target.value;
-    setSmsCode(currSmsCode);
-    if (!validateSmsCode(currSmsCode)) {
-      setSmsCodeMsg("4자리의 숫자만 입력 가능합니다.");
-    } else {
-      setSmsCodeMsg("확인 버튼을 눌러 인증을 완료해 주세요.");
-    }
-  }, []);
 
   const handleSendSMS = async () => {
     const enteredPhone = phoneInputRef.current.value;
@@ -150,7 +136,8 @@ const Signup = () => {
       const response = await axios.post(url, body);
       if (response.status === 200) {
         console.log('인증번호 전송 성공');
-        console.log({enteredPhone});
+        console.log(response.data);
+        setSmsCode(response.data);
         Swal.fire("", "입력하신 번호로 인증번호가 전송되었습니다.");
 
       } else {
@@ -163,19 +150,12 @@ const Signup = () => {
     }
   };
 
-
-
-  const handleSendSmsCode = () => {
-    fetch('http://localhost:8001/users/sms', {
-      method: 'POST', // http의 method
-      body: JSON.stringify({ // 기존의 js object를 JSON String의 형태로 변환
-        smsCode: smsCode
-      }),
-    })
-      .then(response => response.json())
-      .then(result => console.log('결과: ', result));
-      setSmsCode(smsCode);
-
+  const onCheckSmsCode = () => {
+    console.log(smsCode);
+    if (smsCode == smsCodeInputRef.current.value) {
+      Swal.fire("인증 성공");
+      setIsOnCheckSmsCode(true);
+    } else {Swal.fire("인증 실패");}
   };
 
   const onCheckEmail = async () => {
@@ -188,14 +168,51 @@ const Signup = () => {
       if (response.status === 200) {
         console.log('사용 가능한 이메일입니다');
         setEmailMsg("사용 가능한 이메일입니다.");
+        setIsOnCheckEmail(true);
       }
     } catch (error) {
       if (error.response && error.response.status === 400) {
         console.log('이미 사용 중인 이메일입니다.');
+        setEmail("");
         setEmailMsg("이미 사용 중인 이메일입니다.");
-      } else {
+      } 
+      else if (email == null) {
+        console.log('이메일이 입력되지 않았습니다.');
+        setEmailMsg('이메일이 입력되지 않았습니다.');
+      }
+      else if (email != null || !isEmailValid) {
+        console.log('이메일 형식이 올바르지 않습니다.');
+        setEmailMsg('이메일 형식이 올바르지 않습니다.');
+      }
+      else {
         console.log('예상치 못한 오류가 발생했습니다.');
         setEmailMsg("예상치 못한 오류가 발생했습니다.");
+      }
+    }
+  };
+
+  const onCheckPhone = async () => {
+    console.log(phone);
+    const url = "http://localhost:8001/auth/phonecheck/" + phone;
+    const body = { phone: phone };
+
+    try {
+      const response = await axios.post(url, body);
+      if (response.status === 200 && phone != null && isPhoneValid) {
+        console.log('사용 가능한 휴대전화 번호입니다.');
+        setPhoneMsg("사용 가능한 휴대전화 번호입니다.");
+        setIsOnCheckPhone(true);
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        console.log('이미 사용 중인 휴대전화 번호입니다.');
+        setPhone("");
+        setPhoneMsg("이미 사용 중인 휴대전화 번호입니다.");
+        setIsOnCheckPhone(false);
+      } 
+      else {
+        console.log('예상치 못한 오류가 발생했습니다.');
+        setPhoneMsg("예상치 못한 오류가 발생했습니다.");
       }
     }
   };
@@ -242,7 +259,7 @@ const Signup = () => {
     }
   }, [privacyCheck, useCheck]);
 
-  const isAllValid = isEmailValid && isPasswordValid && isPasswordConfirmValid && isMemberNameValid && isPhoneValid && onCheckEmail && privacyCheck && useCheck;
+  const isAllValid = isEmailValid && isPasswordValid && isPasswordConfirmValid && isMemberNameValid && isPhoneValid && privacyCheck && useCheck && isOnCheckEmail && isOnCheckPhone && isOnCheckSmsCode ;
 
   const submitHandler = (e) => {
 
@@ -262,6 +279,7 @@ const Signup = () => {
   return (
     <>
       <div className="container-first container-centered">
+
         <h1>회원가입</h1>
         <div id="container-user" className="text-left">
           <form onSubmit={submitHandler}>
@@ -270,28 +288,28 @@ const Signup = () => {
                 <label htmlFor="email">이메일</label>
                 <div className="input-group">
                   <input className="input" type="text" name="email" id="email" onChange={handleEmail} value={email} required ref={emailInputRef} placeholder="이메일 주소를 입력해주세요." />
-                  <button type="button" className="button button-primary" disabled={!isEmailValid} onClick={onCheckEmail}>중복확인</button>
+                  <button type="button" className="button button-primary " disabled={!isEmailValid} onClick={onCheckEmail}>중복확인</button>
                 </div>
                 <div className="regexMsg">{emailMsg}</div>
                 <div id="emailCheckResult"></div>
-                <label htmlFor="password">비밀번호</label><input className="input" type="password" id="password" value={password} onChange={handlePassword} required ref={passwordInputRef} placeholder="영문 대/소문자 또는 숫자, 최대 24자" />
+                <label htmlFor="password">비밀번호</label><input className="input" type="password" id="password" value={password} onChange={handlePassword} required ref={passwordInputRef} placeholder="영문, 숫자, 특수기호를 조합한 8~24자로 입력해주세요." />
                 <div className="regexMsg">{passwordMsg}</div>
-                <label htmlFor="passwordConfirm">비밀번호 확인</label><input className="input" type="password" value={passwordConfirm} id="passwordConfirm" placeholder="영문 대/소문자 또는 숫자, 최대 24자" onChange={handlePasswordConfirm} />
+                <label htmlFor="passwordConfirm">비밀번호 확인</label><input className="input" type="password" value={passwordConfirm} id="passwordConfirm" placeholder="비밀번호를 한 번 더 입력해주세요." onChange={handlePasswordConfirm} />
                 <div className="regexMsg">{passwordConfirmMsg}</div>
                 <label htmlFor="memberName">이름(실명)</label><input className="input" type="text" id="memberName" value={memberName} onChange={handleMemberName} required ref={memberNameInputRef} placeholder="이름을 입력해주세요." />
                 <div className="regexMsg">{memberNameMsg}</div>
                 <label htmlFor="phone">휴대전화</label>
                 <div className="input-group">
                   <input className="input" type="text" id="phone" required ref={phoneInputRef} value={phone} placeholder="- 없이 휴대폰 번호를 입력해주세요." onChange={handlePhone} />
-                  <button type="button" className="button button-primary" disabled={!isPhoneValid} name="smsButton" onClick={handleSendSMS}>인증번호 요청</button>
+                  <div id="dupcheck" onClick={onCheckPhone} disabled={!isPhoneValid}>중복확인</div>
+                  <button type="button" className="button button-primary"  name="smsButton" onClick={handleSendSMS} disabled={!isPhoneValid || !isOnCheckPhone}>인증번호 요청</button>
                 </div>
                 <div className="regexMsg">{phoneMsg}</div>
                 <div className="input-group">
-                  <input className="input" type="text" ref={smsCodeInputRef} value={smsCode} id="smsCode" required placeholder="전송받으신 인증번호 4자리를 입력해 주세요." onChange={handleSmsCode} disabled={!isPhoneValid} />
-                  <button type="button" className="button button-primary" onClick={handleSendSmsCode}>인증번호 입력</button>
+                  <input className="input" type="text" ref={smsCodeInputRef} required placeholder="인증번호 입력" />
+                  <button type="button" className="button button-primary" onClick={onCheckSmsCode}  disabled={!isPhoneValid || !isOnCheckPhone}>인증번호 입력</button>
 
                 </div>
-                <div className="regexMsg">{smsCodeMsg}</div>
               </div>
               <div className="item">
                 <div className="container-policy mb-1">

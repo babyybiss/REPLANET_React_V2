@@ -2,8 +2,8 @@
     border-radius: .5rem;
     background-color: #ffffff;
     padding: 1.5rem;
-    box-shadow:     0 5px 10px rgba(0, 0, 0, 0.1),
-    0 20px 20px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1),
+        0 20px 20px rgba(0, 0, 0, 0.05);
     margin-top: 1rem;
     width: 33.3333%;
 }
@@ -11,30 +11,35 @@
 
 
 @media screen and (max-width: 1200px) {
-    #container-user{width: 66.6666%;}
+    #container-user {
+        width: 66.6666%;
+    }
 }
 
 @media screen and (max-width: 992px) {
-    #container-user{width: 100%;}
+    #container-user {
+        width: 100%;
+    }
 }
 
 @media screen and (max-width: 768px) {
-  
+
     .items-container.ic3 {
-      grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(3, 1fr);
     }
 }
+
 #container-user .tab_item {
-    font-size: 1.1rem!important;
-    height: 60px!important;
-    line-height: 60px!important;
+    font-size: 1.1rem !important;
+    height: 60px !important;
+    line-height: 60px !important;
 }
 
 .container-policy {
-    border-radius: .25rem!important;
+    border-radius: .25rem !important;
     width: 100%;
     padding: 7px;
-    border: solid 1px var(--color-secondary)!important;
+    border: solid 1px var(--color-secondary) !important;
     height: 200px;
     overflow-x: hidden;
 }
@@ -46,20 +51,28 @@
     font-size: .9rem
 }
 
-.join-social {
-    width: 30px!important;
-    height: 30px!important;
-    line-height: 30px!important;
-    border-radius: 100%;
-    background-color: #FFEB00!important;
-    color: #391C1C!important;
-    display: inline!important;
-    margin-right: .25rem
+.regexMsg {
+    font-size: 0.8rem;
+    margin-bottom: 0.35rem;
+    margin-top: -0.25rem
 }
 
+label {
+    font-size: 0.9rem;
+}
 
-.regexMsg
-          {font-size: 0.8rem;
-            margin-bottom: 0.35rem;
-            margin-top: -0.25rem
-          }
+#dupcheck {
+    display: flex;
+    border: solid 1px var(--color-primary);
+    color: var(--color-primary);
+    align-items: center;
+    font-size: 0.85rem;
+    padding: 0 0.5rem;
+    cursor: pointer;
+}
+
+.dupcheck-disabled {
+    border: solid 1px var(--color-primary-disabled);
+    color: var(--color-primary-disabled);
+    cursor: default;
+}

@@ -34,7 +34,7 @@ export function Review({ review, reviewExists }) {
             <>
             <h4>{review.campaign.campaignTitle}<br/><h6 style={{color: "#706f6f"}}>캠페인명 </h6></h4>
             <h4>{review.campaign.organization.member.memberName}<br /><h6 style={{color: "#706f6f"}}>재단명</h6></h4>
-            <NavLink to={`/reviews/reviewRegist/${review.campaignCode}`}><button className="button button-primary mr-1">리뷰 등록하기</button></NavLink>
+            <NavLink to={`/reviews/reviewRegist/${review.campaign.campaignCode}`}><button className="button button-primary mr-1">리뷰 등록하기</button></NavLink>
             </>}
             
           </div>

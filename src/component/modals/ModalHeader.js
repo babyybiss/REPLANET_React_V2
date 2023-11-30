@@ -3,12 +3,12 @@ import CloseIcon from '../../assets/images/icon/CloseIcon';
 
 function ModalHeader({ setIsShow }) {
     return(
-        <div>
+        <div class="modal-header">
             <button 
                 className={'modal-close-btn'}
                 onClick={() => setIsShow(false)}
             >
-                <CloseIcon/>
+                <i class="fa-solid fa-times"></i>
             </button>
         </div>
 

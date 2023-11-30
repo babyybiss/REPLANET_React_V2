@@ -4,6 +4,7 @@ import { useSelector } from "react-redux/es/hooks/useSelector";
 import { callGetOrgsAPI } from "../../../apis/MemberAPI";
 import { useDispatch } from "react-redux";
 import AuthContext from "../../auth/AuthContext";
+import "../../../assets/css/admin.css";
 
 function OrgList() {
 
@@ -41,32 +42,60 @@ function OrgList() {
         authCtx.isSuccess = false;
     },[])
 
+    // 탈퇴 신청 보기와 전체 목록 보기
+    const [showWithdraw, setShowWithdraw] = useState(false);
+    const setWithDraw = () => {
+        setShowWithdraw(!showWithdraw);
+    }
+    // const wUsers = users.filter(user => user.wReqDate != null && user.withdrawDate == null);
+    // console.log("wUsers 확인 : ", wUsers);
+
     return(
         <>
-            <table>
+            {/* <button onClick={() => setWithDraw()} className="settingBtn">{showWithdraw? '전체 목록 보기' : '탈퇴 신청 보기'}</button> */}
+                <table>
                     <thead>
-                        <tr>
+                         <tr>
                             <th>기부처코드</th>
                             <th>기부처아이디</th>
                             <th>기부처명</th>
                             <th>등록일자</th>
                             <th>대표번호</th>
-                            <th>탈퇴처리</th>
-                            <th>탈퇴여부</th>
+                            <th onClick={() => setWithDraw()} className="settingW">{showWithdraw? '전체 목록 보기' : '탈퇴 신청 보기'}</th>
+                            {/* <th>탈퇴 신청</th> */}
                             <th>탈퇴일자</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {users && users.length > 0 ? (
-                            currentItems.map((user) => (
-                                <OrgItem
-                                    key={user.memberCode}
-                                    user={user}
-                                />
-                            ))
+                    {users && users.length > 0 ? (
+                        showWithdraw?
+                            (users
+                                .filter(user => user.wReqDate != null && user.withdrawDate == null)
+                                .length > 0 ?(
+                                    users
+                                        .filter(user => user.wReqDate != null && user.withdrawDate == null)
+                                        .map((user) => (
+                                            <OrgItem
+                                                key={user.memberCode}
+                                                user={user}
+                                            />
+                                        )
+                                )) : (
+                                    <tr>
+                                        <td colSpan={7}>탈퇴를 신청한 기부처가 없습니다!</td>
+                                    </tr>
+                                )
+                            ) : (
+                                currentItems.map((user) => (
+                                    <OrgItem
+                                        key={user.memberCode}
+                                        user={user}
+                                    />
+                                ))
+                            )
                         ) : (
                             <tr>
-                                <td colSpan={5}>등록된 기부처가 없습니다!</td>
+                                <td colSpan={7}>등록된 기부처가 없습니다!</td>
                             </tr>
                         )}
                     </tbody>

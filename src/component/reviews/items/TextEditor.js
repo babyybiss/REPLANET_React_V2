@@ -4,25 +4,31 @@ import axios from "axios";
 
 export function TextEditor({ onContentChange, existingReviewDescription }) {
   const [initialContent, setInitialContent] = useState(existingReviewDescription ? existingReviewDescription : "");
-
+  const maxSizeInBytes = 1048576; // 1 MB
   const handleEditorChange = (content, editor) => {    
     onContentChange(content);
 
     console.log(content);
   };
 
-  const updateImageSrc = (content, fileName, iframeDoc) => {
+  const updateImageSrc = (fileName, content, iframeDoc) => {
+    // Find the defaultImg element in the iframe
     const image = iframeDoc.querySelector('img[src^="data:"]') || iframeDoc.querySelector('img[src^="blob:"]');
-    image.setAttribute('src', fileName);
-    
-
-    // Store the original source and file name as data attributes
-   // image.setAttribute('data-original', image.currentSrc);
-   // image.setAttribute('data-file-name', newSrc);
   
-    // Set the new source
-   // image.setAttribute('src', newSrc);
+    if (image) {
+      // Change the src attribute
+      image.setAttribute('src', fileName);
+  
+      for (let i = 0; i < 10; i++) {
+        // Optionally, set the alt attribute
+        image.setAttribute('alt', `reviewImg[${i}]`);
+      }
+  
+      // Resolve the promise with the response data
+      return Promise.resolve({ success: true, data: { url: fileName } });
+    }
   };
+  
   
   const imageUploadHandler = (blobInfo, content) => {
     return new Promise((resolve, reject) => {
@@ -34,7 +40,11 @@ export function TextEditor({ onContentChange, existingReviewDescription }) {
         const binaryString = reader.result;
         const arrayBuffer = new Uint8Array(binaryString);
         const file = new File([arrayBuffer], blobInfo.filename(), { type: blobInfo.blob().type });
-  
+          if(file.size > maxSizeInBytes){
+            console.log("너무 크다");
+            reject(new Error("이미지 용량이 1MB를 초과합니다."));
+            return;
+          }
         console.log("들어옴2");
   
         const formData = new FormData();
@@ -72,7 +82,7 @@ export function TextEditor({ onContentChange, existingReviewDescription }) {
           .catch((error) => {
             console.error('Error during image upload:', error);
             // Reject the promise with an error message
-            reject('hello!');
+            reject(new Error('Image upload failed.'));
           });
       };
   
@@ -108,6 +118,17 @@ export function TextEditor({ onContentChange, existingReviewDescription }) {
       }}
       initialValue={initialContent}
       onEditorChange={handleEditorChange}
+      images_upload_handler={(blobInfo, success, failure, progress) => {
+        imageUploadHandler(blobInfo)
+          .then((result) => {
+            // Call success with the result data
+            success(result.data.url);
+          })
+          .catch((error) => {
+            // Call failure with an error message
+            failure('이미지 업로드에 실패했습니다.');
+          });
+      }}
     />
   );
 }

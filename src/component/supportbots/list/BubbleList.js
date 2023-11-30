@@ -67,8 +67,9 @@ function BubbleList() {
     }
     
     return(
+        <>
         <div 
-            className="modal-scroll-box"
+            className="modal-scroll-box rounded-2"
             ref={scrollRef}
         >
             <div className="modal-intro">
@@ -102,8 +103,14 @@ function BubbleList() {
                     위로 가기
                 </div>
             }
+
         </div>
-        
+        <div class="modal-footer-bar text-primary">
+            <i class="fas fa-bars"></i>
+                <i class="fas fa-house"></i>
+                <i class="fas fa-power-off"></i>
+            </div>
+        </>
     );
 
 }

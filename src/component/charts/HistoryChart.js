@@ -8,46 +8,86 @@ function HistoryChart(chartDataListProps) {
 
     /* chartData from API */
     const { chartDataList } = chartDataListProps;
-    
+    console.log(chartDataList)
+        
     /* zoom 초기값 설정을 위한 변수 세팅 */ 
     const today = new Date();
+    /*
     const fifteenDaysAgo = new Date();
     const fifteenDaysLater = new Date();
-
+    
     fifteenDaysAgo.setDate(today.getDate() - 15)
     fifteenDaysLater.setDate(today.getDate() + 15);
-
-
-    useEffect(() => {
-        console.log(chartDataList)
-        const donationPointArray = chartDataList.map(point => point.donationPoint) 
-        console.log(donationPointArray)
-
-    },[]);
-
-    
-    /*
-    const diffDays = fifteenDaysLater-fifteenDaysAgo;
-    const subNumber = 24 * 60 * 60 * 1000;
-    
-    console.log(fifteenDaysAgo)
-    console.log(fifteenDaysLater)
-    console.log(diffDays/subNumber)
     */
-
+    const firstByToday = new Date(today.getFullYear(),today.getMonth(), 1, 0, 0, 0, 0);
+    const lastByToday = new Date(today.getFullYear(),today.getMonth() + 1, 0, 23, 59, 59, 999);
+    
+    
+    const [firstDayOfMonth, setFirstDayOfMonth] = useState(firstByToday);
+    const [lastDayOfMonth, setLastDayOfMonth] = useState(lastByToday);
+    const [selectedOption, setSelectedOption] = useState(11);
+    
     /* zoom state */ 
     const [zoomDomain, setZoomDomain] = useState({
-            x: [new Date(fifteenDaysAgo), new Date(fifteenDaysLater)],
-            y: [0, 5000000000]
+        x: [firstDayOfMonth, lastDayOfMonth]
     });
+    const [brushDomain, setBrushDomain] = useState({
+        x: [firstDayOfMonth, lastDayOfMonth]
+    })
+
+    console.log(zoomDomain)
+    console.log('gk..',selectedOption)
     
-    const zoomDomainHandler = (domain) => setZoomDomain(domain);
+    console.log('바뀌었니?',firstDayOfMonth)
+    console.log('바뀌었니',lastDayOfMonth)
+    
+    useEffect(() => {
+        const calcDays = (selectedOption) => {
+            const today = new Date();
+            today.setMonth(selectedOption - 1);
+
+            console.log(today.setMonth(selectedOption - 1))
+            const calcFirstDay = new Date(today.getFullYear(), today.getMonth(), 1, 0, 0, 0, 0)
+            const calcLastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0, 23, 59, 59, 999)
+
+            return { calcFirstDay, calcLastDay };
+        };
+
+        const { calcFirstDay, calcLastDay } = calcDays(selectedOption);
+        setFirstDayOfMonth(calcFirstDay);
+        setLastDayOfMonth(calcLastDay);
+        setZoomDomain({
+            x: [calcFirstDay, calcLastDay]
+        })
+        setBrushDomain({
+            x: [calcFirstDay, calcLastDay]
+        })
+        console.log('옵션바뀔경우 비꿔여ㅓ야함',firstDayOfMonth)
+        console.log('옵션바뀔경우 비꿔여ㅓ야함',lastDayOfMonth)
+
+    },[selectedOption]);
+    
+
+    const zoomDomainHandler = (domain) => {
+        setZoomDomain(domain);
+    }
+
+    const brushDomainHandler = (domain) => {
+        setZoomDomain(domain);
+
+    }
+    
+    const optionChangeHandler = (e) => {
+        const changedOption = parseInt(e.target.value, 10);
+        setSelectedOption(changedOption);
+    }
+    
 
     /* chart figure */ 
     const width = 1500;
     const height = 700;
     const brushChartHeight = 200;
-    const brushTickValues = [new Date(fifteenDaysAgo), new Date(fifteenDaysLater)];
+    const brushTickValues = [firstDayOfMonth, lastDayOfMonth];
 
     /* chart padding */ 
     const zoomChartPadding = { left: 100, right: 50, top: 50, bottom: 50 }
@@ -55,7 +95,7 @@ function HistoryChart(chartDataListProps) {
 
     /* x축, y축 기준이 될 데이터 설정 */
     const stringX = 'donationDate';
-    const stringY = (standardData) => (standardData.donationPoint+standardData.payAmount)
+    const stringY = 'donationAmount';
     
     /* style setting */
     const baseFillStyle = { fill: "#10573C" }
@@ -80,6 +120,24 @@ function HistoryChart(chartDataListProps) {
     return (
         <div className='chartbox'>
             <h4>일별 모금액 추이</h4>
+            <select 
+                value={selectedOption}
+                onChange={optionChangeHandler}
+            >
+                <option value={11}>선택해주세요</option>
+                <option value={1}>1월</option>
+                <option value={2}>2월</option>
+                <option value={3}>3월</option>
+                <option value={4}>4월</option>
+                <option value={5}>5월</option>
+                <option value={6}>6월</option>
+                <option value={7}>7월</option>
+                <option value={8}>8월</option>
+                <option value={9}>9월</option>
+                <option value={10}>10월</option>
+                <option value={11}>11월</option>
+                <option value={12}>12월</option>
+            </select>
             <VictoryChart
                 width={width} height={height}
                 padding={zoomChartPadding}
@@ -87,10 +145,8 @@ function HistoryChart(chartDataListProps) {
                 // scale={{ x: "time" }}
                 containerComponent={
                     <VictoryZoomContainer
-                        // responsive={false}
                         zoomDimension="x"
                         zoomDomain={zoomDomain}
-                        minimumZoom={{x: 1, y: 0}}
                         // allowZoom={false}
                         onZoomDomainChange={zoomDomainHandler}
                     />
@@ -137,11 +193,9 @@ function HistoryChart(chartDataListProps) {
                 // scale={{ x: "time" }}
                 containerComponent={
                     <VictoryBrushContainer
-                        // responsive={false}
-                        allowDraw={false}
                         brushDimension="x"
-                        brushDomain={zoomDomain}
-                        onBrushDomainChange={zoomDomainHandler}   
+                        brushDomain={brushDomain}
+                        onBrushDomainChange={brushDomainHandler}   
                     />
                 }
             >
