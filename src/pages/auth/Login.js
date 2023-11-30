@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import AuthContext from "../../component/auth/AuthContext";
 import '../../assets/css/user.css';
 import Swal from "sweetalert2";
-import { KakaoLoginAPI } from "../../apis/KaKaoLoginAPI";
+//import { KakaoLoginAPI } from "../../apis/KaKaoLoginAPI";
 
 
 import {GoogleLogin} from "@react-oauth/google";
