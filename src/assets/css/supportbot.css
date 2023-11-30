@@ -186,6 +186,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
 
 .goToTop-button-style {
     cursor: pointer;
