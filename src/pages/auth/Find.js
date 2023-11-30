@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+import AuthContext from "../../component/auth/AuthContext";
 import React, { useState, useRef, useContext, useCallback } from "react";
 import '../../assets/css/user.css';
 import { ChangePassword } from "../../component/auth/ChangePassword";

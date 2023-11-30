@@ -41,6 +41,7 @@ import OrgWithdraw from "./pages/org/OrgWithdraw";
 import PwdConfirm from "./pages/org/EditPwdConfirm";
 import { ChangePassword } from "./component/auth/ChangePassword";
 import SendEmail from "./pages/auth/SendEmail";
+import OauthKakao from "./pages/auth/OauthKakao";
 
 function App() {
 
@@ -119,6 +120,8 @@ function App() {
               <Route key="modify" path="modify" element={<OrgEdit />} />,
               <Route key="withdraw" path="withdraw" element={<OrgWithdraw />} />,
             ]}/>
+
+            <Route path="/oauth/kakao" element={<OauthKakao />}/>
 
           </Route>
         </Routes>
