@@ -1,30 +1,65 @@
-import axios from "axios";
-import { response } from "express";
+import axios from 'axios';
 
-export function KakaoLoginAPI() {
-    const REST_API_KEY = "8a5a93627a69a5b1728721bc6ff53635";
-    const REDIRECT_URI = "http://localhost:3000/";
-    const requestURL = "http://localhost:8001/kakaologin";
+export const callPostKakaoTokenAPI = async (code) => {
+    try {
+        const restApiKey = process.env.REACT_APP_KAKAO_REST_API_KEY;
+        const redirectUri = process.env.REACT_APP_KAKAO_REDIRECT_URI;
 
-    const urlSearchParams = new URLSearchParams(window.location.search);
-    const AUTHORIZE_CODE = urlSearchParams.get('code');
+        const response = await axios.post('https://kauth.kakao.com/oauth/token',
+                {
+                    grant_type: 'authorization_code',
+                    client_id: restApiKey,
+                    redirect_uri: redirectUri,
+                    code: code,
+                },
+                {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                }
+        );
 
-    const data = new URLSearchParams();
-    data.append('grant_type', 'authorization_code');
-    data.append('client_id', REST_API_KEY);
-    data.append('redirect_uri', REDIRECT_URI);
-    data.append('code', AUTHORIZE_CODE);
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};
 
-    axios.post(requestURL, data, {
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-    })
-    .then(response => {
-        console.log(response.data);
-    })
-    .catch(error => {
-        console.error(error);
-    });
+export const callPostUserMeAPI = async (accessToken) => {
+    try {
+        const response = await axios.get('https://kapi.kakao.com/v2/user/me',{
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
+                },
+                params: {
+                    secure_resource: false, // 이미지 URL 값 HTTPS 여부
+                    property_keys: ['kakao_account.profile', 'kakao_account.name', 'kakao_account.email', 'kakao_account.age_range', 'kakao_account.birthday', 'kakao_account.gender'],
+                },
+        });
 
-}
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const callGetFindMemberAPI = async (kakaoTokenId, email) => {
+    try {
+        const response = await axios.post('https://localhost:8001/kakaologin/findMember',
+                {
+                    kakaoTokenId: kakaoTokenId,
+                    email: email,
+                },
+                {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
+                    },
+                }
+        );
+
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};

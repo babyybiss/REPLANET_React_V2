@@ -1,7 +1,6 @@
 import React, { useState, useRef, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../component/auth/AuthContext";
-import KakaoLogin from "./KakaoLogin";
 import '../../assets/css/user.css';
 import { Signup } from "./Signup";
 import { ChangePassword } from "../../component/auth/ChangePassword";

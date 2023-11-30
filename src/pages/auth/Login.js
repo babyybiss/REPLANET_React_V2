@@ -50,14 +50,11 @@ const Login = () => {
     }
 
     const KakaoLoginHandler = () => {
-        console.log("반갑다 나 카카오다.")
-
-        const REST_API_KEY = "8a5a93627a69a5b1728721bc6ff53635";
-        const REDIRECT_URI = "http://localhost:3000/";
+        console.log("반갑다 나 카카오다.");
     
-        const url = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&scope=account_email&prompt=login`;
+        const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.REACT_APP_KAKAO_REST_API_KEY}&redirect_uri=${process.env.REACT_APP_KAKAO_REDIRECT_URI}&scope=account_email&prompt=login`;
     
-        window.location.href = url;
+        window.location.href = KAKAO_AUTH_URL;
     }
 
 
@@ -75,7 +72,7 @@ const Login = () => {
                     <div className="tabs">
                     <div className="tab_item ti2 active" >일반 로그인</div>
                     <div className="tab_item ti2" onClick={GoogleLoginButton}>소셜 로그인</div>
-                    <div className="tab_item ti2" onClick={KakaoLoginHandler}>카카오테스트</div>
+                    <div className="tab_item ti2" onClick={KakaoLoginHandler}>카카오 소셜로그인</div>
                     </div>
 
 

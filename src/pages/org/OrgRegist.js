@@ -41,20 +41,28 @@ function OrgRegist() {
     }
 
 
-  // 아이디 유효성 검사 후 중복 검사 
-    const onCheckEmail = (e) => {
-        console.log('아이디중복체크');
-        axios
-        .get(`${process.env.REACT_APP_API_URL}/auth/emailcheck`)
-        .then((res) => {
-            const resMessge = res.data.message;
-            if (resMessge === "사용 가능한 아이디입니다.") {
-                Swal.fire("ok")
-            } else if (resMessge === "이미 사용중인 아이디입니다.") {
-                Swal.fire("No")
-            }
-        });
-    };
+
+    const onCheckEmail = async () => {
+    console.log(email);
+    const url = "http://localhost:8001/auth/emailcheck/" + email;
+    const body = { email: email };
+
+    try {
+        const response = await axios.post(url, body);
+        if (response.status === 200) {
+        console.log('사용 가능한 이메일입니다');
+        setEmailMsg("사용 가능한 이메일입니다.");
+        }
+    } catch (error) {
+        if (error.response && error.response.status === 400) {
+        console.log('이미 사용 중인 이메일입니다.');
+        setEmailMsg("이미 사용 중인 이메일입니다.");
+        } else {
+        console.log('예상치 못한 오류가 발생했습니다.');
+        setEmailMsg("예상치 못한 오류가 발생했습니다.");
+        }
+    }
+};
 
     const validateEmail = (email) => {
         return email
@@ -153,7 +161,7 @@ function OrgRegist() {
                             <label htmlFor="email">이메일</label>
                             <div className="input-group">
                                 <input className="input" type="text" name="email" id="email" onChange={handleEmail} value={email} required ref={emailInputRef} placeholder="(필수) 이메일 주소를 입력해주세요." />
-                                <button type="button" className="button button-primary" disabled={!isEmailValid}>중복확인</button>
+                                <button type="button" className="button button-primary" disabled={!isEmailValid} onClick={onCheckEmail}>중복확인</button>
                             </div>
                             <div className="regexMsg">{emailMsg}</div>
                             <div id="emailCheckResult"></div>
