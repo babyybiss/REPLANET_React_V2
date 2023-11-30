@@ -37,8 +37,8 @@ function CampaignRegist() {
 
     const onChange = (e) => {
         const { value, name } = e.target;
-        if(e.target.name == "endDate"){
-            if(new Date(e.target.value) < new Date()){
+        if (e.target.name == "endDate") {
+            if (new Date(e.target.value) < new Date()) {
                 Swal.fire({
                     icon: 'warning',
                     title: '마감일은 <b style="color:#1D7151; font-weight:bold;">현재 날짜보다</b> </br>작을 수 없습니다.',
@@ -170,12 +170,10 @@ function CampaignRegist() {
                     <label>단체 연락처<input className="input" name="orgTel" maxLength="13" placeholder="전화번호를 입력해주세요." onChange={onChange} required /></label> */}
                 </div>
             </div>
-            <div >
-                <button className="button button-primary" onClick={submitHandler} >등록하기</button>
-                <button className="button button-primary-outline" onClick={() => navigate(-1)}>취소</button>
-
+            <div className="campaignSubmitButton">
+                <div className="button button-primary" style={{ width: '30%', textAlign: 'center',marginBottom: '1rem' }} onClick={submitHandler} >등록하기</div>
+                <div className="button button-primary-outline" style={{ width: '30%', textAlign: 'center' }} onClick={() => navigate(-1)}>취소</div>
             </div>
-
         </>
     );
 }

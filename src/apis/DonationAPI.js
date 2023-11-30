@@ -73,8 +73,6 @@ export function callPostKakaoPayAPI(data, campaignInfo) {
 
 export function callGetDonationByCampaignCodeAPI({campaignCode}) {
     // 캠페인별 참여자 리스트
-
-    console.log(campaignCode);
     const requestURL = `/campaigns/donations/${ campaignCode }`
 
     return async function getDonationByCampaignCode(dispatch, getState) {

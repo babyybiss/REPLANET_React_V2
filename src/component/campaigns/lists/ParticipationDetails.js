@@ -58,21 +58,22 @@ function ParticipationDetails() {
                         <td colSpan={5}>참여 내역이 없습니다!</td>
                     </tr>
                 )}
-
-                <ul className="pagination">
-                    <li className="icon" onClick={() => handlePageChange(currentPage - 1)}><a><span className="fas fa-angle-left"></span></a></li>
-                    {Array.from({ length: totalPages }, (_, index) => (
-                        <li
-                            key={index}
-                            onClick={() => handlePageChange(index + 1)}
-                        >
-                            <a className={currentPage === index + 1 ? "active" : ""}>
-                                {index + 1}
-                            </a>
-                        </li>
-                    ))}
-                    <li onClick={() => handlePageChange(currentPage + 1)}><a><span className="fas fa-angle-right"></span></a></li>
-                </ul>
+                <div>
+                    <ul className="pagination">
+                        <li className="icon" onClick={() => handlePageChange(currentPage - 1)}><a><span className="fas fa-angle-left"></span></a></li>
+                        {Array.from({ length: totalPages }, (_, index) => (
+                            <li
+                                key={index}
+                                onClick={() => handlePageChange(index + 1)}
+                            >
+                                <a className={currentPage === index + 1 ? "active" : ""}>
+                                    {index + 1}
+                                </a>
+                            </li>
+                        ))}
+                        <li onClick={() => handlePageChange(currentPage + 1)}><a><span className="fas fa-angle-right"></span></a></li>
+                    </ul>
+                </div>
             </>
         )
     );
