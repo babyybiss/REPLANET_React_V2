@@ -93,3 +93,11 @@
     margin: 0 auto;
     cursor: pointer;
   }
+
+  .campaignSubmitButton {
+    display: grid;
+    justify-items: center;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+
+  }

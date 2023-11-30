@@ -178,6 +178,7 @@
 
 }
 
+
 .modal-footer-bar {
     background-color: var(--color-white);
     width: 100%;
@@ -185,4 +186,13 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+.goToTop-button-style {
+    cursor: pointer;
+    position: fixed;
+    bottom: 90px;
+    right: 35px;
+    border-radius: 100%;
+    border: none;
+
 }

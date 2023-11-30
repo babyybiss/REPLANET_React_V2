@@ -20,9 +20,8 @@ function GoToTopButton() {
         };
     }, []);
     return (
-        <button className="button" onClick={goToTop}>
-            위로가기{toggleBtn}
-        </button>
+        <img src="/campaigns/default/topButton.png" className="goToTop-button-style" onClick={goToTop}>
+        </img>
     );
 }
 
