@@ -275,7 +275,7 @@ export function ReviewComment ({ review }) {
               </p>
             </form>
               ) : ( 
-                (decodedToken.memberRole == "ROLE_ORG" ?  
+                (decodedToken?.memberRole == "ROLE_ORG" ?  
                 <form className="m-21">
                   <p className="w-100">
                     <input
@@ -297,7 +297,7 @@ export function ReviewComment ({ review }) {
                   />
                   </p>
                 </form>
-                ))}
+                ))} 
       </li>    
     </ul>
   );
