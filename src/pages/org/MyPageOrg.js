@@ -29,23 +29,6 @@ function MyPageOrg() {
     const memberName = org && org[0]? org[0].organization.member?.memberName : '로딩중...';
     const totalCampaign = org? org.length : '0';
     const totalDonation = result.totalDonation !== undefined && result.totalDonation !== null? result.totalDonation : '로딩중...';
-    
-
-    const navigateToOrgCamList = () => {
-        navigate('list');
-    }
-
-    const navigateToOrgRevList = () => {
-        navigate('review');
-    }
-
-    const navigateEditOrgInfo = () => {
-        navigate('confirmPwd');
-    }
-
-    const navigateRequestWithdraw = () => {
-        navigate('withdraw');
-    }
 
     
     useEffect(
