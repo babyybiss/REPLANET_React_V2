@@ -204,9 +204,9 @@ function CampaignModify() {
                     <label htmlFor="endDate">캠페인 마감일 <input type="date" id="endDate" name="endDate" className="input" onChange={onChange} value={inputs.endDate} /></label>
                 </div>
             </div>
-            <div >
-                <button className="button button-primary" onClick={submitHandler}>등록하기</button>
-                <button className="button button-primary-outline" onClick={() => navigate(-1)}>취소</button>
+            <div className="campaignSubmitButton">
+                <div className="button button-primary" style={{ width: '30%', textAlign: 'center',marginBottom: '1rem' }} onClick={submitHandler} >등록하기</div>
+                <div className="button button-primary-outline" style={{ width: '30%', textAlign: 'center' }} onClick={() => navigate(-1)}>취소</div>
             </div>
         </>
     );

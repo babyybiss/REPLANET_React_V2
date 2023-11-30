@@ -18,7 +18,7 @@ export const { campaign: {getContinue, getComplete, getCampaign, postCampaign, g
     [GET_CONTINUE]: (res ) => ({campaignlist : res}),
     [GET_COMPLETE]: (res ) => ({campaignDoneList : res}),
     [GET_CAMPAIGN]: (res ) => ({campaigninfo : res}),
-    [GET_ORG_LIST]: (res ) => ({orgsList : res}),
+    [GET_ORG_LIST]: (res ) => ({orgList : res}),
     [POST_CAMPAIGN]: (res ) => ({regist : res}),
     [GET_CATEGORY_BY_CAMPAIGN]: (res) => ({category : res})
 })
@@ -28,7 +28,11 @@ const campaignReducer = handleActions(
         [GET_CONTINUE]: (state, {payload}) => {return payload},
         [GET_COMPLETE]: (state, {payload}) => {return payload},
         [GET_CAMPAIGN]: (state, {payload}) => {return payload},
-        [GET_ORG_LIST]: (state, {payload}) => {return payload},
+        [GET_ORG_LIST]: (state, {payload}) => {
+            return {
+                ...state,
+                orgList: payload.orgList
+            }},
         [POST_CAMPAIGN]: (state, {payload}) => {return payload},
         [GET_CATEGORY_BY_CAMPAIGN]: (state, {payload}) => {return payload}
     }, initialState
