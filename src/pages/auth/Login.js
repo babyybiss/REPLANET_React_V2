@@ -61,7 +61,6 @@ const Login = () => {
         const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.REACT_APP_KAKAO_REST_API_KEY}&redirect_uri=${process.env.REACT_APP_KAKAO_REDIRECT_URI}&scope=account_email&prompt=login`;
     
         window.location.href = KAKAO_AUTH_URL;
-        window.open(url, "_blank");
     }
 
 
