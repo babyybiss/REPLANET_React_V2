@@ -180,7 +180,7 @@ const Signup = () => {
         console.log('이메일이 입력되지 않았습니다.');
         setEmailMsg('이메일이 입력되지 않았습니다.');
       }
-      else if (email != null || !isEmailValid) {
+      else if (email != null && !isEmailValid) {
         console.log('이메일 형식이 올바르지 않습니다.');
         setEmailMsg('이메일 형식이 올바르지 않습니다.');
       }

@@ -13,8 +13,12 @@ function Find() {
   const [smsCode, setSmsCode] = useState('');
 
   const [phoneMsg, setPhoneMsg] = useState("");
+  const [onFindEmailMsg, setOnFindEmailMsg] = useState("");
 
   const [isOnCheckSmsCode, setIsOnCheckSmsCode] = useState(false);
+
+  const [isOnFindEmail, setIsOnFindEmail] = useState(false);
+  const [isOnFindPassword, setIsOnFindPassword] = useState(false);
 
   const validatePhone = (phone) => {
     return phone
@@ -69,6 +73,33 @@ function Find() {
   };
 
 
+  const onFindEmail = async () => {
+    console.log(phone);
+    const url = "http://localhost:8001/auth/emailfind/" + phone;
+    const body = { phone: phone};
+
+    try {
+      const response = await axios.get(url, body);
+      console.log(phone);
+      console.log(response.data);
+      if (response.status === 200 && phone != null && isPhoneValid) {
+
+        setOnFindEmailMsg("회원님의 이메일 계정은 " + response.data + "입니다.");
+        setIsOnFindEmail(true);
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        console.log('fail');
+        setOnFindEmailMsg("fail");
+        setIsOnFindEmail(false);
+      } 
+      else {
+        console.log('예상치 못한 오류가 발생했습니다.');
+        setOnFindEmailMsg("예상치 못한 오류가 발생했습니다.");
+      }
+    }
+  };
+
   return (
     <div className="container-first container-centered text-left">
       <div id="container-user">
@@ -92,7 +123,8 @@ function Find() {
                   <button type="button" className="button button-primary" onClick={onCheckSmsCode}  disabled={!isPhoneValid}>인증번호 입력</button>
 
                 </div>
-
+                <button onClick={onFindEmail} className="button button-primary w-100" disabled={!isOnCheckSmsCode}>찾기</button>
+                <div className="regexMsg">{onFindEmailMsg}</div>
             </div>
 
           </div>
