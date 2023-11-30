@@ -3,13 +3,16 @@ import '../../assets/css/common.css';
 import '../../assets/css/user.css';
 import '../../assets/css/mypage.css';
  
-import { useNavigate } from 'react-router-dom';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { callGetMemberByTokenAPI, callGetTotalDonationByTokenAPI } from '../../apis/MemberAPI';
+
+import { NavLink } from 'react-router-dom';
+
 import { jwtDecode } from 'jwt-decode';
 import { GetCampaignByOrgAPI } from '../../apis/CampaignListAPI';
+
 
 function MyPageOrg() {
 
@@ -17,7 +20,6 @@ function MyPageOrg() {
     let decodedToken = token ? jwtDecode(token) : null;
 
     const dispatch = useDispatch();
-    const navigate = useNavigate();
 
     const result = useSelector(state => state.memberReducer);
     const orgResult = useSelector((state) => state.campaignReducer.campaignlist);
@@ -27,8 +29,8 @@ function MyPageOrg() {
     const memberName = org && org[0]? org[0].organization.member?.memberName : '로딩중...';
     const totalCampaign = org? org.length : '0';
     const totalDonation = result.totalDonation !== undefined && result.totalDonation !== null? result.totalDonation : '로딩중...';
-    // 기부처 정보 조회하는걸로 수정해야함
-console.log(orgResult,'리잘');
+    
+
     const navigateToOrgCamList = () => {
         navigate('list');
     }
@@ -44,6 +46,7 @@ console.log(orgResult,'리잘');
     const navigateRequestWithdraw = () => {
         navigate('withdraw');
     }
+
     
     useEffect(
         () => {
@@ -56,6 +59,19 @@ console.log(orgResult,'리잘');
         },
         [dispatch]
     );
+
+    const [modifyActive, setModifyActive] = useState(false);
+    const location = useLocation();
+    useEffect(
+        () => {
+            const isModifyActive = location.pathname.includes("modify");
+            setModifyActive(isModifyActive);
+        }, [location.pathname]
+    )
+    const modifyMenu = {
+        backgroundColor: modifyActive? 'var(--color-primary)' : 'var(--color-white)',
+        color: modifyActive? 'var(--color-white)' : 'var(--color-dark)'
+    }
 
     return(
         <>
@@ -72,31 +88,23 @@ console.log(orgResult,'리잘');
                     {/* 기부처의 받은 기부금 총액 총합 구해야함 */}
                 </div>
             </div>
-            <div className='container'>
-                <div className='campaign-button-container'>
-                    <div className="campaign-button-area" style={{marginBottom: "10px"}}>
-                        <button className='button button-primary-outline' onClick={navigateToOrgCamList}>
-                            캠페인 관리
-                            {/* 캠페인 리스트가 나와서 누르면 해당 캠페인으로 갈 수 있게 */}
-                        </button>
-                        <button className='button button-primary-outline' onClick={navigateToOrgRevList}>
-                            리뷰 관리
-                            {/* 리뷰 리스트가 나와서 누르면 해당 리뷰로 갈 수 있게 */}
-                        </button>
-                        <button className="button button-primary-outline" onClick={navigateEditOrgInfo}>
-                            정보 수정
-                            {/* 기부처 정보 수정 */}
-                        </button>
-                        <button className="button button-primary-outline" onClick={navigateRequestWithdraw}>
-                            탈퇴 요청
-                            {/* 운영자에게 탈퇴 요청 할 수 있는 form? */}
-                        </button>
-                    </div>
-                    <div>
-                        <Outlet/>
-                        
-                    </div>
-
+            <div className='container-admin'>
+                <div className="admin-sidebar bg-light">
+                    <NavLink to="list" className='admin-sidebar-menu'>
+                    캠페인 관리
+                    </NavLink>
+                    <NavLink to="review" className="admin-sidebar-menu">
+                    리뷰 관리
+                    </NavLink>
+                    <NavLink to="confirmPwd" className='admin-sidebar-menu' style={modifyMenu}>
+                    정보 수정
+                    </NavLink>
+                    <NavLink to="withdraw" className='admin-sidebar-menu'>
+                    탈퇴 요청
+                    </NavLink>
+                </div>
+                <div>
+                    <Outlet/>            
                 </div>
             </div>
         </>

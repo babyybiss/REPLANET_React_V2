@@ -65,3 +65,90 @@
   .admin-title > * {
     display: inline
   }
+
+  .settingBtn {
+    background-color: white;
+    border: solid 1px #1D7151;
+    color: #1D7151;
+    height: 40px;
+    cursor: pointer;
+    border-radius: 0.25rem;
+    line-height: 40px !important;
+    display: inline-block;
+    text-align: center;
+    font-size: 100% !important;
+  }
+
+  .settingW {
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
+  .orgListTr {
+    height: 73px;
+  }
+  
+  .orgListTr > td {
+    vertical-align: middle;
+  }
+  
+  .orgListBtn {
+    font-size: 1.15rem;
+    padding: 0 12px;
+    height: 40px !important;
+    cursor: pointer;
+    border-radius: .25rem !important;
+    min-width: 90px;
+  }
+
+  .modal {
+    display: block;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 80px;
+    width: 100%;
+    height: 100%;
+  }
+
+  .org-modal {
+    background-color: white;
+    margin: auto;
+    padding: 20px;
+    width: 40%;
+    height: 70%;
+    overflow-y: auto;
+    border: 1px solid lightgray;
+    border-radius: 10px;
+    text-align: center;
+    display: grid;
+}
+
+.org-modal-btn1 {
+  width: 70px;
+  height: 40px;
+  background-color: #428BF9;
+  color: white;
+  border: solid 1px #428BF9;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  margin: auto;
+}
+
+.modalBtn-container {
+  max-width: 300px;
+  min-width: 150px;
+  display: flex;
+  justify-content: space-between;
+  margin: auto;
+}
+
+.org-modal-btn2 {
+    width: calc((100% - 10px) / 2);
+    height: 40px;
+    background-color: #428BF9;
+    color: white;
+    border: solid 1px #428BF9;
+    border-radius: 0.25rem;
+    cursor: pointer;
+}
