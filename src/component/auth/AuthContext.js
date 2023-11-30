@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useCallback } from "react";
 import * as authAction from './AuthAction';
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
+
 let logoutTimer;
 const AuthContext = React.createContext({
     token: (email, memberName, phone) => { },
@@ -12,7 +14,7 @@ const AuthContext = React.createContext({
     login: (email, password) => { },
     logout: () => { },
     getUser: () => { },
-   // changeMemberName: (memberName) => { },
+    // changeMemberName: (memberName) => { },
     changePassword: (exPassword, newPassword) => { }
 });
 
@@ -32,14 +34,14 @@ export const AuthContextProvider = (props) => {
     const [isSuccess, setIsSuccess] = useState(false);
     const [isGetSuccess, setIsGetSuccess] = useState(false);
     const userIsLoggedIn = !!token;
-    
+
     const signupHandler = (email, password, memberName, phone, memberRole) => {
         setIsSuccess(false);
         const response = authAction.signupActionHandler(email, password, memberName, phone, memberRole);
         response.then((result) => {
             if (result !== null) {
                 setIsSuccess(true);
-                Swal.fire("기부처 등록 성공");
+
                 if (memberRole === "ROLE_ADMIN") {
                     const title = `${memberName}님의 RE-PLANET 가입이 완료되었습니다.`
                     const message = `RE-PLANET 가입을 축하드립니다.<br/>
@@ -51,7 +53,18 @@ export const AuthContextProvider = (props) => {
                                     감사합니다.`
                     authAction.successRegistOrgActionHandler(email, title, message);
                     // 가입 성공 시에 메일 보내야함
+                } else {
+                    Swal.fire({
+                        title: "가입 성공",
+                        text: "확인 버튼을 누르시면 로그인 페이지로 이동합니다.",
+                        confirmButtonText: "확인"}).then(function() {
+                            window.location = "/login";
+                        }); 
                 }
+
+
+
+
             } else {
                 Swal.fire("회원가입 조건을 확인해 주세요!", "이메일 주소가 중복되었거나 필수 기입 항목이 누락되었습니다.")
             }
@@ -69,7 +82,7 @@ export const AuthContextProvider = (props) => {
                 logoutTimer = setTimeout(logoutHandler, authAction.loginTokenHandler(loginData.accessToken, loginData.tokenExpiresIn));
                 setIsSuccess(true);
                 console.log(isSuccess);
-            }else {
+            } else {
                 Swal.fire("", "로그인 실패")
             }
         });

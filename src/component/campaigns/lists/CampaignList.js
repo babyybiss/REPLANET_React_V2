@@ -183,9 +183,9 @@ function CampaignList() {
                 <button
                     onClick={iconClickHandler}
                     className="supportbot-button-style"
-                    style={iconBackgroundStyle}
+              
                 >
-                    <SupportbotIcon />
+                    <i className="fa-solid fa-comment"></i>
                 </button> :  "" }
             {isShow &&
                 <div
