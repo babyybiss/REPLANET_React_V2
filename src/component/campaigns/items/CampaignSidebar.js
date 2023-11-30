@@ -5,8 +5,10 @@ import { jwtDecode } from 'jwt-decode';
 import Swal from 'sweetalert2';
 import HeartButton from '../../mypage/items/HeartButton';
 import { useEffect } from 'react';
+import { NavLink } from 'react-router-dom';
 
-function CampaignSidebar({ campaign }) {
+function CampaignSidebar({ campaign, orgList }) {
+
     // 토큰 정보 
     let token = localStorage.getItem('token');
     let decodedToken = token ? jwtDecode(token) : null;
@@ -16,14 +18,13 @@ function CampaignSidebar({ campaign }) {
     let campaignCode = campaign.campaignCode;
 
     let fileSaveName = campaign.organization ? campaign.organization.fileSaveName : null
-
     if (fileSaveName == null || undefined) {
         fileSaveName = false;
     } else {
         fileSaveName = true;
     }
+    
 
-    console.log(campaign,'사이드바');
     // 기부 현황
     let currentBudget = campaign.currentBudget;
     let goalBudget = campaign.goalBudget;
@@ -112,13 +113,14 @@ function CampaignSidebar({ campaign }) {
 
     // 카카오 공유하기 버툰
     useEffect(() => {
-        const script = document.createElement("script");
-        script.src = "https://developers.kakao.com/sdk/js/kakao.js";
-        script.async = true;
-        document.body.appendChild(script);
-        return () => document.body.removeChild(script);
-    }, []);
+        let script = document.createElement("script"); //script태그를 추가해준다.
+        script.src = "https://t1.kakaocdn.net/kakao_js_sdk/2.5.0/kakao.js"; //script의 실행 src
+        //script.integrity = "sha384-kYPsUbBPlktXsY6/oNHSUDZoTX6+YI51f63jCPEIPFP09ttByAdxd2mEjKuhdqn4";
+        script.crossorigin = "anonymous";
+        script.async = true; //다운로드 완료 즉시 실행
+        document.head.appendChild(script);
 
+    }, []);
     const shareKakao = () => { // url이 id값에 따라 변경되기 때문에 route를 인자값으로 받아줌
         if (campaignStatus < 0) {
             Swal.fire({
@@ -135,17 +137,17 @@ function CampaignSidebar({ campaign }) {
         if (window.Kakao) {
             const kakao = window.Kakao;
             if (!kakao.isInitialized()) {
-                kakao.init("75ce38ebe67c3a1280e071003e94fcd8"); // 카카오에서 제공받은 javascript key를 넣어줌 -> .env파일에서 호출시킴
+                kakao.init("135ecd180a9196ebbca69fe426be288e"); // 카카오에서 제공받은 javascript key를 넣어줌 -> .env파일에서 호출시킴
             }
 
-            kakao.Link.sendDefault({
+            kakao.Share.sendDefault({
                 objectType: "feed", // 카카오 링크 공유 여러 type들 중 feed라는 타입 -> 자세한 건 카카오에서 확인
                 content: {
                     title: campaign.campaignTitle, // 인자값으로 받은 title
-                    description: campaign.orgDescription, // 인자값으로 받은 title
+                    description: campaign.organization.orgDescription, // 인자값으로 받은 title
                     imageUrl: 'https://cdn-icons-png.flaticon.com/512/5017/5017359.png',
                     link: {
-                        mobileWebUrl: `http://localhost:3000/campaign/${campaignCode}`, // 인자값으로 받은 route(uri 형태)
+                        mobileWebUrl: `http://localhost:3000/campaigns/${campaignCode}`, // 인자값으로 받은 route(uri 형태)
                         webUrl: `http://localhost:3000/campaign/${campaignCode}`
                     }
                 },
@@ -153,15 +155,18 @@ function CampaignSidebar({ campaign }) {
         }
     };
 
+    
+   let camPaignOrgCode = campaign && campaign.organization.orgCode;
+   let myOrgCode = decodedToken && decodedToken.memberCode;
+
     return (
         campaign && (
             <div className="container-sidebar">
                 <div className="toggle">
-                    {campaignStatus < 0 || decodedToken && decodedToken.memberRole === "ROLE_ORG" ?
+                    {campaignStatus < 0 || decodedToken && decodedToken.memberRole === "ROLE_ORG" || decodedToken && decodedToken.memberRole === "ROLE_ADMIN" ?
                         "" :
-                        <HeartButton campaignCode={campaignCode} />
+                        <HeartButton campaignCode={campaignCode}/>
                     }
-
                 </div>
                 <h2>현재 모금액 : {campaign.currentBudget.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원 </h2>
                 <h6>목표 모금액 : {campaign.goalBudget.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원 </h6>
@@ -171,20 +176,24 @@ function CampaignSidebar({ campaign }) {
                     <span className="percent float-right">{percentage > 100 ? '목표금액 초과!!' : percentage + '%'}</span>
                 </div>
                 <div className="items-container ic2 mt-1 pt-1">
-                    {decodedToken !== null && decodedToken.memberRole == "ROLE_ORG" ?
-                        <button className="button button-primary" onClick={deleteCampaignHandler}>삭제하기</button> :
+                    {decodedToken !== null && decodedToken.memberRole == "ROLE_ORG" && camPaignOrgCode == myOrgCode ?
+                        <button className="button button-primary" onClick={deleteCampaignHandler}>삭제하기</button> : 
+                        decodedToken !== null && decodedToken.memberRole == "ROLE_ORG"? "" :
                         <button className="button button-primary" style={{ width: "100%" }} onClick={goToDonation}>후원하기</button>
                     }
-                    {decodedToken !== null && decodedToken.memberRole == "ROLE_ORG" ?
+                    {decodedToken !== null && decodedToken.memberRole == "ROLE_ORG" && camPaignOrgCode == myOrgCode ?
                         <button className="button button-primary-outline" onClick={modifyCampaignHandler}>수정하기</button> :
+                        decodedToken !== null && decodedToken.memberRole == "ROLE_ORG"? "" :
                         <button className="button button-primary-outline" onClick={shareKakao}>공유하기</button>
                     }
                 </div>
                 <div className="items-container ic1">
                     <div className="item p-2 border">
-                        <p>
-                            현재 모금 현황 자리(추후 수정)
-                        </p>
+                        {orgList && (
+                            orgList.map(orgList => <NavLink to={`/campaign/${orgList.campaignCode}?orgCode=${orgList.organization.orgCode}`}>
+                                <h5> {orgList.campaignTitle}</h5>
+                            </NavLink>)
+                        )}
                     </div>
                     <div className="item p-2 border">
                         <p>
@@ -193,7 +202,7 @@ function CampaignSidebar({ campaign }) {
                     </div>
                     <div className="item p-2 border">
                         <p>
-                        <img src={ fileSaveName? `/campaigns/${campaign.organization.fileSaveName}` : '/campaigns/default/noImage.png'} alt="캠페인 이미지" />
+                            <img src={fileSaveName ? `/campaigns/${campaign.organization.fileSaveName}` : '/campaigns/default/noImage.png'} alt="캠페인 이미지" />
                         </p>
                     </div>
                 </div>
@@ -201,5 +210,4 @@ function CampaignSidebar({ campaign }) {
         )
     );
 }
-
 export default CampaignSidebar;

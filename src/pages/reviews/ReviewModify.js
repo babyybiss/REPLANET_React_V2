@@ -13,8 +13,8 @@ export function ReviewModify () {
     const review = useSelector((state) => state.reviewReducer.review);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const existingReviewTitle = review.reviewTitle;
-    const existingReviewDescription = review.reviewDescription;
+    const existingReviewTitle = review?.reviewTitle;
+    const existingReviewDescription = review?.reviewDescription;
 
 
     useEffect(() => {
@@ -34,7 +34,7 @@ export function ReviewModify () {
     const [form, setForm] = useState({
         reviewTitle: orgReviewTitle,
         reviewDescription: existingReviewDescription,
-        reviewCode: review.reviewCode,
+        reviewCode: review?.reviewCode,
     });
 
     useEffect (
@@ -161,7 +161,7 @@ export function ReviewModify () {
             <>
             <div className="container-first">
                     <h1 className="py-3 container-centered">캠페인 후기 수정</h1>
-                    <h5 className="container-centered">{review.orgName}</h5>
+                    <h5 className="container-centered">{review.campaign.organization.member.memberName}</h5>
                     <div className="text-center">
                         <input 
                             type="text" 

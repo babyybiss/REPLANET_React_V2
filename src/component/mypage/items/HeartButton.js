@@ -22,7 +22,6 @@ function HeartButton({ campaignCode }) {
         // 사용자가 로그인한 경우에만 찜목록을 불러오도록
         if (token) {
             dispatch(getBookmarkList(decodedToken.memberCode))
-            console.log('1번');
         }
     }, [token]);
 

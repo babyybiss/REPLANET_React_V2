@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { getContinue, getOrgList, getCampaign,  getComplete, getCategoryByCampaign, postBookmark, GET_CATEGORY_BY_CAMPAIGN } from '../modules/CampaignModule';
+import { getContinue, getOrgList, getCampaign, getComplete, getCategoryByCampaign, postBookmark, GET_CATEGORY_BY_CAMPAIGN } from '../modules/CampaignModule';
 import Swal from "sweetalert2";
 
 
@@ -16,9 +16,10 @@ export function CampaignListAPI(status) {
                 params: { status: status }
             })
             dispatch(getContinue(result.data))
-        } catch (error) { console.log('로딩중');
-             //Swal.fire('', '관리자 문의 바람')
-             }
+        } catch (error) {
+            console.log('로딩중');
+            //Swal.fire('', '관리자 문의 바람')
+        }
     }
 }
 // 캠페인 상세조회
@@ -29,50 +30,44 @@ export function GetCampaignAPI(campaignCode) {
             const result = await axios.get(requestURL + `campaigns/${campaignCode}`);
             dispatch(getCampaign(result.data));
 
-        } catch (error) { console.log('로딩중');
+        } catch (error) {
+            console.log('로딩중');
             //Swal.fire('', '관리자 문의 바람') 
         }
     }
 }
 
 // 기부처별 리스트 조회
-export function GetCampaignByOrgAPI(orgCode){
+export function GetCampaignByOrgAPI({ orgCode }, status) {
     return async (dispatch, getState) => {
-        try{
-            const result = await axios.get(requestURL + `campaigns/orgsList/${orgCode}`);
-            console.log(result,'이게 오알지');
-            dispatch(getContinue(result.data));
-           
-        }catch (error) { console.log(error,'로딩중');
+        try {
+            const result = await axios.get(requestURL + `campaigns/orgsList/${orgCode}`,{
+                params: { status: status }
+            });
+            if (status === "ing" || status === "done") {
+                await dispatch(getContinue(result.data));
+            }
+            else if (status === "no") {
+                dispatch(getOrgList(result.data))
+            }
+        } catch (error) {
+            console.log(error, '로딩중');
             //Swal.fire('', '관리자 문의 바람') 
         }
     }
- }
+}
 
- 
-
- // 기부처 목록 리스트 조회
-export function GetCampaignsByOrgAPI(orgCode){
-    return async (dispatch, getState) => {
-        try{
-            const result = await axios.get(requestURL + `campaigns/orgsList/${orgCode}`);
-            console.log(result,'이게 오알지');
-            dispatch(getOrgList(result.data));
-           
-        }catch (error) { console.log(error,'로딩중');
-            //Swal.fire('', '관리자 문의 바람') 
-        }
-    }
- }
-
-// // 카테고리별 & 기간별 캠페인 조회 
-// export function getCampaignSearchByCategory(selectedValue) {
+// // 상세페이지에서 기부처 목록 리스트 조회
+// export function GetCampaignsByOrgAPI({ orgCode }) {
 //     return async (dispatch, getState) => {
-//         const result = await axios.get(requestURL + 'category', {
-//             params: { selectedValue: selectedValue }
-//         });
-//         console.log(result.data, '이고 되나 화긴해보자');
-//         dispatch(getContinue(result.data))
+//         try {
+//             const result = await axios.get(requestURL + `campaigns/orgsList/${orgCode}`);
+//             dispatch(getOrgList(result.data))
+
+//         } catch (error) {
+//             console.log(error, '로딩중');
+//             //Swal.fire('', '관리자 문의 바람') 
+//         }
 //     }
 // }
 
@@ -112,7 +107,7 @@ export function PostCampaignAPI({ inputs }, header) {
 // 캠페인 삭제
 export function DeleteCampaignAPI(campaignCode) {
 
-    console.log(campaignCode,'이게안되나');
+    console.log(campaignCode, '이게안되나');
     return async () => {
         try {
             await axios.delete(requestURL + `campaigns/${campaignCode}`, campaignCode)
@@ -139,8 +134,6 @@ export function DeleteCampaignAPI(campaignCode) {
         } catch (error) { Swal.fire('', '관리자 문의 바랍니다.') }
     }
 }
-
-
 
 // 캠페인 수정
 export function ModifyCampaignAPI({ inputs }, campaignCode) {
@@ -175,31 +168,13 @@ export function ModifyCampaignAPI({ inputs }, campaignCode) {
 
 }
 
-
-// // 완료된 캠페인 조회
-// export function CampaignListDoneAPI() {
-
+// // 카테고리별 & 기간별 캠페인 조회
+// export function getCampaignSearchByCategory(selectedValue) {
 //     return async (dispatch, getState) => {
-//         try {
-//             const result = await axios.get(requestURL + 'done');
-//             dispatch(getComplete(result.data))
-
-//         } catch (error) {
-//             console.error('에러 발생:', error);
-//         }
-//     }
-// }
-
-
-// // 카테고리별 캠페인 조회
-// export function getCampaignSearchByCategory(category){
-//     return async (dispatch, getState) => {
-//         const result = await axios.get(requestURL+`category?${category}`).then(
-//             console.log(result),
-//         dispatch(getCategoryByCampaign(result))
-//         ).catch( (error) => {
-//             console.log(error);
-//         }
-//         )
+//         const result = await axios.get(requestURL + 'category', {
+//             params: { selectedValue: selectedValue }
+//         });
+//         console.log(result.data, '이고 되나 화긴해보자');
+//         dispatch(getContinue(result.data))
 //     }
 // }

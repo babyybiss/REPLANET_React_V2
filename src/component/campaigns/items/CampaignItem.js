@@ -21,14 +21,18 @@ function CampaignItem({ campaign, decodedToken }) {
   } else {
     fileSaveName = true;
   }
+  // 기부처 코드  
+  let orgCode = campaign && campaign.organization.orgCode;
+
   return (
     <div className="item">
-      <NavLink className="item-thumb rounded-3 mb-1" to={`/campaign/${campaign.campaignCode}`}>
+      <NavLink className="item-thumb rounded-3 mb-1" to={`/campaign/${campaign.campaignCode}?orgCode=${orgCode}`}>
         <img src={fileSaveName ? `/campaigns/${campaign.campaignDescFileList[0].fileSaveName}` : '/campaigns/default/noImage.png'} alt="캠페인 이미지" />
       </NavLink>
       <h4> {campaign.campaignTitle}</h4>
-      <div>{campaign.organization ? campaign.organization.member ? campaign.organization.member.memberName : "무명의 기부자" : "무명의 기부자"}
-        {campaignStatus < 0 || decodedToken && decodedToken.memberRole === "ROLE_ORG" ?
+      <div>
+        {campaign.organization ? campaign.organization.member ? campaign.organization.member.memberName : "무명의 기부자" : "무명의 기부자"}
+        {campaignStatus < 0 || decodedToken && decodedToken.memberRole === "ROLE_ORG" || decodedToken && decodedToken.memberRole === "ROLE_ADMIN" ?
           "" :
           <HeartButton campaignCode={campaignCode} />
         }
