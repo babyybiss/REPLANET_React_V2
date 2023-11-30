@@ -180,9 +180,10 @@ function CampaignList() {
             <button
                 onClick={iconClickHandler}
                 className="supportbot-button-style"
-                style={iconBackgroundStyle}
+                // style={iconBackgroundStyle}
             >
-                <SupportbotIcon/>
+                {/* <SupportbotIcon/> */}
+                <i class="fa-solid fa-comment"></i>
             </button>}
             { isShow &&
                 <div 

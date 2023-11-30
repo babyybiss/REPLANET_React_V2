@@ -2,48 +2,110 @@
 .supportbot-button-style {
     cursor: pointer;
     position: fixed;
+    width: 4rem;
+    height: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     bottom: 30px;
     right: 35px;
     border-radius: 100%;
+    background-color: var(--color-primary);
+    color: #fff;
     border: none;
+    font-size: 1.25rem;
+    border: solid 2px var(--color-white);
 }
 
 /* modal css */
+
+.modal-header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0rem 1rem 0rem 1rem;
+}
+
+.modal-header-title {
+    font-family: "Anton";
+}
+
 .modal-container {
-    bottom: 100px;
-    right: 34px;
+    bottom: 80px;
+    right: 14px;
     position: fixed;
+    z-index: 99
 }
 .modal-box {
     display: block;
-    background-color: #e9967a;
+    background-color: var(--color-white);
+    margin: 20px;
     width: 300px;
     height: 500px;
-    padding: 3px;
-    border-radius: 8px;
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    border: solid 1px var(--color-light);
+    border-radius: 1rem;
+    box-shadow:
+      0 5px 10px rgba(0, 0, 0, 0.1),
+      0 20px 20px rgba(0, 0, 0, 0.05);
 }
+
 .modal-scroll-box {
     overflow-y: auto;
-    height: 460px;
+    height: 400px;
+    padding: .5rem;
+    background-color: var(--color-light);
 }
+
+@media screen and (max-width: 768px) {
+    .modal-box {
+        width: 50vw;
+        height: 80vh;
+    }
+    .supportbot-button-style {
+        width: 3rem;
+        height: 3rem
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .modal-box {
+        width: 70vw;
+        height: 80vh;
+    }
+}
+
+
 .modal-close-btn {
     display: block;
     margin-left: auto;
     cursor: pointer;
-    background-color: #e9967a;
-    border: #FFFFFF;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    border-radius: .5rem;
+    background-color: var(--color-white);
+    color: var(--color-primary)!important;
 }
 .modal-intro {
     display: block;
     float: left;
     text-align: left;
-    background-color: #FFFFFF;
+    background-color: var(--color-primary);
+    color: var(--color-white);
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
-    padding: 5px;
+    padding: 0.5rem;
     margin: 5px;
-    font-size: 15px;
+    font-size: .9rem;
     user-select: none;
     pointer-events: none;
 }
@@ -53,7 +115,7 @@
     display: block;
     float: right;
     text-align: left;
-    background-color: #A22727;
+    background-color: var(--color-primary);
     color: #FFFFFF;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
@@ -114,4 +176,13 @@
     user-select: none;
     cursor: pointer;
 
+}
+
+.modal-footer-bar {
+    background-color: var(--color-white);
+    width: 100%;
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
