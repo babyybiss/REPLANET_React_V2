@@ -9,7 +9,6 @@ import GoToTopButton from "../items/GotoTopButton";
 
 import { callGetSupportbotListAPI } from "../../../apis/SupportbotAPI";
 import '../../../assets/css/supportbot.css'
-import SupportbotIcon from "../../../assets/images/icon/SupportbotIcon";
 import ModalSupportbot from "../../modals/ModalSupportbot";
 
 const categoryList = [
