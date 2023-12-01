@@ -15,7 +15,8 @@ const AuthContext = React.createContext({
     logout: () => { },
     getUser: () => { },
     // changeMemberName: (memberName) => { },
-    changePassword: (exPassword, newPassword) => { }
+    changePassword: (exPassword, newPassword) => { },
+    findPassword: (newPassword, newPasswordConfirm) => { }
 });
 
 
@@ -118,6 +119,16 @@ export const AuthContextProvider = (props) => {
         });
     };
 
+    const findPasswordHandler = (newPassword, newPasswordConfirm) => {
+        setIsSuccess(false);
+        const data = authAction.changePasswordActionHandler(newPassword, newPasswordConfirm);
+        data.then((result) => {
+            if (result !== null) {
+                setIsSuccess(true);
+            }
+        });
+    };
+
     useEffect(() => {
         if (tokenData) {
             console.log(tokenData.duration);
@@ -134,7 +145,8 @@ export const AuthContextProvider = (props) => {
         login: loginHandler,
         logout: logoutHandler,
         getUser: getUserHandler,
-        changePassword: changePasswordHandler
+        changePassword: changePasswordHandler,
+        findPassword: findPasswordHandler
     };
     return (React.createElement(AuthContext.Provider, { value: contextValue }, props.children));
 };

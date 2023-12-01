@@ -93,6 +93,12 @@ function BookmarkList() {
         }, [currentPage]
     )
 
+    const isCheckedHandler = () => {
+        if (checkItems.length === 0){
+            return false
+        }
+        return checkItems.length === currentItems.length ? true : false
+    }
     return (
         <>
             <div className="admin-main">
@@ -117,7 +123,8 @@ function BookmarkList() {
                                 <label >
                                     <input type="checkbox"
                                         onChange={(e) => onCheckAll(e.target.checked)}
-                                        checked={checkItems.length === currentItems.length ? true : false}
+                                        
+                                        checked={isCheckedHandler()}
                                     />
                                 </label>
                             </th>

@@ -95,7 +95,7 @@ export function callGetTodayDonationAPI() {
         try {
             const response = await http.get(requestURL);
             const result = response.data;
-            console.log('(callGetDonationByPayCodeAPI) result : ', result);
+            console.log('result : ', result);
             dispatch({ type: GET_DONATION_BY_CAMPAIGN_CODE, payload: result });
         } catch (error) {
             console.error('(callGetDonationByPayCodeAPI) API 요청 실패! : ', error);

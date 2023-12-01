@@ -19,7 +19,14 @@ function CurrentYearCampaign(chartDataListProps) {
 
   /* x축, y축 기준 설정 */
   const stringX = 'monthly';
-  const stringY = 'campaigns';
+  const stringY = 'allCampaigns';
+  const stringY2 = 'childCampaigns';
+  const stringY3 = 'olderCampaigns';
+  /*
+  const stringY4 = 'etcCampaigns';
+  const stringY5 = 'animalCampaigns';
+  const stringY6 = 'natureCampaigns';
+  */
 
   /* style setting */
   const baseFillStyle = { fill: "#10573C" }
@@ -35,14 +42,6 @@ function CurrentYearCampaign(chartDataListProps) {
       ...baseFillStyle
   }
 
-  /* chart animate setting */
-  /*
-  const chartAminate = {
-    duration: 2500, 
-    onLoad: { duration: 2500 }
-  }
-  */
-
   /* render */
   return (
     <div className='chartbox'>
@@ -57,8 +56,7 @@ function CurrentYearCampaign(chartDataListProps) {
       > 
         <VictoryAxis 
           dependentAxis
-          label="단위 : 건"
-          tickFormat={(x) => `${x}`}
+          tickFormat={(x) => `${x}건`}
           style={axisStyle}
         />
         <VictoryAxis
@@ -69,7 +67,7 @@ function CurrentYearCampaign(chartDataListProps) {
         
         <VictoryGroup
           color="#10573C"
-          labels={({ datum }) => `${datum._y}건`}
+          labels={({ datum }) => `총 ${datum._y}건`}
           labelComponent={
             <VictoryTooltip
               style={toolTipStyle}
@@ -82,11 +80,54 @@ function CurrentYearCampaign(chartDataListProps) {
           <VictoryLine
             x={stringX}
             y={stringY}
-            // animate={chartAminate}
           />
           <VictoryScatter 
             x={stringX}
             y={stringY}
+            size={({ active }) => active ? 8 : 3}
+          />
+        </VictoryGroup>
+        <VictoryGroup
+          color="#000000"
+          labels={({ datum }) => `아동-청소년 ${datum._y}건`}
+          labelComponent={
+            <VictoryTooltip
+              style={toolTipStyle}
+            />
+          }
+          data={chartDataList}
+          x={stringX}
+          y={stringY2}
+        >
+          <VictoryLine
+            x={stringX}
+            y={stringY2}
+          />
+          <VictoryScatter 
+            x={stringX}
+            y={stringY2}
+            size={({ active }) => active ? 8 : 3}
+          />
+        </VictoryGroup>
+        <VictoryGroup
+          color="#000000"
+          labels={({ datum }) => `어르신 ${datum._y}건`}
+          labelComponent={
+            <VictoryTooltip
+              style={toolTipStyle}
+            />
+          }
+          data={chartDataList}
+          x={stringX}
+          y={stringY3}
+        >
+          <VictoryLine
+            x={stringX}
+            y={stringY3}
+          />
+          <VictoryScatter 
+            x={stringX}
+            y={stringY3}
             size={({ active }) => active ? 8 : 3}
           />
         </VictoryGroup>

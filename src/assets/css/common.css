@@ -694,6 +694,7 @@ h6 {
   top: 0;
   align-items: center;
   background-color: var(--color-white);
+  /* background: var(--color-primary); */
   border-bottom: solid 1px var(--color-secondary);
   z-index: 20;
   overflow: hidden;
@@ -728,6 +729,7 @@ h6 {
   font-size: 1rem;
   position: relative;
   overflow: hidden;
+  /* color: var(--color-white) */
 }
 
 .topnav a.user {
@@ -739,7 +741,7 @@ h6 {
 /* Change the color of links on hover */
 .topnav .menu a:hover {
   color: var(--color-dark-hover);
-
+  /* color: var(--color-light-hover) */
 }
 
 .topnav .menu a::after {
@@ -749,6 +751,8 @@ h6 {
   width: 100%;
   height: 2px;
   background: var(--color-primary);
+  /* background: var(--color-white); */
+  border-radius: 4px;
   bottom: 0;
   left: 0;
   transform: translateX(-101%);
@@ -1023,6 +1027,14 @@ select {
   cursor: pointer;
   border-radius: .25rem !important;
   resize: none;
+}
+
+a.button {
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
 }
 
 .button1 {
@@ -1335,12 +1347,12 @@ tr:nth-child(even):hover {
   input[type='radio'] {
     --active: var(--color-primary);
     --active-inner: #fff;
-    --focus: 2px rgba(39, 94, 254, .3);
-    --border: #bbc1e1;
+    --focus: 2px rgba(74, 178, 139, 0.3);
+    --border: #4AB28B;
     --border-hover: var(--color-primary);
     --background: #fff;
-    --disabled: #f6f8ff;
-    --disabled-inner: #e1e6f9;
+    --disabled: #f6fff8;
+    --disabled-inner: #e1f9f5;
     -webkit-appearance: none;
     -moz-appearance: none;
     height: 21px;
@@ -1437,8 +1449,8 @@ tr:nth-child(even):hover {
     border: 2px solid var(--active-inner);
     border-top: 0;
     border-left: 0;
-    left: 7px;
-    top: 4px;
+    left: 6px;
+    top: 2.5px;
     transform: rotate(var(--r, 20deg));
   }
 

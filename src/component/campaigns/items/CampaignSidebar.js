@@ -23,7 +23,7 @@ function CampaignSidebar({ campaign, orgList }) {
     } else {
         fileSaveName = true;
     }
-    
+
 
     // 기부 현황
     let currentBudget = campaign.currentBudget;
@@ -144,7 +144,7 @@ function CampaignSidebar({ campaign, orgList }) {
                 objectType: "feed", // 카카오 링크 공유 여러 type들 중 feed라는 타입 -> 자세한 건 카카오에서 확인
                 content: {
                     title: campaign.campaignTitle, // 인자값으로 받은 title
-                    description: campaign.organization.orgDescription, // 인자값으로 받은 title
+                    description: campaign.organization.orgDescription ? campaign.organization.orgDescription : "", // 인자값으로 받은 title
                     imageUrl: 'https://cdn-icons-png.flaticon.com/512/5017/5017359.png',
                     link: {
                         mobileWebUrl: `http://localhost:3000/campaigns/${campaignCode}`, // 인자값으로 받은 route(uri 형태)
@@ -155,9 +155,9 @@ function CampaignSidebar({ campaign, orgList }) {
         }
     };
 
-    
-   let camPaignOrgCode = campaign && campaign.organization.orgCode;
-   let myOrgCode = decodedToken && decodedToken.memberCode;
+
+    let camPaignOrgCode = campaign && campaign.organization.orgCode;
+    let myOrgCode = decodedToken && decodedToken.memberCode;
 
     return (
         campaign && (
@@ -165,7 +165,7 @@ function CampaignSidebar({ campaign, orgList }) {
                 <div className="toggle">
                     {campaignStatus < 0 || decodedToken && decodedToken.memberRole === "ROLE_ORG" || decodedToken && decodedToken.memberRole === "ROLE_ADMIN" ?
                         "" :
-                        <HeartButton campaignCode={campaignCode}/>
+                        <HeartButton campaignCode={campaignCode} />
                     }
                 </div>
                 <h2>현재 모금액 : {campaign.currentBudget.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원 </h2>
@@ -177,34 +177,38 @@ function CampaignSidebar({ campaign, orgList }) {
                 </div>
                 <div className="items-container ic2 mt-1 pt-1">
                     {decodedToken !== null && decodedToken.memberRole == "ROLE_ORG" && camPaignOrgCode == myOrgCode ?
-                        <button className="button button-primary" onClick={deleteCampaignHandler}>삭제하기</button> : 
-                        decodedToken !== null && decodedToken.memberRole == "ROLE_ORG"? "" :
-                        <button className="button button-primary" style={{ width: "100%" }} onClick={goToDonation}>후원하기</button>
+                        <button className="button button-primary" onClick={deleteCampaignHandler}>삭제하기</button> :
+                        decodedToken !== null && decodedToken.memberRole == "ROLE_ORG" ? "" :
+                            <button className="button button-primary" style={{ width: "100%" }} onClick={goToDonation}>후원하기</button>
                     }
                     {decodedToken !== null && decodedToken.memberRole == "ROLE_ORG" && camPaignOrgCode == myOrgCode ?
                         <button className="button button-primary-outline" onClick={modifyCampaignHandler}>수정하기</button> :
-                        decodedToken !== null && decodedToken.memberRole == "ROLE_ORG"? "" :
-                        <button className="button button-primary-outline" onClick={shareKakao}>공유하기</button>
+                        decodedToken !== null && decodedToken.memberRole == "ROLE_ORG" ? "" :
+                            <button className="button button-primary-outline" onClick={shareKakao}>공유하기</button>
                     }
                 </div>
-                <div className="items-container ic1">
-                    <div className="item p-2 border">
+                <div className="item p-2 border" >
+                    <div style={{ height: '500px' }}>
                         {orgList && (
-                            orgList.map(orgList => <NavLink to={`/campaign/${orgList.campaignCode}?orgCode=${orgList.organization.orgCode}`}>
-                                <h5> {orgList.campaignTitle}</h5>
+                            orgList.map(orgList => <NavLink 
+                                className={({ isActive }) =>
+                                isActive ? "nav-link active" : "nav-link"
+                            }
+                                to={`/campaign/${orgList.campaignCode}?orgCode=${orgList.organization.orgCode}`}>
+                                <h6 > {orgList.campaignTitle}</h6><hr />
                             </NavLink>)
                         )}
                     </div>
-                    <div className="item p-2 border">
-                        <p>
-                            {campaign.organization ? campaign.organization.orgDescription : ""}
-                        </p>
-                    </div>
-                    <div className="item p-2 border">
-                        <p>
-                            <img src={fileSaveName ? `/campaigns/${campaign.organization.fileSaveName}` : '/campaigns/default/noImage.png'} alt="캠페인 이미지" />
-                        </p>
-                    </div>
+                </div>
+                <div className="item p-2 border">
+                    <p>
+                        {campaign.organization ? campaign.organization.orgDescription : ""}
+                    </p>
+                </div>
+                <div className="item p-2 border">
+                    <p>
+                        <img src={fileSaveName ? `/campaigns/${campaign.organization.fileSaveName}` : '/campaigns/default/noImage.png'} alt="캠페인 이미지" />
+                    </p>
                 </div>
             </div>
         )

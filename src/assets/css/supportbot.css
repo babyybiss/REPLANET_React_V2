@@ -66,10 +66,14 @@
         width: 50vw;
         height: 80vh;
     }
-    .supportbot-button-style {
+    /* .supportbot-button-style {
         width: 3rem;
         height: 3rem
     }
+    .goToTop-button-style {
+        width: 3rem;
+        height: 3rem;
+    } */
 }
 
 @media screen and (max-width: 500px) {
@@ -191,9 +195,18 @@
 .goToTop-button-style {
     cursor: pointer;
     position: fixed;
-    bottom: 90px;
+    width: calc(4rem - 2px);
+    height: calc(4rem - 2px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    bottom: 95px;
     right: 35px;
     border-radius: 100%;
+    background-color: var(--color-white);
+    color: var(--color-primary);
     border: none;
+    font-size: 1.25rem;
+    border: solid 2px var(--color-primary);
 
 }

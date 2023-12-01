@@ -35,9 +35,10 @@ function ParticipationDetails() {
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentItems = participationList && participationList.length > 0 ? participationList.slice(indexOfFirstItem, indexOfLastItem) : [];
 
-    const totalItems = participationList.length;
+    const totalItems = participationList && participationList.length;
     const totalPages = Math.ceil(totalItems / itemsPerPage);
-        console.log("participation List : ", participationList);
+
+        console.log("participation List : ", partic);
 
     const handlePageChange = (newPage) => {
         if (newPage >= 1 && newPage <= totalPages) {

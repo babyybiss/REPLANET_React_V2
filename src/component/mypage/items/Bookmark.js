@@ -1,11 +1,16 @@
 import moment from "moment/moment";
 
 function Bookmark({ checked, checkedItemHandler, bookmark, index }) {
+    let orgCode = bookmark && bookmark.campaignCode.orgCode
+
+
     const checkHandled = (e) => {
         checkedItemHandler(e.target.id, e.target.checked);
       }
     const onClickHandler = (campaignCode) => {
-        window.location = `/campaign/${campaignCode}`
+        window.location = `/campaign/${campaignCode}?orgCode=${orgCode}`
+
+        //`/campaign/${orgList.campaignCode}?orgCode=${orgList.organization.orgCode}`
             //Navigate(`/campaigns/${campaignCode}`)
     };
 

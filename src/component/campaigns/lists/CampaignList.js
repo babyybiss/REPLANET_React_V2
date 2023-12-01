@@ -26,7 +26,6 @@ function CampaignList() {
 
     let orgURL = "http://localhost:3000/myPageOrg/list";
 
-    console.log();
     // 토큰 정보 
     const token = localStorage.getItem('token');
     const decodedToken = token ? jwtDecode(token) : null;
@@ -177,16 +176,18 @@ function CampaignList() {
                     <div className="campaignMoreButton" onClick={handleMoreButtonClick}>Read More</div> :
                     ""
             }
-            <GoToTopButton />
-            {supportbotDataList && 
-              !(orgURL === window.location.href) ? 
+            {!(orgURL === window.location.href) ?
+                <GoToTopButton /> : ""
+            }
+            {supportbotDataList &&
+                !(orgURL === window.location.href) ?
                 <button
                     onClick={iconClickHandler}
                     className="supportbot-button-style"
-              
+
                 >
                     <i className="fa-solid fa-comment"></i>
-                </button> :  "" }
+                </button> : ""}
             {isShow &&
                 <div
                     className={'modal-container'}

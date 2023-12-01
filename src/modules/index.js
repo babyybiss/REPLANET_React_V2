@@ -8,6 +8,7 @@ import chartReducer from './ChartModule';
 import bookmarkReducer from './BookmarkModule';
 import supportbotReducer from './SupportbotModule';
 import orgReducer from './OrgModule';
+import userReducer from './UserModule';
 
 const rootReducer = combineReducers({
     campaignReducer,
@@ -19,7 +20,8 @@ const rootReducer = combineReducers({
     chartReducer,
     bookmarkReducer,
     supportbotReducer,
-    orgReducer
+    orgReducer,
+    userReducer
 });
 
 export default rootReducer;
