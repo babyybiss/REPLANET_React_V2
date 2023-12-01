@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { TextEditor } from "../../component/reviews/items/TextEditor.js";
 import { callPutReview } from "../../apis/ReviewAPI";
 import axios from "axios";
-
+import Swal from "sweetalert2";
 
 export function ReviewModify () {
 
@@ -44,7 +44,12 @@ export function ReviewModify () {
                 fileReader.onload = (e) => {
                     const { result } = e.target;
                     if(image.size > maxSizeInBytes) {
-                        window.alert("이미지 용량이 1MB를 초과합니다.");
+                        Swal.fire({
+                            icon: 'warning',
+                            title: "이미지 용량이 1MB를 초과합니다.",
+                            confirmButtonColor: '#1D7151',
+                            iconColor: '#1D7151'
+                        });
                         return;
                     }else if( result ) {
                         setImageUrl(result);
@@ -100,18 +105,22 @@ export function ReviewModify () {
         console.log('[Review Modify] formData : ', formData.get("reviewCode"));
         console.log('[Review Modify] formData : ', formData.get("imageFile"));
 
-       /* if(reviewTitle === "" || convertedContent === "" || image === "") {
-            window.alert("모두 입력 바랍니다.");
-            return;
-        }else {*/
             console.log("뭐징ㅇㅇㅇㅇ: ", formData)
             dispatch(callPutReview({
                 form: formData
             }));
+            Swal.fire({
+                icon: 'success',
+                title: "리뷰 수정 성공!<br/>리뷰 목록으로 이동합니다.",
+                confirmButtonColor: '#1D7151',
+                iconColor: '#1D7151'
+            }).then((result) => {
+            if(result.isConfirmed) {
+                navigate('/reviews');
+            }
 
-            alert('리뷰 목록으로 이동합니다.');
-            navigate('/reviews');
-            window.location.reload();
+            })
+            //window.location.reload();
         
     }
 
