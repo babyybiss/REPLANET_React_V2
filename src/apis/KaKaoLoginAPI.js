@@ -21,6 +21,7 @@ export const callPostKakaoTokenAPI = async (code) => {
 
         return response.data;
     } catch (error) {
+        console.error('(callPostKakaoTokenAPI) API 요청 실패! : ', error);
         throw error;
     }
 };
@@ -40,26 +41,26 @@ export const callPostUserMeAPI = async (accessToken) => {
 
         return response.data;
     } catch (error) {
+        console.error('(callPostUserMeAPI) API 요청 실패! : ', error);
         throw error;
     }
 };
 
-export const callGetFindMemberAPI = async (kakaoTokenId, email) => {
+export const callGetFindMemberAPI = async (data) => {
     try {
-        const response = await axios.post('https://localhost:8001/kakaologin/findMember',
-                {
-                    kakaoTokenId: kakaoTokenId,
-                    email: email,
-                },
+        const response = await axios.post(
+                'http://localhost:8001/kakaologin/findMember',
+                data,
                 {
                     headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
+                        'Content-Type': 'application/json; charset=utf-8',
                     },
                 }
         );
 
         return response.data;
     } catch (error) {
+        console.error('(callGetFindMemberAPI) API 요청 실패! : ', error);
         throw error;
     }
 };
