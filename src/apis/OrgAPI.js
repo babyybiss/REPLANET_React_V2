@@ -84,12 +84,14 @@ export function modifyOrgAPI({formdata, orgCode}, navigate){
     }
 }
 
-export function orgWithdrawAPI({memberCode, enterReason}, navigate){
+export function orgWithdrawAPI({memberCode, enterReason, password}, navigate, authCtx){
     console.log('[OrgAPI] orgWithdrawAPI 시작');
+    console.log('enterReason 확인 : ', enterReason);
+    console.log('password 확인 : ', password);
     const requestURL = `http://localhost:8001/orgWithdraw/${memberCode}`;
     return async (dispatch, getState) => {
         try{
-            const result = await axios.put(requestURL, enterReason);
+            const result = await axios.put(requestURL, null, {params: {enterReason, password}});
             console.log('[OrgAPI] orgWithdrawAPI SUCCESS');
             dispatch({type: PUT_ORG_WITHDRAW, payload: result.data});
             Swal.fire({
@@ -101,20 +103,31 @@ export function orgWithdrawAPI({memberCode, enterReason}, navigate){
                 confirmButtonText: '확인'
             }).then(result => {
                 if(result.isConfirmed){
-                    navigate('/myPageOrg');
+                    authCtx.logout();
             }})
         } catch (error){
             console.error("[OrgAPI] modifyOrgAPI FAIL : ", error);
-            Swal.fire({
-                icon: "error",
-                iconColor: "#DB524E",
-                title: "처리 중 오류가 발생했습니다 (" + error.response?.status + ")",
-                text: '문제가 지속될 경우 고객센터로 문의 바랍니다.',
-                showCancelButton: false,
-                confirmButtonColor: '#1D7151',
-                confirmButtonText: '확인'
-            })
+            if(error.response?.data == 'WrongPwd'){
+                Swal.fire({
+                    icon: "error",
+                    iconColor: "#DB524E",
+                    title: "비밀번호를 잘못 입력하셨습니다.",
+                    text: '문제가 지속될 경우 고객센터로 문의 바랍니다.',
+                    showCancelButton: false,
+                    confirmButtonColor: '#1D7151',
+                    confirmButtonText: '확인'
+                })
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    iconColor: "#DB524E",
+                    title: "처리 중 오류가 발생했습니다 (" + error.response?.status + ")",
+                    text: '문제가 지속될 경우 고객센터로 문의 바랍니다.',
+                    showCancelButton: false,
+                    confirmButtonColor: '#1D7151',
+                    confirmButtonText: '확인'
+                })
+            }
         }
     }
-        
 }

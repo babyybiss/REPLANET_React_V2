@@ -33,10 +33,10 @@ function PwdConfirm(){
                 <h1 class="text-primary">기부처 정보 수정</h1>
             </div>
             <div className="verifying">
-                <div id="container-user">
-                    <input className="input" type="password" id="orgPwd" value={orgPwd} onChange={handleOrgPwd} required ref={orgPwdInputRef} />
+                <div className="verifying-container">
+                    <input className="input-pwd input" type="password" id="orgPwd" value={orgPwd} onChange={handleOrgPwd} required ref={orgPwdInputRef} />
                     <br/><br/>
-                    <button className="button button-primary w-100" onClick={handleConfirm}>비밀번호 확인</button>
+                    <button className="button button-primary" onClick={handleConfirm}>비밀번호 확인</button>
                 </div>
             </div>
         </div>

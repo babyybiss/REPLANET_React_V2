@@ -42,6 +42,9 @@ import PwdConfirm from "./pages/org/EditPwdConfirm";
 import { ChangePassword } from "./component/auth/ChangePassword";
 import SendEmail from "./pages/auth/SendEmail";
 import OauthKakao from "./pages/auth/OauthKakao";
+import ModifyUser from "./pages/users/ModifyUser";
+import Withdrawal from "./pages/users/Withdrawal";
+import VerifyUser from "./pages/users/VerifyUser";
 
 function App() {
 
@@ -69,6 +72,9 @@ function App() {
                 <Route key="exchange" path="exchange" element={<ExchangePoint />} />,
                 <Route key="myExchangeList" path="myExchangeList" element={<MyExchanges />} />,
                 <Route key="calculator" path="calculator" element={<Calculator />} />,
+                <Route key="verifying" path="verifying" element={<VerifyUser />} />,
+                <Route key="modify" path="modify" element={<ModifyUser />} />,
+                <Route key="withdraw" path="withdraw" element={<Withdrawal />} />
               ]}/>
               <Route path="/sendemail" element={<SendEmail/>}></Route>
 
