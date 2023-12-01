@@ -50,7 +50,7 @@ export function ReviewListSearchbar({ searchFilter, setSearchFilter, reviewExist
 
     return (
         <div className="text-center">
-            <div style={{ display: "flex", justifyContent: "space-evenly" }}>
+            <div className="mb-2" style={{ display: "flex", justifyContent: "space-evenly" }}>
                 <div class="input-group">
                     <input
                         type="text"
