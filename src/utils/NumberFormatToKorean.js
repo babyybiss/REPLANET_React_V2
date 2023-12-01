@@ -14,6 +14,9 @@ export const numberFormatToKorean = (number, isShowData = true) => {
     }
     if (thousand > 0 && isShowData) {
         result += `${thousand}`
+        if(number % 1000 === 0) {
+            result += `000`
+        }
     }
     if (one > 0 && isShowData) {
         result += `${one}`

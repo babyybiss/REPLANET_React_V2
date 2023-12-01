@@ -38,6 +38,7 @@ function CenterLabel({ active, datum }) {
 
     const changeText = cursorY1 === sumGoalBudget ? "목표" : "현재";
 
+    
     const labelText = [ `${campaignCategory} ${changeText}모금액: ${numberFormatToKorean(cursorY1)}원`, `달성률 : ${currentPercentage}%` ];
 
     const baseLabelStyle = { fill: "#10573C", textAnchor: "middle" };
@@ -55,6 +56,7 @@ function CenterLabel({ active, datum }) {
 }
 
 function CategoryCampaign(chartDataListProps) {
+
 
     /* x축(round), y축(radius) 기준 설정 */
     const stringX = 'campaignCategory';

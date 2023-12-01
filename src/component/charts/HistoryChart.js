@@ -8,24 +8,18 @@ function HistoryChart(chartDataListProps) {
 
     /* chartData from API */
     const { chartDataList } = chartDataListProps;
-    console.log(chartDataList)
         
     /* zoom 초기값 설정을 위한 변수 세팅 */ 
     const today = new Date();
-    /*
-    const fifteenDaysAgo = new Date();
-    const fifteenDaysLater = new Date();
-    
-    fifteenDaysAgo.setDate(today.getDate() - 15)
-    fifteenDaysLater.setDate(today.getDate() + 15);
-    */
+    const todayGetMonth = today.getMonth() + 1
     const firstByToday = new Date(today.getFullYear(),today.getMonth(), 1, 0, 0, 0, 0);
     const lastByToday = new Date(today.getFullYear(),today.getMonth() + 1, 0, 23, 59, 59, 999);
     
     
     const [firstDayOfMonth, setFirstDayOfMonth] = useState(firstByToday);
     const [lastDayOfMonth, setLastDayOfMonth] = useState(lastByToday);
-    const [selectedOption, setSelectedOption] = useState(11);
+
+    const [selectedOption, setSelectedOption] = useState(todayGetMonth);
     
     /* zoom state */ 
     const [zoomDomain, setZoomDomain] = useState({
@@ -34,25 +28,23 @@ function HistoryChart(chartDataListProps) {
     const [brushDomain, setBrushDomain] = useState({
         x: [firstDayOfMonth, lastDayOfMonth]
     })
-
-    console.log(zoomDomain)
-    console.log('gk..',selectedOption)
-    
-    console.log('바뀌었니?',firstDayOfMonth)
-    console.log('바뀌었니',lastDayOfMonth)
     
     useEffect(() => {
         const calcDays = (selectedOption) => {
             const today = new Date();
             today.setMonth(selectedOption - 1);
 
-            console.log(today.setMonth(selectedOption - 1))
+            console.log('옵션 변경되었으니 이쪽으로 오는거 맞지?', today.setMonth(selectedOption - 1))
+            // console.log(today.setMonth(selectedOption - 1))
             const calcFirstDay = new Date(today.getFullYear(), today.getMonth(), 1, 0, 0, 0, 0)
             const calcLastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0, 23, 59, 59, 999)
 
             return { calcFirstDay, calcLastDay };
         };
-
+        /*
+        console.log('세팅 전으로 기대하는 줌도메인:', zoomDomain)
+        console.log('세팅 전으로 기대하는 브러시도메인:', brushDomain)
+        */
         const { calcFirstDay, calcLastDay } = calcDays(selectedOption);
         setFirstDayOfMonth(calcFirstDay);
         setLastDayOfMonth(calcLastDay);
@@ -62,26 +54,36 @@ function HistoryChart(chartDataListProps) {
         setBrushDomain({
             x: [calcFirstDay, calcLastDay]
         })
-        console.log('옵션바뀔경우 비꿔여ㅓ야함',firstDayOfMonth)
-        console.log('옵션바뀔경우 비꿔여ㅓ야함',lastDayOfMonth)
-
+       return () =>{}
     },[selectedOption]);
     
 
     const zoomDomainHandler = (domain) => {
-        setZoomDomain(domain);
+        //console.log('줌 도메인이 변경되었으니 여기로 오는거 맞지?')
+        
+        // 그래프 컴포넌트에서 y축이 x축에 의존하게 해놓았기 때문에 y축 범위는 따로 설정할 필요가 없음.
+        const { y, ...filterYFromDomain } = domain;
+        // console.log(filterYFromDomain)
+        setZoomDomain(filterYFromDomain);
+        setBrushDomain(filterYFromDomain);
+        //console.log('???')
     }
 
     const brushDomainHandler = (domain) => {
-        setZoomDomain(domain);
-
+        const { y, ...filterYFromDomain } = domain;
+        setZoomDomain(filterYFromDomain);
+        setBrushDomain(filterYFromDomain);
     }
     
     const optionChangeHandler = (e) => {
         const changedOption = parseInt(e.target.value, 10);
         setSelectedOption(changedOption);
+        console.log('옵션변경시작')
     }
     
+    console.log('동작확인zoomDomain', zoomDomain)
+    console.log('동작확인brushDomain', brushDomain)
+    console.log('옵션변경 후', selectedOption)
 
     /* chart figure */ 
     const width = 1500;
@@ -124,7 +126,7 @@ function HistoryChart(chartDataListProps) {
                 value={selectedOption}
                 onChange={optionChangeHandler}
             >
-                <option value={11}>선택해주세요</option>
+                <option disabled>옵션을 선택해주세요</option>
                 <option value={1}>1월</option>
                 <option value={2}>2월</option>
                 <option value={3}>3월</option>
@@ -147,6 +149,7 @@ function HistoryChart(chartDataListProps) {
                     <VictoryZoomContainer
                         zoomDimension="x"
                         zoomDomain={zoomDomain}
+                        allowPan={false}
                         // allowZoom={false}
                         onZoomDomainChange={zoomDomainHandler}
                     />
@@ -182,7 +185,7 @@ function HistoryChart(chartDataListProps) {
                         style={lineAndScatterStyle}
                         x={stringX}
                         y={stringY}
-                        size={5}
+                        size={({ active }) => active ? 8 : 3}
                     />
                 </VictoryGroup>
             </VictoryChart>
@@ -195,6 +198,7 @@ function HistoryChart(chartDataListProps) {
                     <VictoryBrushContainer
                         brushDimension="x"
                         brushDomain={brushDomain}
+                        //allowDraw={false}
                         onBrushDomainChange={brushDomainHandler}   
                     />
                 }
