@@ -11,6 +11,8 @@ import { jwtDecode } from 'jwt-decode';
 import { callPutSpecificCommentModify } from "../../../apis/ReviewAPI";
 import { useNavigate } from "react-router-dom";
 import { callputMonitoredComment } from "../../../apis/ReviewAPI";
+import Swal from "sweetalert2";
+
 
 export function ReviewComment ({ review }) {
 
@@ -58,8 +60,17 @@ export function ReviewComment ({ review }) {
         ...form,
         revCommentContent: '',
       });
-      window.location.reload();
-    };
+      Swal.fire({
+        icon: 'success',
+        title: '댓글 등록 완료!',
+        confirmButtonColor: '#1D7151',
+        iconColor: '#1D7151'
+      }).then((result) => {
+        if(result.isConfirmed) {
+          window.location.reload();
+        }
+      })
+    }
 
     const handleModifyComment = (e, revCommentCode, existingCommentContent) => {
       setModify(true);
@@ -73,8 +84,29 @@ export function ReviewComment ({ review }) {
     
       if (decodedToken && decodedToken.memberRole === 'ROLE_ADMIN') {
         await dispatch(callputMonitoredComment(reviewCode, revCommentCode));
+        Swal.fire({
+          icon: 'success',
+          title: '해당 댓글 숨김 완료!',
+          confirmButtonColor: '#1D7151',
+          iconColor: '#1D7151'
+        }).then((result) => {
+          if(result.isConfirmed) {
+            window.location.reload();
+          }
+        })
       } else {
         await dispatch(callDeleteReviewComment(revCommentCode, reviewCode));
+        Swal.fire({
+          icon: 'success',
+          title: '해당 댓글 삭제 완료!',
+          confirmButtonColor: '#1D7151',
+          iconColor: '#1D7151'
+        }).then((result) => {
+          if(result.isConfirmed) {
+            window.location.reload();
+          }
+        })
+
       }
     
       // Fetch the updated comments without reloading the page
@@ -94,8 +126,18 @@ export function ReviewComment ({ review }) {
       // Reset the modification state
       setModify(false);
       setCommentBeingModified(null);
-      window.location.reload();
-    };
+
+      Swal.fire({
+        icon: 'success',
+        title: '댓글 수정 완료!',
+        confirmButtonColor: '#1D7151',
+        iconColor: '#1D7151'
+      }).then((result) => {
+        if(result.isConfirmed) {
+          window.location.reload();
+        }
+      })
+    }
 
     const onChangeHandler = (e) => {
       setForm({
@@ -217,7 +259,7 @@ export function ReviewComment ({ review }) {
                   {comment.revCommentMonitorized === "Y" ? (
                     <>
                     <h5>{hideEmailCharacters(commentEmail[comment.memberCode])}</h5>
-                    <h6 style={{color: "#1D7151", fontWeight: 'bold'}}>부적절한 표현을 감지하여 리플래닛 클린봇에 의해 삭제 된 댓글입니다 🧹</h6>
+                    <h6 style={{color: "#1D7151", fontWeight: 'bold'}}>부적절한 표현을 감지하여 리플래닛 클린봇에 의해 숨겨진 댓글입니다 🧹</h6>
                     {endDate}
                     </>
                   ) : (
@@ -232,31 +274,54 @@ export function ReviewComment ({ review }) {
                 </>
               )}
             </div>
-            { ( commentBeingModified && decodedToken && (decodedToken.memberRole === "ROLE_ADMIN" || decodedToken.memberCode === comment.memberCode)) && (
-              <span className="mt-1">
-                <button onClick={() => handleSubmitModifiedComment(comment.revCommentCode, comment.memberCode, comment.reviewCode)} className="button1 button-primary w-5">
-                  등록
-                </button>
-              </span>
-            )}
-              { (!commentBeingModified && decodedToken && (decodedToken.memberRole === "ROLE_ADMIN" || decodedToken.memberRole === "ROLE_USER" && decodedToken.memberCode === comment.memberCode)) && (
-                <>
-                  <span>
-                    <button className="button1 button-danger w-5" onClick={(e) => handleDeleteComment(e, comment.revCommentCode)}>
-                      삭제
-                    </button>
-                  </span>
-                  {decodedToken.memberRole === "ROLE_USER" &&  (decodedToken.memberCode === comment.memberCode) && (
-                    <span>
-                      <button className="button1 text-danger w-5" onClick={(e) => handleModifyComment(e, comment.revCommentCode, comment.revCommentContent)}>
-                      수정
-                      </button>
-                    </span>
-                  )}
-                </>
-              )}
-        
+            {commentBeingModified && decodedToken && (decodedToken.memberRole === "ROLE_ADMIN" || decodedToken.memberCode === comment.memberCode) && (
+  <span className="mt-1">
+    <button onClick={() => handleSubmitModifiedComment(comment.revCommentCode, comment.memberCode, comment.reviewCode)} className="button1 button-primary w-5">
+      등록
+    </button>
+  </span>
+)}
 
+{!commentBeingModified && decodedToken && (decodedToken.memberRole === "ROLE_ADMIN" || (decodedToken.memberRole === "ROLE_USER" && decodedToken.memberCode === comment.memberCode)) && (
+  <>
+    {comment.revCommentMonitorized === "Y" ?
+      <span>
+        <button className="button1 button-danger w-5" onClick={(e) => handleDeleteComment(e, comment.revCommentCode)}>
+          삭제
+        </button>
+      </span>
+      :
+      (decodedToken.memberRole === "ROLE_ADMIN" ?
+        <span>
+          <button className="button1 button-danger w-5" onClick={(e) => handleDeleteComment(e, comment.revCommentCode)}>
+            숨김
+          </button>
+        </span>
+        :
+        <>
+          <span>
+            <button className="button1 button-danger w-5" onClick={(e) => handleDeleteComment(e, comment.revCommentCode)}>
+              삭제
+            </button>
+          </span>
+          <span>
+            <button className="button1 button-primary w-5" onClick={(e) => handleModifyComment(e, comment.revCommentCode, comment.revCommentContent)}>
+            수정
+          </button>
+          </span>
+        </>
+      )
+    }
+
+    {/*{decodedToken.memberRole === "ROLE_USER" && (decodedToken.memberCode === comment.memberCode) && (
+      <span>
+        <button className="button1 text-danger w-5" onClick={(e) => handleModifyComment(e, comment.revCommentCode, comment.revCommentContent)}>
+          수정
+        </button>
+      </span>
+    )}*/}
+  </>
+)}
     </div>
     <hr />
   </div>

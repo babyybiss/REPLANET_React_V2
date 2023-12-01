@@ -51,7 +51,12 @@ export function ReviewRegist() {
         const image = e.target.files[0];
 
         if(image.size > maxSizeInBytes) {
-            window.alert("이미지 용량이 1MB를 초과합니다.")
+            Swal.fire({
+                icon: 'warning',
+                title: "이미지 용량이 1MB를 초과합니다.",
+                confirmButtonColor: '#1D7151',
+                iconColor: '#1D7151'
+            });
             return;
         } else (
             setImage(image)

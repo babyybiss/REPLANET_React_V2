@@ -516,6 +516,11 @@ h6 {
   margin-bottom: 2rem !important;
 }
 
+.my-4 {
+  margin-top: 3rem !important;
+  margin-bottom: 3rem !important;
+}
+
 .w-5 {
   width: 4rem;
 }
