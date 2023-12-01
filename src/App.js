@@ -45,6 +45,7 @@ import OauthKakao from "./pages/auth/OauthKakao";
 import ModifyUser from "./pages/users/ModifyUser";
 import Withdrawal from "./pages/users/Withdrawal";
 import VerifyUser from "./pages/users/VerifyUser";
+import FindPw from "./pages/auth/FindPw";
 
 function App() {
 
@@ -63,6 +64,7 @@ function App() {
               <Route path="/signup/" element={authCtx.isLoggedIn ? <Navigate to='/' /> : <Signup />} />
               <Route path="/find/" element={<Find/>}></Route>
               <Route path="/password/" element={<ChangePassword/>}></Route>
+              <Route path="/findpw/" element={<FindPw/>}></Route>
               <Route path="/myPage" element={authCtx.isLoggedIn ? <MyPage /> : <Navigate to='/' />} children={[
                 <Route key="history" index element={<Navigate to="history" />} />,
                 <Route key="historyPage" path="history" element={<DonationList />} />,
