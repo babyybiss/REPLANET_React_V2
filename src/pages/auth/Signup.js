@@ -138,22 +138,41 @@ const Signup = () => {
         console.log('인증번호 전송 성공');
         console.log(response.data);
         setSmsCode(response.data);
-        Swal.fire("", "입력하신 번호로 인증번호가 전송되었습니다.");
+        Swal.fire(
+          {
+            icon: 'success',
+            text: "입력하신 번호로 인증번호가 전송되었습니다."
+          }
+        );
 
       } else {
         console.error('인증번호 전송 실패');
-        Swal.fire("", "전송 실패! 휴대전화 번호를 다시 확인해 주세요.");
+        Swal.fire(
+          {
+            icon: 'warning',
+            text: "전송 실패! 휴대전화 번호를 다시 확인해 주세요."
+          });
       }
     } catch (error) {
       console.error('API 호출 중 오류 발생', error);
-      Swal.fire("", "API 호출 중 오류 발생");
+      Swal.fire(
+        {
+          icon: 'warning',
+          text: "API 호출 중 오류 발생"
+        }
+      );
     }
   };
 
   const onCheckSmsCode = () => {
     console.log(smsCode);
     if (smsCode == smsCodeInputRef.current.value) {
-      Swal.fire("인증 성공");
+      Swal.fire(
+        {
+          icon: 'success',
+          title: "인증 성공"
+        }
+      );
       setIsOnCheckSmsCode(true);
     } else {Swal.fire("인증 실패");}
   };
@@ -180,7 +199,7 @@ const Signup = () => {
         console.log('이메일이 입력되지 않았습니다.');
         setEmailMsg('이메일이 입력되지 않았습니다.');
       }
-      else if (email != null || !isEmailValid) {
+      else if (email != null && !isEmailValid) {
         console.log('이메일 형식이 올바르지 않습니다.');
         setEmailMsg('이메일 형식이 올바르지 않습니다.');
       }

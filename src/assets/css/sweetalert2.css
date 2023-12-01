@@ -4,20 +4,44 @@
     font-style: normal;
     font-display: swap;
     src: url('/public/font/PretendardVariable.woff2') format('woff2-variations');
-  }
+}
 
 .swal2-popup {
-    font-family: 'Pretendard Variable', sans-serif!important;
+    font-family: 'Pretendard Variable', sans-serif !important;
 }
 
 .swal2-title {
     font-size: 1.5rem;
 }
 
-.swal2-icon{
+.swal2-icon {
     margin: 2.5em auto .6em;
-    border: 0.25em solid rgba(0,0,0,0);
+    border: 0.25em solid rgba(0, 0, 0, 0);
     line-height: 5em;
 }
 
+.swal2-confirm:focus {
+    box-shadow: 0 0 0 3px rgba(74, 178, 139, 0.3) !important;
+}
 
+.swal2-popup.swal2-toast .swal2-success {
+    border-color: var(--color-primary) !important
+}
+
+.swal2-success {
+    border-color: var(--color-primary) !important;
+    color: var(--color-primary) !important
+}
+
+.swal2-success [class^=swal2-success-line] {
+    background-color: var(--color-primary) !important
+}
+
+div:where(.swal2-icon).swal2-success {
+    border-color: var(--color-primary);
+    color: var(--color-primary)
+}
+
+div:where(.swal2-icon).swal2-success .swal2-success-ring {
+    border: .25em solid rgba(74, 178, 139, 0.3) !important;
+}
