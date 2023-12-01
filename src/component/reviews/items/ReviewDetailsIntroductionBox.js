@@ -6,7 +6,7 @@ import { callDeleteReviewAPI } from "../../../apis/ReviewAPI";
 import { jwtDecode } from 'jwt-decode';
 
 
-export function ReviewDetailsIntroductionBox({ review }) {
+export function ReviewDetailsIntroductionBox({ review, donors }) {
 
   const token = localStorage.getItem('token');
   const decodedToken = token ? jwtDecode(token) : null;
@@ -33,36 +33,40 @@ export function ReviewDetailsIntroductionBox({ review }) {
     }
   }
 
+
     return (
-      <div className="items-container ic2 g-gap2 campaign-list-container">
-           
+      <div className="items-container ic2 g-gap3 campaign-list-container" style={{display:"flex", justifyContent: "center"}}>
         <div className="item" style={{gridColumn: 1 +"/"+ 2}}>
-            <div className="item-thumb rounded-3 mb-1">
-                <img src={`/reviewImgs/${reviewFileSaveName}`} />
+            <div className="item-thumb">
+                <img src={`/reviewImgs/${reviewFileSaveName}`} className="rounded-3" style={{width: 700+"px", height: 400 + "px"}}/>
             </div>      
         </div>
 
         <div className="item" style={{display: "block"}}>
-          <div className="text-right">
+          <div className="text-left">
             {decodedToken?.memberCode == review.campaign.organization.member.memberCode ?
-          <div className="m-1">
+            <>
             <NavLink to={`/reviews/reviewUpdate/${review.reviewCode}`}><button className="button button-primary w-20 mr-1">수정하기</button></NavLink>
             <button className="button button-danger w-20" onClick={deleteReviewHandler}>삭제하기</button>
-          </div>  
+            </>
             : null
             } 
-            <h2>모금액 총 {review.campaign.currentBudget.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} 원으로</h2>
-            <h3>따뜻한 손길을 내어줄 수 있었습니다 </h3>
+            <div className="text-left">
+            <h2>모금액 총 <span style={{color:"#DB524E", fontWeight:"bold"}}>{review.campaign.currentBudget.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</span></h2>
+            <h2><span style={{color:"#428BF9", fontWeight:"bold"}}>{donors}</span>명의 참여로</h2>
+            <h3>따뜻한 손길을 내어줄 수 있었습니다</h3>
+            </div>
           </div>
         
           <hr/>
         
-        <div className="item p-2 border">
+        <div className="item p-2 border text-center">
           <h5>{review.campaign.organization.member.memberName}</h5>
-          <p>{review.campaign.organization.orgDescription}</p>
-        </div><br />
+          <p style={{width:400+"px"}}>{review.campaign.organization.orgDescription}</p>
+        </div>
+        <br />
         
-          <ul>
+          <ul style={{color: "#898989"}}>
             <li> - 봉사활동에 참여하면 리플래닛이 기부합니다</li>
             <li> - 기부금은 100% 단체에 전달됩니다</li>
           </ul>

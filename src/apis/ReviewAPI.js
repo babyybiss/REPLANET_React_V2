@@ -1,16 +1,11 @@
 import axios from "axios";
-import { json } from "react-router-dom";
-import { useEffect } from "react";
-import { GET_REVIEWS } from "../modules/ReviewModule";
 import { getReviews } from "../modules/ReviewModule";
 import { getReview } from "../modules/ReviewModule";
 import { postReview } from "../modules/ReviewModule";
 import { getSearchResult } from "../modules/ReviewModule";
 import { getCompletedCampaigns } from "../modules/ReviewModule";
-import { getThumbnailPath } from "../modules/ReviewModule";
 import { putReview } from "../modules/ReviewModule";
 import { deleteReview } from "../modules/ReviewModule";
-import { getMemberCode } from "../modules/ReviewModule";
 import { postReviewComment } from "../modules/ReviewModule";
 import { getReviewComments } from "../modules/ReviewModule";
 import { deleteReviewComment } from "../modules/ReviewModule";
@@ -170,17 +165,7 @@ export function callDeleteReviewAPI(reviewCode, revFileCode) {
         dispatch(getReviewComments(result));
     }
   }
-
-  export function callgetMemberCode() {
-
-    return async (dispatch, getState) => {
-
-        const result = await request('GET', '/reviews/memberCode');
-
-        dispatch(getMemberCode(result));
-    }
-  }
-
+  
   export function callPostReviewComment({form, reviewCode}) {
 
     return async (dispatch, getState) => {

@@ -13,7 +13,6 @@ export const GET_COMPLETED_CAMPAIGNS = 'review/GET_COMPLETED_CAMPAIGNS';
 export const GET_THUMBNAIL_PATH = 'review/GET_THUMBNAIL_PATH';
 export const PUT_REVIEW = 'review/PUT_REVIEW';
 export const DELETE_REVIEW = 'review/DELETE_REVIEW';
-export const GET_MEMBER_CODE = 'review/GET_MEMBER_CODE';
 export const POST_REVIEW_COMMENT = "review/POST_REVIEW_COMMENT";
 export const GET_REVIEW_COMMENTS = "review/GET_REVIEW_COMMENTS";
 export const DELETE_REVIEW_COMMENT = "review/DELETE_REVIEW_COMMENT";
@@ -26,7 +25,7 @@ export const GET_REVIEW_NEEDED_ORG_CAMPAIGN = "review/GET_REVIEW_NEEDED_ORG_CAMP
 
 
  //declare action function
-export const { review: {getReviews,getReview, getCampaign, postReview, getSearchResult, getCompletedCampaigns, getThumbnailPath, putReview, deleteReview, getMemberCode, postReviewComment, getReviewComments, deleteReviewComment, putComment, putMonitoredComment, getReviewNeededCampaign, getOrgReviews, getReviewNeededOrgCampaign } } = createActions({
+export const { review: {getReviews,getReview, getCampaign, postReview, getSearchResult, getCompletedCampaigns, getThumbnailPath, putReview, deleteReview, postReviewComment, getReviewComments, deleteReviewComment, putComment, putMonitoredComment, getReviewNeededCampaign, getOrgReviews, getReviewNeededOrgCampaign } } = createActions({
     [GET_REVIEWS] : (res) => ({ reviewList: res }),
     [GET_REVIEW] : (res) => ({ review : res }),
     [GET_CAMPAIGN_FOR_REVIEW] : (res) => ({ campaign : res }),
@@ -36,7 +35,6 @@ export const { review: {getReviews,getReview, getCampaign, postReview, getSearch
     [GET_THUMBNAIL_PATH] : (res) => ({ thumbnail : res}),
     [PUT_REVIEW] : (res) => ({ update: res }),
     [DELETE_REVIEW] : (res) => ({ delete: res }),
-    [GET_MEMBER_CODE] : (res) => ({ memberCode: res }),
     [POST_REVIEW_COMMENT] : (res) => ({ reviewComment: res }),
     [GET_REVIEW_COMMENTS] : (res) => ({ comments: res }),
     [DELETE_REVIEW_COMMENT] : (res) => ({ deleteComment : res}),
@@ -88,13 +86,6 @@ const reviewReducer = handleActions(
         [DELETE_REVIEW] : (state, {payload}) => {
             console.log('Review reducer: DELETE_REVIEW 들어옴');
             return payload;
-        },
-        [GET_MEMBER_CODE] : (state, {payload}) => {
-            console.log('Review reducer: GET_MEMBER_CODE 들어옴 : ', payload);
-            return {
-                ...state,
-                memberCode: payload.memberCode
-            };
         },
         [POST_REVIEW_COMMENT] : (state, {payload}) => {
             console.log('Review reducer: POST_REVIEW_COMMENT 들어옴 : ', payload);

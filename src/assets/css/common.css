@@ -477,6 +477,10 @@ h6 {
   margin-left: 0.625rem !important;
 }
 
+.ml-4 {
+  margin-left: 60% !important;
+}
+
 .mr-1 {
   margin-right: 0.625rem !important;
 }
@@ -496,6 +500,10 @@ h6 {
 
 .mb-1 {
   margin-bottom: 0.625rem !important;
+}
+
+.mb-2 {
+  margin-bottom: 2rem !important;
 }
 
 .my-1 {

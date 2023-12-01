@@ -14,6 +14,7 @@ import { callGetOrgCampaignsWithoutReview } from "../../apis/ReviewAPI";
 
 
 export function Reviews() {
+
   const token = localStorage.getItem('token');
   const decodedToken = token ? jwtDecode(token) : null;
 
@@ -21,6 +22,7 @@ export function Reviews() {
   const memberUI = currentUrl.includes('http://localhost:3000/reviews');
   const orgUI = currentUrl.includes('http://localhost:3000/myPageOrg/review');
 
+  const [loading, setLoading] = useState(true); // New loading state
   const [reviews, setReviews] = useState([]);
   const [filteredResult, setFilteredResult] = useState([]);
   const [reviewCampaignCode, setReviewCampaignCode] = useState(0);
@@ -37,16 +39,20 @@ export function Reviews() {
     
 console.log("reviewexists?? ", reviewExists);
     if (memberUI && reviewExists == false) {
-      dispatch(callGetCampaignsWithoutAReview());
+      dispatch(callGetCampaignsWithoutAReview())
+      .finally(() => setLoading(false)); // Set loading to false when data is received
     } else if (memberUI && reviewExists == true) {
-      dispatch(callGetReviewsAPI());
+      dispatch(callGetReviewsAPI())
+      .finally(() => setLoading(false)); // Set loading to false when data is received
     } else if (orgUI && reviewExists == false) {
-        const memberCode = decodedToken.memberCode;
-      dispatch(callGetOrgCampaignsWithoutReview(memberCode));
+        const memberCode = decodedToken.memberCode
+      dispatch(callGetOrgCampaignsWithoutReview(memberCode))
+      .finally(() => setLoading(false)); // Set loading to false when data is received
     } else if (orgUI && reviewExists == true) {
-        const memberCode = decodedToken.memberCode;
+        const memberCode = decodedToken.memberCode
+        dispatch(callGetOrgReviewAPI(memberCode))
+        .finally(() => setLoading(false)); // Set loading to false when data is received
       console.log("재단 api!");
-      dispatch(callGetOrgReviewAPI(memberCode));
     };
   }, [reviewExists]);
 
@@ -80,11 +86,14 @@ console.log("reviewexists?? ", reviewExists);
   return (
     <>
       <div className="container-first">
-        {orgUI &&
+      {loading && <p>loading</p>}
+      <>
+        {orgUI && 
           <div className="admin-title m-4">
             <h1 class="text-primary">캠페인 리뷰 목록</h1>
           </div>
         }
+        
         <div className="item mb-1">
           {memberUI &&
             <h1 className="py-3 container-centered">캠페인 후기</h1>
@@ -98,9 +107,10 @@ console.log("reviewexists?? ", reviewExists);
             setSearching={setSearching}
           />
         </div>
-        <div class="items-container ic3 g-gap3 campaign-list-container">
+        <div class="items-container ic4 g-gap3 campaign-list-container" style={{display:"flex", justifyContent:"space-evenly"}}>
           <ReviewList result={searching ? filteredResult : result} reviewExists={reviewExists} searchFilter={searchFilter} />
         </div>
+        </> 
       </div>
     </>
   );

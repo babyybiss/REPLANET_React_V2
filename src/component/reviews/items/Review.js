@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { stylesheet } from "../../../assets/css/common.css"
+//import { stylesheet } from "../../../assets/css/common.css"
 
 export function Review({ review, reviewExists }) {
   const currentDate = new Date();
@@ -16,12 +16,12 @@ export function Review({ review, reviewExists }) {
       review && (
       reviewExists === true ? (
       <NavLink to={`/reviews/${reviewCode}`}>
-            <div className="stylesheet.item-thumb stylesheet.rounded-3 mb-1 ">
-              <img className="v-2 v-3" src={`/reviewImgs/${review.reviewFileList[0] ? review.reviewFileList[0].fileSaveName : null}`} />
-            </div>
+        <div style={{width: 300+"px"}}>
+            <img className="v-2 v-3 item-thumb rounded-3" src={`/reviewImgs/${review.reviewFileList[0] ? review.reviewFileList[0].fileSaveName : null}`} />
             <h4>{review.reviewTitle}</h4>
             <h6 style={{color: "#706f6f"}}>캠페인: <strong style={{ fontWeight: 'bold' }}>{review.campaign.campaignTitle}</strong></h6>
             <h6 style={{color: "#706f6f"}}>재단 : <strong style={{ fontWeight: 'bold' }}>{review.campaign.organization.member.memberName}</strong></h6>
+        </div>
       </NavLink>
       ):(
           <div>

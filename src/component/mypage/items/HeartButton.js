@@ -78,7 +78,7 @@ function HeartButton({ campaignCode }) {
     return (
         <img
             className=""
-            style={{ width: 16 }}
+            style={{ width: 28, height: 28 }}
             alt="#"
             src={
                 like === 1

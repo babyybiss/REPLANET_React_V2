@@ -5,6 +5,7 @@ import { callGetSpecificCampaignAPI } from "../../apis/ReviewAPI";
 import { TextEditor } from "../../component/reviews/items/TextEditor.js";
 import { callPostReview } from "../../apis/ReviewAPI";
 import axios from "axios";
+import Swal from 'sweetalert2';
 
 export function ReviewRegist() {
     const { campaignCode } = useParams();
@@ -90,17 +91,32 @@ export function ReviewRegist() {
         console.log('[Review Registration] formData : ', formData.get("imageFile"));
 
         if(formData.get("reviewTitle") == "" || formData.get("description") == "") {
-            window.alert("입력안하니");
+            Swal.fire({
+                icon: 'warning',
+                title: '입력안하니',
+                confirmButtonColor: '#1D7151',
+                iconColor: '#1D7151'
+            });
             return;
         } else if(formData.get("imageFile") == undefined) {
-            window.alert("파일 업로드 바랍니다.");
+            Swal.fire({
+                icon: 'warning',
+                title: '썸네일 업로드는 필수 입니다.',
+                confirmButtonColor: '#1D7151',
+                iconColor: '#1D7151'
+            });
             return;
         } else {
             console.log("뭐징ㅇㅇㅇㅇ: ", formData)
             dispatch(callPostReview({
             form: formData
             }));                                                                                                
-            alert('리뷰 목록으로 이동합니다.');
+            Swal.fire({
+                icon: 'success',
+                title: '리뷰 등록 성공!<br/>후기 목록으로 이동합니다.',
+                confirmButtonColor: '#1D7151',
+                iconColor: '#1D7151'
+            });
             navigate('/reviews');
             window.location.reload();
         }
@@ -183,7 +199,7 @@ export function ReviewRegist() {
         <>
             <div className="container-first">
                     <h1 className="py-3 container-centered">캠페인 후기 등록</h1>
-                    <h4 className="container-centered">{result && result.orgName}</h4>
+                    <h4 className="container-centered">{result && result.results.campaign.organization.member.memberName}</h4>
                     <div className="text-center">
                         <input 
                             type="text" 

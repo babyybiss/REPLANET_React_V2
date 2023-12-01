@@ -65,6 +65,7 @@ export function ReviewComment ({ review }) {
       setModify(true);
       setCommentBeingModified(revCommentCode);
       setCommentState(existingCommentContent);
+      
     }
 
     const handleDeleteComment = async (e, revCommentCode) => {
@@ -93,13 +94,14 @@ export function ReviewComment ({ review }) {
       // Reset the modification state
       setModify(false);
       setCommentBeingModified(null);
+      window.location.reload();
     };
 
     const onChangeHandler = (e) => {
       setForm({
           ...form,
           [e.target.name] : e.target.value,
-          memberCode: comment.memberCode,
+          memberCode: comment.memberCode,                
       });
   };
 
