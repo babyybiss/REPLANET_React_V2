@@ -20,8 +20,9 @@ function GoToTopButton() {
         };
     }, []);
     return (
-        <img src="/campaigns/default/topButton.png" className="goToTop-button-style" onClick={goToTop}>
-        </img>
+        <div className="goToTop-button-style" onClick={goToTop}>
+            <i class="fa-solid fa-angle-up"></i>
+        </div>
     );
 }
 
