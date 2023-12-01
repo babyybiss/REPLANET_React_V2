@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { getContinue, getOrgList, getCampaign, getComplete, getCategoryByCampaign, postBookmark, GET_CATEGORY_BY_CAMPAIGN } from '../modules/CampaignModule';
+import { getContinue, getOrgList, getCampaign, getCampaignCount, getComplete, getCategoryByCampaign, postBookmark, GET_CATEGORY_BY_CAMPAIGN } from '../modules/CampaignModule';
 import Swal from "sweetalert2";
 
 
@@ -36,7 +36,6 @@ export function GetCampaignAPI(campaignCode) {
         }
     }
 }
-
 // 기부처별 리스트 조회
 export function GetCampaignByOrgAPI({ orgCode }, status) {
     return async (dispatch, getState) => {
@@ -50,6 +49,19 @@ export function GetCampaignByOrgAPI({ orgCode }, status) {
             else if (status === "no") {
                 dispatch(getOrgList(result.data))
             }
+        } catch (error) {
+            console.log(error, '로딩중');
+            //Swal.fire('', '관리자 문의 바람') 
+        }
+    }
+}
+
+// 기부처별 캠페인 갯수 조회
+export function GetCampaignCount({ orgCode }, status) {
+    return async (dispatch, getState) => {
+        try {
+            const result = await axios.get(requestURL + `campaigns/orgsCount/${orgCode}`);
+            dispatch(getCampaignCount(result.data))
         } catch (error) {
             console.log(error, '로딩중');
             //Swal.fire('', '관리자 문의 바람') 

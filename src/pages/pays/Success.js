@@ -26,12 +26,14 @@ function Success() {
     const donationDateTime= pay.refDonation ? (pay.refDonation.donationDateTime) : '';
     const memberName= pay.refDonation ? (pay.refDonation.refMember.memberName) : '';
     const campaignTitle= pay.refDonation ? (pay.refDonation.refCampaign.campaignTitle) : '';
-    const orgName= pay.refDonation ? (pay.refDonation.refCampaign.orgName) : '';
-    const orgTel= pay.refDonation ? (pay.refDonation.refCampaign.orgTel) : '';
+    const orgName= pay.refDonation ? (pay.refDonation.refCampaign.organization.member.memberName) : '';
+    const orgTel= pay.refDonation ? (pay.refDonation.refCampaign.organization.member.phone) : '';
     const donationAmount= pay.refDonation ? formatAmount(pay.payAmount + pay.refDonation.donationPoint) : '';
     const payAmount= pay.refDonation ? formatAmount(pay.payAmount) : '';
     const donationPoint= pay.refDonation ? formatAmount(pay.refDonation.donationPoint) : '';
 
+
+    
     const date = new Date(...donationDateTime);
 
     const formattedDateTime = date.toLocaleString('ko-KR', {
@@ -54,7 +56,7 @@ function Success() {
 
     const handleGoToCampaign = () => {
         dispatch({ type: RESET_PAY_CODE });
-        navigate(`/campaign/${pay.refDonation.refCampaign.campaignCode}`);
+        navigate(`/campaign/${pay.refDonation.refCampaign.campaignCode}?orgCode=${pay.refDonation.refCampaign.organization.orgCode}`);
     };
 
     useEffect(

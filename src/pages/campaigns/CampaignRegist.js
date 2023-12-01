@@ -139,7 +139,7 @@ function CampaignRegist() {
                     ))}
                 </select>
                 {/* 제목 & 텍스트 에디터 */}
-                <input className="input" name="campaignTitle" maxLength="20" placeholder="제목 입력." onChange={onChange} required />
+                <input className="input" name="campaignTitle" maxLength="30" placeholder="제목 입력." onChange={onChange} required />
                 <DraftEditor onChange={onChangeContent} editorState={editorState} />
 
                 <input
@@ -164,7 +164,7 @@ function CampaignRegist() {
                 <h3 className="text-center">기부금 사용 계획 </h3>
                 <div className="items-container ic1">
                     <label>목표금액<input className="input" type="text" maxLength="13" name="goalBudget" placeholder="총 목표 금액을 입력하세요.(10억 이하로)" value={inputs.goalBudget} onChange={priceChangeHandler} required /></label>
-                    <label htmlFor="endDate">캠페인 마감일 <input type="date" id="endDate" name="endDate" className="input" onChange={onChange} /></label>
+                    <label htmlFor="endDate">캠페인 마감일 <input type="date" id="endDate" name="endDate" className="input" onChange={onChange} required /></label>
                     {/* <label>단체명<input className="input" name="orgName" maxLength="50" placeholder="단체명을 입력해주세요." onChange={onChange} required /></label>
                     <label>단체 한줄소개<input className="input" name="orgDescription" maxLength="50" placeholder="단체 한줄소개를 입력해주세요." onChange={onChange} required /></label>
                     <label>단체 연락처<input className="input" name="orgTel" maxLength="13" placeholder="전화번호를 입력해주세요." onChange={onChange} required /></label> */}

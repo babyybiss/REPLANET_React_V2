@@ -28,7 +28,7 @@ function PayForm() {
     
     const currentPoint = useSelector(state => state.memberReducer.member?.currentPoint);
 
-    const campaignInfo = campaign.campaigninfo;
+    const campaignInfo = campaign && campaign.campaigninfo?.results.campaign;
 
     console.log('PayForm() 현재 가용 포인트 : ', currentPoint);
     console.log('PayForm() donationAmount : ', donationAmount);

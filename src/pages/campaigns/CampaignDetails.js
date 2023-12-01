@@ -23,18 +23,18 @@ function CampaignDetail() {
 
     let orgCode = queryString.parse(window.location.search)
     useEffect(() => {
-        dispatch(GetCampaignAPI(campaignCode));
 
         const fetchData = async () => {
+            dispatch(GetCampaignAPI(campaignCode));
             // 첫 번째 API 호출
             if (Object.keys(orgCode).length === 0) return;
-            console.log(orgCode, 'zhem');
-            await dispatch(GetCampaignByOrgAPI( orgCode , "no"));
+
+            await dispatch(GetCampaignByOrgAPI(orgCode, "no"));
+
         };
 
         fetchData();
     }, [campaignCode, dispatch]);
-    console.log(orgList);
     return (
         campaign && (
             <div>
