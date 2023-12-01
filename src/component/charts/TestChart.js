@@ -3,47 +3,40 @@ import "../../assets/css/chart.css";
 import _ from 'lodash';
 import { useState } from 'react';
 
-
-const categoryData = [
-  {
-      campaignCategory: "재난", campaings: 15, goalBudget: 600000, currentBudget: 400000, expectBudget: 200000
-  },
-  {
-      campaignCategory: "지구촌", campaings: 35, goalBudget: 500000, currentBudget: 350000, expectBudget: 150000
-  },
-  {
-      campaignCategory: "아동", campaings: 20, goalBudget: 800000, currentBudget: 800000, expectBudget: 0
-  },
-  {
-      campaignCategory: "노인", campaings: 10, goalBudget: 300000, currentBudget: 200000, expectBudget: 100000
-  },
-  {
-      campaignCategory: "소외", campaings: 9, goalBudget: 220000,   currentBudget: 200000, expectBudget: 20000
-  }
-];
-
-
-const attributes = ["campaings", "goalBudget", "currentBudget", "expectBudget"];
-
-/* state initial callback */ 
-const getMaximum = () => {
-  return attributes.map((attribute) => {
-    return categoryData.reduce((memo, datum) => {
-      return datum[attribute] > memo ? datum[attribute] : memo;
-    }, -Infinity);
-  });
-}
-
-const normalizeData = (maximumValues) => {
-  return categoryData.map((datum) => ({
-    name: datum.campaignCategory,
-    data: attributes.map((attribute, i) => (
-      {x: attribute, y: datum[attribute] / maximumValues[i]}
-    ))
-  }));
-}
-
 function TestChart(chartDataListProps) {
+
+  const { chartDataList } = chartDataListProps;
+
+  /* 축 5개 추출 */ 
+  const excludeKeyName = ['displaySumCurrentBudget', 'campaignCategory']
+  const keyArray = chartDataList.reduce((keys, obj) => {
+    return keys.concat(Object.keys(obj).filter(key => !excludeKeyName.includes(key)));
+  },[]);
+  const uniqueKeys = [...new Set(keyArray)];
+  // console.log(uniqueKeys)
+  const uniqueKeysToKorean = ['캠페인 수(건)', '현재모금액합계(원)ㄴ', '목표모금액합계(원)', '남은모금액합계(원)', '달성률(%)'];
+
+  const tickValuesAttributes = chartDataList.map((attribute, index) => index + 1);
+  /*
+  const tickFormatAttributes = chartDataList.map(categoryname => categoryname.campaignCategory)
+  */
+ 
+  const getMaximum = () => {
+    return uniqueKeys.map(attribute => {
+      return chartDataList.reduce((memo, datum) => {
+        return datum[attribute] > memo ? datum[attribute] : memo;
+      }, -Infinity);
+    });
+  };
+
+  const normalizeData = (maximumValues) => {
+    return chartDataList.map((datum) => ({
+      name: datum.campaignCategory,
+      data: uniqueKeys.map((attribute, index) => ({
+        x: attribute, y: datum[attribute] / maximumValues[index]
+      }))
+    }))
+  }
   
   const [maximumValues, setMaximumValues] = useState(() =>
   getMaximum());
@@ -55,10 +48,10 @@ function TestChart(chartDataListProps) {
   /* chart figure */ 
   const width = 1500;
   const height = 700;
-  const padding = { top: 100, left: 50, right: 50, bottom: 50 };
+  /* chart padding */ 
+  const chartPadding = { left: 100, right: 50, top: 100, bottom: 50 }
 
   const getActiveDatasets = (filters) => {
-    
     
     const isActive = (dataset) => {
       // console.log("filters, dataset ok")
@@ -103,8 +96,8 @@ function TestChart(chartDataListProps) {
   }
 
   const getAxisOffset = (index) => {
-    const step = (width - padding.left - padding.right) / (attributes.length - 1);
-    return step * index + padding.left;
+    const step = (width - chartPadding.left - chartPadding.right) / (uniqueKeys.length - 1);
+    return step * index + chartPadding.left;
   }
   
   /* style setting */ 
@@ -119,15 +112,15 @@ function TestChart(chartDataListProps) {
       <h4>테스트 용</h4>
       <VictoryChart 
         domain={{ y: [0, 1.1] }}
-        padding={padding}
+        padding={chartPadding}
         width={width} height={height}
       >
         <VictoryAxis
           style={axisStyle}
-          tickValues={[1, 2, 3, 4]}
-          tickFormat={["캠페인 수 (건)","목표모금액(단위 : 원)","현재모금액(단위 : 원)","테스트1"]}
+          tickValues={tickValuesAttributes}
+          tickFormat={uniqueKeysToKorean}
           // 기준 축 라벨 상하 위치
-          tickLabelComponent={<VictoryLabel y={padding.top - 40}/>}
+          tickLabelComponent={<VictoryLabel y={chartPadding.top - 40}/>}
         />
         {datasets.map((dataset) => (
           <VictoryLine
@@ -141,7 +134,7 @@ function TestChart(chartDataListProps) {
             } }}
           />
         ))}
-        {attributes.map((attribute, index) => (
+        {uniqueKeys.map((attribute, index) => (
           <VictoryAxis dependentAxis
             key={index}
             axisComponent={
