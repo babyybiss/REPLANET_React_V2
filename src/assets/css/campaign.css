@@ -101,3 +101,18 @@
     margin-bottom: 2rem;
 
   }
+  .descBox {
+    font-family: sans-serif;
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    height: 100vh;
+  }
+  
+  .desc {
+    border: 2px solid red;
+    width: 30%;
+    font-size: 20px;
+    overflow-y: scroll;
+  }
+  
