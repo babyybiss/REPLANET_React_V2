@@ -15,6 +15,7 @@ function OauthKakao() {
 
             .then((response) => {
                 console.log('토큰 교환 성공:', response);
+                // callGetFindMemberAPI(response);
                 const accessToken = response.access_token;
 
                 if(accessToken) {
@@ -27,7 +28,7 @@ function OauthKakao() {
                         const kakaoTokenId = response.id;
                         const email = response.kakao_account.email;
 
-                        callGetFindMemberAPI(kakaoTokenId, email);
+                        // callGetFindMemberAPI(response);
                     })
                     .catch((error) => {
                         console.error('accessToken 데이터 추출 오류 :', error);
