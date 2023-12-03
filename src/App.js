@@ -46,6 +46,7 @@ import ModifyUser from "./pages/users/ModifyUser";
 import Withdrawal from "./pages/users/Withdrawal";
 import VerifyUser from "./pages/users/VerifyUser";
 import FindPw from "./pages/auth/FindPw";
+import SocialSignup from "./pages/auth/SocialSignup";
 
 function App() {
 
@@ -62,6 +63,7 @@ function App() {
             <Route path="/" element={<Layout />}>
               <Route path="/login/*" element={authCtx.isLoggedIn ? <Navigate to='/' /> : <Login />}/>
               <Route path="/signup/" element={authCtx.isLoggedIn ? <Navigate to='/' /> : <Signup />} />
+              <Route path="/socialsignup/" element={authCtx.isLoggedIn ? <Navigate to='/' /> : <SocialSignup />} />
               <Route path="/find/" element={<Find/>}></Route>
               <Route path="/password/" element={<ChangePassword/>}></Route>
               <Route path="/findpw/" element={<FindPw/>}></Route>

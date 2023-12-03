@@ -38,6 +38,12 @@ export const signupActionHandler = (email, password, memberName, phone, memberRo
   const response = POST(URL, signupObject, {});
   return response;
 };
+export const socialSignupActionHandler = (email, password, memberName, phone, kakaoTokenId) => {
+  const URL = '/auth/socialSignup';
+  const signupObject = { email, password, memberName, phone, kakaoTokenId };
+  const response = POST(URL, signupObject, {});
+  return response;
+};
 export const loginActionHandler = (email, password) => {
   const URL = '/auth/login';
   const loginObject = { email, password };
