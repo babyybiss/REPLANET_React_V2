@@ -149,6 +149,7 @@ export function DeleteCampaignAPI(campaignCode) {
 
 // 캠페인 수정
 export function ModifyCampaignAPI({ inputs }, campaignCode) {
+    console.log('[Review Registration] formData : ', inputs.get("imageFile"));
 
     return async (dispatch, getState) => {
         try {

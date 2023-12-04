@@ -8,7 +8,7 @@ function CampaignContent({ campaign }) {
       }
     return (
         campaign && (
-            <div  className="item" style={{height: '500px', border: '1px', solid: '#ccc'}} >
+            <div  className="" style={{height: '500px', border: '1px', solid: '#ccc'}} >
                 <img src={ fileSaveName? `/campaigns/${campaign.campaignDescFileList[0].fileSaveName}` : '/campaigns/default/noImage.png'} alt="캠페인 이미지" />
                 <div dangerouslySetInnerHTML={{ __html: campaign.campaignContent }}>
                 </div>
