@@ -296,7 +296,7 @@ function FindPw() {
             <div id="container-user">
                 <div className="items-container ic1">
                     <div className="tabs pb-2">
-                        <a href="/find"><div className="tab_item ti2" >계정 찾기</div></a>
+                        <a href="/findId"><div className="tab_item ti2" >계정 찾기</div></a>
                         <div className="tab_item ti2 active" >비밀번호 찾기</div>
                     </div>
                     <div id="checker" style={isGoResetPw ? {display: 'none'} : {}}>
