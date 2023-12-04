@@ -100,7 +100,7 @@ const Login = () => {
                             </div>
 
                         <div className="items-container ic2 text-center pt-2">
-                            <a href="./find" className="login-option">계정 찾기</a>
+                            <a href="./findId" className="login-option">계정 찾기</a>
                             <a href="./findpw" className="login-option">비밀번호 찾기</a>
                         </div>
 
