@@ -34,6 +34,7 @@ function PwdConfirm(){
             </div>
             <div className="verifying">
                 <div className="verifying-container">
+                    <h5>비밀번호를 입력해 주세요.</h5><br/>
                     <input className="input-pwd input" type="password" id="orgPwd" value={orgPwd} onChange={handleOrgPwd} required ref={orgPwdInputRef} />
                     <br/><br/>
                     <button className="button button-primary" onClick={handleConfirm}>비밀번호 확인</button>
