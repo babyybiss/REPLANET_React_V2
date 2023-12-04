@@ -1,8 +1,8 @@
 import { useSelector, useDispatch } from "react-redux";
 import { jwtDecode } from 'jwt-decode';
 import { useEffect, useState } from "react";
-import { getBookmarkList, DeleteAllBookmarksAPI } from "../../../apis/BookmarkAPI";
-import Bookmark from "../items/Bookmark";
+import { getBookmarkList, DeleteAllBookmarksAPI } from "../../apis/BookmarkAPI";
+import Bookmark from "../../component/mypage/items/Bookmark";
 import Swal from "sweetalert2";
 function BookmarkList() {
     const dispatch = useDispatch();
@@ -12,8 +12,9 @@ function BookmarkList() {
     let memberCode = decodedToken.memberCode;
 
     // 북마크 리스트 정보
-    const bookmark = useSelector(state => state.bookmarkReducer.bookmark)
+    const bookmarkResult = useSelector(state => state.bookmarkReducer.bookmark)
     const [checkItems, setCheckItems] = useState([]);
+    const bookmark = bookmarkResult && bookmarkResult.results;
 
     // 북마크 삭제
     const deleteBookmark = () => {
@@ -40,7 +41,7 @@ function BookmarkList() {
                 cancelButtonText: '취소'
             }).then(result => {
                 if (result.isConfirmed) {
-                    dispatch(DeleteAllBookmarksAPI({ bookmarkCode: checkItems })).then( () => {
+                    dispatch(DeleteAllBookmarksAPI({ bookmarkCode: checkItems })).then(() => {
                         dispatch(getBookmarkList(memberCode))
                         setCurrentPage(1);
                     })
@@ -77,7 +78,7 @@ function BookmarkList() {
     const itemsPerPage = 5;
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = bookmark && bookmark.length > 0 ? bookmark.slice(indexOfFirstItem, indexOfLastItem) : [];
+    const currentItems = bookmark && bookmark.bookmarkList.length > 0 ? bookmark.bookmarkList.slice(indexOfFirstItem, indexOfLastItem) : [];
     const totalItems = bookmark ? bookmark.length : '';
     const totalPages = Math.ceil(totalItems / itemsPerPage);
     const handlePageChange = (newPage) => {
@@ -94,7 +95,7 @@ function BookmarkList() {
     )
 
     const isCheckedHandler = () => {
-        if (checkItems.length === 0){
+        if (checkItems.length === 0) {
             return false
         }
         return checkItems.length === currentItems.length ? true : false
@@ -104,7 +105,7 @@ function BookmarkList() {
             <div className="admin-main">
                 <div className="admin-title">
                     <h1 className="text-primary">
-                        북마크 리스트
+                        관심 리스트
                     </h1>
                 </div>
                 <div className='admin-title total-amount'>
@@ -123,7 +124,7 @@ function BookmarkList() {
                                 <label >
                                     <input type="checkbox"
                                         onChange={(e) => onCheckAll(e.target.checked)}
-                                        
+
                                         checked={isCheckedHandler()}
                                     />
                                 </label>
@@ -135,15 +136,15 @@ function BookmarkList() {
                         </tr>
                     </thead>
                     <tbody>
-                        {bookmark && bookmark.length > 0 ? (
+                        {bookmark && bookmark.bookmarkList.length > 0 ? (
                             currentItems.map((bookmark, index) =>
-                                <Bookmark 
-                                index={index + (currentPage - 1) * itemsPerPage}
-                                key={bookmark.bookmarkCode} id={bookmark.bookmarkCode}
+                                <Bookmark
+                                    index={index + (currentPage - 1) * itemsPerPage}
+                                    bookmark={bookmark}
                                     checkedItemHandler={checkedItemHandler}
                                     checked={checkItems.indexOf(bookmark.bookmarkCode) >= 0 ? true : false}
-                                    bookmark={bookmark}
-                                    
+                                    id={bookmark.bookmarkCode}
+                                    key={bookmark.bookmarkCode}
                                 />)
                         ) :
                             <tr>
