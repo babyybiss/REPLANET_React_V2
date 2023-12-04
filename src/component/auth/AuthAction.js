@@ -50,9 +50,16 @@ export const loginActionHandler = (email, password) => {
   const response = POST(URL, loginObject, {});
   return response;
 };
+export const socialLoginActionHandler = (email, providerId) => {
+  const URL = '/auth/socialLogin';
+  const loginObject = { email, providerId };
+  const response = POST(URL, loginObject, {});
+  return response;
+};
 export const logoutActionHandler = () => {
   localStorage.removeItem('token');
   localStorage.removeItem('expirationTime');
+  localStorage.removeItem('code');
 };
 export const getUserActionHandler = (token) => {
   const URL = '/';

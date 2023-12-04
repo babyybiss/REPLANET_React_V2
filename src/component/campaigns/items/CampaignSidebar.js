@@ -207,7 +207,7 @@ function CampaignSidebar({ campaign, orgList }) {
                 </div>
                 <div className="item p-2 border">
                     <p>
-                        <img src={fileSaveName ? `/campaigns/${campaign.organization.fileSaveName}` : '/campaigns/default/noImage.png'} alt="캠페인 이미지" />
+                        <img src={fileSaveName ? `/orgImgs/${decodedToken?.memberCode}/${campaign.organization.fileSaveName}` : '/campaigns/default/noImage.png'} alt="캠페인 이미지" />
                     </p>
                 </div>
             </div>

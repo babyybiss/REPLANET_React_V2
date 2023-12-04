@@ -27,6 +27,8 @@ function Calculator() {
         return Math.min(totalDonation, earnedIncome);
     };
 
+    const MAX_TOTAL_SALARY = 100000000000000;
+
     const calculateIncomeAfterDeduction = (totalSalary) => {
         let incomeAfterDeduction = 0;
 
@@ -64,9 +66,13 @@ function Calculator() {
     const onChangeHandler = (e) => {
         const { name, value } = e.target;
 
+        const parsedValue = parseNumber(value);
+
+        const limitedValue = Math.min(parsedValue, MAX_TOTAL_SALARY);
+
         setInputValue((prevInputValue) => ({
             ...prevInputValue,
-            [name]: parseNumber(value),
+            [name]: limitedValue,
         }));
     };
 
@@ -118,6 +124,7 @@ function Calculator() {
                                 value={totalSalary.toLocaleString()}
                                 onChange={onChangeHandler}
                                 onClick={(e) => e.target.select()}
+                                style={{ maxWidth: '200px' }}
                             />
                         </td>
                     </tr>
@@ -133,12 +140,13 @@ function Calculator() {
                                 value={totalDonation.toLocaleString()}
                                 onChange={onChangeHandler}
                                 onClick={(e) => e.target.select()}
+                                style={{ maxWidth: '200px' }}
                             />
                         </td>
                     </tr>
                     <tr>
                         <td>근로소득금액 ( 총급여액 - 근로소득 공제액 ( 공제한도 2,000만원 ) )</td>
-                        <td>{earnedIncome.toLocaleString()}원 ({totalSalary.toLocaleString()}원 - {incomeAfterDeduction.toLocaleString()}원)</td>
+                        <td style={{ maxWidth: '200px' }}>{earnedIncome.toLocaleString()}원 ({totalSalary.toLocaleString()}원 - {incomeAfterDeduction.toLocaleString()}원)</td>
                     </tr>
                     <tr>
                         <td>대상금액 ( 한도 = 근로소득금액 )</td>

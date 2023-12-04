@@ -13,11 +13,13 @@ const AuthContext = React.createContext({
     signup: (email, password, memberName, phone, memberRole) => { },
     socialSignup: (email, password, memberName, phone, kakaoTokenId) => { },
     login: (email, password) => { },
+    socialLogin: (email, providerId) => { },
     logout: () => { },
     getUser: () => { },
     // changeMemberName: (memberName) => { },
     changePassword: (exPassword, newPassword) => { },
-    findPassword: (newPassword, newPasswordConfirm) => { }
+    findPassword: (newPassword, newPasswordConfirm) => { },
+    setAccessToken: (accessToken) => {},
 });
 
 
@@ -28,6 +30,7 @@ export const AuthContextProvider = (props) => {
         initialToken = tokenData.token;
     }
     const [token, setToken] = useState(initialToken);
+    const [accessToken, setAccessToken] = useState('');
     const [userObj, setUserObj] = useState({
         email: '',
         memberName: '',
@@ -36,6 +39,10 @@ export const AuthContextProvider = (props) => {
     const [isSuccess, setIsSuccess] = useState(false);
     const [isGetSuccess, setIsGetSuccess] = useState(false);
     const userIsLoggedIn = !!token;
+
+    const setAccessTokenHandler = (accessToken) => {
+        setAccessToken(accessToken);
+    };
 
     const signupHandler = (email, password, memberName, phone, memberRole) => {
         setIsSuccess(false);
@@ -57,6 +64,7 @@ export const AuthContextProvider = (props) => {
                     // 가입 성공 시에 메일 보내야함
                 } else {
                     Swal.fire({
+                        icon: 'success',
                         title: "가입 성공",
                         text: "확인 버튼을 누르시면 로그인 페이지로 이동합니다.",
                         confirmButtonText: "확인"}).then(function() {
@@ -75,8 +83,9 @@ export const AuthContextProvider = (props) => {
         response.then((result) => {
             if (result !== null) {
                     Swal.fire({
-                        title: "가입 성공",
-                        text: "확인 버튼을 누르시면 로그인 페이지로 이동합니다.",
+                        icon: 'success',
+                        title: "가입 성공!",
+                        text: "카카오 로그인 버튼으로 로그인하세요.",
                         confirmButtonText: "확인"}).then(function() {
                             window.location = "/login";
                         }); 
@@ -102,6 +111,24 @@ export const AuthContextProvider = (props) => {
             }
         });
     };
+
+    const socialLoginHandler = (email, providerId) => {
+        setIsSuccess(false);
+        console.log(isSuccess);
+        const data = authAction.socialLoginActionHandler(email, providerId);
+        data.then((result) => {
+            if (result !== null) {
+                const loginData = result.data;
+                setToken(loginData.accessToken);
+                logoutTimer = setTimeout(logoutHandler, authAction.loginTokenHandler(loginData.accessToken, loginData.tokenExpiresIn));
+                setIsSuccess(true);
+                console.log(isSuccess);
+            } else {
+                Swal.fire("", "로그인 실패")
+            }
+        });
+    };
+
     const logoutHandler = useCallback(() => {
         setToken('');
         authAction.logoutActionHandler();
@@ -149,8 +176,10 @@ export const AuthContextProvider = (props) => {
             logoutTimer = setTimeout(logoutHandler, tokenData.duration);
         }
     }, [tokenData, logoutHandler]);
+
     const contextValue = {
         token,
+        accessToken,
         userObj,
         isLoggedIn: userIsLoggedIn,
         isSuccess,
@@ -158,10 +187,12 @@ export const AuthContextProvider = (props) => {
         signup: signupHandler,
         socialSignup: socialSignupHandler,
         login: loginHandler,
+        socialLogin: socialLoginHandler,
         logout: logoutHandler,
         getUser: getUserHandler,
         changePassword: changePasswordHandler,
-        findPassword: findPasswordHandler
+        findPassword: findPasswordHandler,
+        setAccessToken: setAccessTokenHandler,
     };
     return (React.createElement(AuthContext.Provider, { value: contextValue }, props.children));
 };

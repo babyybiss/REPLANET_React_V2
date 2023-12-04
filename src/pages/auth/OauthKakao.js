@@ -1,6 +1,7 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import {callGetFindMemberAPI, callPostKakaoTokenAPI, callPostUserMeAPI} from "../../apis/KaKaoLoginAPI";
+import AuthContext from "../../component/auth/AuthContext";
 
 function OauthKakao() {
 
@@ -8,6 +9,7 @@ function OauthKakao() {
     const navigate = useNavigate();
     const urlParams = new URLSearchParams(location.search);
     const authorizationCode = urlParams.get('code');
+    const authCtx = useContext(AuthContext);
 
     useEffect(() => {
         if (authorizationCode) {
@@ -15,10 +17,15 @@ function OauthKakao() {
             .then((response) => {
                 console.log('토큰 교환 성공:', response);
                 const accessToken = response.access_token;
-
+                authCtx.setAccessToken(accessToken);
                 callGetFindMemberAPI(response)
                     .then((findMemberResponse) => {
                         console.log('서버에서 조회된 회원 정보:', findMemberResponse);
+                        console.log('authCtx.accessToken : ', authCtx.accessToken);
+                        const email = findMemberResponse.email;
+                        const providerId = findMemberResponse.providerId;
+                        authCtx.socialLogin(email, providerId);
+                        navigate('/');
                     })
                     .catch((error) => {
                         console.error('서버에서 회원 조회 오류:', error);
@@ -49,9 +56,18 @@ function OauthKakao() {
                 console.error('토큰 교환 오류 :', error);
             });
         }
-    }, [authorizationCode]);
+    }, [authorizationCode, authCtx]);
 
-    return null;
+    return (
+        <>
+            <style>
+                @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+            </style>
+            <div className="simple-loader-area">
+                <h1>LOADING...</h1>
+            </div>
+        </>
+    );
 };
 
 export default OauthKakao;

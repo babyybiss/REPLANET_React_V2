@@ -4,9 +4,8 @@ import { numberFormatToKorean } from '../../utils/NumberFormatToKorean';
 
 /* customToolTipBox */ 
 function CustomFlyout(flyoutComponentProps) {
-  //console.log(flyoutComponentProps);
     const {x, y} = flyoutComponentProps;
-    const newX = x - 45;
+    const newX = x - 60;
     const newY = y - 42;
 
     return (
@@ -135,7 +134,7 @@ function GoalCampaign(chartDataListProps) {
     <div className='chartbox'>
       <h4>카테고리별 현재 모금액 합계</h4>
       <VictoryChart 
-        domainPadding={50} 
+        domainPadding={140} 
         style={chartStyle}
         width={width} height={height}
         padding={chartPadding}
