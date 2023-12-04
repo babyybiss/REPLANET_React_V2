@@ -11,9 +11,9 @@ function CustomFlyout(flyoutComponentProps) {
 
     return (
         <g>
-        <rect width="92" height="42" x={newX} y={newY} rx={5} stroke="#4AB28B" fill="none" strokeWidth={1}/>
-        <rect width="91" height="41" x={newX} y={newY} rx={5} stroke="#1D7151" fill="none" strokeWidth={2}/>
-        <rect width="90" height="40" x={newX} y={newY} rx={5} stroke="#10573C" fill="none" strokeWidth={1}/>
+        <rect width="122" height="42" x={newX} y={newY} rx={5} stroke="#4AB28B" fill="none" strokeWidth={1}/>
+        <rect width="121" height="41" x={newX} y={newY} rx={5} stroke="#1D7151" fill="none" strokeWidth={2}/>
+        <rect width="120" height="40" x={newX} y={newY} rx={5} stroke="#10573C" fill="none" strokeWidth={1}/>
         </g>
         
     );
