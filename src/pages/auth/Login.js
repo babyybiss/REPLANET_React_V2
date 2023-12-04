@@ -5,29 +5,6 @@ import '../../assets/css/user.css';
 import Swal from "sweetalert2";
 //import { KakaoLoginAPI } from "../../apis/KaKaoLoginAPI";
 
-
-
-import { GoogleLogin } from "@react-oauth/google";
-import { GoogleOAuthProvider } from "@react-oauth/google";
-
-const GoogleLoginButton = () => {
-    const clientId = 'clientID'
-    return (
-        <>
-            <GoogleOAuthProvider clientId={clientId}>
-                <GoogleLogin
-                    onSuccess={(res) => {
-                        console.log(res);
-                    }}
-                    onFailure={(err) => {
-                        console.log(err);
-                    }}
-                />
-            </GoogleOAuthProvider>
-        </>
-    );
-};
-
 const Login = () => {
     const emailInputRef = useRef(null);
     const passwordInputRef = useRef(null);
@@ -76,10 +53,8 @@ const Login = () => {
             <div id="container-user">
                 <div className="items-container ic1">
                     <div className="tabs pb-2">
-                        <div className="tab_item ti3 active" >일반 로그인</div>
-                        <div className="tab_item ti3" onClick={GoogleLoginButton}>via google</div>
-                        {/* <div className="tab_item ti2" onClick={GoogleLoginButton}>소셜 로그인</div> */}
-                        <div className="tab_item ti3" onClick={KakaoLoginHandler}>via kakao</div>
+                        <div className="tab_item ti2 active">일반 로그인</div>
+                        <div className="tab_item ti2" onClick={KakaoLoginHandler}>카카오 로그인</div>
                     </div>
                     <div className="">
 
