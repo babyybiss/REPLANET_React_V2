@@ -10,6 +10,8 @@ import { useContext } from 'react';
 import AuthContext from '../../component/auth/AuthContext';
 import { userWithdrawAPI } from '../../apis/UserAPI';
 import { result } from 'lodash';
+import { callPostUnlinkMemberAPI } from '../../apis/KaKaoLoginAPI';
+import { socialUserWithdrawAPI } from '../../apis/KaKaoLoginAPI';
 
 
 function Withdrawal () {
@@ -20,6 +22,8 @@ function Withdrawal () {
 
     const token = window.localStorage.getItem('token');
     const memberCode = decodeJwt(token)?.memberCode || 0;
+    const provider = decodeJwt(token)?.provider || 'REPLANET';
+    const accessToken = authCtx.accessToken;
 
     const handleWithdraw = async () => {
         const {value: password} = await Swal.fire({
@@ -47,6 +51,41 @@ function Withdrawal () {
         }
     }
 
+    const handleUnlink = async () => {
+        console.log('accessToken : ', accessToken);
+        Swal.fire({
+            icon: 'warning',
+            title: '연동해제(탈퇴) 하시겠습니까?',
+            confirmButtonColor: '#1D7151',
+            iconColor: '#1D7151',
+            
+            showCancelButton: true,
+            confirmButtonText: '승인',
+            cancelButtonText: '취소',
+            
+            }).then(result => {
+                if (result.isConfirmed) {
+                    callPostUnlinkMemberAPI(accessToken)
+                    .then(
+                        dispatch(socialUserWithdrawAPI({memberCode}, authCtx)),
+                    )
+                    .catch((error) => {
+                        console.error(error);
+                    })
+                } else if (!result.isDenied) {
+                    console.log("연동해제 취소");
+                    Swal.fire({
+                        icon: 'success',
+                        title: '연동해제가 취소되었습니다!',
+                        confirmButtonColor: '#1D7151',
+                        iconColor: '#1D7151',
+                        confirmButtonText: '확인',
+                        });
+                    return;
+                }
+            });
+    }
+
     return(
         <div className="mypage-main">
             <h1 className="text-primary">회원 탈퇴</h1>
@@ -65,7 +104,12 @@ function Withdrawal () {
                     <h6 style={{color: "#DB524E"}}>[근거법령 : 소득세법 제 160조의3, 소득세법 시행령 제 113조 제1항, 제208조의3, 소득세법 시행규칙 제58조]</h6>
                 </div>
                 <hr></hr>
-                <button onClick={() => handleWithdraw()} className="button button-primary">탈퇴하기</button>
+                {provider === 'REPLANET' && (
+                    <button onClick={() => handleWithdraw()} className="button button-primary">탈퇴하기</button>
+                )}
+                    {provider === 'KAKAO' && (
+                    <button onClick={() => handleUnlink()} className="button button-primary">연동해제(탈퇴)</button>
+                )}
             </div>
         </div>
     )
