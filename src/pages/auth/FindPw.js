@@ -2,30 +2,34 @@ import React, { useState, useRef, useCallback } from "react";
 import '../../assets/css/user.css';
 import Swal from "sweetalert2";
 import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
 function FindPw() {
 
-
+    const navigate = useNavigate();
 
     const emailInputRef = useRef(null);
     const phoneInputRef = useRef(null);
     const smsCodeInputRef = useRef(null);
 
-
     const newPasswordInputRef = useRef(null);
-    const newpasswordConfirmInputRef = useRef(null);
+    const newPasswordConfirmInputRef = useRef(null);
 
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     const [password, setPassword] = useState('');
     const [passwordConfirm, setPasswordConfirm] = useState('');
     const [smsCode, setSmsCode] = useState('');
+    const [newPassword, setNewPassword] = useState('');
+    const [newPasswordConfirm, setNewPasswordConfirm] = useState('');
 
     const [emailMsg, setEmailMsg] = useState("");
     const [phoneMsg, setPhoneMsg] = useState("");
     const [onFindEmailMsg, setOnFindEmailMsg] = useState("");
     const [onFindPasswordMsg, setOnFindPasswordMsg] = useState("");
     const [onFindPhoneMsg, setOnFindPhoneMsg] = useState("");
+    const [newPasswordMsg, setNewPasswordMsg] = useState("");
+    const [newPasswordConfirmMsg, setNewPasswordConfirmMsg] = useState("");
 
     const [isOnCheckEmail, setIsOnCheckEmail] = useState(false);
     const [isOnCheckPhone, setIsOnCheckPhone] = useState(false);
@@ -34,15 +38,9 @@ function FindPw() {
     const [isOnFindEmail, setIsOnFindEmail] = useState(false);
     const [isOnFindPassword, setIsOnFindPassword] = useState(false);
     const [isOnFindPhone, setIsOnFindPhone] = useState(false);
+    const [isGoResetPw, setIsGoResetPw] = useState(false);
 
 
-    const resetPassword = (e) => {
-        const currPassword = e.target.value;
-        setPassword(currPassword);
-        if (currPassword != passwordConfirm) {
-            Swal.fire("ㄴㄴ")
-        }
-    };
 
     const validateEmail = (email) => {
         return email
@@ -53,10 +51,16 @@ function FindPw() {
         return phone
             .match(/^[0-9].{8,10}$/)
     };
+    const validateNewPassword = (newPassword) => {
+        return newPassword
+            .toLowerCase()
+            .match(/^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{7,24}$/);
+    }
 
     const isEmailValid = validateEmail(email);
     const isPhoneValid = validatePhone(phone);
-
+    const isNewPasswordValid = validateNewPassword(newPassword);
+    const isNewPasswordConfirmValid = (newPassword === newPasswordConfirm);
     const handleEmail = useCallback(async (e) => {
         const currEmail = e.target.value;
         setEmail(currEmail);
@@ -102,6 +106,31 @@ function FindPw() {
             Swal.fire("", "API 호출 중 오류 발생");
         }
     };
+
+    const handleNewPassword = useCallback((e) => {
+        const currNewPassword = e.target.value;
+        setNewPassword(currNewPassword);
+
+        if (!validateNewPassword(currNewPassword)) {
+            setNewPasswordMsg("영문, 숫자, 특수기호를 조합한 8~24자리로 입력해주세요.")
+        } else {
+            setNewPasswordMsg("안전한 비밀번호입니다.")
+        }
+    }, []);
+
+
+
+    const handleNewPasswordConfirm = useCallback((e) => {
+        const currNewPasswordConfirm = e.target.value;
+        setNewPasswordConfirm(currNewPasswordConfirm);
+        if (!validateNewPassword(newPassword)) {
+            setNewPasswordConfirmMsg("먼저 비밀번호를 영문, 숫자, 특수기호를 조합한 8~24자리로 입력해주세요.")
+        } else if (currNewPasswordConfirm !== newPassword) {
+            setNewPasswordConfirmMsg("비밀번호 입력값이 일치하지 않습니다.")
+        } else {
+            setNewPasswordConfirmMsg("입력값이 일치합니다.")
+        }
+    }, [newPassword]);
 
     const onCheckEmail = async () => {
         console.log(email);
@@ -162,7 +191,10 @@ function FindPw() {
         if (smsCode == smsCodeInputRef.current.value) {
             Swal.fire("인증 성공");
             setIsOnCheckSmsCode(true);
-        } else { Swal.fire("인증 실패"); }
+        } else {
+            Swal.fire("인증 실패");
+            setIsOnCheckSmsCode(false);
+        }
     };
 
 
@@ -228,6 +260,37 @@ function FindPw() {
         }
     };
 
+    const resetPw = async () => {
+
+        const url = "http://localhost:8001/auth/resetpw/" + email;
+        const body = { email: email, newPassword: newPassword };
+
+        try {
+            const request = await axios.post(url, body);
+            console.log({ email });
+            console.log({ newPassword });
+            if (request.status === 200) {
+                setNewPassword(newPassword);
+                Swal.fire({
+                    title: "변경 성공",
+                    text: "확인 버튼을 누르시면 로그인 페이지로 이동합니다.",
+                    confirmButtonText: "확인"
+                }).then(function () {
+                    window.location = "/login";
+                });
+            } else {
+                console.log("ㄴㄴ")
+            }
+        } catch (error) {
+            console.log({ email });
+            console.log({ newPassword });
+            console.log(error);
+        }
+    }
+    const goResetPw = () => {
+        setIsGoResetPw(true);
+    };
+
     return (
         <div className="container-first container-centered text-left">
             <div id="container-user">
@@ -236,18 +299,18 @@ function FindPw() {
                         <a href="/find"><div className="tab_item ti2" >계정 찾기</div></a>
                         <div className="tab_item ti2 active" >비밀번호 찾기</div>
                     </div>
-                    <div>
+                    <div id="checker" style={isGoResetPw ? {display: 'none'} : {}}>
                         <div className="items-container ic1">
                             <label>이메일 계정과 휴대전화 번호를 입력해 주세요.</label>
                         </div>
 
-                            <div className="items-container ic2">
-                                <input className="input" type="email" id="email" ref={emailInputRef} value={email} placeholder="e-mail" onChange={handleEmail} required />
-                                <div className="input-group">
-                                    <input className="input rounded-0" type="text" id="phone" ref={phoneInputRef} placeholder="- 없이 휴대폰 번호 입력" onChange={handlePhone} required />
-                                    <button className="button button-primary" onClick={onFindPhone}>검증</button>
-                                </div>
+                        <div className="items-container ic2">
+                            <input className="input" type="email" id="email" ref={emailInputRef} value={email} placeholder="e-mail" onChange={handleEmail} required />
+                            <div className="input-group">
+                                <input className="input rounded-0" type="text" id="phone" ref={phoneInputRef} placeholder="- 없이 휴대폰 번호 입력" onChange={handlePhone} required />
+                                <button className="button button-primary" onClick={onFindPhone}>검증</button>
                             </div>
+                        </div>
 
                         <hr />
                         <div className="items-container ic1">
@@ -257,10 +320,36 @@ function FindPw() {
                                 <input className="input" type="text" ref={smsCodeInputRef} required placeholder="인증번호 입력" />
                                 <button type="button" className="button button-primary" onClick={onCheckSmsCode} disabled={!isPhoneValid}>인증번호 확인</button>
                             </div>
-                            <button className="button button-primary w-100" disabled={!isOnCheckSmsCode} onClick={resetPassword}>찾기</button>
+                            <button className="button button-primary w-100" disabled={!isEmailValid || !isPhoneValid || !isOnFindPhone || !isOnCheckSmsCode} onClick={goResetPw}>찾기</button>
                         </div>
-                    </div>
 
+                    </div>
+                    <div id="reseter" className="items-container ic1" style={isGoResetPw ? {} : {display: 'none'}}>
+                            {/* <input className="input" type="text" name="email" id="email" onChange={handleEmail} value={email} required ref={emailInputRef} placeholder="이메일 주소를 다시 한 번 입력해 주세요." /> */}
+                            <label htmlFor="new-password">새 비밀번호</label>
+                            <input
+                                className="input"
+                                type="password"
+                                id="new-password"
+                                minLength={8}
+                                ref={newPasswordInputRef}
+                                value={newPassword}
+                                onChange={handleNewPassword}
+                            />
+                            <div className="regexMsg">{newPasswordMsg}</div>
+                            <label htmlFor="new-password-confirm">새 비밀번호 확인</label>
+                            <input
+                                className="input mb-1"
+                                type="password"
+                                id="new-password-confirm"
+                                minLength={8}
+                                ref={newPasswordConfirmInputRef}
+                                value={newPasswordConfirm}
+                                onChange={handleNewPasswordConfirm}
+                            />
+                            <div className="regexMsg">{newPasswordConfirmMsg}</div>
+                            <button type="submit" className="button button-primary w-100" disabled={!isNewPasswordValid || !isNewPasswordConfirmValid} onClick={resetPw}>Change Password</button>
+                        </div>
                 </div>
 
             </div>
@@ -269,4 +358,3 @@ function FindPw() {
 
 }
 export default FindPw;
-
