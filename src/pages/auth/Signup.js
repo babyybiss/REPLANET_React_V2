@@ -102,7 +102,7 @@ const Signup = () => {
     } else {
       setPasswordConfirmMsg("입력값이 일치합니다.")
     }
-  }, [password])
+  }, [password]);
 
   const handleMemberName = useCallback((e) => {
     const currMemberName = e.target.value;
@@ -170,7 +170,7 @@ const Signup = () => {
       Swal.fire(
         {
           icon: 'success',
-          title: "인증 성공"
+          title: "인증 성공!"
         }
       );
       setIsOnCheckSmsCode(true);
@@ -289,6 +289,7 @@ const Signup = () => {
     const enteredPhone = phoneInputRef.current.value;
     authCtx.signup(enteredEmail, enteredPassword, enteredMemberName, enteredPhone);
 
+
     if (password === passwordConfirm && authCtx.isSuccess) {
       navigate("/login", { replace: true });
     }
@@ -325,8 +326,8 @@ const Signup = () => {
                 </div>
                 <div className="regexMsg">{phoneMsg}</div>
                 <div className="input-group">
-                  <input className="input" type="text" ref={smsCodeInputRef} required placeholder="인증번호 입력" />
-                  <button type="button" className="button button-primary" onClick={onCheckSmsCode}  disabled={!isPhoneValid || !isOnCheckPhone}>인증번호 입력</button>
+                  <input className="input" type="text" ref={smsCodeInputRef} required placeholder="인증번호 인증" />
+                  <button type="button" className="button button-primary" onClick={onCheckSmsCode}  disabled={!isPhoneValid || !isOnCheckPhone}>인증하기</button>
 
                 </div>
               </div>
