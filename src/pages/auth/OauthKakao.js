@@ -2,6 +2,7 @@ import { useContext, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import {callGetFindMemberAPI, callPostKakaoTokenAPI, callPostUserMeAPI} from "../../apis/KaKaoLoginAPI";
 import AuthContext from "../../component/auth/AuthContext";
+import Swal from "sweetalert2";
 
 function OauthKakao() {
 
@@ -29,7 +30,20 @@ function OauthKakao() {
                     })
                     .catch((error) => {
                         console.error('서버에서 회원 조회 오류:', error);
-                        let kakaoTokenId, email;
+                        console.log('서버에 같은 이메일 사용자 존재 : ', error.response.data.redirectTo);
+                            let kakaoTokenId, email;
+                        if(error.response.data.redirectTo === '/login') {
+                            Swal.fire({
+                                icon: 'warning',
+                                title: '동일한 이메일이 이미 등록 돼있습니다.',
+                                text: '비밀번호 찾기를 진행해 주세요.',
+                                confirmButtonColor: '#1D7151',
+                                iconColor: '#1D7151',
+                                confirmButtonText: '확인', // confirm 버튼 텍스트 지정
+                                });
+                            navigate('/login');
+                            return;
+                        }
 
                         callPostUserMeAPI(accessToken)
                             .then((response) => {
