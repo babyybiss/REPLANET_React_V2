@@ -16,11 +16,6 @@ function PointExchangeList(){
     const exchanges = useSelector(state => state.exchangeReducer);
     
     const token = window.localStorage.getItem('token');
-    // const decodedPayload = JSON.parse(atob(token.split('.')[1]));
-    // const memberAuth = decodedPayload.auth;
-    // const memberCode = decodedPayload.sub;
-    // console.log("권한 확인 : ", memberAuth);
-    // console.log("멤버코드 확인 : ", memberCode);
     console.log("토큰 확인 : ", decodeJwt(token));
     const memberCode = decodeJwt(token)?.memberCode || 0;
     const memberAuth = decodeJwt(token)?.memberRole || null;
