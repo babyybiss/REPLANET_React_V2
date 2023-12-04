@@ -175,32 +175,33 @@ function CampaignSidebar({ campaign, orgList }) {
                     <span className="amount">{startDate} ~ {endDate}</span>
                     <span className="percent float-right">{percentage > 100 ? '목표금액 초과!!' : percentage + '%'}</span>
                 </div>
-                <div >
+                <div className="items-container ic2">
                     {decodedToken !== null && decodedToken.memberRole == "ROLE_ORG" && camPaignOrgCode == myOrgCode ?
-                        <button className="button button-primary" style={{ width: "50%" }} onClick={deleteCampaignHandler}>삭제하기</button> :
+                        <button className="button button-primary" onClick={deleteCampaignHandler}>삭제하기</button> :
                         decodedToken !== null && decodedToken.memberRole == "ROLE_ORG" ? "" :
-                            <button className="button button-primary" style={{ width: "50%" }} onClick={goToDonation}>후원하기</button>
+                            <button className="button button-primary" onClick={goToDonation}>후원하기</button>
                     }
                     {decodedToken !== null && decodedToken.memberRole == "ROLE_ORG" && camPaignOrgCode == myOrgCode ?
-                        <button className="button button-primary-outline" style={{ width: "50%" }} onClick={modifyCampaignHandler}>수정하기</button> :
+                        <button className="button button-primary-outline" onClick={modifyCampaignHandler}>수정하기</button> :
                         decodedToken !== null && decodedToken.memberRole == "ROLE_ORG" ? "" :
-                            <button className="button button-primary-outline" style={{ width: "50%" }} onClick={shareKakao}>공유하기</button>
+                            <button className="button button-primary-outline" onClick={shareKakao}>공유하기</button>
                     }
                 </div>
-                <h5>{campaign.organization ? campaign.organization.member.memberName : "익명의 기부자"}의 <br />또 다른 캠페인</h5>
-                <div className="item p-2 border"
-                    style={{ overflow: 'scroll', width: '100%', height: '30%' }}>
+                <hr/>
+                <h5 className='mb-1'>{/*{campaign.organization ? campaign.organization.member.memberName : "익명의 기부자"}*/}이 재단의 또 다른 캠페인</h5>
+                <div className="item border mb-1"
+                    style={{ overflowX: 'hidden', overflowY: 'scroll', width: '100%', height: '30%' }}>
                     {orgList && (
                         orgList.map(orgList => <NavLink
                             //     className={({ isActive }) =>
                             //     isActive ? "nav-link active" : "nav-link"
                             // }
                             to={`/campaign/${orgList.campaignCode}?orgCode=${orgList.organization.orgCode}`}>
-                            <h6 > {orgList.campaignTitle}</h6><hr />
+                            <h6 className='border-bottom p-2'> {orgList.campaignTitle}</h6>
                         </NavLink>)
                     )}
                 </div>
-                <div className="item p-2 border">
+                <div className="item p-2 border mb-1">
                     <p>
                         {campaign.organization ? campaign.organization.orgDescription : ""}
                     </p>

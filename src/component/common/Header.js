@@ -82,9 +82,9 @@ function responsiveHeader() {
                         (memberRole === "ROLE_ADMIN" && (
                             <>
                                 <NavLink to="exchangeList">포인트전환관리</NavLink>
+                                <NavLink to='org'>기부처관리</NavLink>
                                 <NavLink to="/reviews">후기관리</NavLink>
                                 <NavLink to='charts'>캠페인현황통계</NavLink>
-                                <NavLink to='org'>기부처관리</NavLink>
                                 <NavLink onClick={toggleLogoutHandler} style={{marginRight:"0"}}>로그아웃</NavLink>
 
                             </>
