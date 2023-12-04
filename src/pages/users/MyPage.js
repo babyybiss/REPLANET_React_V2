@@ -11,6 +11,7 @@ import { callGetMemberByTokenAPI, callGetTotalDonationByTokenAPI } from '../../a
 
 function MyPage() {
 
+    const location = useLocation();
     const dispatch = useDispatch();
     const result = useSelector(state => state.memberReducer);
     console.log('MyPage() result : ', result);
@@ -28,12 +29,11 @@ function MyPage() {
                 console.error('MyPage() API 호출 에러: ', error);
             })
         },
-        [dispatch]
+        [dispatch, location.pathname]
     );
 
     const [isSubmenuOpen, setIsSubmenuOpen] = useState(false);
     const [pointMenuActive, setPointMenuActive] = useState(false);
-    const location = useLocation();
     console.log("로케이션 확인 : ", location);
     const toggleSubmenu = () => {
         setIsSubmenuOpen(!isSubmenuOpen);
@@ -58,6 +58,7 @@ function MyPage() {
     useEffect(
         () => {
             const isModifyActive = location.pathname.includes("modify");
+            console.log("참인지 확인 : ", isModifyActive);
             setModifyActive(isModifyActive);
         }, [location.pathname]
     )
