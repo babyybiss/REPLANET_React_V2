@@ -81,9 +81,6 @@ function HistoryChart(chartDataListProps) {
         console.log('옵션변경시작')
     }
     
-    console.log('동작확인zoomDomain', zoomDomain)
-    console.log('동작확인brushDomain', brushDomain)
-    console.log('옵션변경 후', selectedOption)
 
     /* chart figure */ 
     const width = 1500;
@@ -149,7 +146,6 @@ function HistoryChart(chartDataListProps) {
                     <VictoryZoomContainer
                         zoomDimension="x"
                         zoomDomain={zoomDomain}
-                        allowPan={false}
                         // allowZoom={false}
                         onZoomDomainChange={zoomDomainHandler}
                     />

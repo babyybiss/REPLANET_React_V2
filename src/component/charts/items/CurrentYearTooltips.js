@@ -1,20 +1,53 @@
 export function CustomFlyoutY1(flyoutComponentProps) {
+    const { x, y, dataColorSet, labelInterval } = flyoutComponentProps;
+
+    const newX = x - 75;
+    const newY = y - 105;
+    
+
+    return (
+        <g>
+            <rect width="150" height="34" x={newX} y={newY} rx={5} fill="#ffffff"  opacity={0.8} stroke={dataColorSet[0]} strokeWidth={3}/>
+        </g>
+    );
 
 }
 
 export function CustomFlyoutY2(flyoutComponentProps) {
+    const { x, y, dataColorSet, labelInterval } = flyoutComponentProps;
+
+    const newX = x - 75;
+    const newY = y - (labelInterval*2);
+    
+
+    return (
+        <g>
+            <rect width="150" height="34" x={newX} y={newY} rx={5} fill="#ffffff"  opacity={0.8} stroke={dataColorSet[1]} strokeWidth={3}/>
+        </g>
+    );
     
 }
 
 export function CustomFlyoutY3(flyoutComponentProps) {
+    const { x, y, dataColorSet, labelInterval } = flyoutComponentProps;
+
+    const newX = x - 75;
+    const newY = y - labelInterval;
+    
+
+    return (
+        <g>
+            <rect width="150" height="34" x={newX} y={newY} rx={5} fill="#ffffff"  opacity={0.8} stroke={dataColorSet[2]} strokeWidth={3}/>
+        </g>
+    );
     
 }
 
 export function CustomFlyoutY4(flyoutComponentProps) {
-    const { x, y, dataColorSet } = flyoutComponentProps;
+    const { x, y, dataColorSet, labelInterval } = flyoutComponentProps;
 
     const newX = x - 75;
-    const newY = y - 0;
+    const newY = y - (labelInterval-labelInterval);
     
 
     return (
@@ -25,10 +58,10 @@ export function CustomFlyoutY4(flyoutComponentProps) {
 }
 
 export function CustomFlyoutY5(flyoutComponentProps) {
-    const { x, y, dataColorSet } = flyoutComponentProps;
+    const { x, y, dataColorSet, labelInterval } = flyoutComponentProps;
 
     const newX = x - 75;
-    const newY = y + 37;
+    const newY = y + labelInterval;
     
 
     return (
@@ -40,10 +73,10 @@ export function CustomFlyoutY5(flyoutComponentProps) {
 }
 
 export function CustomFlyoutY6(flyoutComponentProps) {
-    const { x, y, dataColorSet } = flyoutComponentProps;
+    const { x, y, dataColorSet, labelInterval } = flyoutComponentProps;
 
     const newX = x - 75;
-    const newY = y + 71;
+    const newY = y + (labelInterval*2);
     
 
     return (

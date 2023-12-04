@@ -1,6 +1,6 @@
 import {VictoryVoronoiContainer, VictoryLine, VictoryChart, VictoryAxis, VictoryGroup, VictoryScatter, VictoryTooltip} from 'victory';
 import "../../assets/css/chart.css";
-import { CustomFlyoutY4, CustomFlyoutY5, CustomFlyoutY6 } from './items/CurrentYearTooltips';
+import { CustomFlyoutY1, CustomFlyoutY2, CustomFlyoutY3, CustomFlyoutY4, CustomFlyoutY5, CustomFlyoutY6 } from './items/CurrentYearTooltips';
 
 /* customToolTipBox */ 
 /*
@@ -23,7 +23,7 @@ function CurrentYearCampaign(chartDataListProps) {
   
   const { chartDataList } = chartDataListProps;
 
-  const tickValuesAttributes = chartDataList.map((attribute, index) => index + 1);
+  const tickValuesAttributes = chartDataList.map((_, index) => index + 1);
   const tickFormatAttributes = chartDataList.map(monthlyName => `${monthlyName.monthly}월`)
   
   /* chart figure */ 
@@ -49,9 +49,11 @@ function CurrentYearCampaign(chartDataListProps) {
     axisLabel: { fontSize: 20, padding: 36, ...baseFillStyle },
     tickLabels: { fontSize: 20, padding: 10, ...baseFillStyle }
   }
-  /* 라벨(글자) 위치 */ 
-  const labelLocationYSet = [0, 0, 0, 45, 80, 115]
-
+  /* 라벨 세팅 */ 
+  let startLabelY = -60;
+  let labelInterval = 35; 
+  const labelLocationYSet = Array.from({ length: 6 }, (_, index) => startLabelY + (labelInterval * index));
+  
   /* color set */ 
   const dataColorSet = ["#10573C", "#ff9f40", "#ff6384", "#ffcd56", "#36a2eb", "#9966ff"];
 
@@ -90,6 +92,12 @@ function CurrentYearCampaign(chartDataListProps) {
                 fontSize: baseToolTipSize
               }}
               dy={labelLocationYSet[0]}
+              flyoutComponent={
+                <CustomFlyoutY1
+                  dataColorSet={dataColorSet} 
+                  labelInterval={labelInterval}
+                />
+              }
             />
           }
           data={chartDataList}
@@ -120,6 +128,12 @@ function CurrentYearCampaign(chartDataListProps) {
                 fontSize: baseToolTipSize
               }}
               dy={labelLocationYSet[1]}
+              flyoutComponent={
+                <CustomFlyoutY2
+                  dataColorSet={dataColorSet}
+                  labelInterval={labelInterval}
+                />
+              }
             />
           }
           data={chartDataList}
@@ -145,6 +159,12 @@ function CurrentYearCampaign(chartDataListProps) {
                 fontSize: baseToolTipSize
               }}
               dy={labelLocationYSet[2]}
+              flyoutComponent={
+                <CustomFlyoutY3
+                  dataColorSet={dataColorSet}
+                  labelInterval={labelInterval}
+                />
+              }
             />
           }
           data={chartDataList}
@@ -171,8 +191,10 @@ function CurrentYearCampaign(chartDataListProps) {
               }}
               dy={labelLocationYSet[3]}
               flyoutComponent={
-                <CustomFlyoutY4 dataColorSet={dataColorSet}
-                  />
+                <CustomFlyoutY4 
+                  dataColorSet={dataColorSet}
+                  labelInterval={labelInterval}
+                />
               }
             />
           }
@@ -202,6 +224,7 @@ function CurrentYearCampaign(chartDataListProps) {
               flyoutComponent={
                 <CustomFlyoutY5
                   dataColorSet={dataColorSet}
+                  labelInterval={labelInterval}
                 />
               }
             />
@@ -232,6 +255,7 @@ function CurrentYearCampaign(chartDataListProps) {
               flyoutComponent={
                 <CustomFlyoutY6
                   dataColorSet={dataColorSet}
+                  labelInterval={labelInterval}
                 />
               }
             />

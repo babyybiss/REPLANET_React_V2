@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 
 
-function BubbleList() {
+function BubbleList({ setIsShow }) {
     const callApiResult = useSelector(state => state.supportbotReducer)
     const supportbotDataList = callApiResult.supportbotDataList.results.allSupportData;
     
@@ -103,13 +103,12 @@ function BubbleList() {
                     위로 가기
                 </div>
             }
-
         </div>
-        <div class="modal-footer-bar text-primary">
-            <i class="fas fa-bars"></i>
-                <i class="fas fa-house"></i>
-                <i class="fas fa-power-off"></i>
-            </div>
+        <div className="modal-footer-bar text-primary" >
+            <i className="fa-solid fa-arrow-turn-up" style={{cursor: "pointer"}} onClick={() => ScrollTopClickHandler()} />
+            <i className="fa-solid fa-arrow-rotate-right" style={{cursor: "pointer"}} onClick={() => ResetClickHandler()} />
+            <i className="fas fa-power-off" style={{cursor: "pointer"}} onClick={() => setIsShow(false)} />
+        </div>
         </>
     );
 
