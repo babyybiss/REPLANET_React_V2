@@ -26,8 +26,7 @@ function CampaignModify() {
     const campaign = result.results? result.results.campaign : "";
     const { campaignCode } = useParams();
     const navigate = useNavigate();
-
-    console.log(campaignCode, 'ㅇㅇㅇㅇㅇㅇ');
+    const maxSizeInBytes = 1048576; // 1 MB
 
     // 캠페인 내용 가져오기
     const [editorState, setEditorState] = useState(() => {
@@ -46,10 +45,10 @@ function CampaignModify() {
     const [imagePre, setImagePre] = useState('');
     const [imageUrl, setImageUrl] = useState('');
     const imageInput = useRef();
+    
 
     let beforeUrl = campaign.campaignDescFileList[0] ? campaign.campaignDescFileList[0].fileSaveName : null
 
-    //const beforeUrl = campaignInfo.campaignDescfileList[0].fileSaveName;
     // 수정하기 전 내용 가져오기 
     useEffect(() => {
         dispatch(GetCampaignAPI(campaignCode))
@@ -140,6 +139,24 @@ function CampaignModify() {
         }
     }, [imagePre]);
 
+    const onChangeImage = (e) => {
+        const image = e.target.files[0];
+        imageInput.current.click();
+
+        if(image.size > maxSizeInBytes) {
+            Swal.fire({
+                icon: 'warning',
+                title: "이미지 용량이 1MB를 초과합니다.",
+                confirmButtonColor: '#1D7151',
+                iconColor: '#1D7151'
+            });
+            return setImagePre('');
+        } else (
+            setImagePre(image)
+        );
+    };
+
+
     // db 전송
     const submitHandler = () => {
 
@@ -182,12 +199,7 @@ function CampaignModify() {
                 <input
                     type="file"
                     accept="image/*"
-                    onChange={
-                        (e) => {
-                            const image = e.target.files[0];
-                            setImagePre(image)
-                            imageInput.current.click();
-                        }}
+                    onChange={onChangeImage}
                     ref={imageInput}
                     placeholder="메인 이미지 1장을 업로드 해주세요"
                 />

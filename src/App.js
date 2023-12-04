@@ -17,8 +17,6 @@ import Success from './pages/pays/Success';
 import Cancel from './pages/pays/Cancel';
 import Fail from './pages/pays/Fail';
 import AuthContext from "./component/auth/AuthContext";
-import TextMessage from "./pages/auth/TextMessage";
-import Find from "./pages/auth/Find";
 import React, { useContext } from "react";
 import ExchangeDetail from "./pages/points/ExchangeDetail";
 import MyPage from "./pages/users/MyPage";
@@ -45,6 +43,7 @@ import OauthKakao from "./pages/auth/OauthKakao";
 import ModifyUser from "./pages/users/ModifyUser";
 import Withdrawal from "./pages/users/Withdrawal";
 import VerifyUser from "./pages/users/VerifyUser";
+import FindId from "./pages/auth/FindId";
 import FindPw from "./pages/auth/FindPw";
 import SocialSignup from "./pages/auth/SocialSignup";
 
@@ -66,7 +65,10 @@ function App() {
               <Route path="/socialsignup/" element={authCtx.isLoggedIn ? <Navigate to='/' /> : <SocialSignup />} />
               <Route path="/find/" element={<Find/>}></Route>
               <Route path="/password/" element={<ChangePassword/>}></Route>
+              <Route path="/findid/" element={<FindId/>}></Route>
               <Route path="/findpw/" element={<FindPw/>}></Route>
+              <Route path="/password/" element={<ChangePassword/>}></Route>
+
               <Route path="/myPage" element={authCtx.isLoggedIn ? <MyPage /> : <Navigate to='/' />} children={[
                 <Route key="history" index element={<Navigate to="history" />} />,
                 <Route key="historyPage" path="history" element={<DonationList />} />,

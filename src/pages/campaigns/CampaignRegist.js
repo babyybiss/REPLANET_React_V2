@@ -34,6 +34,8 @@ function CampaignRegist() {
     const [imgPreview, setImgPreview] = useState("");
     const [imageUrl, setImageUrl] = useState('');
     const imageInput = useRef();
+    //const maxSizeInBytes = 1048576; // 1 MB
+    const maxSizeInBytes = 1048; // 1 MB
 
     const onChange = (e) => {
         const { value, name } = e.target;
@@ -126,6 +128,23 @@ function CampaignRegist() {
         }));
 
     }
+    const onChangeImage = (e) => {
+        const image = e.target.files[0];
+        imageInput.current.click();
+
+        if(image.size > maxSizeInBytes) {
+            Swal.fire({
+                icon: 'warning',
+                title: "이미지 용량이 1MB를 초과합니다.",
+                confirmButtonColor: '#1D7151',
+                iconColor: '#1D7151'
+            });
+            return setImgPreview('');
+        } else (
+        setImgPreview(image)
+        );
+    };
+
     return (
         <>
             <div className="container-first">
@@ -145,15 +164,11 @@ function CampaignRegist() {
                 <input
                     type="file"
                     accept="image/*"
-                    onChange={
-                        (e) => {
-                            const image = e.target.files[0];
-                            setImgPreview(image)
-                            imageInput.current.click();
-                        }}
+                    onChange={onChangeImage}
                     ref={imageInput}
                     placeholder="메인 이미지 1장을 업로드 해주세요"
                 />
+                 
                 {imageUrl && <img
                     src={imageUrl}
                     alt="preview"

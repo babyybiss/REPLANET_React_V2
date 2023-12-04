@@ -20,11 +20,7 @@ function ExchangePoint() {
     const fileNameRef = useRef();
 
     const token = window.localStorage.getItem('token');
-    // const decodedPayload = JSON.parse(atob(token.split('.')[1]));
-    // const memberCode = decodedPayload.sub;
-    // console.log("토큰 확인 : ", decodeJwt(token));
     const memberCode = decodeJwt(token)?.memberCode || 0;
-    // console.log("포인트전환 멤버코드 확인 : ", memberCode);
 
     const handleChangeTitle = (e) => {
         setTitle(e.target.value);
@@ -64,12 +60,12 @@ function ExchangePoint() {
                 confirmButtonColor: '#1D7151',
                 confirmButtonText: '확인'
             })
-        } else if (file?.size > 1 * 1024 * 1024) {
+        } else if (file?.size > 5 * 1024 * 1024) {
             Swal.fire({
                 icon: "warning",
                 iconColor: '#1D7151',
                 title: "파일 크기를 확인 바랍니다!",
-                text: "1MB 이하의 파일만 등록하실 수 있습니다.",
+                text: "5MB 이하의 파일만 등록하실 수 있습니다.",
                 showCancelButton: false,
                 confirmButtonColor: '#1D7151',
                 confirmButtonText: '확인'
@@ -115,7 +111,7 @@ function ExchangePoint() {
                     <label htmlFor="file">
                         <div className="exchange-file">
                             <h5>파일 선택</h5>
-                            1MB 이하의 pdf 혹은 이미지 파일로 업로드 바랍니다.
+                            5MB 이하의 pdf 혹은 이미지 파일로 업로드 바랍니다.
                         </div>
                     </label>
                     <input type="file" id="file" name="file"

@@ -3,7 +3,7 @@ import '../../assets/css/user.css';
 
 import Swal from "sweetalert2";
 import axios from 'axios';
-function Find() {
+function FindId() {
   const emailInputRef = useRef(null);
   const phoneInputRef = useRef(null);
   const smsCodeInputRef = useRef(null);
@@ -159,9 +159,9 @@ function Find() {
       console.log(phone);
       console.log(response.data);
       if (response.status === 200 && phone != null && isPhoneValid) {
-
-        setOnFindEmailMsg("회원님의 이메일 계정은 " + response.data + "입니다.");
         setIsOnFindEmail(true);
+        setOnFindEmailMsg("회원님의 이메일 계정은 " + response.data + "입니다.");
+
       }
     } catch (error) {
       if (error.response && error.response.status === 400) {
@@ -214,7 +214,7 @@ function Find() {
           <a href="/findpw"><div className="tab_item ti2" >비밀번호 찾기</div></a>
         </div>
         <div className="">
-          <div className="items-container ic1">
+          <div className="items-container ic1" style={isOnFindEmail ? {display: 'none'} : {}}>
             <label htmlFor="phone">가입 당시 입력하셨던 휴대전화 번호를 입력해 주세요.</label>
             <div className="input-group">
               <input className="input" type="text" id="phone" required ref={phoneInputRef} value={phone} placeholder="- 없이 휴대폰 번호를 입력해주세요." onChange={handlePhone} />
@@ -223,14 +223,15 @@ function Find() {
             </div>
             <div className="regexMsg">{phoneMsg}</div>
             <div className="input-group" >
-              <input className="input" type="text" ref={smsCodeInputRef} required placeholder="인증번호 입력" />
+              <input className="input" type="text" ref={smsCodeInputRef} required placeholder="인증하기" />
               <button type="button" className="button button-primary" onClick={onCheckSmsCode} disabled={!isPhoneValid || !isOnCheckPhone}>인증번호 입력</button>
 
             </div>
             <button onClick={onFindEmail} className="button button-primary w-100" disabled={!isOnCheckSmsCode}>찾기</button>
-            <div className="regexMsg">{onFindEmailMsg}</div>
+            
           </div>
-
+          <div className="regexMsg text-center">{onFindEmailMsg}</div>
+          <a className="button button-primary" style={isOnFindEmail ? {} : {display: 'none'}} href="./login">로그인</a>
         </div>
         </div>
 
@@ -241,4 +242,4 @@ function Find() {
   )
 
 }
-export default Find;
+export default FindId;
