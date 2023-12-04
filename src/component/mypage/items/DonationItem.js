@@ -7,7 +7,7 @@ function DonationItem({ pay, showDetails, onToggleDetails }) {
 
     const { donationCode, donationPoint } = refDonation;
     const { campaignTitle } = refCampaign;
-    const { orgName } = refCampaign;
+    const orgName = refCampaign.organization.member.memberName;
     const totalAmount = payAmount + donationPoint
     const { donationDateTime }= refDonation;
 

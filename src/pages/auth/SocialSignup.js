@@ -28,6 +28,7 @@ const SocialSignup = () => {
   const [isOnCheckPhone, setIsOnCheckPhone] = useState(false);
   const [isOnCheckSmsCode, setIsOnCheckSmsCode] = useState(false);
 
+  const [isDuplicated, setIsDuplicated] = useState(false);
 
   const validateEmail = (email) => {
     return email
@@ -55,17 +56,17 @@ const SocialSignup = () => {
   const isMemberNameValid = validateMemberName(memberName);
   const isPhoneValid = validatePhone(phone);
 
-  const handleEmail = useCallback(async (e) => {
-    const currEmail = e.target.value;
-    setEmail(currEmail);
-    setEmailMsg("");
+  // const handleEmail = useCallback(async (e) => {
+  //   const currEmail = e.target.value;
+  //   setEmail(currEmail);
+  //   setEmailMsg("");
 
-    if (!validateEmail(currEmail)) {
-      setEmailMsg("이메일 형식이 올바르지 않습니다.")
-    } else {
-      setEmailMsg("올바른 형식의 이메일입니다.")
-    }
-  });
+  //   if (!validateEmail(currEmail)) {
+  //     setEmailMsg("이메일 형식이 올바르지 않습니다.")
+  //   } else {
+  //     setEmailMsg("올바른 형식의 이메일입니다.")
+  //   }
+  // });
 
   const handleMemberName = useCallback((e) => {
     const currMemberName = e.target.value;
@@ -184,6 +185,12 @@ const SocialSignup = () => {
         console.log('사용 가능한 휴대전화 번호입니다.');
         setPhoneMsg("사용 가능한 휴대전화 번호입니다.");
         setIsOnCheckPhone(true);
+
+        if (!response.data.isDuplicated) {
+          await handleSendSMS();
+          setIsDuplicated(true);
+        }
+
       }
     } catch (error) {
       if (error.response && error.response.status === 400) {
@@ -241,7 +248,7 @@ const SocialSignup = () => {
     }
   }, [privacyCheck, useCheck]);
 
-  const isAllValid = isEmailValid && isMemberNameValid && isPhoneValid && privacyCheck && useCheck && isOnCheckEmail && isOnCheckPhone && isOnCheckSmsCode ;
+  const isAllValid = isMemberNameValid && isPhoneValid && privacyCheck && useCheck  && isOnCheckPhone && isOnCheckSmsCode ;
 
   const generateRandomPassword = (length) => {
     const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-=_+";
@@ -280,8 +287,8 @@ const SocialSignup = () => {
               <div className="item">
                 <label htmlFor="email">이메일</label>
                 <div className="input-group">
-                  <input className="input" type="text" name="email" id="email" onChange={handleEmail} value={email} required ref={emailInputRef} placeholder="이메일 주소를 입력해주세요." />
-                  <button type="button" className="button button-primary " disabled={!isEmailValid} onClick={onCheckEmail}>중복확인</button>
+                  <input className="input" type="text" name="email" id="email" value={email} required ref={emailInputRef} placeholder="이메일 주소를 입력해주세요." disabled={emailInputRef}/>
+                  {!emailInputRef && (<button type="button" className="button button-primary" disabled={!isEmailValid} onClick={onCheckEmail}>중복확인</button>)}
                 </div>
                 <div className="regexMsg">{emailMsg}</div>
                 <div id="emailCheckResult"></div>
@@ -290,15 +297,36 @@ const SocialSignup = () => {
                 <label htmlFor="phone">휴대전화</label>
                 <div className="input-group">
                   <input className="input" type="text" id="phone" required ref={phoneInputRef} value={phone} placeholder="- 없이 휴대폰 번호를 입력해주세요." onChange={handlePhone} />
-                  <div id="dupcheck" onClick={onCheckPhone} disabled={!isPhoneValid}>중복확인</div>
-                  <button type="button" className="button button-primary"  name="smsButton" onClick={handleSendSMS} disabled={!isPhoneValid || !isOnCheckPhone}>인증번호 요청</button>
+                  <button
+                    type="button"
+                    className="button button-primary"
+                    name="dupCheckButton"
+                    onClick={onCheckPhone}
+                    disabled={!isPhoneValid}
+                  >
+                    중복확인
+                  </button>
                 </div>
                 <div className="regexMsg">{phoneMsg}</div>
+                {isDuplicated === true && (
                 <div className="input-group">
-                  <input className="input" type="text" ref={smsCodeInputRef} required placeholder="인증번호 입력" />
-                  <button type="button" className="button button-primary" onClick={onCheckSmsCode}  disabled={!isPhoneValid || !isOnCheckPhone}>인증번호 입력</button>
-
+                  <input
+                    className="input"
+                    type="text"
+                    ref={smsCodeInputRef}
+                    required
+                    placeholder="인증번호 입력"
+                  />
+                  <button
+                    type="button"
+                    className="button button-primary"
+                    onClick={onCheckSmsCode}
+                    disabled={!isPhoneValid || !isOnCheckPhone}
+                  >
+                    인증번호 입력
+                  </button>
                 </div>
+                )}
               </div>
               <div className="item">
                 <div className="container-policy mb-1">

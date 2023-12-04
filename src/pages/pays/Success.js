@@ -79,11 +79,11 @@ function Success() {
         <>
             { Object.keys(pay).length === 0 ? (
                 <>
-                    <br/>
-                    <br/>
-                    <br/>
-                    <div className="container-first">
-                        <h3>로딩중...</h3>
+                    <style>
+                        @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+                    </style>
+                    <div className="simple-loader-area">
+                        <h1>LOADING...</h1>
                     </div>
                 </>
             ) : (
