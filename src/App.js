@@ -21,7 +21,7 @@ import React, { useContext } from "react";
 import ExchangeDetail from "./pages/points/ExchangeDetail";
 import MyPage from "./pages/users/MyPage";
 import AllExchanges from "./pages/points/AllExchanges";
-import BookmarkList from "./component/mypage/lists/BookmarkList";
+import BookmarkList from "./pages/users/BookmarkList";
 import DonationList from "./component/mypage/lists/DonationList";
 import MyExchanges from "./pages/points/MyExchanges";
 import CampaignModify from "./pages/campaigns/CampaignModify";
