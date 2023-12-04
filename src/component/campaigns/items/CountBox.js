@@ -8,7 +8,7 @@ function CountBox() {
   const dispatch = useDispatch();
 
   const participationList = participation.results && participation.results.todayDonation ? participation.results.todayDonation : 0;
-  let totalDonation = parseInt(participationList != 0 ? participationList.totalDonation[0]: "0").toLocaleString('ko-KR');
+  let totalDonation = parseInt(participationList != 0 ? participationList[0].totalDonation: "0").toLocaleString('ko-KR');
 console.log(participationList);
   useEffect(
     () => {

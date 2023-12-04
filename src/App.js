@@ -63,7 +63,7 @@ function App() {
               <Route path="/login/*" element={authCtx.isLoggedIn ? <Navigate to='/' /> : <Login />}/>
               <Route path="/signup/" element={authCtx.isLoggedIn ? <Navigate to='/' /> : <Signup />} />
               <Route path="/socialsignup/" element={authCtx.isLoggedIn ? <Navigate to='/' /> : <SocialSignup />} />
-              <Route path="/find/" element={<Find/>}></Route>
+             
               <Route path="/password/" element={<ChangePassword/>}></Route>
               <Route path="/findid/" element={<FindId/>}></Route>
               <Route path="/findpw/" element={<FindPw/>}></Route>

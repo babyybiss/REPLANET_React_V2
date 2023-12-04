@@ -34,8 +34,8 @@ function CampaignRegist() {
     const [imgPreview, setImgPreview] = useState("");
     const [imageUrl, setImageUrl] = useState('');
     const imageInput = useRef();
-    //const maxSizeInBytes = 1048576; // 1 MB
-    const maxSizeInBytes = 1048; // 1 MB
+    const maxSizeInBytes = 1048576; // 1 MB
+    //const maxSizeInBytes = 1048; // 1 MB
 
     const onChange = (e) => {
         const { value, name } = e.target;
