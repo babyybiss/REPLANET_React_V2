@@ -11,6 +11,7 @@ const AuthContext = React.createContext({
     isSuccess: false,
     isGetSuccess: false,
     signup: (email, password, memberName, phone, memberRole) => { },
+    socialSignup: (email, password, memberName, phone, kakaoTokenId) => { },
     login: (email, password) => { },
     logout: () => { },
     getUser: () => { },
@@ -62,10 +63,23 @@ export const AuthContextProvider = (props) => {
                             window.location = "/login";
                         }); 
                 }
+            } else {
+                Swal.fire("회원가입 조건을 확인해 주세요!", "이메일 주소가 중복되었거나 필수 기입 항목이 누락되었습니다.")
+            }
+        });
+    };
 
-
-
-
+    const socialSignupHandler = (email, password, memberName, phone, kakaoTokenId) => {
+        setIsSuccess(false);
+        const response = authAction.socialSignupActionHandler(email, password, memberName, phone, kakaoTokenId);
+        response.then((result) => {
+            if (result !== null) {
+                    Swal.fire({
+                        title: "가입 성공",
+                        text: "확인 버튼을 누르시면 로그인 페이지로 이동합니다.",
+                        confirmButtonText: "확인"}).then(function() {
+                            window.location = "/login";
+                        }); 
             } else {
                 Swal.fire("회원가입 조건을 확인해 주세요!", "이메일 주소가 중복되었거나 필수 기입 항목이 누락되었습니다.")
             }
@@ -142,6 +156,7 @@ export const AuthContextProvider = (props) => {
         isSuccess,
         isGetSuccess,
         signup: signupHandler,
+        socialSignup: socialSignupHandler,
         login: loginHandler,
         logout: logoutHandler,
         getUser: getUserHandler,
