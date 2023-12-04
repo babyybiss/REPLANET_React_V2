@@ -50,10 +50,13 @@ function ParticipationDetails() {
             <>
                 <h2 className="my-1" >참여 내역</h2>
                 {participationList && participationList.length > 0 ? (currentItems.map((participation) => (
-                    <Participation key={participation ? participation.donationCode : ''} participation={participation} />
+
+                        <Participation key={participation ? participation.donationCode : ''} participation={participation} />
+
+                    
 
                 ))) : (
-                    <tr>
+                    <tr className="text-center">
                         <td colSpan={5}>참여 내역이 없습니다!</td>
                     </tr>
                 )}

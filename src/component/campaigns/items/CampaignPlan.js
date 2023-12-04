@@ -11,13 +11,17 @@ function CampaignPlan({ campaign }) {
     return (
         campaign && (
             <div>
+                <div className="items-container ic2">
                 <h2 className="">기부금 사용 계획</h2>
-                <div className="card" style={{width: '10%', textAlign:'center'}}>
+                <div className="text-right">                <button className="button button-primary">
                     {campaign.campaignCategory}
+                </button></div>
+
                 </div>
 
+
                 <div className="">
-                    <div className="" style={{width: '50%'}}>
+                    <div className="w-100 mb-1">
                         <div className="card" >
                             <div className="card-body" style={{justifyContent: "spaceetween"}}>
                                 <h3 className="text-primary" >총 목표 금액</h3>
@@ -25,7 +29,7 @@ function CampaignPlan({ campaign }) {
                             </div>
                         </div>
                     </div>
-                    <div className="" style={{width: '50%'}}>
+                    <div className="w-100 mb-1">
                     <div className="card">
                             <div className="card-body">
                                 <h3 className="text-primary">캠페인 마감일</h3>
@@ -33,7 +37,7 @@ function CampaignPlan({ campaign }) {
                             </div>
                         </div>
                     </div>
-                    <div className="" style={{width: '50%'}}>
+                    <div className="w-100 mb-1">
                     <div className="card">
                             <div className="card-body">
                                 <h3 className="text-primary">단체명</h3>
@@ -41,7 +45,7 @@ function CampaignPlan({ campaign }) {
                             </div>
                         </div>
                     </div>
-                    <div className="" style={{width: '50%'}}>
+                    <div className="w-100">
                     <div className="card">
                             <div className="card-body">
                                 <h3 className="text-primary">단체 연락처</h3>

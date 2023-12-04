@@ -1751,9 +1751,10 @@ progress {
 
 
 .admin-sidebar {
-  height: 100vh;
+  height: 100vh!important;
   width: 200px;
-  border-right: solid 1px var(--color-light-hover);
+   border-right: solid 1px var(--color-light-hover)!important;
+  background-color: var(--color-light)!important;
 }
 
 .admin-sidebar-menu {
@@ -1763,6 +1764,7 @@ progress {
   align-items: center;
   justify-content: center;
   border-bottom: solid 1px var(--color-light-hover);
+  /* border-right: solid 1px var(--color-light-hover)!important; */
   background-color: var(--color-white);
   cursor: pointer;
 }

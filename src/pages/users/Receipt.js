@@ -148,9 +148,9 @@ function DonationReceipt(){
             <div className="receiptinfo">
                 {privacyStatus == 'N'?
                 <>
-                    <div class="items-container ic3">
-                    <input className="input" type="text" value={name} onChange={handleName} placeholder="이름"/>
-                    </div>
+
+                    <input className="input mb-1" type="text" value={name} onChange={handleName} placeholder="이름" style={{width: "33%"}}/>
+
                     <div>
                     <input className="input" type="text" value={front} onChange={handleFrontChange} placeholder="주민등록번호 앞자리" style={{width: "33%"}}/>&nbsp;-&nbsp;
                     <input className="input" type="text" value={last} onChange={handleLastChange} placeholder="주민등록번호 뒷자리" style={{width: "33%"}}/>
