@@ -48,7 +48,7 @@ function ParticipationDetails() {
     return (
         participationList && (
             <>
-                <h2 className="">참여 내역</h2>
+                <h2 className="my-1" >참여 내역</h2>
                 {participationList && participationList.length > 0 ? (currentItems.map((participation) => (
                     <Participation key={participation ? participation.donationCode : ''} participation={participation} />
 
@@ -58,12 +58,13 @@ function ParticipationDetails() {
                     </tr>
                 )}
                 <div>
-                    <ul className="">
-                        <li className="" onClick={() => handlePageChange(currentPage - 1)}><a><span className=""></span></a></li>
+                    <ul className="pagination">
+                        <li className="icon" onClick={() => handlePageChange(currentPage - 1)}><a><span className="fas fa-angle-left"></span></a></li>
                         {Array.from({ length: totalPages }, (_, index) => (
                             <li
                                 key={index}
                                 onClick={() => handlePageChange(index + 1)}
+                                
                             >
                                 <a className={currentPage === index + 1 ? "active" : ""}>
                                     {index + 1}

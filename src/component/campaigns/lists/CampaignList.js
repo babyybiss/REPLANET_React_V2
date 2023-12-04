@@ -64,20 +64,7 @@ function CampaignList() {
     const iconClickHandler = () => {
         setIsShow(isShow === false ? true : false)
     }
-    /*
-    const iconOverHandler = () => {
-        setIconBackgroundStyle({
-            backgroundColor: 'indianred'
-        })
-       
-    }
-    const iconOutHandler = () => {
-        setIconBackgroundStyle({
-            backgroundColor: 'darksalmon'
-        })
-    }
-    */
-
+   
 
     useEffect(() => {
         setCategories(undefined)
@@ -86,28 +73,7 @@ function CampaignList() {
         [campaignList]
     );
 
-    /*기간별 소팅
-    const onChangeHandler = (e) => {
-        const selectedValue = e.target.value;
-        if (campaignFilter === undefined) {
-            const sortedCampaigns = sortCampaigns(selectedValue, campaignList);
-            setCampignListFilter(sortedCampaigns)
-        } else {
-            const sortedCampaigns = sortCampaigns(selectedValue, campaignFilter);
-            setCategories(sortedCampaigns);
-        }
-    }
-    const sortCampaigns = (selectedValue, campaign) => {
-        switch (selectedValue) {
-            case 'latest':
-                return campaign.sort((a, b) => new Date(b.startDate) - new Date(a.startDate));
-            case 'earliest':
-                return campaign.sort((a, b) => new Date(a.endDate) - new Date(b.endDate));
-            default:
-                return campaign;
-        }
-    };
-    */
+
 
     // 처음 로딩시 화면 
     useEffect(() => {
@@ -126,7 +92,7 @@ function CampaignList() {
 
     // 페이징
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 3;
+    const itemsPerPage = 6;
     const currentItems = campaignList && campaignList.length > 0 ? campaignList.slice(0, currentPage * itemsPerPage) : [];
     const totalItems = campaignList ? campaignList.length : 0;
     const totalPages = Math.ceil(totalItems / itemsPerPage);
@@ -202,3 +168,43 @@ function CampaignList() {
 }
 
 export default CampaignList;
+
+
+
+     /*
+    const iconOverHandler = () => {
+        setIconBackgroundStyle({
+            backgroundColor: 'indianred'
+        })
+       
+    }
+    const iconOutHandler = () => {
+        setIconBackgroundStyle({
+            backgroundColor: 'darksalmon'
+        })
+    }
+    */
+
+    
+    /*기간별 소팅
+    const onChangeHandler = (e) => {
+        const selectedValue = e.target.value;
+        if (campaignFilter === undefined) {
+            const sortedCampaigns = sortCampaigns(selectedValue, campaignList);
+            setCampignListFilter(sortedCampaigns)
+        } else {
+            const sortedCampaigns = sortCampaigns(selectedValue, campaignFilter);
+            setCategories(sortedCampaigns);
+        }
+    }
+    const sortCampaigns = (selectedValue, campaign) => {
+        switch (selectedValue) {
+            case 'latest':
+                return campaign.sort((a, b) => new Date(b.startDate) - new Date(a.startDate));
+            case 'earliest':
+                return campaign.sort((a, b) => new Date(a.endDate) - new Date(b.endDate));
+            default:
+                return campaign;
+        }
+    };
+    */
