@@ -23,8 +23,10 @@ function ExchangeInfo({info, exchangeCode}){
     const apChangeHandler = (e) => {
         const inputValue = e.target.value;
         const isValidInput = /^\d+$/.test(e.target.value);
-        if(isValidInput){
+        if(isValidInput && inputValue.length <= 6){
             setPoints(inputValue);
+        } else {
+            setPoints(prevState => prevState.slice(0, -1));
         }
     };
 
@@ -34,11 +36,10 @@ function ExchangeInfo({info, exchangeCode}){
 
     const submitConfirm = (value) => {
         if(value == '승인'){
-            if(points<10000){
+            if(points<10000 || points>100000){
                 Swal.fire({
                     icon: "error",
                     title: "포인트가 잘못 입력되었습니다!",
-                    text: "포인트는 1만 포인트 이상, 만 단위로 입력해주세요.",
                     showCancelButton: false,
                     confirmButtonColor: '#1D7151',
                     confirmButtonText: '확인',
@@ -156,6 +157,7 @@ function ExchangeInfo({info, exchangeCode}){
                                     <input value={points} onChange={apChangeHandler} type="text" placeholder="0"
                                         style={{textAlign:"right", width:"90px", border: "none"}} />포인트
                                 </div>
+                                <div className="regexMsg" style={{color: "#DB524E"}}>포인트는 1만 포인트 이상, 10만 포인트 이하의 만 단위로 입력해 주세요.</div>
                                 <br/>
                                 <button onClick={() => submitConfirm('승인')} className="confirm-submit">등록</button>
                             </div>
@@ -173,7 +175,7 @@ function ExchangeInfo({info, exchangeCode}){
                                             <option className="option">잘못된 파일</option>
                                         </select>
                                     </div>
-                                    <br/>
+                                    <br/><br/>
                                     <button onClick={() => submitConfirm('반려')} className="confirm-submit">등록</button>
                                 </div>
                             </div>

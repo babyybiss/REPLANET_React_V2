@@ -117,6 +117,16 @@ export function orgWithdrawAPI({memberCode, enterReason, password}, navigate, au
                     confirmButtonColor: '#1D7151',
                     confirmButtonText: '확인'
                 })
+            } else if(error.response?.data == 'campaigns') {
+                Swal.fire({
+                    icon: "error",
+                    iconColor: "#DB524E",
+                    title: "진행 중인 캠페인이 존재합니다.",
+                    text: '문제가 지속될 경우 고객센터로 문의 바랍니다.',
+                    showCancelButton: false,
+                    confirmButtonColor: '#1D7151',
+                    confirmButtonText: '확인'
+                })
             } else {
                 Swal.fire({
                     icon: "error",

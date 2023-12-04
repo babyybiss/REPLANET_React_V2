@@ -133,7 +133,7 @@ function OrgEdit() {
                 confirmButtonColor: '#1D7151',
                 confirmButtonText: '확인'
             })
-        } else if (passwordConfirm == null || passwordConfirm == "" || orgNewPwd === passwordConfirm) {
+        } else if (passwordConfirm == null || passwordConfirm == "" || orgNewPwd !== passwordConfirm) {
             Swal.fire({
                 icon: "warning",
                 iconColor: '#1D7151',

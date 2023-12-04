@@ -89,8 +89,6 @@ function Withdrawal () {
     return(
         <div className="mypage-main">
             <h1 className="text-primary">회원 탈퇴</h1>
-            <h6>소셜 로그인 회원은 가입한 곳에서 연동해제 구다사이</h6>
-            <h6>소셜 로그인 완성되면 소셜 회원은 못하게 할래요</h6>
             <br/>
             <div className="receiptinfo">
                 <div class="items-container">
