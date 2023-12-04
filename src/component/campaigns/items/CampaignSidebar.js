@@ -162,7 +162,7 @@ function CampaignSidebar({ campaign, orgList }) {
     return (
         campaign && (
             <div className="container-sidebar">
-                <div className="toggle">
+                <div className="">
                     {campaignStatus < 0 || decodedToken && decodedToken.memberRole === "ROLE_ORG" || decodedToken && decodedToken.memberRole === "ROLE_ADMIN" ?
                         "" :
                         <HeartButton campaignCode={campaignCode} />
@@ -170,25 +170,26 @@ function CampaignSidebar({ campaign, orgList }) {
                 </div>
                 <h2>현재 모금액 : {campaign.currentBudget.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원 </h2>
                 <h6>목표 모금액 : {campaign.goalBudget.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원 </h6>
-                <progress className="progress mt-1" value={percentage} max="100"></progress>
-                <div className="campaign-progress-info mt-1 pt-1">
-                    <span className="amount">{startDate} ~ {endDate}</span>
-                    <span className="percent float-right">{percentage > 100 ? '목표금액 초과!!' : percentage + '%'}</span>
+                <progress className="" value={percentage} max="100"></progress>
+                <div className="">
+                    <span className="">{startDate} ~ {endDate}</span>
+                    <span className="">{percentage > 100 ? '목표금액 초과!!' : percentage + '%'}</span>
                 </div>
-                <div className="items-container ic2 mt-1 pt-1">
+                <div className="">
                     {decodedToken !== null && decodedToken.memberRole == "ROLE_ORG" && camPaignOrgCode == myOrgCode ?
-                        <button className="button button-primary" onClick={deleteCampaignHandler}>삭제하기</button> :
+                        <button className="" onClick={deleteCampaignHandler}>삭제하기</button> :
                         decodedToken !== null && decodedToken.memberRole == "ROLE_ORG" ? "" :
-                            <button className="button button-primary" style={{ width: "100%" }} onClick={goToDonation}>후원하기</button>
+                            <button className="" style={{ width: "100%" }} onClick={goToDonation}>후원하기</button>
                     }
                     {decodedToken !== null && decodedToken.memberRole == "ROLE_ORG" && camPaignOrgCode == myOrgCode ?
-                        <button className="button button-primary-outline" onClick={modifyCampaignHandler}>수정하기</button> :
+                        <button className="" onClick={modifyCampaignHandler}>수정하기</button> :
                         decodedToken !== null && decodedToken.memberRole == "ROLE_ORG" ? "" :
                             <button className="button button-primary-outline" onClick={shareKakao}>공유하기</button>
                     }
                 </div>
-                <div className="item p-2 border" >
-                    <div style={{ height: '500px' }}>
+                <h5>{campaign.organization? campaign.organization.member.memberName : "익명의 기부자"}의 <br/>또 다른 캠페인</h5>
+                    <div className=""
+                    style={{ overflow:'scroll', width: '100%', height: '40%'}}>
                         {orgList && (
                             orgList.map(orgList => <NavLink 
                                 className={({ isActive }) =>
@@ -199,13 +200,12 @@ function CampaignSidebar({ campaign, orgList }) {
                             </NavLink>)
                         )}
                     </div>
-                </div>
-                <div className="item p-2 border">
+                <div className="">
                     <p>
                         {campaign.organization ? campaign.organization.orgDescription : ""}
                     </p>
                 </div>
-                <div className="item p-2 border">
+                <div className="">
                     <p>
                         <img src={fileSaveName ? `/campaigns/${campaign.organization.fileSaveName}` : '/campaigns/default/noImage.png'} alt="캠페인 이미지" />
                     </p>
