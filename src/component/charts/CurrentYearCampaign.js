@@ -1,5 +1,6 @@
 import {VictoryVoronoiContainer, VictoryLine, VictoryChart, VictoryAxis, VictoryGroup, VictoryScatter, VictoryTooltip} from 'victory';
 import "../../assets/css/chart.css";
+import { CustomFlyoutY4, CustomFlyoutY5, CustomFlyoutY6 } from './items/CurrentYearTooltips';
 
 /* customToolTipBox */ 
 /*
@@ -48,6 +49,9 @@ function CurrentYearCampaign(chartDataListProps) {
     axisLabel: { fontSize: 20, padding: 36, ...baseFillStyle },
     tickLabels: { fontSize: 20, padding: 10, ...baseFillStyle }
   }
+  /* 라벨(글자) 위치 */ 
+  const labelLocationYSet = [0, 0, 0, 45, 80, 115]
+
   /* color set */ 
   const dataColorSet = ["#10573C", "#ff9f40", "#ff6384", "#ffcd56", "#36a2eb", "#9966ff"];
 
@@ -60,7 +64,7 @@ function CurrentYearCampaign(chartDataListProps) {
       <VictoryChart 
         width={width} height={height}
         padding={chartPadding}
-        domainPadding={50} 
+        domainPadding={100} 
         containerComponent={
           <VictoryVoronoiContainer />
         }
@@ -85,8 +89,7 @@ function CurrentYearCampaign(chartDataListProps) {
                 fill: dataColorSet[0],
                 fontSize: baseToolTipSize
               }}
-              dx={0}
-              dy={-120}
+              dy={labelLocationYSet[0]}
             />
           }
           data={chartDataList}
@@ -116,8 +119,7 @@ function CurrentYearCampaign(chartDataListProps) {
                 fill: dataColorSet[1],
                 fontSize: baseToolTipSize
               }}
-              dx={0}
-              dy={-100}
+              dy={labelLocationYSet[1]}
             />
           }
           data={chartDataList}
@@ -142,8 +144,7 @@ function CurrentYearCampaign(chartDataListProps) {
                 fill: dataColorSet[2],
                 fontSize: baseToolTipSize
               }}
-              dx={0}
-              dy={-80}
+              dy={labelLocationYSet[2]}
             />
           }
           data={chartDataList}
@@ -168,8 +169,11 @@ function CurrentYearCampaign(chartDataListProps) {
                 fill: dataColorSet[3],
                 fontSize: baseToolTipSize
               }}
-              dx={0}
-              dy={-60}
+              dy={labelLocationYSet[3]}
+              flyoutComponent={
+                <CustomFlyoutY4 dataColorSet={dataColorSet}
+                  />
+              }
             />
           }
           data={chartDataList}
@@ -194,8 +198,12 @@ function CurrentYearCampaign(chartDataListProps) {
                 fill: dataColorSet[4],
                 fontSize: baseToolTipSize
               }}
-              dx={0}
-              dy={-40}
+              dy={labelLocationYSet[4]}
+              flyoutComponent={
+                <CustomFlyoutY5
+                  dataColorSet={dataColorSet}
+                />
+              }
             />
           }
           data={chartDataList}
@@ -220,8 +228,12 @@ function CurrentYearCampaign(chartDataListProps) {
                 fill: dataColorSet[5],
                 fontSize: baseToolTipSize
               }}
-              dx={0}
-              dy={-20}
+              dy={labelLocationYSet[5]}
+              flyoutComponent={
+                <CustomFlyoutY6
+                  dataColorSet={dataColorSet}
+                />
+              }
             />
           }
           data={chartDataList}
