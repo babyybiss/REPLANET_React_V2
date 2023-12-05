@@ -12,6 +12,7 @@
 .sidebar-submenu,
 .sidebar-submenu:hover {
     color: #27AE60;
+    background-color: var(--color-light);
 }
 
 .sidebar-submenu.active,

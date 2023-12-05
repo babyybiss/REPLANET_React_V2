@@ -169,7 +169,7 @@ function OrgRegist() {
                             <div className="regexMsg">{memberNameMsg}</div>
                             <label htmlFor="phone">대표전화</label>
                             <div className="input-group">
-                                <input className="input" type="text" id="phone" required ref={phoneInputRef} value={phone} placeholder="(필수) - 없이 번호만 입력해주세요." onChange={handlePhone} />
+                                <input className="input" type="text" id="phone" required ref={phoneInputRef} value={phone} placeholder="(필수) - 없이 번호만 입력해주세요." onChange={handlePhone} style={{borderRight: '1px solid #cccccc'}}/>
                             </div>
                             <div className="regexMsg">{phoneMsg}</div>
                         </div>

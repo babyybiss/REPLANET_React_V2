@@ -31,8 +31,7 @@ function OauthKakao() {
                     })
                     .catch((error) => {
                         console.error('서버에서 회원 조회 오류:', error);
-                        console.log('서버에 같은 이메일 사용자 존재 : ', error.response.data.redirectTo);
-                            let kakaoTokenId, email;
+                        let kakaoTokenId, email;
                         if(error.response.data.redirectTo === '/login') {
                             Swal.fire({
                                 icon: 'warning',

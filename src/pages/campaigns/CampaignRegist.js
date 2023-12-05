@@ -34,7 +34,7 @@ function CampaignRegist() {
     const [imgPreview, setImgPreview] = useState("");
     const [imageUrl, setImageUrl] = useState('');
     const imageInput = useRef();
-    const maxSizeInBytes = 1048576; // 1 MB
+    const maxSizeInBytes = 5242880; // 5 MB
     //const maxSizeInBytes = 1048; // 1 MB
 
     const onChange = (e) => {
@@ -128,14 +128,17 @@ function CampaignRegist() {
         }));
 
     }
+
     const onChangeImage = (e) => {
         const image = e.target.files[0];
         imageInput.current.click();
 
-        if (image.size > maxSizeInBytes) {
+        
+
+        if (image && image.size > maxSizeInBytes) {
             Swal.fire({
                 icon: 'warning',
-                title: "이미지 용량이 1MB를 초과합니다.",
+                title: "이미지 용량이 5MB를 초과합니다.",
                 confirmButtonColor: '#1D7151',
                 iconColor: '#1D7151'
             });

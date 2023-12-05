@@ -26,7 +26,7 @@ function CampaignModify() {
     const campaign = result.results? result.results.campaign : "";
     const { campaignCode } = useParams();
     const navigate = useNavigate();
-    const maxSizeInBytes = 1048576; // 1 MB
+    const maxSizeInBytes = 5242880; // 5 MB
 
     // 캠페인 내용 가져오기
     const [editorState, setEditorState] = useState(() => {
@@ -41,12 +41,10 @@ function CampaignModify() {
     const dispatch = useDispatch();
 
     const [inputs, setInputs] = useState([]);
-
     const [imagePre, setImagePre] = useState('');
     const [imageUrl, setImageUrl] = useState('');
     const imageInput = useRef();
     
-
     let beforeUrl = campaign.campaignDescFileList[0] ? campaign.campaignDescFileList[0].fileSaveName : null
 
     // 수정하기 전 내용 가져오기 
@@ -137,16 +135,19 @@ function CampaignModify() {
             }
             fileReader.readAsDataURL(imagePre);
         }
-    }, [imagePre]);
 
+    }, [imagePre]);
     const onChangeImage = (e) => {
         const image = e.target.files[0];
         imageInput.current.click();
 
-        if(image.size > maxSizeInBytes) {
+        if (!image) {
+            return setImagePre('');
+        }
+        if(image && image.size > maxSizeInBytes) {
             Swal.fire({
                 icon: 'warning',
-                title: "이미지 용량이 1MB를 초과합니다.",
+                title: "이미지 용량이 5MB를 초과합니다.",
                 confirmButtonColor: '#1D7151',
                 iconColor: '#1D7151'
             });
@@ -155,7 +156,6 @@ function CampaignModify() {
             setImagePre(image)
         );
     };
-
 
     // db 전송
     const submitHandler = () => {

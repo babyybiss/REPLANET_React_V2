@@ -91,8 +91,6 @@ function responsiveHeader() {
                         )) ||
                         (memberRole === "ROLE_ORG" && (
                             <>
-                                <NavLink to='/'>캠페인관리</NavLink>
-                                <NavLink to="/reviews">후기관리</NavLink>
                                 <NavLink to='/myPageOrg'>마이페이지</NavLink>
                                 <NavLink onClick={toggleLogoutHandler} style={{marginRight:"0"}}>로그아웃</NavLink>
 
