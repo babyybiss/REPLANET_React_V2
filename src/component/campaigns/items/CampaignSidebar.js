@@ -158,7 +158,7 @@ function CampaignSidebar({ campaign, orgList }) {
 
     let camPaignOrgCode = campaign && campaign.organization.orgCode;
     let myOrgCode = decodedToken && decodedToken.memberCode;
-
+    console.log(campaign, '오알지리스트');
     return (
         campaign && (
             <div className="container-sidebar">
@@ -222,25 +222,26 @@ function CampaignSidebar({ campaign, orgList }) {
                 <hr />
                 <h5 className='mb-1'>{/*{campaign.organization ? campaign.organization.member.memberName : "익명의 기부자"}*/}이 재단의 또 다른 캠페인</h5>
                 <div className="item border mb-1"
-                    style={{ overflowX: 'hidden', overflowY: 'scroll', width: '100%', height: '30%' }}>
+                    style={{ overflowX: 'hidden', overflowY: 'scroll', width: '100%', height: '20%'}}>
                     {orgList && (
                         orgList.map(orgList => <NavLink
-                            //     className={({ isActive }) =>
-                            //     isActive ? "nav-link active" : "nav-link"
-                            // }
+                                className={({ isActive }) =>
+                                isActive ? "text-primary" : ""
+                            }
+                           onClick={() => window.scrollTo({ top: 0 })}
                             to={`/campaign/${orgList.campaignCode}?orgCode=${orgList.organization.orgCode}`}>
                             <h6 className='border-bottom p-2'> {orgList.campaignTitle}</h6>
                         </NavLink>)
                     )}
                 </div>
-                <div className="item p-2 border mb-1">
+                <div className="item p-2 border mb-1" style={{ overflowX: 'hidden', overflowY: 'scroll', width: '100%', height: '150px' }} >
                     <p>
                         {campaign.organization ? campaign.organization.orgDescription : ""}
                     </p>
                 </div>
                 <div className="item p-2 border">
                     <p>
-                        <img src={fileSaveName ? `/orgImgs/${decodedToken?.memberCode}/${campaign.organization.fileSaveName}` : '/campaigns/default/noImage.png'} alt="캠페인 이미지" />
+                        <img src={fileSaveName ? `/orgImgs/${campaign.organization?.orgCode}/${campaign.organization.fileSaveName}` : '/campaigns/default/noImage.png'} alt="캠페인 이미지" />
                     </p>
                 </div>
             </div>

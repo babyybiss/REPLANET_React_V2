@@ -41,12 +41,12 @@ function CampaignDetail() {
                 <div className="container-first">
                     <h1>{campaign.campaignTitle} </h1>
                     <div className="container-content">
-                        <table className='w-100'>
+                        <div className='w-100'>
                             <CampaignContent campaign={campaign} />
                             {/* <CampaignPicture campaign={campaign} /> */}
                             <CampaignPlan campaign={campaign} />
                             <ParticipationDetails />
-                        </table>
+                        </div>
                         <CampaignSidebar campaign={campaign} orgList={orgList} />
                     </div>
                 </div>
