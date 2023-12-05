@@ -2,6 +2,9 @@ import React, { useState, useEffect, useCallback } from "react";
 import * as authAction from './AuthAction';
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import { VerifyPwdAPI } from "../../apis/OrgAPI";
+import { decodeJwt } from "../../utils/TokenUtils";
+import { useDispatch } from "react-redux";
 
 let logoutTimer;
 const AuthContext = React.createContext({
@@ -24,6 +27,8 @@ const AuthContext = React.createContext({
 
 
 export const AuthContextProvider = (props) => {
+    const dispatch = useDispatch();
+
     const tokenData = authAction.retrieveStoredToken();
     let initialToken;
     if (tokenData) {
@@ -95,17 +100,31 @@ export const AuthContextProvider = (props) => {
         });
     };
 
-    const loginHandler = (email, password) => {
+    const loginHandler = (email, password, navigate) => {
         setIsSuccess(false);
         console.log(isSuccess);
         const data = authAction.loginActionHandler(email, password);
         data.then((result) => {
+            console.log("로그인 result 확인 : ", result);
             if (result !== null) {
                 const loginData = result.data;
-                setToken(loginData.accessToken);
-                logoutTimer = setTimeout(logoutHandler, authAction.loginTokenHandler(loginData.accessToken, loginData.tokenExpiresIn));
-                setIsSuccess(true);
-                console.log(isSuccess);
+                const firstLogin = loginData.firstLogin? loginData.firstLogin : null;
+                if(firstLogin){
+                    setToken(loginData.accessToken);
+                    logoutTimer = setTimeout(logoutHandler, authAction.loginTokenHandler(loginData.accessToken, loginData.tokenExpiresIn));
+                    setIsSuccess(true);
+                    console.log(isSuccess);
+                    const orgCode = decodeJwt(loginData.accessToken)?.memberCode;
+                    console.log("로그인테스트 코드 확인 : ", orgCode);
+                    console.log("로그인테스트 비번 확인 : ", password);
+                    dispatch(VerifyPwdAPI({orgCode: orgCode, orgPwd: password}, navigate))
+                } else {
+                    setToken(loginData.accessToken);
+                    logoutTimer = setTimeout(logoutHandler, authAction.loginTokenHandler(loginData.accessToken, loginData.tokenExpiresIn));
+                    setIsSuccess(true);
+                    console.log(isSuccess);
+                    navigate("/", { replace: true })
+                }
             } else {
                 Swal.fire("", "로그인 실패")
             }

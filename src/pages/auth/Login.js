@@ -20,12 +20,9 @@ const Login = () => {
         const enteredPassword = passwordInputRef.current.value;
 
         setIsLoading(true);
-        authCtx.login(enteredEmail, enteredPassword);
+        authCtx.login(enteredEmail, enteredPassword, navigate);
         setIsLoading(false);
 
-        if (authCtx.isSuccess) {
-            return (navigate("/", { replace: true }));
-        }
     }
 
     const KakaoLoginHandler = () => {
