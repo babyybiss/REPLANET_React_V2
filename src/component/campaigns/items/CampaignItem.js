@@ -26,7 +26,7 @@ function CampaignItem({ campaign, decodedToken }) {
 
   return (
     <div className="item">
-      <div className="item-thumb rounded-3 mb-1" style={{maxHeight: 250 + "px", overflow: "hidden"}}>
+      <div className="item-thumb rounded-3 mb-1" style={{ maxWidth:300 + "px", minWidth: 300 + "px", maxHeight: 250 + "px", minHeight: 250 + "px", overflow: "hidden"}}>
       <NavLink className="" to={`/campaign/${campaign.campaignCode}?orgCode=${orgCode}`}>
         <img src={fileSaveName ? `/campaigns/${campaign.campaignDescFileList[0].fileSaveName}` : '/campaigns/default/noImage.png'} alt="캠페인 이미지"/>
       </NavLink>

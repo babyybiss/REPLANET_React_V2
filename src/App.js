@@ -2,7 +2,6 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Layout from './layouts/Layout';
 import Main from './pages/Main';
 import CampaignDetail from './pages/campaigns/CampaignDetails';
-import Draft from './Draft';
 import Charts from './pages/charts/Charts';
 import Signup from "./pages/auth/Signup";
 import Login from "./pages/auth/Login";
