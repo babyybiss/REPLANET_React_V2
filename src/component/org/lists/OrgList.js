@@ -55,7 +55,7 @@ function OrgList() {
             {/* <button onClick={() => setWithDraw()} className="settingBtn">{showWithdraw? '전체 목록 보기' : '탈퇴 신청 보기'}</button> */}
                 <table>
                     <thead>
-                         <tr>
+                        <tr>
                             <th>기부처코드</th>
                             <th>기부처아이디</th>
                             <th>기부처명</th>

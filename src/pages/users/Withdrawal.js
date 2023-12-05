@@ -23,7 +23,7 @@ function Withdrawal () {
     const token = window.localStorage.getItem('token');
     const memberCode = decodeJwt(token)?.memberCode || 0;
     const provider = decodeJwt(token)?.provider || 'REPLANET';
-    const accessToken = authCtx.accessToken;
+    const accessToken = localStorage.getItem('accessToken');
 
     const handleWithdraw = async () => {
         const {value: password} = await Swal.fire({

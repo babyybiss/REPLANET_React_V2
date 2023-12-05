@@ -19,6 +19,7 @@ function OauthKakao() {
                 console.log('토큰 교환 성공:', response);
                 const accessToken = response.access_token;
                 authCtx.setAccessToken(accessToken);
+                console.log('accessToken', accessToken);
                 callGetFindMemberAPI(response)
                     .then((findMemberResponse) => {
                         console.log('서버에서 조회된 회원 정보:', findMemberResponse);
@@ -70,7 +71,7 @@ function OauthKakao() {
                 console.error('토큰 교환 오류 :', error);
             });
         }
-    }, [authorizationCode, authCtx]);
+    }, [authorizationCode, authCtx.accessToken]);
 
     return (
         <>

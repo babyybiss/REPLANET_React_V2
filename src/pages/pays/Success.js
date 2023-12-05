@@ -59,6 +59,11 @@ function Success() {
         navigate(`/campaign/${pay.refDonation.refCampaign.campaignCode}?orgCode=${pay.refDonation.refCampaign.organization.orgCode}`);
     };
 
+    const handleGoToPayHistory = () => {
+        dispatch({ type: RESET_PAY_CODE });
+        navigate(`/myPage/history`);
+    };
+
     useEffect(
         () => {
             if (Object.keys(pay).length === 0) {
@@ -132,7 +137,8 @@ function Success() {
                         <br/>
                         <div className='container-centered pay-anno pay-success-header'>
                             <button className="button button-lg button-primary" onClick={handleBackToMain}>메인으로</button>
-                            <button className="button button-lg button-primary-outline" onClick={handleGoToCampaign}>해당 캠페인으로</button>
+                            <button className="button button-lg button-primary-outline" onClick={handleGoToCampaign}>해당 캠페인 보기</button>
+                            <button className="button button-lg button-primary-outline" onClick={handleGoToPayHistory}>기부내역</button>
                         </div>
                     </div>
                 </>
