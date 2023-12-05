@@ -47,17 +47,17 @@ function Participation({ participation }) {
     }).format(getDonationtDate);
     return (
         donationInfo && (
-            <div>
-                <thead className="text-left">
+            <table >
+                <thead >
                     <tr className="text-left">
-                        <th className="text-left">{donationtDate}</th>
-                        <th className="text-left">{donationInfo ? maskingName(donationInfo.donation.member.memberName) : ""}</th>
-                        <th className="text-left">{totalDonation.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원 참여</th>
+                        <th className="text-left" style={{width:"45%"}}>{donationtDate}</th>
+                        <th style={{width:"25%"}} >{donationInfo ? maskingName(donationInfo.donation.member.memberName) : ""}</th>
+                        <th className="text-right" style={{width:"30%"}}>{totalDonation.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원 참여</th>
                     </tr>
                 </thead>
                 <tbody>
                 </tbody>
-            </div>
+            </table>
         )
     );
 }

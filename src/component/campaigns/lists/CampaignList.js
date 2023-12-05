@@ -11,13 +11,13 @@ import { callGetSupportbotListAPI } from "../../../apis/SupportbotAPI";
 import '../../../assets/css/supportbot.css'
 import ModalSupportbot from "../../modals/ModalSupportbot";
 
-const categoryList = [
-    { key: "0", name: "전체" },
-    { key: "1", name: "아동-청소년" },
-    { key: "2", name: "어르신" },
-    { key: "3", name: "환경보호" },
-    { key: "4", name: "동물" },
-    { key: "5", name: "기타" },
+export const categoryList = [
+    { name: "전체"},
+    { name: "아동-청소년"},
+    { name: "어르신"},
+    { name: "환경보호"},
+    { name: "동물"},
+    { name: "기타"}
 ];
 
 function CampaignList() {
@@ -38,17 +38,20 @@ function CampaignList() {
     const campaignFilter = categories ? categories.payload : undefined;
 
     // 카테고리 버튼
+    const [selectCategory, setSelectCategory] = useState("전체");
     const categoryClickHandler = (category) => {
+
+        setSelectCategory(category);
         if (campaignList) {
             if (category === "전체") {
                 return setCategories(undefined)
             }
             const cf = campaignList.filter((curData) => {
-
                 return curData.campaignCategory === category;
             })
             setCategories(getCategoryByCampaign(cf))
             setCurrentPage(1)
+            //categoryList.active = !false
         }
     }
 
@@ -64,11 +67,12 @@ function CampaignList() {
     const iconClickHandler = () => {
         setIsShow(isShow === false ? true : false)
     }
-   
+
 
     useEffect(() => {
         setCategories(undefined)
         setCurrentPage(1)
+        setSelectCategory('전체')
     },
         [campaignList]
     );
@@ -92,7 +96,7 @@ function CampaignList() {
 
     // 페이징
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 6;
+    const itemsPerPage = 3;
     const currentItems = campaignList && campaignList.length > 0 ? campaignList.slice(0, currentPage * itemsPerPage) : [];
     const totalItems = campaignList ? campaignList.length : 0;
     const totalPages = Math.ceil(totalItems / itemsPerPage);
@@ -106,9 +110,11 @@ function CampaignList() {
         <>
             <div className="campaign-button-container">
                 <div className="campaign-button-area">
-                    {categoryList.map(category => (
-                        <button key={category.key} className="button button-primary-outline"
-                            onClick={() => categoryClickHandler(category.name)}
+                    {categoryList.map((category, index) => (
+                        <button key={index} 
+                            name={category.name}
+                            className={category.name === selectCategory? 'button button-primary' : 'button button-primary-outline'}
+                            onClick={(e) => categoryClickHandler(e.target.name)}
                         >
                             {category.name}
                         </button>
@@ -118,12 +124,6 @@ function CampaignList() {
                     }
                 </div>
             </div>
-
-            {/* <select onChange={onChangeHandler} style={{ width: "100px" }}>
-                    <option value="">이거안됨</option>
-                    <option value="latest">최신 순</option>
-                    <option value="earliest">종료 임박순</option>
-                </select> */}
 
             {campaignList && (
                 <div className="items-container ic3 g-gap3 campaign-list-container">
@@ -171,40 +171,46 @@ export default CampaignList;
 
 
 
-     /*
-    const iconOverHandler = () => {
-        setIconBackgroundStyle({
-            backgroundColor: 'indianred'
-        })
-       
-    }
-    const iconOutHandler = () => {
-        setIconBackgroundStyle({
-            backgroundColor: 'darksalmon'
-        })
-    }
-    */
+/*
+const iconOverHandler = () => {
+   setIconBackgroundStyle({
+       backgroundColor: 'indianred'
+   })
+  
+}
+const iconOutHandler = () => {
+   setIconBackgroundStyle({
+       backgroundColor: 'darksalmon'
+   })
+}
+*/
 
-    
-    /*기간별 소팅
-    const onChangeHandler = (e) => {
-        const selectedValue = e.target.value;
-        if (campaignFilter === undefined) {
-            const sortedCampaigns = sortCampaigns(selectedValue, campaignList);
-            setCampignListFilter(sortedCampaigns)
-        } else {
-            const sortedCampaigns = sortCampaigns(selectedValue, campaignFilter);
-            setCategories(sortedCampaigns);
-        }
+
+/*기간별 소팅
+const onChangeHandler = (e) => {
+    const selectedValue = e.target.value;
+    if (campaignFilter === undefined) {
+        const sortedCampaigns = sortCampaigns(selectedValue, campaignList);
+        setCampignListFilter(sortedCampaigns)
+    } else {
+        const sortedCampaigns = sortCampaigns(selectedValue, campaignFilter);
+        setCategories(sortedCampaigns);
     }
-    const sortCampaigns = (selectedValue, campaign) => {
-        switch (selectedValue) {
-            case 'latest':
-                return campaign.sort((a, b) => new Date(b.startDate) - new Date(a.startDate));
-            case 'earliest':
-                return campaign.sort((a, b) => new Date(a.endDate) - new Date(b.endDate));
-            default:
-                return campaign;
-        }
-    };
-    */
+}
+const sortCampaigns = (selectedValue, campaign) => {
+    switch (selectedValue) {
+        case 'latest':
+            return campaign.sort((a, b) => new Date(b.startDate) - new Date(a.startDate));
+        case 'earliest':
+            return campaign.sort((a, b) => new Date(a.endDate) - new Date(b.endDate));
+        default:
+            return campaign;
+    }
+};
+*/
+
+{/* <select onChange={onChangeHandler} style={{ width: "100px" }}>
+                    <option value="">선택하셈</option>
+                    <option value="latest">최신 순</option>
+                    <option value="earliest">종료 임박순</option>
+                </select> */}

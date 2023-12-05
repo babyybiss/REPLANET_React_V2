@@ -72,6 +72,7 @@ function BookmarkList() {
             setCheckItems([])
         }
     }
+    console.log(bookmark,'확인');
 
     //페이징
     const [currentPage, setCurrentPage] = useState(1);
@@ -79,7 +80,7 @@ function BookmarkList() {
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentItems = bookmark && bookmark.bookmarkList.length > 0 ? bookmark.bookmarkList.slice(indexOfFirstItem, indexOfLastItem) : [];
-    const totalItems = bookmark ? bookmark.length : '';
+    const totalItems = bookmark ? bookmark.bookmarkList.length : '';
     const totalPages = Math.ceil(totalItems / itemsPerPage);
     const handlePageChange = (newPage) => {
         if (newPage >= 1 && newPage <= totalPages) {
