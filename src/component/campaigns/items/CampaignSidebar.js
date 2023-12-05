@@ -111,7 +111,7 @@ function CampaignSidebar({ campaign, orgList }) {
 
     }
 
-    // 카카오 공유하기 버툰
+    // 카카오 공유하기 버튼
     useEffect(() => {
         let script = document.createElement("script"); //script태그를 추가해준다.
         script.src = "https://t1.kakaocdn.net/kakao_js_sdk/2.5.0/kakao.js"; //script의 실행 src
@@ -187,8 +187,14 @@ function CampaignSidebar({ campaign, orgList }) {
                 </div>
                 <hr />
                 <div className="items-container ic3">
+                    <div>
+                        {campaignStatus < 0 || decodedToken && decodedToken.memberRole === "ROLE_ORG" || decodedToken && decodedToken.memberRole === "ROLE_ADMIN" ?
+                            "" :
+                            <HeartBar campaignCode={campaignCode} />
+                        }
+                    </div>
                     {decodedToken !== null && decodedToken.memberRole == "ROLE_ORG" && camPaignOrgCode == myOrgCode ?
-                        <button className="button button-primary" onClick={deleteCampaignHandler}>삭제하기</button> :
+                        <button className="button button-danger" onClick={deleteCampaignHandler}>삭제하기</button> :
                         decodedToken !== null && decodedToken.memberRole == "ROLE_ORG" ? "" :
                             <div className="input-group campaignbtn1" onClick={goToDonation}>
                                 <input type="text" readOnly className="input bg-primary border-primary" placeholder='후원하기' style={{ cursor: "pointer" }}></input>
@@ -206,42 +212,31 @@ function CampaignSidebar({ campaign, orgList }) {
 
 
                     }
-                    <div>
-                        {campaignStatus < 0 || decodedToken && decodedToken.memberRole === "ROLE_ORG" || decodedToken && decodedToken.memberRole === "ROLE_ADMIN" ?
-                            "" :
 
-
-                            <HeartBar campaignCode={campaignCode} />
-
-
-
-
-                        }
-                    </div>
                 </div>
                 <hr />
                 <h5 className='mb-1'>{/*{campaign.organization ? campaign.organization.member.memberName : "익명의 기부자"}*/}이 재단의 또 다른 캠페인</h5>
                 <div className="item border mb-1"
-                    style={{ overflowX: 'hidden', overflowY: 'scroll', width: '100%', height: '20%'}}>
+                    style={{ overflowX: 'hidden', overflowY: 'scroll', width: '100%', maxHeight: '400px' }}>
                     {orgList && (
                         orgList.map(orgList => <NavLink
-                                className={({ isActive }) =>
+                            className={({ isActive }) =>
                                 isActive ? "text-primary" : ""
                             }
-                           onClick={() => window.scrollTo({ top: 0 })}
+                            onClick={() => window.scrollTo({ top: 0 })}
                             to={`/campaign/${orgList.campaignCode}?orgCode=${orgList.organization.orgCode}`}>
                             <h6 className='border-bottom p-2'> {orgList.campaignTitle}</h6>
                         </NavLink>)
                     )}
                 </div>
-                <div className="item p-2 border mb-1" style={{ overflowX: 'hidden', overflowY: 'scroll', width: '100%', height: '150px' }} >
+                <div className="item p-2 border mb-1" style={{ overflowX: 'hidden', overflowY: 'scroll', width: '100%', maxHeight: '150px' }} >
                     <p>
                         {campaign.organization ? campaign.organization.orgDescription : ""}
                     </p>
                 </div>
-                <div className="item p-2 border">
+                <div className="item border rounded d-flex align-center" style={{ overflowX: 'hidden', overflowY: 'hidden', width: '100%', maxHeight: '250px' }} >
                     <p>
-                        <img src={fileSaveName ? `/orgImgs/${campaign.organization?.orgCode}/${campaign.organization.fileSaveName}` : '/campaigns/default/noImage.png'} alt="캠페인 이미지" />
+                        <img src={fileSaveName ? `/orgImgs/${campaign.organization?.orgCode}/${campaign.organization.fileSaveName}` : '/campaigns/default/noImage.png'} alt="캠페인 이미지" className=" rounded" />
                     </p>
                 </div>
             </div>

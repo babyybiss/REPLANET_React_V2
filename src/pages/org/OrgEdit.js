@@ -214,7 +214,7 @@ function OrgEdit() {
                                 <div className="regexMsg">{orgNameMsg}</div>
                                 <label htmlFor="orgPhone">재단 연락처</label><input className="input" type="text" id="orgPhone" value={orgPhone} onChange={handleOrgPhone} required ref={orgPhoneInputRef} />
                                 <div className="regexMsg">{orgPhoneMsg}</div>
-                                <label htmlFor="orgIntro">재단 소개</label><textarea className="input" type="text" id="orgIntro" value={orgIntro} onChange={handleOrgIntro} required ref={orgIntroInputRef} />
+                                <label htmlFor="orgIntro">재단 소개</label><textarea className="textarea" type="text" id="orgIntro" value={orgIntro} onChange={handleOrgIntro} required ref={orgIntroInputRef} />
                                 <div className="regexMsg">{orgIntroMsg}</div>
                             </div>
                             <button className="button button-primary w-100" onClick={submitHandler}>수정하기</button>

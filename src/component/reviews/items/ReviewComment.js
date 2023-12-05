@@ -217,27 +217,15 @@ export function ReviewComment ({ review }) {
     <ul id="comment" className={commentStyles.commentList}>
       <li>
         <input type="checkbox"></input>
-        <i></i>
+        <i className="fa-solid fa-plus caret"></i>
         <h2>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="26"
-              height="24"
-              viewBox="0 0 26 24"
-              fill="none"
-              style={{ transform: 'translateY(4px)' }}
-            >
-            <path d="M13 24C12.1656 24 11.3795 23.6104 10.8233 22.9314L9.0093 20.705C8.97302 20.6605 8.82791 20.6048 8.76744 20.5937H8.16279C3.12 20.5937 0 19.3358 0 13.0798V7.51391C0 2.59369 2.81767 0 8.16279 0H17.8372C23.1823 0 26 2.59369 26 7.51391V13.0798C26 18 23.1823 20.5937 17.8372 20.5937H17.2326C17.1358 20.5937 17.0512 20.6382 16.9907 20.705L15.1767 22.9314C14.6205 23.6104 13.8344 24 13 24ZM8.16279 1.66976C3.83349 1.66976 1.81395 3.52876 1.81395 7.51391V13.0798C1.81395 18.1113 3.68837 18.9239 8.16279 18.9239H8.76744C9.38419 18.9239 10.0856 19.2468 10.4605 19.7032L12.2744 21.9295C12.6977 22.4416 13.3023 22.4416 13.7256 21.9295L15.5395 19.7032C15.9386 19.2134 16.5674 18.9239 17.2326 18.9239H17.8372C22.1665 18.9239 24.186 17.0649 24.186 13.0798V7.51391C24.186 3.52876 22.1665 1.66976 17.8372 1.66976H8.16279Z" fill="#10573C"/>
-            <path d="M12.9998 11.9666C12.3226 11.9666 11.7905 11.4657 11.7905 10.8534C11.7905 10.2412 12.3347 9.74025 12.9998 9.74025C13.6649 9.74025 14.2091 10.2412 14.2091 10.8534C14.2091 11.4657 13.677 11.9666 12.9998 11.9666Z" fill="#10573C"/>
-            <path d="M17.8372 11.9666C17.16 11.9666 16.6279 11.4657 16.6279 10.8534C16.6279 10.2412 17.1721 9.74025 17.8372 9.74025C18.5023 9.74025 19.0465 10.2412 19.0465 10.8534C19.0465 11.4657 18.5144 11.9666 17.8372 11.9666Z" fill="#10573C"/>
-            <path d="M8.16243 11.9666C7.48522 11.9666 6.95312 11.4657 6.95312 10.8534C6.95312 10.2412 7.49731 9.74025 8.16243 9.74025C8.82754 9.74025 9.37173 10.2412 9.37173 10.8534C9.37173 11.4657 8.83964 11.9666 8.16243 11.9666Z" fill="#10573C"/>
-            </svg>  댓글 {review.reviewCommentList ? review.reviewCommentList.length : 0}
+        <i className="fa-regular fa-comments"></i>  댓글 {review.reviewCommentList ? review.reviewCommentList.length : 0}
         </h2>
 
         <div className="m-21" onClick={(e) => e.stopPropagation()}>
         {review.reviewCommentList && review.reviewCommentList.map(comment => (
           <div key={comment.revCommentCode}>
-            <div className="m-3 flexing">
+            <div className="flexing">
               <div className="commentWidth">
                 {commentBeingModified === comment.revCommentCode ? (
                 // If the comment is being modified, show the input
@@ -259,7 +247,7 @@ export function ReviewComment ({ review }) {
                   {comment.revCommentMonitorized === "Y" ? (
                     <>
                     <h5>{hideEmailCharacters(commentEmail[comment.memberCode])}</h5>
-                    <h6 style={{color: "#1D7151", fontWeight: 'bold'}}>부적절한 표현을 감지하여 리플래닛 클린봇에 의해 숨겨진 댓글입니다 🧹</h6>
+                    <h6 style={{color: "#1D7151", fontWeight: 'bold'}}>부적절한 표현을 감지하여 리플래닛 클린봇에 의해 숨겨진 댓글입니다.</h6>
                     {endDate}
                     </>
                   ) : (
@@ -333,37 +321,41 @@ export function ReviewComment ({ review }) {
         {decodedToken && decodedToken.memberCode !== undefined && decodedToken.memberRole == "ROLE_USER" ? (
             <form onSubmit={handleCommentSubmit} className="m-21">
               <p className="w-100">
-                <input
-                  className="commentInput commentI"
+              <div className="input-group">
+                <textarea
+                  className="commentInput commentI textarea"
                   name="revCommentContent"
                   type="text"
-                  placeholder={review.reviewCommentList ? "댓글을 입력해주세요 ❤️" : "따뜻한 한마디로 첫 응 원자가 되어보세요 ❤️"}
+                  placeholder={review.reviewCommentList ? "댓글을 입력해 주세요!" : "따뜻한 한마디로 첫 응원자가 되어 보세요!"}
                   onChange={onChangeHandler}
                   required
                 />
-                <button className="button-primary v-5 rounded" type="submit">댓글등록</button>
+                <button className="button-primary p-1" type="submit" style={{borderTopRightRadius: "0.25rem", borderBottomRightRadius: "0.25rem"}}>댓글등록</button>
+              </div>
               </p>
             </form>
               ) : ( 
                 (decodedToken?.memberRole == "ROLE_ORG" || decodedToken?.memberRole == "ROLE_ADMIN"?  
                 <form className="m-21">
                   <p className="w-100">
-                    <input
-                      className="commentDisable"
+                    <textarea
+                      className="commentDisable textarea w-100"
                       type="text"
-                      placeholder="일반 회원께서만 댓글 가능합니다."
-                      
+                      placeholder="일반 회원만 댓글을 작성할 수 있습니다."
+                      disabled
+                      // onClick={NavigateToLoginPageHandler}
                     />
                   </p>
                 </form>
                 :
                 <form className="m-21">
                   <p className="w-100">
-                  <input
-                    className="commentDisable"
+                  <textarea
+                    className="commentDisable textarea w-100"
                     type="text"
                     placeholder="로그인 후 이용 가능한 서비스입니다."
-                    onClick={NavigateToLoginPageHandler}
+                    disabled
+                    // onClick={NavigateToLoginPageHandler}
                   />
                   </p>
                 </form>

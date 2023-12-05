@@ -31,24 +31,24 @@ export function ReviewDetail({code}) {
         <div class="container-first">
 
 
-        <h1 class="py-3 container-centered">{review.reviewTitle}</h1>
+        <h1 className="py-3 container">{review.reviewTitle}</h1>
         
         
-        <div class="items-container ic3 g-gap2 campaign-list-container">
+        <div className="items-container ic3 g-gap2 campaign-list-container">
             
-              <div class="item" style=" grid-column: 1 / 3;">
+              <div className="item" style=" grid-column: 1 / 3;">
                   
-                      <div class="item-thumb rounded-3 mb-1">
-                          <img src="../../assets/images/campaign/1.jpg" />
+                      <div className="item-thumb rounded-3 mb-1">
+                          <img src="../../assets/images/campaign/1.jpg" className="w-100"/>
                       </div>
                       
               </div>
 
-              <div class="item" style="display: block">
-                <div class="text-right">
-                  <h2>모금액 총 {review.currentBudget}
-                    <br />6,004,345명의 참여로</h2>
-                    <h3>따뜻한 손길을 내어줄 수 있었습니다 </h3>
+              <div className="item" style="display: block">
+                <div className="text-right">
+                  <h2>모금액 총 {review.currentBudget}</h2>
+                    <h3>6,004,345명의 참여로<br/>
+                    따뜻한 손길을 내어줄 수 있었습니다 </h3>
               </div>
               
                 <hr/>

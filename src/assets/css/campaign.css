@@ -46,7 +46,7 @@
   }
 
   .campaign-list-container .item {
-    display: grid;
+
     gap: 1rem;
     word-wrap: break-word
   }
@@ -83,16 +83,19 @@
   }
 
   .campaignMoreButton {
-    width: 100%;
+    width: calc(33% - 1rem);
     border-radius: 0.5rem;
-    padding: 1rem;
-    background-color: var(--color-primary);
-    color: var(--color-white);
-    text-align: center;
-    font-weight: 500;
     margin: 0 auto;
-    margin-top: 1rem;
-    cursor: pointer;
+    margin-top: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  @media screen and (max-width: 1199px) {
+    .campaignMoreButton {
+      width: 100%;
+    }
   }
 
   .campaignSubmitButton {

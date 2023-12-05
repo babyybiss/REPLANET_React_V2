@@ -174,9 +174,10 @@
 }
 
 .reset-box{
+    width: calc(50% - 0.5rem);
     display: block;
     float: left;
-    text-align: left;
+    text-align: center;
     background-color: #FFFFFF;
     border-style: solid;
     border-color: var(--color-secondary);
@@ -189,9 +190,10 @@
     cursor: pointer;
 }
 .scroll-top-box {
+    width: calc(50% - 0.5rem);
     display: block;
     float: right;
-    text-align: left;
+    text-align: center;
     background-color: #FFFFFF;
     border-style: solid;
     border-color: var(--color-secondary);

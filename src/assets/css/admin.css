@@ -52,7 +52,8 @@
   }
   
   .admin-main {
-    padding: 2rem
+    padding: 2rem;
+    min-height: 100vh;
   }
   
   .admin-title {

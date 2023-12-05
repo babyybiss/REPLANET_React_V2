@@ -85,8 +85,8 @@ console.log("reviewexists?? ", reviewExists);
 
   return (
     <>
-      <div className="container-first">
-      {loading && <p>loading</p>}
+      <div className="container-first bg-white">
+      {loading && <div className="loader"></div>}
       <>
         {orgUI && 
           <div className="admin-title m-4">
@@ -107,7 +107,7 @@ console.log("reviewexists?? ", reviewExists);
             setSearching={setSearching}
           />
         </div>
-        <div class="items-container ic4 g-gap3 campaign-list-container" style={{display:"flex", justifyContent:"space-evenly"}}>
+        <div class="items-container ic4 g-gap3 campaign-list-container" style={{}}>
           <ReviewList result={searching ? filteredResult : result} reviewExists={reviewExists} searchFilter={searchFilter} />
         </div>
         </> 
