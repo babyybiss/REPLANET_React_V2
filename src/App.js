@@ -108,7 +108,7 @@ function App() {
               <Route path="fail" element={<Fail />} />
             </Route>
 
-            
+            {/* ADMIN 포인트 신청 조회 */}
             <Route path="exchangeList" element={authCtx.isLoggedIn ? <AllExchanges /> : <Navigate to='/' />} />
             <Route path="exchangeDetail/:exchangeCode" element={authCtx.isLoggedIn ? <ExchangeDetail /> : <Navigate to='/' />} />
             
@@ -125,7 +125,7 @@ function App() {
               <Route key="listPage" path="list" element={<OrgCamList />} />,
 
               <Route key="review" path="review" element={<Reviews />} />,
-              <Route key="edit" path="edit" element={<OrgEdit />} />,
+              
               <Route key="confirmPwd" path="confirmPwd" element={<PwdConfirm />} />,
               <Route key="modify" path="modify" element={<OrgEdit />} />,
               <Route key="withdraw" path="withdraw" element={<OrgWithdraw />} />,
