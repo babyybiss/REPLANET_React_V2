@@ -8,9 +8,8 @@ function CurrentYearCampaign(chartDataListProps) {
   
   const { chartDataList } = chartDataListProps;
 
-  const tickValuesAttributes = chartDataList.map((_, index) => index + 1);
-  const tickFormatAttributes = chartDataList.map(monthlyName => `${monthlyName.monthly}월`)
-  
+  const tickValuesAttributes = Array.from({ length: 12 }, (_, index) => 1 + (1 * index));
+  const tickFormatAttributes = tickValuesAttributes.map(monthlyName => `${monthlyName}월`)
   /* chart figure */ 
   const width = 1500;
   const height = 700;
@@ -21,6 +20,7 @@ function CurrentYearCampaign(chartDataListProps) {
   /* x축, y축 기준 설정 */
   const stringX = 'monthly';
   const standardDataY = ['allCampaigns', 'childCampaigns', 'olderCampaigns', 'etcCampaigns', 'animalCampaigns', 'natureCampaigns']
+  
   const campaignCategoryArray = ['총','아동-청소년', '어르신', '기타', '동물', '환경보호'];
 
   /* Event function setting */ 
