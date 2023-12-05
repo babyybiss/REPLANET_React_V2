@@ -66,13 +66,14 @@ function MyPage() {
     const [modifyActive, setModifyActive] = useState(false);
     useEffect(
         () => {
-            const isModifyActive = location.pathname.includes("modify");
+            const isModifyActive = location.pathname.includes("modify")||
+                                    location.pathname.includes("verifying");
             console.log("참인지 확인 : ", isModifyActive);
             setModifyActive(isModifyActive);
         }, [location.pathname]
     )
     const modifyMenu = {
-        backgroundColor: modifyActive? 'var(--color-primary) !importatnt' : 'var(--color-light) !important',
+        backgroundColor: modifyActive? 'var(--color-primary)' : 'var(--color-light)',
         color: modifyActive? 'var(--color-white)' : 'var(--color-dark)'
     }
 
@@ -121,7 +122,9 @@ function MyPage() {
                     <NavLink to="calculator" className='admin-sidebar-menu'>
                         세액공제 계산기
                     </NavLink>
-                    <NavLink to="verifying" style={modifyMenu} className="admin-sidebar-menu bg-light">
+                    <NavLink to="verifying" 
+                        style={modifyMenu} 
+                        className="admin-sidebar-menu">
                         회원정보 수정
                     </NavLink>
                     <NavLink to="withdraw" className="admin-sidebar-menu bg-light">

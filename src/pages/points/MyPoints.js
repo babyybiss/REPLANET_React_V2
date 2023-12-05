@@ -30,6 +30,7 @@ function MyPoints(){
                 <li className="text-danger">1년 이내의 봉사 실적만 신청 가능합니다.</li>
                 <li className="text-danger">1회에 1건의 봉사 실적만 신청 가능합니다.</li>
                 <li className="text-danger">본인 명의의 봉사 실적만 신청 가능합니다.</li>
+                <li className="text-danger">1건당 최대 100,000 포인트까지 전환 가능합니다.</li>
                 <li>포인트 전환에 대한 이의 신청과 기타 관련 사항은 고객센터로 문의 바랍니다.</li>
             </ul>
 
