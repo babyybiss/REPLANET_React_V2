@@ -128,11 +128,18 @@ export function ReviewModify () {
     const handleContentChange = (htmlContent) => {
         setConvertedContent(htmlContent);
 
+        // setForm({
+        //     ...form,
+        //     reviewDescription: convertedContent
+        // });
+    };
+
+    useEffect(() => {
         setForm({
             ...form,
             reviewDescription: convertedContent
         });
-    };
+    }, [convertedContent]);
 
 
     useEffect(() => {

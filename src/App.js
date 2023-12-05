@@ -62,10 +62,9 @@ function App() {
               <Route path="/login/*" element={authCtx.isLoggedIn ? <Navigate to='/' /> : <Login />}/>
               <Route path="/signup/" element={authCtx.isLoggedIn ? <Navigate to='/' /> : <Signup />} />
               <Route path="/socialsignup/" element={authCtx.isLoggedIn ? <Navigate to='/' /> : <SocialSignup />} />
-              <Route path="/password/" element={<ChangePassword/>}></Route>
               <Route path="/findid/" element={<FindId/>}></Route>
               <Route path="/findpw/" element={<FindPw/>}></Route>
-              <Route path="/password/" element={<ChangePassword/>}></Route>
+              {/* <Route path="/password/" element={<ChangePassword/>}></Route> */}
 
               <Route path="/myPage" element={authCtx.isLoggedIn ? <MyPage /> : <Navigate to='/' />} children={[
                 <Route key="history" index element={<Navigate to="history" />} />,
@@ -80,7 +79,7 @@ function App() {
                 <Route key="modify" path="modify" element={<ModifyUser />} />,
                 <Route key="withdraw" path="withdraw" element={<Withdrawal />} />
               ]}/>
-              <Route path="/sendemail" element={<SendEmail/>}></Route>
+              {/* <Route path="/sendemail" element={<SendEmail/>}></Route> */}
 
             <Route path="/">
               <Route index element={<Main />} />
@@ -93,10 +92,10 @@ function App() {
               <Route index element={<Reviews />} />
               <Route path=":reviewCode" element={<ReviewDetails />} />
               <Route path="reviewRegist">
-                <Route path=":campaignCode" element={<ReviewRegist />} />
+                <Route path=":campaignCode" element={decodedToken?.memberRole === "ROLE_ORG" ? <ReviewRegist /> : <Navigate to='/' />} />
               </Route>
               <Route path="reviewUpdate">
-                <Route path=":reviewCode" element={<ReviewModify />} />
+                <Route path=":reviewCode" element={decodedToken?.memberRole === "ROLE_ORG" ? <ReviewModify /> : <Navigate to='/' />} />
               </Route>
               {/* <Route path="textmessage" element={<TextMessage />}/> */}
             </Route>
@@ -123,7 +122,6 @@ function App() {
               // ROLE_ORG의 마이페이지
               <Route key="list" index element={<Navigate to="list" />} />,
               <Route key="listPage" path="list" element={<OrgCamList />} />,
-
               <Route key="review" path="review" element={<Reviews />} />,
               
               <Route key="confirmPwd" path="confirmPwd" element={<PwdConfirm />} />,

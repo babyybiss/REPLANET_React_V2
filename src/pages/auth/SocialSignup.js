@@ -318,9 +318,9 @@ const SocialSignup = () => {
                   </button>))}
                 </div>
                 <div className="regexMsg">{phoneMsg}</div>
-                {!isOnCheckSmsCode && (
+                {isOnCheckPhone && (
                 <div className="input-group">
-                  <input
+                  {isOnCheckSmsCode ? (<></>) :(<input
                     className="input"
                     type="text"
                     ref={smsCodeInputRef}
@@ -328,7 +328,7 @@ const SocialSignup = () => {
                     placeholder="인증번호 입력"
                     disabled={isOnCheckSmsCode}
                     style={{borderRight: '1px solid #cccccc'}}
-                  />
+                  />)}
                   {isOnCheckSmsCode ? (<></>) : 
                   (<button
                     type="button"
