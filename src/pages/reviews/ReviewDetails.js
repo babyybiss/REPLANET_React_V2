@@ -45,8 +45,8 @@ console.log("how many donors? : ", donors);
 
      return (
       review && review ? (
-        <div className="container-first w-90">
-          <h1 className="container-centered mb-2">{review.reviewTitle}</h1>
+        <div className="container-first">
+          <h1 className="mb-1">{review.reviewTitle}</h1>
             <ReviewDetailsIntroductionBox review={review} donors={donors}/>
           <div>
             <ReviewContent review={review}/>

@@ -313,7 +313,7 @@ function FindPw() {
                         </div>
 
                         <hr />
-                        <div className="items-container ic1">
+                        <div className="items-container ic1" style={!isOnFindPhone ? {display: 'none'} : {}}>
                             <div className="regexMsg">{onFindPhoneMsg}</div>
                             <button type="button" className="button button-primary" name="smsButton" onClick={handleSendSMS} disabled={!isOnFindPhone} >인증번호 요청</button>
                             <div className="input-group">

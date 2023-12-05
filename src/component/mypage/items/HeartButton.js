@@ -94,6 +94,7 @@ function HeartButton({ campaignCode }) {
                 ? "fa-solid fa-heart"
                 : "fa-regular fa-heart"
         }
+        style={{paddingTop: 3 + "px"}}
         onClick={clickedToggle}>
     </i>
         </>

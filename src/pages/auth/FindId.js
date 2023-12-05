@@ -160,7 +160,7 @@ function FindId() {
       console.log(response.data);
       if (response.status === 200 && phone != null && isPhoneValid) {
         setIsOnFindEmail(true);
-        setOnFindEmailMsg("회원님의 이메일 계정은 " + response.data + "입니다.");
+        setOnFindEmailMsg(response.data);
 
       }
     } catch (error) {
@@ -222,15 +222,15 @@ function FindId() {
               <button type="button" className="button button-primary" name="smsButton" onClick={handleSendSMS} disabled={!isPhoneValid || !isOnCheckPhone}>인증번호 요청</button>
             </div>
             <div className="regexMsg">{phoneMsg}</div>
-            <div className="input-group" >
-              <input className="input" type="text" ref={smsCodeInputRef} required placeholder="인증하기" />
+            <div className="input-group" style={!isOnCheckPhone ? {display: 'none'} : {}}>
+              <input className="input" type="text" ref={smsCodeInputRef} required placeholder="전송받으신 인증번호 4자리를 입력해 주세요." />
               <button type="button" className="button button-primary" onClick={onCheckSmsCode} disabled={!isPhoneValid || !isOnCheckPhone}>인증번호 입력</button>
 
             </div>
-            <button onClick={onFindEmail} className="button button-primary w-100" disabled={!isOnCheckSmsCode}>찾기</button>
+            <button onClick={onFindEmail} className="button button-primary w-100" disabled={!isOnCheckSmsCode} style={!isOnCheckSmsCode ? {display: 'none'} : {}}>찾기</button>
             
           </div>
-          <div className="regexMsg text-center">{onFindEmailMsg}</div>
+          <div className="regexMsg text-center mb-2"style={isOnFindEmail ? {} : {display: 'none'}}><h5>회원님의 이메일 계정은<br/><span className="text-primary text-bold">{onFindEmailMsg}</span>입니다.</h5></div>
           <a className="button button-primary" style={isOnFindEmail ? {} : {display: 'none'}} href="./login">로그인</a>
         </div>
         </div>

@@ -9,8 +9,8 @@ function CampaignContent({ campaign }) {
     return (
         campaign && (
             <div className="item mt-2 mb-2">
-                <img className="rounded-3" style={{ }} src={fileSaveName ? `/campaigns/${campaign.campaignDescFileList[0].fileSaveName}` : '/campaigns/default/noImage.png'} alt="캠페인 이미지" />
-                <div dangerouslySetInnerHTML={{ __html: campaign.campaignContent }} className="mt-2 mb-2" style={{ marginTop:"30px" ,padding:"",  minHeight:"", width:"100%", height:"100%"}}>
+                <img className="rounded-3" style={{ width: 100 + "%"}} src={fileSaveName ? `/campaigns/${campaign.campaignDescFileList[0].fileSaveName}` : '/campaigns/default/noImage.png'} alt="캠페인 이미지" />
+                <div dangerouslySetInnerHTML={{ __html: campaign.campaignContent }} className="mt-2 mb-2" style={{ marginTop:"30px" ,padding:"",  minHeight:"", width:"100%"}}>
                 </div>
                 <hr/>
             </div>

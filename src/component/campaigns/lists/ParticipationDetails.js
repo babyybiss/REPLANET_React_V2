@@ -56,9 +56,13 @@ function ParticipationDetails() {
             </thead>
           </table>
         ))) : (
-          <tr className="text-center">
+          <table>
+          <tbody>
+                      <tr className="text-center w-100">
             <td colSpan={5}>참여 내역이 없습니다!</td>
           </tr>
+          </tbody>
+</table>
         )}
         <div>
           <ul className="pagination">

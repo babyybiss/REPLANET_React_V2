@@ -134,20 +134,21 @@ function CampaignList() {
                         currentItems.map(campaign => <CampaignItem decodedToken={decodedToken} key={campaign.campaignCode} campaign={campaign} />)}
                 </div>
             )}
+            <div></div>
             {categories !== undefined ?
                 currentPage < totalPages && categories.length < totalItems ?
-                <div className="items-container ic3">
-                    <div></div>
+                <div className="items-container ic1">
+
                     <div className="campaignMoreButton" onClick={handleMoreButtonClick}>Read More</div>
-                    <div></div>
+
                 </div>
                      :
                     "" :
                 currentPage < totalPages && currentItems.length < totalItems ?
-                <div className="items-container ic3">
-                <div></div>
-                <div className="campaignMoreButton" onClick={handleMoreButtonClick}>Read More</div>
-                <div></div>
+                <div className="items-container ic1 mt-1">
+
+                <div className="campaignMoreButton button button-primary" onClick={handleMoreButtonClick}>Read More</div>
+
             </div>    
                 :
                     ""
