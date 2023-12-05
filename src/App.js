@@ -89,7 +89,7 @@ function App() {
               <Route path="campaign/:campaignCode" element={<CampaignDetail />} />
               <Route path="modify/:campaignCode"element={<CampaignModify />} />
             </Route>
-            <Route path="charts" element={<Charts />} />
+            <Route path="charts" element={decodedToken?.memberRole === "ROLE_ADMIN" ? <Charts /> : <Navigate to='/' />} />
             <Route path="reviews">
               <Route index element={<Reviews />} />
               <Route path=":reviewCode" element={<ReviewDetails />} />
