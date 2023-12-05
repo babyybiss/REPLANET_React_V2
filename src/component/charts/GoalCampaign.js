@@ -24,7 +24,7 @@ function GoalCampaign(chartDataListProps) {
   
   const { chartDataList } = chartDataListProps;
 
-  const tickValuesAttributes = chartDataList.map((attribute, index) => index + 1);
+  const tickValuesAttributes = chartDataList.map((_, index) => index + 1);
   const tickFormatAttributes = chartDataList.map(categoryname => categoryname.campaignCategory)
 
   /* Event function setting */ 
@@ -134,7 +134,7 @@ function GoalCampaign(chartDataListProps) {
     <div className='chartbox'>
       <h4>카테고리별 현재 모금액 합계</h4>
       <VictoryChart 
-        domainPadding={140} 
+        domainPadding={100} 
         style={chartStyle}
         width={width} height={height}
         padding={chartPadding}

@@ -2,7 +2,7 @@ import {VictoryBar, VictoryChart, VictoryLabel, VictoryVoronoiContainer, Victory
 import "../../assets/css/chart.css";
 import { numberFormatToKorean } from '../../utils/NumberFormatToKorean';
 
-/* category campaign common figure */
+/* chart common figure */
 const width = 1500;
 const height = 700;
 
@@ -63,13 +63,10 @@ function CategoryCampaign(chartDataListProps) {
     const stringY1 = 'sumCurrentBudget';
     const stringY2 = 'sumExpectBudget';
 
-    /* bar 너비 */ 
-    const barWidth = 100;
-
     /* chartData from API */
     const { chartDataList } = chartDataListProps;
 
-    const tickValuesAttributes = chartDataList.map((attribute, index) => index + 1);
+    const tickValuesAttributes = chartDataList.map((_, index) => index + 1);
     const tickFormatAttributes = chartDataList.map(categoryname => categoryname.campaignCategory)
     
 
@@ -81,39 +78,51 @@ function CategoryCampaign(chartDataListProps) {
             eventHandlers: {
                 onMouseOver: () => {
                     return [
-                      { target: "labels", mutation: () => ({ active: true }) },
-                      { target: "data", mutation: () => ({ active: true }) }
+                        { 
+                            target: "labels", 
+                            mutation: () => ({ active: true })
+                        },
+                        { 
+                            target: "data", 
+                            mutation: () => ({ active: true }) 
+                        }
                     ];
                 },
                 onMouseOut: () => {
                     return [
-                      { target: "labels", mutation: () => ({ active: false }) },
-                      { target: "data", mutation: () => ({ active: false }) }
+                        { 
+                            target: "labels", 
+                            mutation: () => ({ active: false }) 
+                        },
+                        { 
+                            target: "data", 
+                            mutation: () => ({ active: false }) 
+                        }
                     ];
                 }
             }
         }
     ]
 
-    /* style setting */
-    /* y축 (반지름) */
+    /* ---------- style setiing start ---------- */ 
+
+    /* 1. axis style */
     const radiusAxisStyle = {
         axis: { stroke: "#10573C", strokeWidth: 0.6 }
     }
-
-    /* x축 (둘레) */
     const roundAxisStyle = {
         axis: { stroke: "#10573C", strokeWidth: 2 },
         tickLabels: { fontSize: 20, padding: 20, fill: "#10573C" }
     } 
 
+    /* 2. bar style */ 
+    const barWidth = 100;
     const innerBarChartStyle = { 
         data: {
             fill: ({ active }) => active ? yellowColorSet.highlight : yellowColorSet.base,
             width: barWidth
         } 
     }
-
     const outerBarChartStyle = {
         data: {
             fill: ({ active }) => active ? greenColorSet.highlight : greenColorSet.base,
@@ -121,7 +130,8 @@ function CategoryCampaign(chartDataListProps) {
         } 
     }
   
-    /* render */
+    /* ---------- style setiing end ---------- */
+
     return (
         <div className='chartbox'>
             <h4>카테고리별 목표 모금액 대비 달성률</h4>
@@ -143,11 +153,11 @@ function CategoryCampaign(chartDataListProps) {
                 />
                 {tickFormatAttributes.map((attribute, index) => (
                     <VictoryPolarAxis dependentAxis
-                    key={index}
-                    labelPlacement="parallel"
-                    style={radiusAxisStyle}
-                    axisValue={attribute}
-                    tickFormat={() => ""}
+                        key={index}
+                        labelPlacement="parallel"
+                        style={radiusAxisStyle}
+                        axisValue={attribute}
+                        tickFormat={() => ""}
                     />
                 ))}
                 <VictoryStack>
@@ -157,7 +167,11 @@ function CategoryCampaign(chartDataListProps) {
                         x={stringX}
                         y={stringY1}
                         labels={() => ""}
-                        labelComponent={<CenterLabel color={yellowColorSet}/>}
+                        labelComponent={
+                            <CenterLabel 
+                                color={yellowColorSet}
+                            />
+                        }
                     />
                     <VictoryBar
                         style={outerBarChartStyle}
@@ -165,7 +179,11 @@ function CategoryCampaign(chartDataListProps) {
                         x={stringX}
                         y={stringY2}
                         labels={() => ""}
-                        labelComponent={<CenterLabel color={greenColorSet}/>}
+                        labelComponent={
+                            <CenterLabel 
+                                color={greenColorSet}
+                            />
+                        }
                     />
                 </VictoryStack>
                 <InnerCircle/>
