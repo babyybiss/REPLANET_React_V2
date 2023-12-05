@@ -342,14 +342,14 @@ export function ReviewComment ({ review }) {
               </p>
             </form>
               ) : ( 
-                (decodedToken?.memberRole == "ROLE_ORG" ?  
+                (decodedToken?.memberRole == "ROLE_ORG" || decodedToken?.memberRole == "ROLE_ADMIN"?  
                 <form className="m-21">
                   <p className="w-100">
                     <input
                       className="commentDisable"
                       type="text"
                       placeholder="일반 회원께서만 댓글 가능합니다."
-                      onClick={NavigateToLoginPageHandler}
+                      
                     />
                   </p>
                 </form>

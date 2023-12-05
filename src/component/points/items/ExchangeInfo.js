@@ -44,8 +44,6 @@ function ExchangeInfo({info, exchangeCode}){
                 status: value,
                 points: points.slice(0,-4)
             };
-            console.log('폼 확인 : ',form.current);
-            console.log('코드 확인 : ', exchangeCode);
             Swal.fire({
                 icon: "question",
                 title: "포인트 전환 신청을 승인하시겠습니까?",
@@ -74,22 +72,20 @@ function ExchangeInfo({info, exchangeCode}){
                     confirmButtonText: '확인',
                     })
             } else {
-            form.current = {
-                exchangeCode: exchangeCode,
-                status: value,
-                returnDetail: returnDetail
-            };
-            console.log('폼 확인 : ',form.current);
-            console.log('코드 확인 : ', exchangeCode);
-            Swal.fire({
-                icon: "question",
-                title: "포인트 전환 신청을 반려하시겠습니까?",
-                text: "반려 사유가 올바르게 선택됐는지 확인 바랍니다.",
-                showCancelButton: true,
-                confirmButtonColor: '#1D7151',
-                cancelButtonColor: '#1D7151',
-                confirmButtonText: '반려',
-                cancelButtonText: '취소'
+                form.current = {
+                    exchangeCode: exchangeCode,
+                    status: value,
+                    returnDetail: returnDetail
+                };
+                Swal.fire({
+                    icon: "question",
+                    title: "포인트 전환 신청을 반려하시겠습니까?",
+                    text: "반려 사유가 올바르게 선택됐는지 확인 바랍니다.",
+                    showCancelButton: true,
+                    confirmButtonColor: '#1D7151',
+                    cancelButtonColor: '#1D7151',
+                    confirmButtonText: '반려',
+                    cancelButtonText: '취소'
                 }).then(result => {
                     if(result.isConfirmed){
                         dispatch(exchangeUpdateAPI({

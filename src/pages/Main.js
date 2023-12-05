@@ -6,26 +6,27 @@ import '../assets/css/forms.css';
 import '../assets/css/common.css';
 
 import Loader from '../component/common/Loader';
-import CountBox from '../component/campaigns/items/CountBox';
-import Tab from '../component/campaigns/items/Tab';
-import CampaignList from '../component/campaigns/lists/CampaignList';
+// import Tab from '../component/campaigns/items/Tab';
+// import CampaignList from '../component/campaigns/lists/CampaignList';
 
-import { useState } from 'react';
-
+import React, { Suspense, useState } from 'react';
+const CountBox = React.lazy(() => import('../component/campaigns/items/CountBox'));
+const Tab = React.lazy(() => import('../component/campaigns/items/Tab'));
+const CampaignList = React.lazy(() => import('../component/campaigns/lists/CampaignList'));
 function Main() {
-  const [loading, setLoading] = useState(false); // New loading state
-  
+
   return (
     <>
-    {loading ? (<div><Loader /></div>) : (
-    <div className="container-first">
-      <style>
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
-      </style>
-      <Tab/>
-      <CountBox/>
-      <CampaignList/>
-    </div>)}
+    <Suspense fallback={<Loader/>}>
+        <div className="container-first">
+          <style>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+          </style>
+          <Tab />
+          <CountBox />
+          <CampaignList />
+        </div>
+        </Suspense>
     </>
   )
 }

@@ -31,6 +31,8 @@ function DonationReceipt(){
     const [front, setFront] = useState('');
     const [last, setLast] = useState('');
     const [check, setCheck] = useState(false);
+    const [nameMsg, setNameMsg] = useState("");
+    const [privacyMsg, setPrivacyMsg] = useState("");
     const handleName = (e) => {
         const inputValue = e.target.value;
         const isValidInput = /^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]+$/.test(inputValue);
@@ -38,6 +40,7 @@ function DonationReceipt(){
             setName(inputValue);
         } else {
             setName(prevState => prevState.slice(0, -1));
+            setNameMsg("이름을 10자 이하의 한글로 입력해 주세요.");
         }
     }
     const handleFrontChange = (e) => {
@@ -47,6 +50,7 @@ function DonationReceipt(){
             setFront(inputValue);
         } else {
             setFront(prevState => prevState.slice(0, -1));
+            setPrivacyMsg("주민등록번호를 숫자로 입력해 주세요.");
         }
     };
     const handleLastChange = (e) => {
@@ -56,6 +60,7 @@ function DonationReceipt(){
             setLast(inputValue);
         } else {
             setLast(prevState => prevState.slice(0, -1));
+            setPrivacyMsg("주민등록번호를 숫자로 입력해 주세요.");
         }
     };
     const checkBox = () => {
@@ -64,11 +69,11 @@ function DonationReceipt(){
     const infoAgreement = (value) => {
         if(value == '동의'){
             console.log("적힌 이름 확인 : ", name);
-            if(name == null || name == ""){
+            if(name == null || name == "" || name.length > 10){
                 Swal.fire({
                     icon: "warning",
                     iconColor: '#1D7151',
-                    title: "이름을 입력해주세요.",
+                    title: "이름을 올바르게 입력해주세요.",
                     showCancelButton: false,
                     confirmButtonColor: '#1D7151',
                     confirmButtonText: '확인'
@@ -148,13 +153,13 @@ function DonationReceipt(){
             <div className="receiptinfo">
                 {privacyStatus == 'N'?
                 <>
-
                     <input className="input mb-1" type="text" value={name} onChange={handleName} placeholder="이름" style={{width: "33%"}}/>
-
+                    <div className="regexMsg">{nameMsg}</div>
                     <div>
                     <input className="input" type="text" value={front} onChange={handleFrontChange} placeholder="주민등록번호 앞자리" style={{width: "33%"}}/>&nbsp;-&nbsp;
                     <input className="input" type="text" value={last} onChange={handleLastChange} placeholder="주민등록번호 뒷자리" style={{width: "33%"}}/>
                     </div>
+                    <div className="regexMsg">{privacyMsg}</div>
                     <br/>
                     <input type="checkbox" onChange={checkBox}/><span> 개인정보 제공에 동의합니다.</span>
                     <hr></hr>

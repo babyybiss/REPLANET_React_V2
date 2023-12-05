@@ -118,11 +118,6 @@ export function userExchangeDetailAPI(exchangeCode){
 
 export const exchangeUpdateAPI = ({form, exchangeCode}) => {
     const requestURL = `http://localhost:8001/exchanges/${exchangeCode}`;
-    console.log('요청 직전 form 확인 : ', form);
-    console.log('요청 직전 exchangeCode 확인 : ', form.exchangeCode);
-    console.log('요청 직전 status 확인 : ', form.status);
-    console.log('요청 직전 points 확인 : ', form.points);
-    console.log('요청 직전 returnDetail 확인 : ', form.returnDetail);
     return async (dispatch, getState) => {
         const result = await axios.put(requestURL, {
             exchangeCode: form.exchangeCode,
