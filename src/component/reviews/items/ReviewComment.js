@@ -285,11 +285,14 @@ export function ReviewComment ({ review }) {
 {!commentBeingModified && decodedToken && (decodedToken.memberRole === "ROLE_ADMIN" || (decodedToken.memberRole === "ROLE_USER" && decodedToken.memberCode === comment.memberCode)) && (
   <>
     {comment.revCommentMonitorized === "Y" ?
-      <span>
+      (<>
+      {/* <span>
         <button className="button1 button-danger w-5" onClick={(e) => handleDeleteComment(e, comment.revCommentCode)}>
           삭제
         </button>
       </span>
+      현재는 ROLE_ADMIN의 댓글 삭제 기능이 미완성이므로 숨겨둡니다.*/ }
+      </>)
       :
       (decodedToken.memberRole === "ROLE_ADMIN" ?
         <span>

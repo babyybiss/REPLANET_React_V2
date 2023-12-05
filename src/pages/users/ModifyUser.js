@@ -35,6 +35,7 @@ function ModifyUser() {
   
   const [isOnCheckPhone, setIsOnCheckPhone] = useState(true);
   const [isOnCheckSmsCode, setIsOnCheckSmsCode] = useState(true);
+  const [isDuplicated, setIsDuplicated] = useState(false);
   
   const validatePassword = (password) => {
     return password
@@ -118,14 +119,28 @@ function ModifyUser() {
         console.log('인증번호 전송 성공');
         console.log(response.data);
         setSmsCode(response.data);
-        Swal.fire("", "입력하신 번호로 인증번호가 전송되었습니다."); 
+        Swal.fire(
+          {
+            icon: 'success',
+            text: "입력하신 번호로 인증번호가 전송되었습니다."
+          }
+        );
       } else {
         console.error('인증번호 전송 실패');
-        Swal.fire("", "전송 실패! 휴대전화 번호를 다시 확인해 주세요.");
+        Swal.fire(
+          {
+            icon: 'warning',
+            text: "전송 실패! 휴대전화 번호를 다시 확인해 주세요."
+          });
       }
     } catch (error) {
       console.error('API 호출 중 오류 발생', error);
-      Swal.fire("", "API 호출 중 오류 발생");
+      Swal.fire(
+        {
+          icon: 'warning',
+          text: "API 호출 중 오류 발생"
+        }
+      );
     }
   };
   
@@ -147,6 +162,12 @@ function ModifyUser() {
         console.log('사용 가능한 휴대전화 번호입니다.');
         setPhoneMsg("사용 가능한 휴대전화 번호입니다.");
         setIsOnCheckPhone(true);
+
+        if (!response.data.isDuplicated) {
+          await handleSendSMS();
+          setIsDuplicated(true);
+        }
+
       }
     } catch (error) {
       if (error.response && error.response.status === 400) {
@@ -188,15 +209,32 @@ function ModifyUser() {
             <div className="regexMsg">{memberNameMsg}</div>
             <label htmlFor="phone">휴대전화</label>
             <div className="input-group">
-              <input className="input" type="text" id="phone" required ref={phoneInputRef} value={phone} onChange={handlePhone} />
-              <div id="dupcheck" onClick={onCheckPhone} disabled={!isPhoneValid}>중복확인</div>
-              <button type="button" className="button button-primary"  name="smsButton" onClick={handleSendSMS} disabled={!isPhoneValid || !isOnCheckPhone}>인증번호 요청</button>
+              <input className="input" type="text" id="phone" required ref={phoneInputRef} value={phone} onChange={handlePhone} style={{borderRight: '1px solid #cccccc'}}/>
+              {isOnCheckSmsCode ?
+                  (<></>) : (isOnCheckPhone ? (<button
+                    type="button"
+                    className="button button-primary"
+                    name="dupCheckButton"
+                    onClick={handleSendSMS}
+                    disabled={isOnCheckSmsCode}
+                  >
+                    인증번호 재전송
+                  </button>) :
+                  (<button
+                    type="button"
+                    className="button button-primary"
+                    name="dupCheckButton"
+                    onClick={onCheckPhone}
+                    disabled={!isPhoneValid}
+                  >
+                    중복확인
+                  </button>))}
             </div>
             <div className="regexMsg">{phoneMsg}</div>
-            <div className="input-group">
+            {!isOnCheckSmsCode ? (<div className="input-group">
               <input className="input" type="text" ref={smsCodeInputRef} required placeholder="인증번호 입력" />
               <button type="button" className="button button-primary" onClick={onCheckSmsCode}  disabled={!isPhoneValid || !isOnCheckPhone}>인증번호 입력</button>
-            </div>
+            </div>) : (<></>)}
           </div>
           <button className="button button-primary w-100" onClick={() => submitHandler()} disabled={!isAllValid}>수정하기</button>
         </div>
