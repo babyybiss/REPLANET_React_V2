@@ -136,10 +136,20 @@ function CampaignList() {
             )}
             {categories !== undefined ?
                 currentPage < totalPages && categories.length < totalItems ?
-                    <div className="campaignMoreButton" onClick={handleMoreButtonClick}>Read More</div> :
+                <div className="items-container ic3">
+                    <div></div>
+                    <div className="campaignMoreButton" onClick={handleMoreButtonClick}>Read More</div>
+                    <div></div>
+                </div>
+                     :
                     "" :
                 currentPage < totalPages && currentItems.length < totalItems ?
-                    <div className="campaignMoreButton" onClick={handleMoreButtonClick}>Read More</div> :
+                <div className="items-container ic3">
+                <div></div>
+                <div className="campaignMoreButton" onClick={handleMoreButtonClick}>Read More</div>
+                <div></div>
+            </div>    
+                :
                     ""
             }
             {!(orgURL === window.location.href) ?

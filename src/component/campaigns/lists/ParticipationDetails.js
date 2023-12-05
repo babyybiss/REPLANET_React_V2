@@ -50,8 +50,11 @@ function ParticipationDetails() {
             <>
                 <h2 className="my-1" >참여 내역</h2>
                 {participationList && participationList.length > 0 ? (currentItems.map((participation) => (
-
+                    <table>
+                    <thead>
                         <Participation key={participation ? participation.donationCode : ''} participation={participation} />
+                    </thead>
+                    </table>
 
                     
 

@@ -11,49 +11,38 @@ function CampaignPlan({ campaign }) {
     return (
         campaign && (
             <div>
-                <div className="items-container ic2">
-                <h2 className="">기부금 사용 계획</h2>
-                <div className="text-right">                <button className="button button-primary">
-                    {campaign.campaignCategory}
-                </button></div>
-
+                <div className="d-flex flex-row j-1 mb-1">
+                    <h2 className="">기부금 사용 계획</h2>
+                    <button className="button button-primary">
+                        카테고리 : {campaign.campaignCategory}
+                    </button>
                 </div>
 
-
-                <div className="">
-                    <div className="w-100 mb-1">
-                        <div className="card" >
-                            <div className="card-body" style={{justifyContent: "spaceetween"}}>
-                                <h3 className="text-primary" >총 목표 금액</h3>
+                    <div className="items-container ic3 mb-2">
+                        <div className="card">
+                            <div className='card-header bg-primary'>총 목표 금액</div>
+                            <div className="card-body">
                                 <h5>{campaign.goalBudget.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</h5>
                             </div>
                         </div>
-                    </div>
-                    <div className="w-100 mb-1">
-                    <div className="card">
+                        <div className="card">
+                        <div className='card-header bg-primary'>캠페인 마감일</div>
                             <div className="card-body">
-                                <h3 className="text-primary">캠페인 마감일</h3>
                                 <h5>{endDate}</h5>
                             </div>
                         </div>
-                    </div>
-                    <div className="w-100 mb-1">
-                    <div className="card">
-                            <div className="card-body">
-                                <h3 className="text-primary">단체명</h3>
-                                <h5>{campaign.organization? campaign.organization.member.memberName : "익명의 기부자"}</h5>
+                        <div className="card">
+                        <div className='card-header bg-primary'>단체정보</div>
+                            <div className="card-body d-flex flex-column">
+                            <h5>{campaign.organization ? campaign.organization.member.memberName : "익명의 기부자"}</h5>
+                                <h6>{campaign.organization ? campaign.organization.member.phone : "익명의 기부자"}</h6>
+                                
                             </div>
                         </div>
                     </div>
-                    <div className="w-100">
-                    <div className="card">
-                            <div className="card-body">
-                                <h3 className="text-primary">단체 연락처</h3>
-                                <h5>{campaign.organization? campaign.organization.member.phone : "익명의 기부자"}</h5>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
+
+
             </div>
         )
     );

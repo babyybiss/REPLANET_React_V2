@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from 'jwt-decode';
 import Swal from 'sweetalert2';
-import HeartButton from '../../mypage/items/HeartButton';
+import HeartBar from '../../mypage/items/HeartBar';
 import { useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 
@@ -162,32 +162,64 @@ function CampaignSidebar({ campaign, orgList }) {
     return (
         campaign && (
             <div className="container-sidebar">
-                <div>
-                    {campaignStatus < 0 || decodedToken && decodedToken.memberRole === "ROLE_ORG" || decodedToken && decodedToken.memberRole === "ROLE_ADMIN" ?
-                        "" :
-                        <HeartButton campaignCode={campaignCode} />
-                    }
-                </div>
-                <h2>현재 모금액 : {campaign.currentBudget.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원 </h2>
-                <h6>목표 모금액 : {campaign.goalBudget.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원 </h6>
+                <h5 className="text-bold">현재 모금액</h5>
+                <h1><span className="text-bold">{campaign.currentBudget.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span><span style={{ fontSize: 1.25 + "rem", fontWeight: "bold" }}>원</span></h1>
+
                 <progress className="progress" value={percentage} max="100"></progress>
-                <div className="campaign-progress-info mt-1 pt-1">
-                    <span className="amount">{startDate} ~ {endDate}</span>
-                    <span className="percent float-right">{percentage > 100 ? '목표금액 초과!!' : percentage + '%'}</span>
+                <div className="d-flex j-1 pt-1">
+                    <div>
+                        <h6>목표 모금액</h6>
+                        <h5>{campaign.goalBudget.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원 </h5>
+                    </div>
+
+                    <h3 className="percent float-right">{percentage > 100 ? '초과 달성!' : percentage + '%'}</h3>
                 </div>
-                <div className="items-container ic2">
+                <hr />
+                <div className="campaign-progress-info items-container ic1">
+                    <div className="d-flex j-1 border rounded p-1 align-center">
+                        <div><span className="text-bold">Start</span></div>
+                        <div>{startDate}</div>
+                    </div>
+                    <div className="d-flex j-1 border rounded p-1 align-center">
+                        <div><span className="text-bold">End</span></div>
+                        <div>{endDate}</div>
+                    </div>
+                </div>
+                <hr />
+                <div className="items-container ic3">
                     {decodedToken !== null && decodedToken.memberRole == "ROLE_ORG" && camPaignOrgCode == myOrgCode ?
                         <button className="button button-primary" onClick={deleteCampaignHandler}>삭제하기</button> :
                         decodedToken !== null && decodedToken.memberRole == "ROLE_ORG" ? "" :
-                            <button className="button button-primary" onClick={goToDonation}>후원하기</button>
+                            <div className="input-group campaignbtn1" onClick={goToDonation}>
+                                <input type="text" readOnly className="input bg-primary border-primary" placeholder='후원하기' style={{ cursor: "pointer" }}></input>
+                                <button className="button button-primary"><i className="fa-solid fa-coins"></i></button>
+                            </div>
                     }
                     {decodedToken !== null && decodedToken.memberRole == "ROLE_ORG" && camPaignOrgCode == myOrgCode ?
                         <button className="button button-primary-outline" onClick={modifyCampaignHandler}>수정하기</button> :
                         decodedToken !== null && decodedToken.memberRole == "ROLE_ORG" ? "" :
-                            <button className="button button-primary-outline" onClick={shareKakao}>공유하기</button>
+
+                            <div className="input-group campaignbtn2" onClick={shareKakao}>
+                                <input type="text" readOnly className="input border-primary" placeholder='공유하기' style={{ cursor: "pointer" }}></input>
+                                <button className="button button-primary-outline"> <i className="fa-solid fa-share"></i></button>
+                            </div>
+
+
                     }
+                    <div>
+                        {campaignStatus < 0 || decodedToken && decodedToken.memberRole === "ROLE_ORG" || decodedToken && decodedToken.memberRole === "ROLE_ADMIN" ?
+                            "" :
+
+
+                            <HeartBar campaignCode={campaignCode} />
+
+
+
+
+                        }
+                    </div>
                 </div>
-                <hr/>
+                <hr />
                 <h5 className='mb-1'>{/*{campaign.organization ? campaign.organization.member.memberName : "익명의 기부자"}*/}이 재단의 또 다른 캠페인</h5>
                 <div className="item border mb-1"
                     style={{ overflowX: 'hidden', overflowY: 'scroll', width: '100%', height: '30%' }}>
