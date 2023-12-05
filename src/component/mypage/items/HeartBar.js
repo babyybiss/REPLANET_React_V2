@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import { GET_BOOKMARK_STATUS } from "../../../modules/BookmarkModule";
 import Swal from 'sweetalert2';
 
-function HeartButton({ campaignCode }) {
+function HeartBar({ campaignCode }) {
     // 토큰 정보 
     const token = localStorage.getItem('token');
     const decodedToken = token ? jwtDecode(token) : null;
@@ -89,16 +89,41 @@ function HeartButton({ campaignCode }) {
             onClick={clickedToggle}
         />*/
         <>
-                <i className={
+
+
+
+
+<div className={
+
+like === 1
+                ? "input-group campaignbtn1"
+                : "input-group campaignbtn3"
+        } onClick={clickedToggle}>
+<input type="text" placeholder='북마크' style={{ cursor: "pointer" + "!important" }} readOnly className={
+            like === 1
+                ? "input border-danger bg-danger"
+                : "input border-danger"
+        } />
+
+<button  className={
+            like === 1
+                ? "button button-danger"
+                : "button button-danger-outline"
+        }> <i className={
             like === 1
                 ? "fa-solid fa-heart"
                 : "fa-regular fa-heart"
         }
-        onClick={clickedToggle}>
-    </i>
+        >
+    </i></button>
+
+
+</div>
+
+
         </>
 
     );
 }
 
-export default HeartButton;
+export default HeartBar;

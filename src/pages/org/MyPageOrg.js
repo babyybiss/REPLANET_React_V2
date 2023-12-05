@@ -66,7 +66,7 @@ function MyPageOrg() {
                     {/* 기부처의 받은 기부금 총액 총합 구해야함 */}
                 </div>
             </div>               
-            <div className='container-admin'>
+            <div className='container-admin bg-light'>
                 <div className="admin-sidebar bg-light">
                     <NavLink to="list" className='admin-sidebar-menu'>
                         캠페인 관리

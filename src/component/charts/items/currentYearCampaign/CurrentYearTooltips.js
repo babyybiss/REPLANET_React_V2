@@ -1,9 +1,7 @@
 export function CustomFlyoutY1(flyoutComponentProps) {
-    const { x, y, dataColorSet, labelInterval } = flyoutComponentProps;
-
-    const newX = x - 75;
-    const newY = y - 105;
-    
+    const { dataColorSet, startLabelY, labetLocationXSet } = flyoutComponentProps;
+    const newX = labetLocationXSet[0]-75;
+    const newY = startLabelY - 18;
 
     return (
         <g>
@@ -14,12 +12,10 @@ export function CustomFlyoutY1(flyoutComponentProps) {
 }
 
 export function CustomFlyoutY2(flyoutComponentProps) {
-    const { x, y, dataColorSet, labelInterval } = flyoutComponentProps;
-
-    const newX = x - 75;
-    const newY = y - (labelInterval*2);
+    const { dataColorSet, startLabelY, labetLocationXSet } = flyoutComponentProps;
+    const newX = labetLocationXSet[1]-75;
+    const newY = startLabelY - 18;
     
-
     return (
         <g>
             <rect width="150" height="34" x={newX} y={newY} rx={5} fill="#ffffff"  opacity={0.8} stroke={dataColorSet[1]} strokeWidth={3}/>
@@ -29,12 +25,10 @@ export function CustomFlyoutY2(flyoutComponentProps) {
 }
 
 export function CustomFlyoutY3(flyoutComponentProps) {
-    const { x, y, dataColorSet, labelInterval } = flyoutComponentProps;
-
-    const newX = x - 75;
-    const newY = y - labelInterval;
+    const { dataColorSet, startLabelY, labetLocationXSet } = flyoutComponentProps;
+    const newX = labetLocationXSet[2]-75;
+    const newY = startLabelY - 18;
     
-
     return (
         <g>
             <rect width="150" height="34" x={newX} y={newY} rx={5} fill="#ffffff"  opacity={0.8} stroke={dataColorSet[2]} strokeWidth={3}/>
@@ -44,12 +38,10 @@ export function CustomFlyoutY3(flyoutComponentProps) {
 }
 
 export function CustomFlyoutY4(flyoutComponentProps) {
-    const { x, y, dataColorSet, labelInterval } = flyoutComponentProps;
-
-    const newX = x - 75;
-    const newY = y - (labelInterval-labelInterval);
+    const { dataColorSet, startLabelY, labetLocationXSet } = flyoutComponentProps;
+    const newX = labetLocationXSet[3]-75;
+    const newY = startLabelY - 18;
     
-
     return (
         <g>
             <rect width="150" height="34" x={newX} y={newY} rx={5} fill="#ffffff"  opacity={0.8} stroke={dataColorSet[3]} strokeWidth={3}/>
@@ -58,11 +50,9 @@ export function CustomFlyoutY4(flyoutComponentProps) {
 }
 
 export function CustomFlyoutY5(flyoutComponentProps) {
-    const { x, y, dataColorSet, labelInterval } = flyoutComponentProps;
-
-    const newX = x - 75;
-    const newY = y + labelInterval;
-    
+    const { dataColorSet, startLabelY, labetLocationXSet } = flyoutComponentProps;
+    const newX = labetLocationXSet[4]-75;
+    const newY = startLabelY - 18;
 
     return (
         <g>
@@ -73,11 +63,9 @@ export function CustomFlyoutY5(flyoutComponentProps) {
 }
 
 export function CustomFlyoutY6(flyoutComponentProps) {
-    const { x, y, dataColorSet, labelInterval } = flyoutComponentProps;
-
-    const newX = x - 75;
-    const newY = y + (labelInterval*2);
-    
+    const {dataColorSet, startLabelY, labetLocationXSet } = flyoutComponentProps;
+    const newX = labetLocationXSet[5]-75;
+    const newY = startLabelY - 18;
 
     return (
         <g>

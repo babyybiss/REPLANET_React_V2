@@ -1,21 +1,6 @@
 import {VictoryVoronoiContainer, VictoryLine, VictoryChart, VictoryAxis, VictoryGroup, VictoryScatter, VictoryTooltip} from 'victory';
 import "../../assets/css/chart.css";
-import { CustomFlyoutY1, CustomFlyoutY2, CustomFlyoutY3, CustomFlyoutY4, CustomFlyoutY5, CustomFlyoutY6 } from './items/CurrentYearTooltips';
-
-/* customToolTipBox */ 
-/*
-function CustomFlyout(flyoutComponentProps) {
-  const {x, y} = flyoutComponentProps;
-  const newX = x - 200;
-  const newY = y - 200;
-
-  return (
-    <g>
-      <rect width="90" height="40" x={newX} y={newY} rx={5} stroke="#10573C" fill="none" strokeWidth={1}></rect>
-    </g>
-  );
-}
-*/
+import { CustomFlyoutY1, CustomFlyoutY2, CustomFlyoutY3, CustomFlyoutY4, CustomFlyoutY5, CustomFlyoutY6 } from './items/currentYearCampaign/CurrentYearTooltips';
 
 function CurrentYearCampaign(chartDataListProps) {
 
@@ -37,9 +22,39 @@ function CurrentYearCampaign(chartDataListProps) {
   const stringX = 'monthly';
   const standardDataY = ['allCampaigns', 'childCampaigns', 'olderCampaigns', 'etcCampaigns', 'animalCampaigns', 'natureCampaigns']
   const campaignCategoryArray = ['총','아동-청소년', '어르신', '기타', '동물', '환경보호'];
-  
 
-  /* style setting */
+  /* Event function setting */ 
+  const mouseEventsHandler = [
+    {
+      childName: "all",
+      target: "data",
+      eventHandlers: {
+        onMouseOver: () => {
+          return [
+            {
+              target: "data",
+              mutation: () => ({ active : true }) 
+            }
+          ];
+        },
+        onMouseOut: () => {
+          return [
+            {
+              target: "data",
+              mutation: () => ({ active: false })
+            }
+          ];
+        }
+      }
+    }
+  ]
+  
+  /* ---------- style setiing start ---------- */ 
+
+  /* 데이터 컬러 프리셋 */ 
+  const dataColorSet = ["#10573C", "#ff9f40", "#ff6384", "#ffcd56", "#36a2eb", "#9966ff"];
+
+  /* 1. axis style */
   const baseFillStyle = { fill: "#10573C" }
   const baseStrokeAndWidth = { stroke: "#10573C", strokeWidth: 2 }
   const baseToolTipSize = 20
@@ -49,15 +64,31 @@ function CurrentYearCampaign(chartDataListProps) {
     axisLabel: { fontSize: 20, padding: 36, ...baseFillStyle },
     tickLabels: { fontSize: 20, padding: 10, ...baseFillStyle }
   }
-  /* 라벨 세팅 */ 
-  let startLabelY = -60;
-  let labelInterval = 35; 
-  const labelLocationYSet = Array.from({ length: 6 }, (_, index) => startLabelY + (labelInterval * index));
+
+  /* 2. label style */ 
+  let startLabelX = width/7
+  let startLabelY = height/10
+  let labetAmount = 6;
+  const labetLocationXSet = Array.from({ length: labetAmount }, (_, index) => startLabelX + (startLabelX * index));
+
+  /* 3. line style */ 
+  const lineStyleTest = {
+    data : {
+      stroke : dataColorSet[0],
+      strokeWidth : ({ active }) => active ? 3 : 2,
+      opacity : ({ active }) => active ? 1 : 0.3
+    }
+  }
+
+  /* 4. scatter style */
+  const scatterStyleTest = {
+    data : {
+      fill : dataColorSet[0],
+      opacity : ({ active }) => active ? 1 : 0.3
+    }
+  } 
   
-  /* color set */ 
-  const dataColorSet = ["#10573C", "#ff9f40", "#ff6384", "#ffcd56", "#36a2eb", "#9966ff"];
-
-
+  /* ---------- style setiing end ---------- */ 
 
   /* render */
   return (
@@ -68,7 +99,9 @@ function CurrentYearCampaign(chartDataListProps) {
         padding={chartPadding}
         domainPadding={100} 
         containerComponent={
-          <VictoryVoronoiContainer />
+          <VictoryVoronoiContainer 
+            events={mouseEventsHandler}
+          />
         }
       > 
         <VictoryAxis 
@@ -83,7 +116,7 @@ function CurrentYearCampaign(chartDataListProps) {
         />
         
         <VictoryGroup
-          color= {dataColorSet[0]}
+          // color= {dataColorSet[0]}
           labels={({ datum }) => `${campaignCategoryArray[0]} ${datum._y}건`}
           labelComponent={
             <VictoryTooltip
@@ -91,11 +124,12 @@ function CurrentYearCampaign(chartDataListProps) {
                 fill: dataColorSet[0],
                 fontSize: baseToolTipSize
               }}
-              dy={labelLocationYSet[0]}
+              center={{ x: labetLocationXSet[0], y: startLabelY }}
               flyoutComponent={
                 <CustomFlyoutY1
-                  dataColorSet={dataColorSet} 
-                  labelInterval={labelInterval}
+                  dataColorSet={dataColorSet}
+                  labetLocationXSet={labetLocationXSet}
+                  startLabelY={startLabelY}
                 />
               }
             />
@@ -107,15 +141,12 @@ function CurrentYearCampaign(chartDataListProps) {
           <VictoryLine
             x={stringX}
             y={standardDataY[0]}
+            style={lineStyleTest}
           />
           <VictoryScatter 
             x={stringX}
             y={standardDataY[0]}
-            /*
-            size={({ active }) => 
-              active ? 8 : 3
-            }
-            */
+            style={scatterStyleTest}
           />
         </VictoryGroup>
         <VictoryGroup
@@ -127,11 +158,12 @@ function CurrentYearCampaign(chartDataListProps) {
                 fill: dataColorSet[1],
                 fontSize: baseToolTipSize
               }}
-              dy={labelLocationYSet[1]}
+              center={{x: labetLocationXSet[1], y: startLabelY }}
               flyoutComponent={
                 <CustomFlyoutY2
                   dataColorSet={dataColorSet}
-                  labelInterval={labelInterval}
+                  labetLocationXSet={labetLocationXSet}
+                  startLabelY={startLabelY}
                 />
               }
             />
@@ -158,11 +190,12 @@ function CurrentYearCampaign(chartDataListProps) {
                 fill: dataColorSet[2],
                 fontSize: baseToolTipSize
               }}
-              dy={labelLocationYSet[2]}
+              center={{ x: labetLocationXSet[2], y: startLabelY }}
               flyoutComponent={
                 <CustomFlyoutY3
                   dataColorSet={dataColorSet}
-                  labelInterval={labelInterval}
+                  labetLocationXSet={labetLocationXSet}
+                  startLabelY={startLabelY}
                 />
               }
             />
@@ -189,11 +222,12 @@ function CurrentYearCampaign(chartDataListProps) {
                 fill: dataColorSet[3],
                 fontSize: baseToolTipSize
               }}
-              dy={labelLocationYSet[3]}
+              center={{ x: labetLocationXSet[3], y: startLabelY }}
               flyoutComponent={
                 <CustomFlyoutY4 
                   dataColorSet={dataColorSet}
-                  labelInterval={labelInterval}
+                  labetLocationXSet={labetLocationXSet}
+                  startLabelY={startLabelY}
                 />
               }
             />
@@ -220,11 +254,12 @@ function CurrentYearCampaign(chartDataListProps) {
                 fill: dataColorSet[4],
                 fontSize: baseToolTipSize
               }}
-              dy={labelLocationYSet[4]}
+              center={{ x: labetLocationXSet[4], y: startLabelY }}
               flyoutComponent={
                 <CustomFlyoutY5
                   dataColorSet={dataColorSet}
-                  labelInterval={labelInterval}
+                  labetLocationXSet={labetLocationXSet}
+                  startLabelY={startLabelY}
                 />
               }
             />
@@ -251,11 +286,12 @@ function CurrentYearCampaign(chartDataListProps) {
                 fill: dataColorSet[5],
                 fontSize: baseToolTipSize
               }}
-              dy={labelLocationYSet[5]}
+              center={{ x: labetLocationXSet[5], y: startLabelY }}
               flyoutComponent={
                 <CustomFlyoutY6
                   dataColorSet={dataColorSet}
-                  labelInterval={labelInterval}
+                  labetLocationXSet={labetLocationXSet}
+                  startLabelY={startLabelY}
                 />
               }
             />

@@ -26,7 +26,7 @@ console.log(participationList);
       <>
         <div style={{ marginTop: 100 }}>
           <div className="campaign-banner">
-            <h3>{today} 하루,<br/>{participationList != 0 ? participationList[0].donationCount : "0"}명의 사람들이 {totalDonation? totalDonation:""} 원만큼 모았어요! </h3>
+            <h3>{today} 하루,<br/>{participationList != 0 ? participationList[0].donationCount : "0"}명의 사람들이 {totalDonation? totalDonation:""}원만큼 모았어요! </h3>
           </div>
         </div>
         

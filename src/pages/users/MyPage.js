@@ -3,7 +3,7 @@ import '../../assets/css/common.css';
 import '../../assets/css/user.css';
 import '../../assets/css/mypage.css';
 
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation, useNavigationType } from 'react-router-dom';
 import { Outlet } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -32,11 +32,20 @@ function MyPage() {
         [dispatch, location.pathname]
     );
 
-    const [isSubmenuOpen, setIsSubmenuOpen] = useState(false);
+    const navigationType = useNavigationType();
+    const [isSubmenuOpen, setIsSubmenuOpen] = useState(() => {
+        const storedStatus = localStorage.getItem("isSubmenuOpen");
+        return storedStatus? JSON.parse(storedStatus) : false;
+    }, []);
+    useEffect(() => {
+        const storedStatus = localStorage.getItem("isSubmenuOpen");
+        setIsSubmenuOpen(navigationType == 'PUSH' || performance.navigation.type == 0? null : storedStatus? JSON.parse(storedStatus) : false);
+    }, []);
     const [pointMenuActive, setPointMenuActive] = useState(false);
     console.log("로케이션 확인 : ", location);
     const toggleSubmenu = () => {
         setIsSubmenuOpen(!isSubmenuOpen);
+        localStorage.setItem("isSubmenuOpen", !isSubmenuOpen);
     };
     const submenuStyle = {
         display : isSubmenuOpen? 'block' : 'none'
@@ -63,8 +72,8 @@ function MyPage() {
         }, [location.pathname]
     )
     const modifyMenu = {
-        backgroundColor: modifyActive? 'var(--color-primary) !important' : 'var(--color-white) !important',
-        color: modifyActive? 'var(--color-white) !important' : 'var(--color-dark) !important'
+        backgroundColor: modifyActive? 'var(--color-primary) !importatnt' : 'var(--color-light) !important',
+        color: modifyActive? 'var(--color-white)' : 'var(--color-dark)'
     }
 
     return(

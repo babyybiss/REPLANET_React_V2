@@ -332,7 +332,9 @@ h6 {
 .bg-secondary {
   background-color: var(--color-secondary) !important;
 }
-
+.bg-danger {
+  background-color: var(--color-danger) !important;
+}
 .bg-lessDark {
   background-color: var(--color-lessDark) !important;
 }
@@ -604,7 +606,9 @@ h6 {
 .border-light {
   border-color: var(--color-light) !important;
 }
-
+.border-danger {
+  border-color: var(--color-danger) !important;
+}
 .border-top {
   border-top: solid 1px var(--color-secondary) !important;
 }
@@ -658,11 +662,24 @@ h6 {
 }
 
 .align-center {
-  align-items: center;
+  align-items: center!important;
 }
 
 .d-flex {
-  display: flex;
+  display: flex!important;
+}
+
+.d-flex.flex-column {
+  flex-direction: column!important;
+  flex-wrap: wrap!important;
+}
+
+.d-flex.flex-row {
+  flex-direction: row!important;
+}
+
+.justify-start {
+  justify-content: start!important;
 }
 
 /*scrollbar*/
@@ -1128,14 +1145,17 @@ select:active {
 }
 
 .input-group>.input,
-.input-group>.select {
+.input-group>.select,
+.input-group>.textarea {
   position: relative;
   flex: 1 1 auto;
   width: 1%;
   min-width: 0;
 }
 
-.input-group>.input {
+.input-group>.input,
+.input-group>.select,
+.input-group>.textarea {
   padding-right: 0
 }
 
@@ -1146,7 +1166,8 @@ select:active {
 }
 
 .input-group .input,
-.input-group .select {
+.input-group .select,
+.input-group>.textarea {
   border-radius: 0.25rem 0 0 0.25rem !important;
   border-right: 0
 }
@@ -1211,6 +1232,11 @@ select:active {
   color: var(--color-primary-disabled) !important;
 }
 
+.button-danger-outline {
+  background-color: var(--color-white) !important;
+  border: solid 1px var(--color-danger) !important;
+  color: var(--color-danger) !important;
+}
 
 .button-black {
   background-color: var(--color-black) !important;
@@ -1641,8 +1667,7 @@ input[name="tab_item"] {
 .card-body {
   padding: 1rem;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
 
 }
 
@@ -1753,7 +1778,6 @@ progress {
 .admin-sidebar {
   height: 100vh!important;
   width: 200px;
-   border-right: solid 1px var(--color-light-hover)!important;
   background-color: var(--color-light)!important;
 }
 
@@ -1779,7 +1803,9 @@ progress {
 }
 
 .admin-main {
-  padding: 2rem
+  padding: 2rem;
+  background-color: var(--color-white);
+  border-left: solid 1px var(--color-light-hover)!important;
 }
 
 .admin-title {
@@ -1852,4 +1878,8 @@ footer {
 .swal2-confirm {
   background-color: var(--color-primary) !important;
   font-size: 0.9rem
+}
+
+.subtitle {
+  font-family: 'Anton', 'Pretendard Variable'!important;
 }
