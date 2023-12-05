@@ -40,8 +40,14 @@ export const AuthContextProvider = (props) => {
     const [isGetSuccess, setIsGetSuccess] = useState(false);
     const userIsLoggedIn = !!token;
 
-    const setAccessTokenHandler = (accessToken) => {
-        setAccessToken(accessToken);
+    const setAccessTokenHandler = async (accessToken) => {
+        try {
+            console.log('setAccessTokenHandler의 accessToken : ', accessToken);
+            await setAccessToken(accessToken);
+            await localStorage.setItem('accessToken', accessToken);
+        } catch (error) {
+            console.error('액세스 토큰 설정 중 오류:',error);
+        }
     };
 
     const signupHandler = (email, password, memberName, phone, memberRole) => {

@@ -60,6 +60,7 @@ export const logoutActionHandler = () => {
   localStorage.removeItem('token');
   localStorage.removeItem('expirationTime');
   localStorage.removeItem('code');
+  localStorage.removeItem('accessToken');
 };
 export const getUserActionHandler = (token) => {
   const URL = '/';

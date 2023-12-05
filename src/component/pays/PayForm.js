@@ -187,11 +187,14 @@ function PayForm() {
     }
 
     const onChangeHandler = (e) => {
-        const inputValue = e.target.value.replace(/,/g, '');
+        let inputValue = e.target.value.replace(/,/g, '');
         console.log('inputValue : ',inputValue);
+        if (/^0\d+/.test(inputValue)) {
+            inputValue = inputValue.replace(/^0+/, '');
+        }
 
-        if (/^[1-9]\d*$|^0$/.test(inputValue)) {
-            const intValue = parseInt(inputValue, 10);
+        if (/^[1-9]\d*$|^0$/.test(inputValue) || inputValue === '') {
+            const intValue = inputValue === '' ? 0 : parseInt(inputValue, 10);
             const clampedValue = Math.min(intValue, 2000000000);
         
             if (e.target.name === "finalAmount") {
