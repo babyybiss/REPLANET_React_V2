@@ -13,7 +13,17 @@ export function VerifyPwdAPI({orgCode, orgPwd}, navigate){
             console.log('[OrgAPI] verifyPwdAPI RESULT : ', result.data);
             dispatch({type: GET_ORG_INFORMATION, payload: result.data});
             localStorage.setItem("orgData", JSON.stringify(result.data[0]));
-            navigate('/myPageOrg/modify');
+            Swal.fire({
+                icon: "success",
+                iconColor: '#1D7151',
+                title: "정보 수정으로 이동합니다.",
+                showCancelButton: false,
+                confirmButtonColor: '#1D7151',
+                confirmButtonText: '확인'
+            }).then(result => {
+                if(result.isConfirmed){
+                    navigate('/myPageOrg/modify');
+            }})
         } catch (error){
             console.error('[OrgAPI] verifyPwdAPI 에러 발생 : ', error);
             if(error.response?.status == 400){
