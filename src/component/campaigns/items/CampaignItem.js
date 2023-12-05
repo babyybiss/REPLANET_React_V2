@@ -26,9 +26,12 @@ function CampaignItem({ campaign, decodedToken }) {
 
   return (
     <div className="item">
-      <NavLink className="item-thumb rounded-3 mb-1" to={`/campaign/${campaign.campaignCode}?orgCode=${orgCode}`}>
-        <img src={fileSaveName ? `/campaigns/${campaign.campaignDescFileList[0].fileSaveName}` : '/campaigns/default/noImage.png'} style={{width:"500px", height:"300px"}} alt="캠페인 이미지" />
+      <div className="item-thumb rounded-3 mb-1" style={{maxHeight: 250 + "px", overflow: "hidden"}}>
+      <NavLink className="" to={`/campaign/${campaign.campaignCode}?orgCode=${orgCode}`}>
+        <img src={fileSaveName ? `/campaigns/${campaign.campaignDescFileList[0].fileSaveName}` : '/campaigns/default/noImage.png'} alt="캠페인 이미지"/>
       </NavLink>
+      </div>
+
       <h4 style={{display:"flex", justifyContent:"space-between"}}> 
         {campaign.campaignTitle}
         {campaignStatus < 0 || decodedToken && decodedToken.memberRole === "ROLE_ORG" || decodedToken && decodedToken.memberRole === "ROLE_ADMIN" ?

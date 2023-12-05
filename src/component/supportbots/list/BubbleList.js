@@ -107,7 +107,7 @@ function BubbleList({ setIsShow }) {
         <div className="modal-footer-bar text-primary" >
             <i className="fa-solid fa-arrow-turn-up" style={{cursor: "pointer"}} onClick={() => ScrollTopClickHandler()} />
             <i className="fa-solid fa-arrow-rotate-right" style={{cursor: "pointer"}} onClick={() => ResetClickHandler()} />
-            <i className="fas fa-power-off" style={{cursor: "pointer"}} onClick={() => setIsShow(false)} />
+            <i className="fa-solid fa-power-off" style={{cursor: "pointer"}} onClick={() => setIsShow(false)} />
         </div>
         </>
     );

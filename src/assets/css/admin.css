@@ -26,9 +26,9 @@
   
   
   .admin-sidebar {
-    height: 100vh;
+    height: 100vh!important;
     width: 200px;
-    border-right: solid 1px var(--color-light-hover);
+
   }
   
   .admin-sidebar-menu {

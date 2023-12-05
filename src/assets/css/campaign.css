@@ -83,7 +83,7 @@
   }
 
   .campaignMoreButton {
-    width: 30%;
+    width: 100%;
     border-radius: 0.5rem;
     padding: 1rem;
     background-color: var(--color-primary);
@@ -91,6 +91,7 @@
     text-align: center;
     font-weight: 500;
     margin: 0 auto;
+    margin-top: 1rem;
     cursor: pointer;
   }
 
@@ -122,3 +123,15 @@
     min-height: 100px;
     max-height: 500px;
   } */
+
+  .campaignbtn1 input::placeholder {
+    color: var(--color-white)!important
+  }
+
+  .campaignbtn2 input::placeholder {
+    color: var(--color-primary)!important
+  }
+
+  .campaignbtn3 input::placeholder {
+    color: var(--color-danger)!important
+  }
