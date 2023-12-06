@@ -27,8 +27,8 @@ export function Review({ review, reviewExists }) {
           <div>
             {memberUI ? 
             <NavLink to={`/campaign/${review.campaignCode}`}>
-              <h4>{review.campaignTitle}<br/><h6 style={{color: "#706f6f"}}>캠페인명 </h6></h4>
-            <h4>{review.organization.member.memberName}<br /><h6 style={{color: "#706f6f"}}>재단명</h6></h4>
+              <h4><span style={{color: "#706f6f", fontSize: 15+"px"}}>캠페인명 </span><br/>{review.campaignTitle}</h4>
+            <h4><span style={{color: "#706f6f", fontSize: 15+"px"}}>재단명</span><br />{review.organization.member.memberName}</h4>
             </NavLink>
             :
             <>
