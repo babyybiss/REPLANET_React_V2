@@ -25,6 +25,12 @@ const Login = () => {
 
     }
 
+    const handleKeyPress = (e) => {
+        if(e.key == 'Enter'){
+            submitHandler(e);
+        }
+    }
+
     const KakaoLoginHandler = () => {
 
         console.log("반갑다 나 카카오다.");
@@ -62,6 +68,7 @@ const Login = () => {
                                     ref={passwordInputRef}
                                     placeholder="비밀번호를 입력해 주세요."
                                     required
+                                    onKeyPress={handleKeyPress}
                                 />
 
                                 <button className="button button-primary" onClick={submitHandler}>로그인</button>
