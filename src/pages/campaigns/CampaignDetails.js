@@ -28,9 +28,7 @@ function CampaignDetail() {
             dispatch(GetCampaignAPI(campaignCode));
             // 첫 번째 API 호출
             if (Object.keys(orgCode).length === 0) return;
-
             await dispatch(GetCampaignByOrgAPI(orgCode, "no"));
-
         };
 
         fetchData();

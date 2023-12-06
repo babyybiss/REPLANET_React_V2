@@ -23,10 +23,12 @@ const categoryList = [
 function CampaignModify() {
     //캠페인 정보 불러오기
     const result = useSelector(state => state.campaignReducer.campaigninfo);
-    const campaign = result.results? result.results.campaign : "";
+    const campaign = result.results ? result.results.campaign : "";
     const { campaignCode } = useParams();
     const navigate = useNavigate();
     const maxSizeInBytes = 5242880; // 5 MB
+    // 버튼 따닥 방지
+    const [isButtonDisabled, setButtonDisabled] = useState(false);
 
     // 캠페인 내용 가져오기
     const [editorState, setEditorState] = useState(() => {
@@ -44,7 +46,7 @@ function CampaignModify() {
     const [imagePre, setImagePre] = useState('');
     const [imageUrl, setImageUrl] = useState('');
     const imageInput = useRef();
-    
+
     let beforeUrl = campaign.campaignDescFileList[0] ? campaign.campaignDescFileList[0].fileSaveName : null
 
     // 수정하기 전 내용 가져오기 
@@ -144,7 +146,7 @@ function CampaignModify() {
         if (!image) {
             return setImagePre('');
         }
-        if(image && image.size > maxSizeInBytes) {
+        if (image && image.size > maxSizeInBytes) {
             Swal.fire({
                 icon: 'warning',
                 title: "이미지 용량이 5MB를 초과합니다.",
@@ -158,8 +160,9 @@ function CampaignModify() {
     };
 
     // db 전송
-    const submitHandler = () => {
-
+    const submitHandler = async () => {
+        if (isButtonDisabled) return
+        setButtonDisabled(true);
         const formData = new FormData();
 
         formData.append("campaignCategory", inputs.campaignCategory);
@@ -172,9 +175,13 @@ function CampaignModify() {
             formData.append("imageFile", imagePre);
         }
 
-        dispatch(ModifyCampaignAPI({
-            inputs: formData,
-        }, campaignCode));
+        try {
+            await dispatch(ModifyCampaignAPI({
+                inputs: formData,
+            }, campaignCode));
+        } finally {
+            setButtonDisabled(false);
+        }
 
     }
 
@@ -217,7 +224,7 @@ function CampaignModify() {
                 </div>
             </div>
             <div className="campaignSubmitButton">
-                <div className="button button-primary" style={{ width: '30%', textAlign: 'center',marginBottom: '1rem' }} onClick={submitHandler} >등록하기</div>
+                <div className="button button-primary" style={{ width: '30%', textAlign: 'center', marginBottom: '1rem' }} onClick={submitHandler} >등록하기</div>
                 <div className="button button-primary-outline" style={{ width: '30%', textAlign: 'center' }} onClick={() => navigate(-1)}>취소</div>
             </div>
         </>
