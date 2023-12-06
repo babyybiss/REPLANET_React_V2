@@ -45,6 +45,11 @@ import VerifyUser from "./pages/users/VerifyUser";
 import FindId from "./pages/auth/FindId";
 import FindPw from "./pages/auth/FindPw";
 import SocialSignup from "./pages/auth/SocialSignup";
+import ChartMain from "./pages/charts/ChartMain";
+import GoalCampaign from "./component/charts/GoalCampaign";
+import CategoryCampaign from "./component/charts/CategoryCampaign";
+import HistoryChart from "./component/charts/HistoryChart";
+import CurrentYearCampaign from "./component/charts/CurrentYearCampaign";
 
 function App() {
 
@@ -87,7 +92,13 @@ function App() {
               <Route path="campaign/:campaignCode" element={<CampaignDetail />} />
               <Route path="modify/:campaignCode"element={<CampaignModify />} />
             </Route>
-            <Route path="charts" element={decodedToken?.memberRole === "ROLE_ADMIN" ? <Charts /> : <Navigate to='/' />} />
+            <Route path="charts" element={decodedToken?.memberRole === "ROLE_ADMIN" ? <ChartMain /> : <Navigate to='/' />} children={[
+              <Route key="goalCampaign" index element={<Navigate to="goalCampaign" />} />,
+              <Route key="goalCampaignPage" path="goalCampaign" element={<GoalCampaign/>} />,
+              <Route key="categoryCampaign" path="categoryCampaign" element={<CategoryCampaign/>} />,
+              <Route key="historyCampaign" path="historyCampaign" element={<HistoryChart/>} />,
+              <Route key="currentYearCampaign" path="currentYearCampaign" element={<CurrentYearCampaign/>} />
+            ]} />
             <Route path="reviews">
               <Route index element={<Reviews />} />
               <Route path=":reviewCode" element={<ReviewDetails />} />

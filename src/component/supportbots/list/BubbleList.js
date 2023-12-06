@@ -6,12 +6,15 @@ function BubbleList({ setIsShow }) {
     const callApiResult = useSelector(state => state.supportbotReducer)
     const supportbotDataList = callApiResult.supportbotDataList.results.allSupportData;
     
+    const questionCodeArray = supportbotDataList.map((code) => code.questionCode)
+    const maxCode = Math.max(...questionCodeArray);
+
     const questionContentArray = supportbotDataList.map((question) => question.questionContent)
     const answerArray = supportbotDataList.map((answer) => answer.answerContent) 
-
+    
     /* 말풍선 리스트 상태 */
     const [bubbles, setBubbles] = useState(supportbotDataList)
-    const [madeKey, setMadekey] = useState(6);
+    const [madeKey, setMadekey] = useState(maxCode + 1);
     const [anyQuestion, setAnyQuestion] = useState(false)
 
     const scrollRef = useRef();
@@ -31,6 +34,8 @@ function BubbleList({ setIsShow }) {
     useEffect(() => {
         scrollToBottom();
     },[bubbles]);
+
+    console.log(bubbles)
     
     /* 질문을 눌렀을 경우 기존 말풍선 리스트에 답변 말풍선을 추가하고 싶음 */
     let requestCssClass = "requestBoxClass"
@@ -51,7 +56,7 @@ function BubbleList({ setIsShow }) {
             cssCondition: responseCssClass
         });
         // console.log(changeBubbles);
-        setMadekey(madeKey + 3);
+        setMadekey(madeKey + 2);
         setBubbles(changeBubbles);
         setAnyQuestion(true);
         scrollToBottom();
