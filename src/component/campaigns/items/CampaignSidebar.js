@@ -92,7 +92,7 @@ function CampaignSidebar({ campaign, orgList }) {
         }
         );
     }
-    // 후원하기 버튼
+    // 기부하기 버튼
     const goToDonation = () => {
         if (campaignStatus < 0) {
             Swal.fire({
@@ -120,7 +120,7 @@ function CampaignSidebar({ campaign, orgList }) {
         script.async = true; //다운로드 완료 즉시 실행
         document.head.appendChild(script);
 
-    }, []);
+    }, [orgList]);
     const shareKakao = () => { // url이 id값에 따라 변경되기 때문에 route를 인자값으로 받아줌
         if (campaignStatus < 0) {
             Swal.fire({
@@ -156,9 +156,12 @@ function CampaignSidebar({ campaign, orgList }) {
     };
 
 
+    const onClickHandler = async () => {
+        await window.scrollTo({ top: 0 })
+        window.location.reload()
+    }
     let camPaignOrgCode = campaign && campaign.organization.orgCode;
     let myOrgCode = decodedToken && decodedToken.memberCode;
-    console.log(campaign, '오알지리스트');
     return (
         campaign && (
             <div className="container-sidebar">
@@ -193,15 +196,15 @@ function CampaignSidebar({ campaign, orgList }) {
                             <HeartBar campaignCode={campaignCode} />
                         }
                     </div>
-                    {decodedToken !== null && decodedToken.memberRole == "ROLE_ORG" && camPaignOrgCode == myOrgCode ?
+                    {decodedToken !== null && decodedToken.memberRole == "ROLE_ORG" && camPaignOrgCode == myOrgCode || decodedToken && decodedToken.memberRole === "ROLE_ADMIN" ?
                         <button className="button button-danger" onClick={deleteCampaignHandler}>삭제하기</button> :
                         decodedToken !== null && decodedToken.memberRole == "ROLE_ORG" ? "" :
                             <div className="input-group campaignbtn1" onClick={goToDonation}>
-                                <input type="text" readOnly className="input bg-primary border-primary" placeholder='후원하기' style={{ cursor: "pointer" }}></input>
+                                <input type="text" readOnly className="input bg-primary border-primary" placeholder='기부하기' style={{ cursor: "pointer" }}></input>
                                 <button className="button button-primary"><i className="fa-solid fa-coins"></i></button>
                             </div>
                     }
-                    {decodedToken !== null && decodedToken.memberRole == "ROLE_ORG" && camPaignOrgCode == myOrgCode ?
+                    {decodedToken !== null && decodedToken.memberRole == "ROLE_ORG" && camPaignOrgCode == myOrgCode || decodedToken && decodedToken.memberRole === "ROLE_ADMIN" ?
                         <button className="button button-primary-outline" onClick={modifyCampaignHandler}>수정하기</button> :
                         decodedToken !== null && decodedToken.memberRole == "ROLE_ORG" ? "" :
 
@@ -223,7 +226,7 @@ function CampaignSidebar({ campaign, orgList }) {
                             className={({ isActive }) =>
                                 isActive ? "text-primary" : ""
                             }
-                            onClick={() => window.scrollTo({ top: 0 })}
+                            onClick={() => onClickHandler()}
                             to={`/campaign/${orgList.campaignCode}?orgCode=${orgList.organization.orgCode}`}>
                             <h6 className='border-bottom p-2'> {orgList.campaignTitle}</h6>
                         </NavLink>)

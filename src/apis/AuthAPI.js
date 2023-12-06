@@ -25,6 +25,15 @@ const fetchAuth = async (fetchData) => {
             const serverError = err;
             if (serverError && serverError.response) {
                 console.log(serverError.response.data);
+                Swal.fire({
+                    icon: "error",
+                    iconColor: "#DB524E",
+                    title: `${serverError.response.data.message}`,
+                    text: '문제가 지속될 경우 고객센터로 문의 바랍니다.',
+                    showCancelButton: false,
+                    confirmButtonColor: '#1D7151',
+                    confirmButtonText: '확인'
+                })
                 return null;
             }
         }

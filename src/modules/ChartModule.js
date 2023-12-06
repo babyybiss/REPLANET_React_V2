@@ -7,7 +7,7 @@ const GET_CHARTLIST = 'chart/GET_CHARTLIST';
 
 /* action function */ 
 export const { chart : { getChartlist }} = createActions({
-    [GET_CHARTLIST]: (res) => ({ chartDataList: res })
+    [GET_CHARTLIST]: (res) => ({ chartDataList: res.results.categoryData })
 });
 
 /* reducer */ 

@@ -13,7 +13,9 @@ function DonationItem({ pay, showDetails, onToggleDetails }) {
 
     const formattedTotalAmount = totalAmount.toLocaleString('ko-KR');
 
-    const date = new Date(donationDateTime[0], donationDateTime[1] - 1, donationDateTime[2], donationDateTime[3], donationDateTime[4], donationDateTime[5]);
+    const seconds = donationDateTime[5] || '00';
+
+    const date = new Date(donationDateTime[0], donationDateTime[1] - 1, donationDateTime[2], donationDateTime[3], donationDateTime[4], seconds);
 
     const formattedDateTime = date.toLocaleString('ko-KR', {
         year: 'numeric',

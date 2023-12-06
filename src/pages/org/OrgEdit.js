@@ -194,7 +194,7 @@ function OrgEdit() {
                         </div>
                         </label>
                         <input type="file" id="file" name="file"
-                            accept=".png, .jpeg, .jpg, .bmp, .svg"
+                            accept=".png, .jpeg, .jpg, .bmp"
                             onChange={handleChangeFile}
                             ref={fileRef}
                             style={{ display: "none" }} />

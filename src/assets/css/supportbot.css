@@ -125,9 +125,8 @@
     border-top-right-radius: 8px;
     border-bottom-left-radius: 8px;
     padding: .5rem;
-    margin-top: 5px;
-    margin-bottom: 5px;
-
+    margin-top: .2rem;
+    margin-bottom: .2rem;
     font-size: 13px;
     user-select: none;
     pointer-events: none;
@@ -144,7 +143,8 @@
     border-top-right-radius: 8px;
     border-bottom-right-radius: 8px;
     padding: .5rem;
-    margin-bottom: .5rem;
+    margin-top: .2rem;
+    margin-bottom: .2rem;
     font-size: 13px;
     user-select: none;
     pointer-events: none;
@@ -154,7 +154,6 @@
     align-items: center;
     justify-content: space-between;
     float: left;
-    width: 100%;
     text-align: left;
     background-color: #FFFFFF;
     border-style: solid;
@@ -162,17 +161,18 @@
     border-width: 1px;
     border-radius: 18px;
     padding: .5rem;
-    margin-bottom: .5rem;
+    margin: .2rem;
     font-size: 13px;
     user-select: none;
     cursor: pointer;
 }
+/*
 .click-box:after {
     font-family: 'FontAwesome';
     content: '\f002';
     float: right
 }
-
+*/
 .reset-box{
     width: calc(50% - 0.5rem);
     display: block;
@@ -183,8 +183,8 @@
     border-color: var(--color-secondary);
     border-width: 1px;
     border-radius: 18px;
-    padding: 8px;
-    margin-top: 8px;
+    padding: .5rem;
+    margin-top: .5rem;
     font-size: 13px;
     user-select: none;
     cursor: pointer;
@@ -199,8 +199,8 @@
     border-color: var(--color-secondary);
     border-width: 1px;
     border-radius: 18px;
-    padding: 8px;
-    margin-top: 8px;
+    padding: .5rem;
+    margin-top: .5rem;
     font-size: 13px;
     user-select: none;
     cursor: pointer;

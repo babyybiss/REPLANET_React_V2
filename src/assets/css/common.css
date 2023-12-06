@@ -1914,3 +1914,7 @@ footer {
 .subtitle {
   font-family: 'Anton', 'Pretendard Variable'!important;
 }
+
+textarea {
+  resize: none;
+}
