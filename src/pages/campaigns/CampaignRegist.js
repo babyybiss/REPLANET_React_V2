@@ -24,6 +24,9 @@ function CampaignRegist() {
     const token = localStorage.getItem('token');
     const decodedToken = token ? jwtDecode(token) : null;
 
+    // 버튼 따닥 방지
+    const [isButtonDisabled, setButtonDisabled] = useState(false);
+
     // 텍스트 
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
     const [inputs, setInputs] = useState([]);
@@ -104,7 +107,10 @@ function CampaignRegist() {
     //     imageInput.current.click();
     // }
     // db 전송
-    const submitHandler = () => {
+    const submitHandler = async () => {
+        // 버튼 따닥 방지
+        if (isButtonDisabled) return
+        setButtonDisabled(true);
 
         const formData = new FormData();
 
@@ -114,26 +120,21 @@ function CampaignRegist() {
         formData.append("endDate", inputs.endDate);
         formData.append("goalBudget", inputs.goalBudget);
         formData.append("orgCode", decodedToken.memberCode);
-        // formData.append("orgDescription", inputs.orgDescription);
-        // formData.append("orgName", inputs.orgName);
-        // formData.append("orgTel", inputs.orgTel);
-
         if (imgPreview) {
             formData.append("imageFile", imgPreview);
         }
-        dispatch(PostCampaignAPI({	// 상품 상세 정보 조회
-            inputs: formData,
-            //header,
-
-        }));
-
+        try {
+            await dispatch(PostCampaignAPI({
+                inputs: formData,
+            }));
+        } finally {
+            setButtonDisabled(false);
+        }
     }
 
     const onChangeImage = (e) => {
         const image = e.target.files[0];
         imageInput.current.click();
-
-        
 
         if (image && image.size > maxSizeInBytes) {
             Swal.fire({
@@ -199,9 +200,9 @@ function CampaignRegist() {
                         </div>
                     </div>
                 </div>
-                <hr/>
+                <hr />
                 <div className="items-container ic2">
-                    <button className="button button-primary" onClick={submitHandler} >등록하기</button>
+                    <button className="button button-primary" disabled={isButtonDisabled} onClick={submitHandler} >등록하기</button>
                     <button type="button" className="button button-primary-outline" onClick={() => navigate(-1)}>취소</button>
                 </div>
 
