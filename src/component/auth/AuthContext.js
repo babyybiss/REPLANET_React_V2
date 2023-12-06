@@ -132,8 +132,11 @@ export const AuthContextProvider = (props) => {
                     navigate("/", { replace: true })
                 }
             } else {
-                Swal.fire("", "로그인 실패")
+                console.log('result : ',result);
             }
+        })
+        .catch((error) => {
+            console.error(error);
         });
     };
 
