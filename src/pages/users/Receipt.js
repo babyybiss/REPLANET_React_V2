@@ -134,7 +134,7 @@ function DonationReceipt(){
             <div className="receiptinfo bg-primary">
                 <h4>Replanet과 함께 해주심에 항상 감사드립니다!</h4>
                 <br/>
-                <h6>후원자님의 연말정산, 종합소득세 신고를 위한 기부금 영수증은 국세청 홈택스 연말정산 간소화 서비스를 통해 발급 받으실 수 있습니다.</h6>
+                <h6>회원님의 연말정산, 종합소득세 신고를 위한 기부금 영수증은 국세청 홈택스 연말정산 간소화 서비스를 통해 발급 받으실 수 있습니다.</h6>
                 <h6>리플래닛을 통한 기부의 경우, 개인정보 제공에 동의하셔야 홈택스에서 조회가 가능합니다.</h6>
                 <br/>
                 <h6 onClick={()=>window.open('http://www.hometax.go.kr')} className="externalLink text-white">국세청 홈택스 바로가기</h6>

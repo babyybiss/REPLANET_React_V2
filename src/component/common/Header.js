@@ -13,6 +13,13 @@ function responsiveHeader() {
     }
   }
 
+  const foldMenu = () => {
+    var x = document.getElementById("myTopnav");
+    if(x.className === "topnav responsive"){
+        x.className = "topnav"
+    }
+  }
+
   function toggleMenu() {
     let NavBar = document.querySelector(".navbar");
     NavBar.classList.toggle("open");
@@ -40,6 +47,11 @@ function responsiveHeader() {
     }, [isGet]);
     const toggleLogoutHandler = () => {
         authCtx.logout();
+
+        var x = document.getElementById("myTopnav");
+        if(x.className === "topnav responsive"){
+            x.className = "topnav"
+        }
     }
 
     let memberRole = null;
@@ -60,19 +72,19 @@ function responsiveHeader() {
                 <div className="menu">
                     {!isLogin && (
                         <>
-                            <NavLink to="/">기부하기</NavLink>
-                            <NavLink to="/reviews">캠페인후기</NavLink>
-                            <NavLink to='/login'>로그인</NavLink>
-                            <NavLink to='signup' style={{marginRight:"0"}}>회원가입</NavLink>
+                            <NavLink onClick={foldMenu} to="/">기부하기</NavLink>
+                            <NavLink onClick={foldMenu} to="/reviews">캠페인후기</NavLink>
+                            <NavLink onClick={foldMenu} to='/login'>로그인</NavLink>
+                            <NavLink onClick={foldMenu} to='signup' style={{marginRight:"0"}}>회원가입</NavLink>
 
                         </>
                     )}
                     {isLogin && (
                         memberRole === "ROLE_USER" && (
                             <>
-                                <NavLink to="/">기부하기</NavLink>
-                                <NavLink to="/reviews">캠페인후기</NavLink>
-                                <NavLink to='/myPage'>마이페이지</NavLink>
+                                <NavLink onClick={foldMenu} to="/">기부하기</NavLink>
+                                <NavLink onClick={foldMenu} to="/reviews">캠페인후기</NavLink>
+                                <NavLink onClick={foldMenu} to='/myPage'>마이페이지</NavLink>
                                 <NavLink onClick={toggleLogoutHandler} style={{marginRight:"0"}}>로그아웃</NavLink>
                                 {/* <a href="javascript:void(0);" className="icon" onClick={responsiveHeader}>
                                     <i className="fa fa-bars"></i>
@@ -81,17 +93,17 @@ function responsiveHeader() {
                         ) ||
                         (memberRole === "ROLE_ADMIN" && (
                             <>
-                                <NavLink to="exchangeList">포인트전환관리</NavLink>
-                                <NavLink to='org'>기부처관리</NavLink>
-                                <NavLink to="/reviews">후기관리</NavLink>
-                                <NavLink to='charts'>캠페인현황통계</NavLink>
+                                <NavLink onClick={foldMenu} to="exchangeList">포인트전환관리</NavLink>
+                                <NavLink onClick={foldMenu} to='org'>기부처관리</NavLink>
+                                <NavLink onClick={foldMenu} to="/reviews">후기관리</NavLink>
+                                <NavLink onClick={foldMenu} to='charts'>캠페인현황통계</NavLink>
                                 <NavLink onClick={toggleLogoutHandler} style={{marginRight:"0"}}>로그아웃</NavLink>
 
                             </>
                         )) ||
                         (memberRole === "ROLE_ORG" && (
                             <>
-                                <NavLink to='/myPageOrg'>마이페이지</NavLink>
+                                <NavLink onClick={foldMenu} to='/myPageOrg'>마이페이지</NavLink>
                                 <NavLink onClick={toggleLogoutHandler} style={{marginRight:"0"}}>로그아웃</NavLink>
 
                             </>

@@ -92,7 +92,7 @@ function CampaignSidebar({ campaign, orgList }) {
         }
         );
     }
-    // 후원하기 버튼
+    // 기부하기 버튼
     const goToDonation = () => {
         if (campaignStatus < 0) {
             Swal.fire({
@@ -197,7 +197,7 @@ function CampaignSidebar({ campaign, orgList }) {
                         <button className="button button-danger" onClick={deleteCampaignHandler}>삭제하기</button> :
                         decodedToken !== null && decodedToken.memberRole == "ROLE_ORG" ? "" :
                             <div className="input-group campaignbtn1" onClick={goToDonation}>
-                                <input type="text" readOnly className="input bg-primary border-primary" placeholder='후원하기' style={{ cursor: "pointer" }}></input>
+                                <input type="text" readOnly className="input bg-primary border-primary" placeholder='기부하기' style={{ cursor: "pointer" }}></input>
                                 <button className="button button-primary"><i className="fa-solid fa-coins"></i></button>
                             </div>
                     }
