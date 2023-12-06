@@ -80,7 +80,7 @@ function MyPage() {
     return(
         <>
             <div className="header-admin">
-                <div className="header-admin-menu bg-primary"><h4>{memberName}님</h4></div>
+                <div className="header-admin-menu bg-primary"><h4>{memberName}<span style={{fontSize:1.15 + 'rem', paddingLeft:0.15+"rem"}}>님</span></h4></div>
                 <div className="header-admin-menu">
                     <h5>총 기부 횟수</h5>
                     <h3 className="text-primary">{totalDonation}회</h3>
@@ -93,7 +93,7 @@ function MyPage() {
             <div className="container-admin">
                 <div className="admin-sidebar bg-light">
                     <div className="admin-sidebar-menu">
-                        <h6>소유 기부포인트</h6>
+                        <h6>보유 기부포인트</h6>
                         <h4>{currentPoint}P</h4>
                     </div>
                     <NavLink to="history" className='admin-sidebar-menu'>

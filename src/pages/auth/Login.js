@@ -50,16 +50,19 @@ const Login = () => {
     return (
 
         <div className="container-first container-centered">
+            <style>
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+            </style>
             <h2>로그인이 필요한 서비스입니다.</h2>
             <div id="container-user">
                 <div className="items-container ic1">
                     <div className="tabs pb-2">
                         <div className="tab_item ti2 active">일반 로그인</div>
-                        <div className="tab_item ti2" onClick={KakaoLoginHandler}>카카오 로그인</div>
+                        <div className="tab_item ti2" onClick={KakaoLoginHandler}><i className="fa-solid fa-comment"></i> kakao 로그인</div>
                     </div>
                     <div className="">
 
-                            <div className="items-container ic1">
+                        <div className="items-container ic1">
 
                                 <input className="input" type="email" id="email" ref={emailInputRef} placeholder="이메일 주소를 입력해 주세요." required />
                                 <input className="input"
@@ -71,12 +74,13 @@ const Login = () => {
                                     onKeyPress={handleKeyPress}
                                 />
 
-                                <button className="button button-primary" onClick={submitHandler}>로그인</button>
-                                {isLoading && <p>Loading</p>}
-                                <button className="button button-primary-outline" onClick={toSignup}>회원가입</button>
-                            </div>
+                            <button className="button button-primary" onClick={submitHandler}>로그인</button>
+                            {isLoading && <p>Loading</p>}
+                            <button className="button button-primary-outline" onClick={toSignup}>회원가입</button>
+                        </div>
 
                         <div className="items-container ic2 text-center pt-2">
+                            {/*<div className="login-option" style={{cursor:'pointer'}} onClick={KakaoLoginHandler}>Kakao로 가입하기</div>*/}
                             <a href="./findId" className="login-option">계정 찾기</a>
                             <a href="./findpw" className="login-option">비밀번호 찾기</a>
                         </div>

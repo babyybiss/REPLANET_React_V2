@@ -241,21 +241,22 @@ function FindPw() {
                 setIsOnFindPhone(true);
                 console.log('문자인증을 진행하시면 비밀번호 변경이 가능합니다.');
                 setOnFindPhoneMsg('문자인증을 진행하시면 비밀번호 변경이 가능합니다.');
-                if (phoneInputRef.current.value !== phone) {
-                    setOnFindPhoneMsg("fail");
-                    setIsOnFindPhone(false);
-                }
+            } else {
+                setIsOnFindPhone(false);
+                console.log('계정이 존재하지 않거나 전화번호와 이메일 주소가 일치하지 않습니다.');
+                setOnFindPhoneMsg('계정이 존재하지 않거나 전화번호와 이메일 주소가 일치하지 않습니다.');
             }
         } catch (error) {
             if (error.response && (error.response.status === 404 || phoneInputRef == null || emailInputRef == null)) {
+                setIsOnFindPhone(false);
                 console.log('필수 입력 항목은 공란일 수 없습니다.');
                 setOnFindPhoneMsg("필수 입력 항목은 공란일 수 없습니다.");
-                setIsOnFindPhone(false);
-            }
+
+            } 
             else {
-                console.log('계정이 존재하지 않거나 전화번호와 이메일 주소가 일치하지 않습니다.');
-                setOnFindPhoneMsg("계정이 존재하지 않거나 전화번호와 이메일 주소가 일치하지 않습니다.");
                 setIsOnFindPhone(false);
+                console.log('계정이 존재하지 않거나 전화번호와 이메일 주소가 일치하지 않습니다.');
+                setOnFindPhoneMsg('계정이 존재하지 않거나 전화번호와 이메일 주소가 일치하지 않습니다.');
             }
         }
     };
@@ -291,6 +292,8 @@ function FindPw() {
         setIsGoResetPw(true);
     };
 
+    const isAnythingInValid = !isEmailValid || !isPhoneValid || !isOnFindPhone || !isOnCheckSmsCode;
+
     return (
         <div className="container-first container-centered text-left">
             <div id="container-user">
@@ -304,31 +307,43 @@ function FindPw() {
                             <label>이메일 계정과 휴대전화 번호를 입력해 주세요.</label>
                         </div>
 
-                        <div className="items-container ic2">
+                        <div className="items-container ic1">
                             <input className="input" type="email" id="email" ref={emailInputRef} value={email} placeholder="e-mail" onChange={handleEmail} required />
                             <div className="input-group">
                                 <input className="input rounded-0" type="text" id="phone" ref={phoneInputRef} placeholder="- 없이 휴대폰 번호 입력" onChange={handlePhone} required />
-                                <button className="button button-primary" onClick={onFindPhone}>검증</button>
+
+                                {!isOnFindPhone ? (<>
+                                    <button className="button button-primary" onClick={onFindPhone}>비밀번호 찾기</button>
+                                </>) : (<>
+                                    <button type="button" className="button button-primary" name="smsButton" onClick={handleSendSMS} disabled={!isOnFindPhone} >인증번호 요청</button>
+                                </>)}
+
+                                
                             </div>
                         </div>
-
+                        <div className="regexMsg">{onFindPhoneMsg}</div>
                         <hr />
                         <div className="items-container ic1" style={!isOnFindPhone ? {display: 'none'} : {}}>
-                            <div className="regexMsg">{onFindPhoneMsg}</div>
-                            <button type="button" className="button button-primary" name="smsButton" onClick={handleSendSMS} disabled={!isOnFindPhone} >인증번호 요청</button>
+                            
                             <div className="input-group">
                                 <input className="input" type="text" ref={smsCodeInputRef} required placeholder="인증번호 입력" />
                                 <button type="button" className="button button-primary" onClick={onCheckSmsCode} disabled={!isPhoneValid}>인증번호 확인</button>
                             </div>
-                            <button className="button button-primary w-100" disabled={!isEmailValid || !isPhoneValid || !isOnFindPhone || !isOnCheckSmsCode} onClick={goResetPw}>찾기</button>
+                            {isAnythingInValid ? (<></>) :
+                            <button className="button button-primary w-100" onClick={goResetPw}>비밀번호 재설정</button>
+                            }
+                            
                         </div>
 
                     </div>
-                    <div id="reseter" className="items-container ic1" style={isGoResetPw ? {} : {display: 'none'}}>
-                            {/* <input className="input" type="text" name="email" id="email" onChange={handleEmail} value={email} required ref={emailInputRef} placeholder="이메일 주소를 다시 한 번 입력해 주세요." /> */}
-                            <label htmlFor="new-password">새 비밀번호</label>
+                    <div id="reseter" className="" style={isGoResetPw ? {} : {display: 'none'}}>
+                        <div className="items-container ic2">
+                            
+                        </div>
+                            <div className="item">
+                            <label htmlFor="new-password">새 비밀번호
                             <input
-                                className="input"
+                                className="input mb-1"
                                 type="password"
                                 id="new-password"
                                 minLength={8}
@@ -336,8 +351,12 @@ function FindPw() {
                                 value={newPassword}
                                 onChange={handleNewPassword}
                             />
+                            </label>
                             <div className="regexMsg">{newPasswordMsg}</div>
-                            <label htmlFor="new-password-confirm">새 비밀번호 확인</label>
+                            </div>
+
+                            <div className="item">
+                            <label htmlFor="new-password-confirm">새 비밀번호 확인
                             <input
                                 className="input mb-1"
                                 type="password"
@@ -347,8 +366,11 @@ function FindPw() {
                                 value={newPasswordConfirm}
                                 onChange={handleNewPasswordConfirm}
                             />
+                            </label>
                             <div className="regexMsg">{newPasswordConfirmMsg}</div>
-                            <button type="submit" className="button button-primary w-100" disabled={!isNewPasswordValid || !isNewPasswordConfirmValid} onClick={resetPw}>Change Password</button>
+                            </div>
+
+                            <button type="submit" className="button button-primary w-100" disabled={!isNewPasswordValid || !isNewPasswordConfirmValid} onClick={resetPw}>비밀번호 재설정</button>
                         </div>
                 </div>
 

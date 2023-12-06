@@ -129,10 +129,18 @@ export const AuthContextProvider = (props) => {
                     logoutTimer = setTimeout(logoutHandler, authAction.loginTokenHandler(loginData.accessToken, loginData.tokenExpiresIn));
                     setIsSuccess(true);
                     console.log(isSuccess);
-                    navigate("/", { replace: true })
+                    Swal.fire({
+                        icon: 'success',
+                        title: "로그인 성공!",
+                        text: email + " 계정으로 로그인하셨습니다.",
+                        confirmButtonText: "확인"});
+                    navigate("/", { replace: true });
                 }
             } else {
+
+                Swal.fire("로그인 실패!", "이메일 또는 비밀번호를 확인해 주세요.")
                 console.log('result : ',result);
+
             }
         })
         .catch((error) => {

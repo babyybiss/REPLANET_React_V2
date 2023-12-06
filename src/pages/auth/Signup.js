@@ -175,7 +175,14 @@ const Signup = () => {
         }
       );
       setIsOnCheckSmsCode(true);
-    } else {Swal.fire("인증 실패");}
+      setPhoneMsg("휴대전화 인증이 완료되었습니다.");
+    } else {Swal.fire(
+      {
+        icon: 'warning',
+        title: "인증 실패!",
+        text: "인증번호가 일치하지 않습니다."
+      }
+    );}
   };
 
   const onCheckEmail = async () => {
@@ -231,17 +238,37 @@ const Signup = () => {
       }
     } catch (error) {
       if (error.response && error.response.status === 400) {
+        Swal.fire(
+          {
+            icon: 'warning',
+            title: "전송 실패!",
+            text: "이미 사용 중인 휴대전화 번호입니다."
+          }
+        );
         console.log('이미 사용 중인 휴대전화 번호입니다.');
         setPhone("");
         setPhoneMsg("이미 사용 중인 휴대전화 번호입니다.");
         setIsOnCheckPhone(false);
       } 
       else {
+        Swal.fire(
+          {
+            icon: 'warning',
+            title: "전송 실패!",
+            text: "서버 오류가 발생했습니다."
+          }
+        );
         console.log('예상치 못한 오류가 발생했습니다.');
         setPhoneMsg("예상치 못한 오류가 발생했습니다.");
       }
     }
   };
+
+  const resetOnCheckSmsCode = () => {
+    setIsOnCheckSmsCode(false);
+    setPhone("");
+    setPhoneMsg("");
+  }
 
   const [allCheck, setAllCheck] = useState(false);
   const [privacyCheck, setPrivacyCheck] = useState(false);
@@ -303,12 +330,37 @@ const Signup = () => {
 
   }
 
+  const KakaoLoginHandler = () => {
+
+    console.log("반갑다 나 카카오다.");
+    console.log("kakao login form")
+
+    const REST_API_KEY = "8a5a93627a69a5b1728721bc6ff53635";
+    const REDIRECT_URI = "http://localhost:3000/";
+    const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.REACT_APP_KAKAO_REST_API_KEY}&redirect_uri=${process.env.REACT_APP_KAKAO_REDIRECT_URI}&scope=account_email&prompt=login`;
+
+    //window.location.href = KAKAO_AUTH_URL;
+    window.open(KAKAO_AUTH_URL, "_blank", "noopener, noreferrer");
+
+}
+
   return (
     <>
       <div className="container-first container-centered">
-
+      <style>
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+            </style>
         <h1>회원가입</h1>
         <div id="container-user" className="text-left">
+      <div className="items-container ic1">
+
+      <div className="tabs pb-2">
+                        <div className="tab_item ti2 active">일반 회원가입</div>
+                        <div className="tab_item ti2" onClick={KakaoLoginHandler}><i className="fa-solid fa-comment"></i> kakao 회원가입</div>
+                    </div>
+      </div>
+
+
           <form onSubmit={submitHandler}>
             <div className="items-container ic1">
               <div className="item">
@@ -327,9 +379,18 @@ const Signup = () => {
                 <div className="regexMsg">{memberNameMsg}</div>
                 <label htmlFor="phone">휴대전화</label>
                 <div className="input-group">
-                  <input className="input" type="text" id="phone" required ref={phoneInputRef} value={phone} placeholder="- 없이 휴대폰 번호를 입력해주세요." onChange={handlePhone} disabled={isOnCheckPhone} style={{borderRight: '1px solid #cccccc'}}/>
+                  <input className="input" type="text" id="phone" required ref={phoneInputRef} value={phone} placeholder="- 없이 휴대폰 번호를 입력해주세요." onChange={handlePhone}/>
                   {isOnCheckSmsCode ?
-                  (<></>) : (isOnCheckPhone ? (<button
+                  (
+                  <button
+                    type="button"
+                    className="button button-primary-outline"
+                    name="dupCheckButton"
+                    onClick={resetOnCheckSmsCode}
+                    
+                  >다른 번호 사용하기</button>
+
+                  ) : (isOnCheckPhone ? (<button
                     type="button"
                     className="button button-primary"
                     name="dupCheckButton"
@@ -345,7 +406,7 @@ const Signup = () => {
                     onClick={onCheckPhone}
                     disabled={!isPhoneValid}
                   >
-                    중복확인
+                    인증번호 전송
                   </button>))}
                 </div>
                 <div className="regexMsg">{phoneMsg}</div>
@@ -367,7 +428,7 @@ const Signup = () => {
                     onClick={onCheckSmsCode}
                     disabled={!isPhoneValid || !isOnCheckPhone}
                   >
-                    인증번호 입력
+                    인증하기
                   </button>)}
                 </div>
                 )}
