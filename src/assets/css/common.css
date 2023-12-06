@@ -1840,6 +1840,15 @@ progress {
 .admin-title>* {
   display: inline
 }
+.admin-title > .tabs {
+  width: 50%
+}
+
+@media screen and (max-width: 992px) {
+  .admin-title .tab_item {
+    font-size: 1rem!important;
+  }
+}
 
 /*pagination*/
 .pagination {

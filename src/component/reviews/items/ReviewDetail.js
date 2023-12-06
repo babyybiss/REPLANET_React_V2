@@ -48,7 +48,7 @@ export function ReviewDetail({code}) {
                 <div className="text-right">
                   <h2>모금액 총 {review.currentBudget}</h2>
                     <h3>6,004,345명의 참여로<br/>
-                    따뜻한 손길을 내어줄 수 있었습니다 </h3>
+                    따뜻한 손길을 내어줄 수 있었습니다.</h3>
               </div>
               
                 <hr/>

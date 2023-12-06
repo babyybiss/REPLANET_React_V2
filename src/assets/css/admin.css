@@ -67,6 +67,10 @@
     display: inline
   }
 
+  .admin-title.tabs {
+    width: 50%
+  }
+
   .settingBtn {
     background-color: white;
     border: solid 1px #1D7151;

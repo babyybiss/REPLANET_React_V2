@@ -217,10 +217,30 @@ function FindId() {
           <div className="items-container ic1" style={isOnFindEmail ? {display: 'none'} : {}}>
             <label htmlFor="phone">가입 당시 입력하셨던 휴대전화 번호를 입력해 주세요.</label>
             <div className="input-group">
-              <input className="input" type="text" id="phone" required ref={phoneInputRef} value={phone} placeholder="- 없이 휴대폰 번호를 입력해주세요." onChange={handlePhone} />
-              <div id="dupcheck" onClick={onCheckPhone} disabled={!isPhoneValid}>검증</div>
-              <button type="button" className="button button-primary" name="smsButton" onClick={handleSendSMS} disabled={!isPhoneValid || !isOnCheckPhone}>인증번호 요청</button>
-            </div>
+                  <input className="input" type="text" id="phone" required ref={phoneInputRef} value={phone} placeholder="- 없이 휴대폰 번호를 입력해주세요." onChange={handlePhone} disabled={isOnCheckPhone}/>
+                  {isOnCheckSmsCode ?
+                  (
+                  <></>
+
+                  ) : (isOnCheckPhone ? (<button
+                    type="button"
+                    className="button button-primary"
+                    name="dupCheckButton"
+                    onClick={handleSendSMS}
+                    disabled={isOnCheckSmsCode}
+                  >
+                    인증번호 재전송
+                  </button>) :
+                  (<button
+                    type="button"
+                    className="button button-primary"
+                    name="dupCheckButton"
+                    onClick={onCheckPhone}
+                    disabled={!isPhoneValid}
+                  >
+                    인증번호 전송
+                  </button>))}
+                </div>
             <div className="regexMsg">{phoneMsg}</div>
             <div className="input-group" style={!isOnCheckPhone ? {display: 'none'} : {}}>
               <input className="input" type="text" ref={smsCodeInputRef} required placeholder="전송받으신 인증번호 4자리를 입력해 주세요." />

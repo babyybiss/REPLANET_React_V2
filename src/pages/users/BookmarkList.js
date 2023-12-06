@@ -109,7 +109,7 @@ function BookmarkList() {
                         관심 리스트
                     </h1>
                 </div>
-                <div className='admin-title total-amount'>
+                <div className='admin-title total-amount border-0'>
                     <div>
                         <span className="pay-color-gray">북마크 클릭 시 해당 캠페인으로 이동합니다.</span>
                     </div>

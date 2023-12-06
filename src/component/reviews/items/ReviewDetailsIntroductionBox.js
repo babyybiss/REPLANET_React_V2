@@ -46,9 +46,9 @@ export function ReviewDetailsIntroductionBox({ review, donors }) {
           <div className="text-left">
 
             <div className="text-left">
-            <h2>모금액 총 <span className="text-primary text-bold">{review.campaign.currentBudget.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</span></h2>
+            <h2>모금액 총 <span className="text-primary text-bold">{review.campaign.currentBudget.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span>원,</h2>
             <h3><span  className="text-primary text-bold">{donors}</span>명의 참여로<br/>
-            따뜻한 손길을 내어줄 수 있었습니다</h3>
+            따뜻한 손길을 내어줄 수 있었습니다.</h3>
             </div>
             {decodedToken?.memberCode == review.campaign.organization.member.memberCode ?
             <>
