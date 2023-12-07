@@ -28,6 +28,10 @@
   color: #1D7151;
 }
 
+.pay-color-red {
+  color: #a02e2e;
+}
+
 .pay-anno{
   display: flex;
   align-items: flex-start;

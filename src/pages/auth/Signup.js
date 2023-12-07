@@ -338,12 +338,9 @@ const Signup = () => {
     console.log("반갑다 나 카카오다.");
     console.log("kakao login form")
 
-    const REST_API_KEY = "8a5a93627a69a5b1728721bc6ff53635";
-    const REDIRECT_URI = "http://localhost:3000/";
     const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.REACT_APP_KAKAO_REST_API_KEY}&redirect_uri=${process.env.REACT_APP_KAKAO_REDIRECT_URI}&scope=account_email&prompt=login`;
 
-    //window.location.href = KAKAO_AUTH_URL;
-    window.open(KAKAO_AUTH_URL, "_blank", "noopener, noreferrer");
+    window.location.href = KAKAO_AUTH_URL;
 
   }
 
