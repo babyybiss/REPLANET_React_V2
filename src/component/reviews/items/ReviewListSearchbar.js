@@ -67,7 +67,7 @@ export function ReviewListSearchbar({ searchFilter, setSearchFilter, reviewExist
                         onClick={handleSearchButtonClick}
                     ><i class="fa-solid fa-magnifying-glass"></i>
                     </button>
-                </div>&emsp;
+                </div>
 
                 {memberUI && decodedToken?.memberRole === "ROLE_ADMIN" || orgUI && decodedToken.memberRole === "ROLE_ORG" ?    
                 <div>

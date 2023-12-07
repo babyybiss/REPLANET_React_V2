@@ -15,6 +15,7 @@ function VerifyUser () {
 
     const token = window.localStorage.getItem('token');
     const memberCode = decodeJwt(token)?.memberCode || 0;
+    const provider = decodeJwt(token)?.provider || 'REPLANET';
 
     const [userPwd, setUserPwd] = useState("");
     const userPwdInputRef = useRef(null);
@@ -31,14 +32,20 @@ function VerifyUser () {
     return(
         <div className="mypage-main">
             <h1 className="text-primary">회원 정보 수정</h1>
-            <h6>소셜 로그인 회원은 가입한 곳에서 수정 구다사이</h6>
-            <h6>소셜 로그인 완성되면 소셜 회원은 못하게 할래요</h6>
             <br/>
             <div className="verifying">
                 <div className="verifying-container">
-                    <input className="input-pwd input" type="password" id="userPwd" value={userPwd} onChange={handleUserPwd} required ref={userPwdInputRef} />
-                    <br/><br/>
-                    <button className="button button-primary" onClick={handleConfirm}>비밀번호 확인</button>
+                    {provider == 'REPLANET'? (
+                        <>
+                            <h5>비밀번호를 입력해 주세요.</h5><br/>
+                            <input className="input-pwd input" type="password" id="userPwd" value={userPwd} onChange={handleUserPwd} required ref={userPwdInputRef} />
+                            <br/><br/>
+                            <button className="button button-primary" onClick={handleConfirm}>비밀번호 확인</button>
+                        </>
+                    ) : (
+                        <h3>카카오 로그인 회원은 카카오에서 회원 정보를 수정해 주세요.</h3>
+                    )}
+                    
                 </div>
             </div>
         </div>

@@ -1,5 +1,8 @@
 .mypage-main {
     padding: 2rem;
+    border-left: solid 1px var(--color-light-hover)!important;
+    background-color: var(--color-white);
+    min-height: 100vh;
     /* margin-left: 10%;
     margin-right: 10%; */
 }

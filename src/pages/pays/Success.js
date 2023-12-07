@@ -59,6 +59,11 @@ function Success() {
         navigate(`/campaign/${pay.refDonation.refCampaign.campaignCode}?orgCode=${pay.refDonation.refCampaign.organization.orgCode}`);
     };
 
+    const handleGoToPayHistory = () => {
+        dispatch({ type: RESET_PAY_CODE });
+        navigate(`/myPage/history`);
+    };
+
     useEffect(
         () => {
             if (Object.keys(pay).length === 0) {
@@ -79,11 +84,11 @@ function Success() {
         <>
             { Object.keys(pay).length === 0 ? (
                 <>
-                    <br/>
-                    <br/>
-                    <br/>
-                    <div className="container-first">
-                        <h3>로딩중...</h3>
+                    <style>
+                        @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+                    </style>
+                    <div className="simple-loader-area">
+                        <h1>LOADING...</h1>
                     </div>
                 </>
             ) : (
@@ -120,7 +125,7 @@ function Success() {
                                     <td><h5>{campaignTitle}</h5></td>
                                 </tr>
                                 <tr className='success-body-row'>
-                                    <td><h5>단체명</h5></td>
+                                    <td><h5>재단명</h5></td>
                                     <td><h5>{orgName}</h5></td>
                                 </tr>
                                 <tr className='success-body-row'>
@@ -132,7 +137,8 @@ function Success() {
                         <br/>
                         <div className='container-centered pay-anno pay-success-header'>
                             <button className="button button-lg button-primary" onClick={handleBackToMain}>메인으로</button>
-                            <button className="button button-lg button-primary-outline" onClick={handleGoToCampaign}>해당 캠페인으로</button>
+                            <button className="button button-lg button-primary-outline" onClick={handleGoToCampaign}>해당 캠페인 보기</button>
+                            <button className="button button-lg button-primary-outline" onClick={handleGoToPayHistory}>기부내역</button>
                         </div>
                     </div>
                 </>

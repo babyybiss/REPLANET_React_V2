@@ -3,7 +3,7 @@ import '../../assets/css/common.css';
 import '../../assets/css/user.css';
 import '../../assets/css/mypage.css';
 
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation, useNavigationType } from 'react-router-dom';
 import { Outlet } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,6 +11,7 @@ import { callGetMemberByTokenAPI, callGetTotalDonationByTokenAPI } from '../../a
 
 function MyPage() {
 
+    const location = useLocation();
     const dispatch = useDispatch();
     const result = useSelector(state => state.memberReducer);
     console.log('MyPage() result : ', result);
@@ -28,15 +29,23 @@ function MyPage() {
                 console.error('MyPage() API 호출 에러: ', error);
             })
         },
-        [dispatch]
+        [dispatch, location.pathname]
     );
 
-    const [isSubmenuOpen, setIsSubmenuOpen] = useState(false);
+    const navigationType = useNavigationType();
+    const [isSubmenuOpen, setIsSubmenuOpen] = useState(() => {
+        const storedStatus = localStorage.getItem("isSubmenuOpen");
+        return storedStatus? JSON.parse(storedStatus) : false;
+    }, []);
+    useEffect(() => {
+        const storedStatus = localStorage.getItem("isSubmenuOpen");
+        setIsSubmenuOpen(navigationType == 'PUSH' || performance.navigation.type == 0? null : storedStatus? JSON.parse(storedStatus) : false);
+    }, []);
     const [pointMenuActive, setPointMenuActive] = useState(false);
-    const location = useLocation();
     console.log("로케이션 확인 : ", location);
     const toggleSubmenu = () => {
         setIsSubmenuOpen(!isSubmenuOpen);
+        localStorage.setItem("isSubmenuOpen", !isSubmenuOpen);
     };
     const submenuStyle = {
         display : isSubmenuOpen? 'block' : 'none'
@@ -57,19 +66,21 @@ function MyPage() {
     const [modifyActive, setModifyActive] = useState(false);
     useEffect(
         () => {
-            const isModifyActive = location.pathname.includes("modify");
+            const isModifyActive = location.pathname.includes("modify")||
+                                    location.pathname.includes("verifying");
+            console.log("참인지 확인 : ", isModifyActive);
             setModifyActive(isModifyActive);
         }, [location.pathname]
     )
     const modifyMenu = {
-        backgroundColor: modifyActive? 'var(--color-primary) !important' : 'var(--color-white) !important',
-        color: modifyActive? 'var(--color-white) !important' : 'var(--color-dark) !important'
+        backgroundColor: modifyActive? 'var(--color-primary)' : 'var(--color-light)',
+        color: modifyActive? 'var(--color-white)' : 'var(--color-dark)'
     }
 
     return(
         <>
             <div className="header-admin">
-                <div className="header-admin-menu bg-primary"><h4>{memberName}님</h4></div>
+                <div className="header-admin-menu bg-primary"><h4>{memberName}<span style={{fontSize:1.15 + 'rem', paddingLeft:0.15+"rem"}}>님</span></h4></div>
                 <div className="header-admin-menu">
                     <h5>총 기부 횟수</h5>
                     <h3 className="text-primary">{totalDonation}회</h3>
@@ -82,11 +93,11 @@ function MyPage() {
             <div className="container-admin">
                 <div className="admin-sidebar bg-light">
                     <div className="admin-sidebar-menu">
-                        <h6>소유 기부포인트</h6>
+                        <h6>보유 기부포인트</h6>
                         <h4>{currentPoint}P</h4>
                     </div>
                     <NavLink to="history" className='admin-sidebar-menu'>
-                        기부(결제)내역
+                        기부 내역
                     </NavLink>
                     <li className='admin-sidebar-menu' onClick={toggleSubmenu} style={pointMenu}>
                         포인트 전환 및 관리
@@ -103,19 +114,21 @@ function MyPage() {
                         </NavLink>
                     </div>
                     <NavLink to="receipt" className="admin-sidebar-menu">
-                        기부금영수증 안내
+                        기부금 영수증 안내
                     </NavLink>
                     <NavLink to="bookmark" className='admin-sidebar-menu'>
-                        관심리스트
+                        북마크 리스트
                     </NavLink>
                     <NavLink to="calculator" className='admin-sidebar-menu'>
                         세액공제 계산기
                     </NavLink>
-                    <NavLink to="verifying" style={modifyMenu} className="admin-sidebar-menu bg-light">
-                        회원정보 수정
+                    <NavLink to="verifying" 
+                        style={modifyMenu} 
+                        className="admin-sidebar-menu">
+                        회원 정보 수정
                     </NavLink>
                     <NavLink to="withdraw" className="admin-sidebar-menu bg-light">
-                        회원탈퇴
+                        회원 탈퇴
                     </NavLink>
                 </div>
                 <div>

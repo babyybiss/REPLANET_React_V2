@@ -16,7 +16,7 @@ function TestChart(chartDataListProps) {
   // console.log(uniqueKeys)
   const uniqueKeysToKorean = ['캠페인 수(건)', '현재모금액합계(원)ㄴ', '목표모금액합계(원)', '남은모금액합계(원)', '달성률(%)'];
 
-  const tickValuesAttributes = chartDataList.map((attribute, index) => index + 1);
+  const tickValuesAttributes = chartDataList.map((_, index) => index + 1);
   /*
   const tickFormatAttributes = chartDataList.map(categoryname => categoryname.campaignCategory)
   */

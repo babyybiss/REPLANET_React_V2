@@ -57,7 +57,7 @@
 .modal-scroll-box {
     overflow-y: auto;
     height: 400px;
-    padding: .5rem;
+    padding: .5rem .75rem;
     background-color: var(--color-light);
 }
 
@@ -108,7 +108,7 @@
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
     padding: 0.5rem;
-    margin: 5px;
+    margin: 5px 0;
     font-size: .9rem;
     user-select: none;
     pointer-events: none;
@@ -121,11 +121,12 @@
     text-align: left;
     background-color: var(--color-primary);
     color: #FFFFFF;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    border-bottom-left-radius: 5px;
-    padding: 5px;
-    margin: 5px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    padding: .5rem;
+    margin-top: .2rem;
+    margin-bottom: .2rem;
     font-size: 13px;
     user-select: none;
     pointer-events: none;
@@ -134,48 +135,72 @@
     display: block;
     float: left;
     text-align: left;
-    background-color: #FFFFFF;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
-    padding: 5px;
-    margin: 5px;
+    background-color: var(--color-white);
+    border-style: solid;
+    border-color: var(--color-secondary);
+    border-width: 1px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    padding: .5rem;
+    margin-top: .2rem;
+    margin-bottom: .2rem;
     font-size: 13px;
     user-select: none;
     pointer-events: none;
 }
 .click-box {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     float: left;
     text-align: left;
     background-color: #FFFFFF;
+    border-style: solid;
+    border-color: var(--color-secondary);
+    border-width: 1px;
     border-radius: 18px;
-    padding: 8px;
-    margin: 5px;
+    padding: .5rem;
+    margin: .2rem;
     font-size: 13px;
     user-select: none;
     cursor: pointer;
 }
+/*
+.click-box:after {
+    font-family: 'FontAwesome';
+    content: '\f002';
+    float: right
+}
+*/
 .reset-box{
+    width: calc(50% - 0.5rem);
     display: block;
     float: left;
-    text-align: left;
+    text-align: center;
     background-color: #FFFFFF;
+    border-style: solid;
+    border-color: var(--color-secondary);
+    border-width: 1px;
     border-radius: 18px;
-    padding: 8px;
-    margin: 8px;
+    padding: .5rem;
+    margin-top: .5rem;
     font-size: 13px;
     user-select: none;
     cursor: pointer;
 }
 .scroll-top-box {
+    width: calc(50% - 0.5rem);
     display: block;
     float: right;
-    text-align: left;
+    text-align: center;
     background-color: #FFFFFF;
+    border-style: solid;
+    border-color: var(--color-secondary);
+    border-width: 1px;
     border-radius: 18px;
-    padding: 8px;
-    margin: 8px;
+    padding: .5rem;
+    margin-top: .5rem;
     font-size: 13px;
     user-select: none;
     cursor: pointer;
@@ -187,6 +212,7 @@
     background-color: var(--color-white);
     width: 100%;
     padding: 0.5rem 1rem 0.5rem 1rem;
+    margin-top: 5px;
     display: flex;
     align-items: center;
     justify-content: space-between;

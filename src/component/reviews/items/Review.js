@@ -16,11 +16,15 @@ export function Review({ review, reviewExists }) {
       review && (
       reviewExists === true ? (
       <NavLink to={`/reviews/${reviewCode}`}>
-        <div style={{width: 300+"px"}}>
-            <img className="v-2 v-3 item-thumb rounded-3" src={`/reviewImgs/${review.reviewFileList[0] ? review.reviewFileList[0].fileSaveName : null}`} />
-            <h4>{review.reviewTitle}</h4>
-            <h6 style={{color: "#706f6f"}}>캠페인: <strong style={{ fontWeight: 'bold' }}>{review.campaign.campaignTitle}</strong></h6>
-            <h6 style={{color: "#706f6f"}}>재단 : <strong style={{ fontWeight: 'bold' }}>{review.campaign.organization.member.memberName}</strong></h6>
+        <div>
+          <div className="item-thumb rounded-3 mb-1" style={{height: 150 + "px", overflow: 'hidden'}}>
+          <img className="w-100 " src={`/reviewImgs/${review.reviewFileList[0] ? review.reviewFileList[0].fileSaveName : null}`} />
+          </div>
+
+            <h5>{review.reviewTitle}</h5>
+            <hr/>
+            <h6 style={{color: "#706f6f"}}><strong style={{ fontWeight: 'bold' }}>{review.campaign.campaignTitle}</strong></h6>
+            <h6 style={{color: "#706f6f"}}>{review.campaign.organization.member.memberName}</h6>
         </div>
       </NavLink>
       ):(
@@ -34,7 +38,7 @@ export function Review({ review, reviewExists }) {
             <>
             <h4>{review.campaign.campaignTitle}<br/><h6 style={{color: "#706f6f"}}>캠페인명 </h6></h4>
             <h4>{review.campaign.organization.member.memberName}<br /><h6 style={{color: "#706f6f"}}>재단명</h6></h4>
-            <NavLink to={`/reviews/reviewRegist/${review.campaign.campaignCode}`}><button className="button button-primary mr-1">리뷰 등록하기</button></NavLink>
+            <NavLink to={`/reviews/reviewRegist/${review.campaign.campaignCode}`}><button className="button button-primary mr-1">후기 등록하기</button></NavLink>
             </>}
             
           </div>

@@ -13,7 +13,17 @@ export function VerifyPwdAPI({orgCode, orgPwd}, navigate){
             console.log('[OrgAPI] verifyPwdAPI RESULT : ', result.data);
             dispatch({type: GET_ORG_INFORMATION, payload: result.data});
             localStorage.setItem("orgData", JSON.stringify(result.data[0]));
-            navigate('/myPageOrg/modify');
+            Swal.fire({
+                icon: "success",
+                iconColor: '#1D7151',
+                title: "정보 수정으로 이동합니다.",
+                showCancelButton: false,
+                confirmButtonColor: '#1D7151',
+                confirmButtonText: '확인'
+            }).then(result => {
+                if(result.isConfirmed){
+                    navigate('/myPageOrg/modify');
+            }})
         } catch (error){
             console.error('[OrgAPI] verifyPwdAPI 에러 발생 : ', error);
             if(error.response?.status == 400){
@@ -112,6 +122,16 @@ export function orgWithdrawAPI({memberCode, enterReason, password}, navigate, au
                     icon: "error",
                     iconColor: "#DB524E",
                     title: "비밀번호를 잘못 입력하셨습니다.",
+                    text: '문제가 지속될 경우 고객센터로 문의 바랍니다.',
+                    showCancelButton: false,
+                    confirmButtonColor: '#1D7151',
+                    confirmButtonText: '확인'
+                })
+            } else if(error.response?.data == 'campaigns') {
+                Swal.fire({
+                    icon: "error",
+                    iconColor: "#DB524E",
+                    title: "진행 중인 캠페인이 존재합니다.",
                     text: '문제가 지속될 경우 고객센터로 문의 바랍니다.',
                     showCancelButton: false,
                     confirmButtonColor: '#1D7151',

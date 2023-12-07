@@ -3,11 +3,10 @@ import ModalHeader from "./ModalHeader";
 
 function ModalSupportbot({ setIsShow }) {
  
-    console.log()
     return (
         <div className={'modal-box'}>
             <ModalHeader setIsShow={(setIsShow)} /> 
-            <BubbleList />
+            <BubbleList setIsShow={(setIsShow)}/>
         </div>
     );
 }

@@ -57,28 +57,28 @@ function MyPageOrg() {
                 <div className="header-admin-menu bg-primary"><h4>{memberName}님</h4></div>
                 <div className="header-admin-menu">
                     <h5>등록한 캠페인 수</h5>
-                    <h3 className="text-primary">{campaignCount.ingCount}개</h3>
+                    <h3 className="text-primary">{campaignCount.ingCount ? campaignCount.ingCount : 0}개</h3>
                     {/* 기부처의 등록한 캠페인 수 구해야함 */}
                 </div>
                 <div className="header-admin-menu">
                     <h5>종료된 캠페인 수</h5>
-                    <h4 className="text-primary">{campaignCount.doneCount}개</h4>
+                    <h4 className="text-primary">{campaignCount.doneCount ? campaignCount.doneCount : 0}개</h4>
                     {/* 기부처의 받은 기부금 총액 총합 구해야함 */}
                 </div>
-            </div>               
-            <div className='container-admin'>
+            </div>
+            <div className='container-admin bg-light'>
                 <div className="admin-sidebar bg-light">
                     <NavLink to="list" className='admin-sidebar-menu'>
                         캠페인 관리
                     </NavLink>
                     <NavLink to="review" className="admin-sidebar-menu">
-                        리뷰 관리
+                        후기 관리
                     </NavLink>
                     <NavLink to="confirmPwd" className='admin-sidebar-menu' style={modifyMenu}>
-                        정보 수정
+                        재단 정보 수정
                     </NavLink>
                     <NavLink to="withdraw" className='admin-sidebar-menu'>
-                        탈퇴 요청
+                        탈퇴 신청
                     </NavLink>
                 </div>
                 <div>

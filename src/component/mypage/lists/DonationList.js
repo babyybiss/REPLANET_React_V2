@@ -120,7 +120,7 @@ function DonationList() {
         <>
             {loading ? (<div><Loader /></div>) : (<div className="admin-main">
                 <div className="admin-title">
-                    <h1 class="text-primary">기부내역</h1>
+                    <h1 class="text-primary">기부 내역</h1>
                 </div>
                 <div className=''>
                     <div class="items-container ic4">
@@ -138,17 +138,20 @@ function DonationList() {
                                 onChange={(e) => handleEndDateChange(e.target.value)}
                                 className='input input-lg' />
                         </div>
-                        <div class="item"><button className='button button-lg button-primary-outline w-50' onClick={initSearchDate}>
+                        <div class="item">
+                            <div className="items-container ic2">
+                            <button className='button button-lg button-primary-outline w-100' onClick={initSearchDate}>
                             초기화
-                        </button>&nbsp;
-                        <button className='button button-lg button-primary w-50' onClick={handleSearch}>
-                            검색 <i class="fas fa-search"></i>
                         </button>
+                        <button className='button button-lg button-primary w-100' onClick={handleSearch}>
+                            검색 <i class="fa-solid fa-search"></i>
+                        </button>
+                            </div>
                         </div>
 
                     </div>
                 </div>
-                <div className='admin-title total-amount'>
+                <div className='admin-title total-amount border-0'>
                     <div>
                         <span className="pay-color-gray">기부내역 클릭 시 해당 캠페인으로 이동합니다.</span>
                     </div>
@@ -162,7 +165,7 @@ function DonationList() {
                         <tr>
                             <th>순번</th>
                             <th>캠페인 이름</th>
-                            <th>단체</th>
+                            <th>재단</th>
                             <th onClick={handleToggleDetailsAll} className="toggle-header">
                                 {showDetailsAll ? '기부금액 (접기)' : '기부금액 (상세보기)'}
                             </th>

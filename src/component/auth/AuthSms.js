@@ -100,7 +100,7 @@ function AuthSms() {
             <div className="regexMsg">{phoneMsg}</div>
             <div className="input-group">
                 <input className="input" type="text" ref={verificationCodeInputRef} value={verificationCode} id="verificationCode" required placeholder="전송받으신 인증번호 4자리를 입력해 주세요." onChange={handleVerificationCode} disabled={!isPhoneValid} />
-                <button type="button" className="button button-primary" onClick={handleSendVerificationCode} disabled={!isVerificationCodeValid}>인증번호 입력</button>
+                <button type="button" className="button button-primary" onClick={handleSendVerificationCode} disabled={!isVerificationCodeValid}>인증하기</button>
 
             </div>
             <div className="regexMsg">{verificationCodeMsg}</div>

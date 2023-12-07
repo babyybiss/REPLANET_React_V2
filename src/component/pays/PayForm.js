@@ -187,11 +187,14 @@ function PayForm() {
     }
 
     const onChangeHandler = (e) => {
-        const inputValue = e.target.value.replace(/,/g, '');
+        let inputValue = e.target.value.replace(/,/g, '');
         console.log('inputValue : ',inputValue);
+        if (/^0\d+/.test(inputValue)) {
+            inputValue = inputValue.replace(/^0+/, '');
+        }
 
-        if (/^[1-9]\d*$|^0$/.test(inputValue)) {
-            const intValue = parseInt(inputValue, 10);
+        if (/^[1-9]\d*$|^0$/.test(inputValue) || inputValue === '') {
+            const intValue = inputValue === '' ? 0 : parseInt(inputValue, 10);
             const clampedValue = Math.min(intValue, 2000000000);
         
             if (e.target.name === "finalAmount") {
@@ -296,7 +299,9 @@ function PayForm() {
                 <h4>결제수수료 없이 100% 기부</h4>
                 <div>
                     <div className="pay-color-gray">결제하신 금액은 기부시 별도 수수료 없이&nbsp;</div>
-                    <div className="pay-color-green"> 단체로 100% 기부</div>
+
+                    <div className="pay-color-green"> 재단으로 100% 기부</div>
+
                     <div className="pay-color-gray">됩니다.</div>
                 </div>
             </div>
@@ -309,7 +314,9 @@ function PayForm() {
                 <div className="container-policy mb-1">
                     <pre>
                         <h5>RE-PLANET 이용약관</h5>                        
-                        제 1 조 (목적)이 약관은 META-INT 주식회사 및 재단법인 RE-PLANET(이하 “회사”)과 회원 사이의 권리, 의무 및 책임, 기타 필요한 사항을 규정함을 목적으로 합니다.제 2 조 (용어의 정의)① 이 약관에서 사용하는 용어의 정의는 다음과 같습니다.1. “RE-PLANET 서비스”라 함은 기부 서비스를 웹사이트(re-planet 이하 동일)에서 제공하는 모든 서비스를 말합니다.2. “회원”이라 함은 RE-PLANET 회원 중 본 약관에 동의하고 RE-PLANET 서비스를 이용하는 자를 말합니다.3. “기부 서비스”라 함은 회사가 회원의 기부금을 모금단체에 전달하는 서비스를 말합니다.4. “기부금”이라 함은 회원이 무상으로 제공한 금전이나 물품으로 반대급부 없이 모금단체에 전달되는 것을 말합니다.5. “모금단체”라 함은 회사의 심사를 받고 가입하여 해피빈 웹사이트에서 노출되는 비영리 단체로 기부금을 전달받아 공익사업 등에 사용하는 단체를 말합니다.6. “기부금”이라 함은 기부 서비스 내에서 사용할 수 있는 기부 통화수단으로 회원이 사용한 콩은 회사가 그 가치에 상응하는 현금으로 전환하여 모금단체 등에 전달합니다.7. “일시결제”라 함은 회원이 정한 금액이 지정된 날짜에 일시적으로 결제되는 것을 말합니다.8. “일시기부”라 함은 회원이 일시결제한 금액이 회원이 선택한 모금함으로 기부되는 것을 말합니다.
+
+                        제 1 조 (목적)이 약관은 META-INT 주식회사 및 재단법인 RE-PLANET(이하 “회사”)과 회원 사이의 권리, 의무 및 책임, 기타 필요한 사항을 규정함을 목적으로 합니다.제 2 조 (용어의 정의)① 이 약관에서 사용하는 용어의 정의는 다음과 같습니다.1. “RE-PLANET 서비스”라 함은 기부 서비스를 웹사이트(re-planet 이하 동일)에서 제공하는 모든 서비스를 말합니다.2. “회원”이라 함은 RE-PLANET 회원 중 본 약관에 동의하고 RE-PLANET 서비스를 이용하는 자를 말합니다.3. “기부 서비스”라 함은 회사가 회원의 기부금을 모금재단에 전달하는 서비스를 말합니다.4. “기부금”이라 함은 회원이 무상으로 제공한 금전이나 물품으로 반대급부 없이 모금단체에 전달되는 것을 말합니다.5. “모금단체”라 함은 회사의 심사를 받고 가입하여 해피빈 웹사이트에서 노출되는 비영리 단체로 기부금을 전달받아 공익사업 등에 사용하는 단체를 말합니다.6. “기부금”이라 함은 기부 서비스 내에서 사용할 수 있는 기부 통화수단으로 회원이 사용한 콩은 회사가 그 가치에 상응하는 현금으로 전환하여 모금단체 등에 전달합니다.7. “일시결제”라 함은 회원이 정한 금액이 지정된 날짜에 일시적으로 결제되는 것을 말합니다.8. “일시기부”라 함은 회원이 일시결제한 금액이 회원이 선택한 모금함으로 기부되는 것을 말합니다.
+
                     </pre>
                 </div>
                 <input id="c2" type="checkbox" className="mb-1" onChange={() => setIsAgreedToTerms(!isAgreedToTerms)}/>

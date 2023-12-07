@@ -12,7 +12,7 @@ import '../../assets/css/editor.css';
 import Swal from 'sweetalert2';
 
 const categoryList = [
-    { key: "0", name: "카테고리 선택" },
+    { key: "0", name: "카테고리를 선택해 주세요." },
     { key: "1", name: "아동-청소년" },
     { key: "2", name: "어르신" },
     { key: "3", name: "환경보호" },
@@ -23,11 +23,12 @@ const categoryList = [
 function CampaignModify() {
     //캠페인 정보 불러오기
     const result = useSelector(state => state.campaignReducer.campaigninfo);
-    const campaign = result.results? result.results.campaign : "";
+    const campaign = result.results ? result.results.campaign : "";
     const { campaignCode } = useParams();
     const navigate = useNavigate();
-
-    console.log(campaignCode, 'ㅇㅇㅇㅇㅇㅇ');
+    const maxSizeInBytes = 5242880; // 5 MB
+    // 버튼 따닥 방지
+    const [isButtonDisabled, setButtonDisabled] = useState(false);
 
     // 캠페인 내용 가져오기
     const [editorState, setEditorState] = useState(() => {
@@ -42,14 +43,12 @@ function CampaignModify() {
     const dispatch = useDispatch();
 
     const [inputs, setInputs] = useState([]);
-
     const [imagePre, setImagePre] = useState('');
     const [imageUrl, setImageUrl] = useState('');
     const imageInput = useRef();
 
     let beforeUrl = campaign.campaignDescFileList[0] ? campaign.campaignDescFileList[0].fileSaveName : null
 
-    //const beforeUrl = campaignInfo.campaignDescfileList[0].fileSaveName;
     // 수정하기 전 내용 가져오기 
     useEffect(() => {
         dispatch(GetCampaignAPI(campaignCode))
@@ -138,11 +137,74 @@ function CampaignModify() {
             }
             fileReader.readAsDataURL(imagePre);
         }
+
     }, [imagePre]);
+    const onChangeImage = (e) => {
+        const image = e.target.files[0];
+        imageInput.current.click();
 
+        if (!image) {
+            return setImagePre('');
+        }
+        if (image && image.size > maxSizeInBytes) {
+            Swal.fire({
+                icon: 'warning',
+                title: "이미지 용량이 5MB를 초과합니다.",
+                confirmButtonColor: '#1D7151',
+                iconColor: '#1D7151'
+            });
+            return setImagePre('');
+        } else (
+            setImagePre(image)
+        );
+    };
+    console.log(inputs, ' ghkrdls');
     // db 전송
-    const submitHandler = () => {
+    const submitHandler = async () => {
+        if (inputs.campaignTitle === undefined || inputs.campaignTitle === "") {
+            Swal.fire({
+                icon: 'warning',
+                title: '제목이 비었습니다.',
+                confirmButtonColor: '#1D7151',
+                iconColor: '#1D7151'
+            });
+            return
+        } else if (inputs.campaignCategory === undefined || inputs.campaignCategory === "카테고리를 선택해 주세요.") {
+            Swal.fire({
+                icon: 'warning',
+                title: '카테고리를 선택해주세요.',
+                confirmButtonColor: '#1D7151',
+                iconColor: '#1D7151'
+            });
+            return
+        } else if (inputs.campaignContent === undefined) {
+            Swal.fire({
+                icon: 'warning',
+                title: '내용이 비었습니다.',
+                confirmButtonColor: '#1D7151',
+                iconColor: '#1D7151'
+            });
+            return
+        } else if (inputs.goalBudget === undefined || inputs.goalBudget === "0") {
+            Swal.fire({
+                icon: 'warning',
+                title: '목표금액이 비었습니다.',
+                confirmButtonColor: '#1D7151',
+                iconColor: '#1D7151'
+            });
+            return
+        } else if (inputs.endDate === undefined) {
+            Swal.fire({
+                icon: 'warning',
+                title: '마감일이 비었습니다.',
+                confirmButtonColor: '#1D7151',
+                iconColor: '#1D7151'
+            });
+            return
+        }
 
+        if (isButtonDisabled) return
+        setButtonDisabled(true);
         const formData = new FormData();
 
         formData.append("campaignCategory", inputs.campaignCategory);
@@ -155,9 +217,13 @@ function CampaignModify() {
             formData.append("imageFile", imagePre);
         }
 
-        dispatch(ModifyCampaignAPI({
-            inputs: formData,
-        }, campaignCode));
+        try {
+            await dispatch(ModifyCampaignAPI({
+                inputs: formData,
+            }, campaignCode));
+        } finally {
+            setButtonDisabled(false);
+        }
 
     }
 
@@ -176,18 +242,14 @@ function CampaignModify() {
                     ))}
                 </select>
                 {/* 제목 & 텍스트 에디터 */}
-                <input className="input" name="campaignTitle" maxLength="20" onChange={onChange} value={inputs.campaignTitle} required />
+                <input className="input" name="campaignTitle" maxLength="20" onChange={onChange} value={inputs.campaignTitle} />
                 <DraftEditor onChange={onChangeContent} editorState={editorState} inputs={inputs} />
 
                 <input
                     type="file"
+                    className="input d-flex pt-1 mb-1"
                     accept="image/*"
-                    onChange={
-                        (e) => {
-                            const image = e.target.files[0];
-                            setImagePre(image)
-                            imageInput.current.click();
-                        }}
+                    onChange={onChangeImage}
                     ref={imageInput}
                     placeholder="메인 이미지 1장을 업로드 해주세요"
                 />
@@ -195,18 +257,37 @@ function CampaignModify() {
                     src={imageUrl || '/campaigns/' + beforeUrl}
                     alt="preview"
                 />
-            </div>
 
-            <div className="container" id="container-user">
-                <h3 className="text-center">기부금 사용 계획 </h3>
                 <div className="items-container ic1">
-                    <label>목표금액<input className="input" type="text" maxLength="20" name="goalBudget" placeholder="총 목표 금액을 입력하세요." value={inputs.goalBudget} onChange={priceChangeHandler} required /></label>
-                    <label htmlFor="endDate">캠페인 마감일 <input type="date" id="endDate" name="endDate" className="input" onChange={onChange} value={inputs.endDate} /></label>
+                    <div className="card">
+                        <div className="card-header bg-primary">기부금 사용 계획 설정</div>
+                        <div className="card-body">
+                            <div className="items-container ic2">
+                                <div>
+                                    <label>목표금액<input className="input mb-1" type="text" maxLength="13" name="goalBudget" placeholder="총 목표 금액을 입력하세요.(10억 원 이하)" value={inputs.goalBudget} onChange={priceChangeHandler} required /></label>
+                                </div>
+                                <div>
+                                    <label htmlFor="endDate">캠페인 마감일 <input type="date" id="endDate" name="endDate" className="input" onChange={onChange} required /></label>
+                                </div>
+                            </div>
+
+
+                            {/* <label>재단명<input className="input" name="orgName" maxLength="50" placeholder="재단명을 입력해주세요." onChange={onChange} required /></label>
+                    <label>재단 한줄소개<input className="input" name="orgDescription" maxLength="50" placeholder="재단 한줄소개를 입력해주세요." onChange={onChange} required /></label>
+                    <label>재단 연락처<input className="input" name="orgTel" maxLength="13" placeholder="전화번호를 입력해주세요." onChange={onChange} required /></label> */}
+
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div className="items-container ic2">
+                    <button className="button button-primary" disabled={isButtonDisabled} onClick={submitHandler} >등록하기</button>
+                    <button type="button" className="button button-primary-outline" onClick={() => navigate(-1)}>취소</button>
                 </div>
             </div>
-            <div className="campaignSubmitButton">
-                <div className="button button-primary" style={{ width: '30%', textAlign: 'center',marginBottom: '1rem' }} onClick={submitHandler} >등록하기</div>
-                <div className="button button-primary-outline" style={{ width: '30%', textAlign: 'center' }} onClick={() => navigate(-1)}>취소</div>
+
+            <div className="container">
+
             </div>
         </>
     );

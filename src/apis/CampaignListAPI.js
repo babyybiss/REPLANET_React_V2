@@ -119,7 +119,6 @@ export function PostCampaignAPI({ inputs }, header) {
 // 캠페인 삭제
 export function DeleteCampaignAPI(campaignCode) {
 
-    console.log(campaignCode, '이게안되나');
     return async () => {
         try {
             await axios.delete(requestURL + `campaigns/${campaignCode}`, campaignCode)
@@ -149,6 +148,7 @@ export function DeleteCampaignAPI(campaignCode) {
 
 // 캠페인 수정
 export function ModifyCampaignAPI({ inputs }, campaignCode) {
+    console.log('[Review Registration] formData : ', inputs.get("imageFile"));
 
     return async (dispatch, getState) => {
         try {

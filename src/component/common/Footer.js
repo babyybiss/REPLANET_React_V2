@@ -22,7 +22,6 @@ function Footer() {
             <hr />
             <ul>
               <li><a href="mailto:replanetorg@gmail.com" className="text-white">replanetorg@gmail.com</a></li>
-              <li>(기부처 등록 문의는 메일로 주시면 됩니다.)</li>
               <li>고객센터 운영시간 : 오전9시 ~ 오후6시</li>
               <li>점심시간 : 오후12시 ~ 오후1시</li>
               <li>휴일 : 토요일, 일요일, 공휴일</li>

@@ -15,9 +15,10 @@ function HeartButton({ campaignCode }) {
     const dispatch = useDispatch();
 
     // 북마크 
-    const bookmark = useSelector(state => state.bookmarkReducer.bookmark)
+    const bookmarkResult = useSelector(state => state.bookmarkReducer.bookmark)
     const [like, setLike] = useState(0);
 
+    const bookmark = bookmarkResult && bookmarkResult.results.bookmarkList;
     useEffect(() => {
         // 사용자가 로그인한 경우에만 찜목록을 불러오도록
         if (token) {
@@ -76,7 +77,7 @@ function HeartButton({ campaignCode }) {
     }, [bookmark])
 
     return (
-        <img
+        /*<img
             className=""
             style={{ width: 28, height: 28 }}
             alt="#"
@@ -86,7 +87,18 @@ function HeartButton({ campaignCode }) {
                     : "/campaigns/default/unChecked.png"
             }
             onClick={clickedToggle}
-        />
+        />*/
+        <>
+                <i className={
+            like === 1
+                ? "fa-solid fa-heart"
+                : "fa-regular fa-heart"
+        }
+        style={{paddingTop: 3 + "px"}}
+        onClick={clickedToggle}>
+    </i>
+        </>
+
     );
 }
 

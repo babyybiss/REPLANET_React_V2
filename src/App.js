@@ -2,8 +2,6 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Layout from './layouts/Layout';
 import Main from './pages/Main';
 import CampaignDetail from './pages/campaigns/CampaignDetails';
-import Draft from './Draft';
-import Charts from './pages/charts/Charts';
 import Signup from "./pages/auth/Signup";
 import Login from "./pages/auth/Login";
 import { Reviews } from "./pages/reviews/Reviews";
@@ -17,13 +15,11 @@ import Success from './pages/pays/Success';
 import Cancel from './pages/pays/Cancel';
 import Fail from './pages/pays/Fail';
 import AuthContext from "./component/auth/AuthContext";
-import TextMessage from "./pages/auth/TextMessage";
-import Find from "./pages/auth/Find";
 import React, { useContext } from "react";
 import ExchangeDetail from "./pages/points/ExchangeDetail";
 import MyPage from "./pages/users/MyPage";
 import AllExchanges from "./pages/points/AllExchanges";
-import BookmarkList from "./component/mypage/lists/BookmarkList";
+import BookmarkList from "./pages/users/BookmarkList";
 import DonationList from "./component/mypage/lists/DonationList";
 import MyExchanges from "./pages/points/MyExchanges";
 import CampaignModify from "./pages/campaigns/CampaignModify";
@@ -45,7 +41,14 @@ import OauthKakao from "./pages/auth/OauthKakao";
 import ModifyUser from "./pages/users/ModifyUser";
 import Withdrawal from "./pages/users/Withdrawal";
 import VerifyUser from "./pages/users/VerifyUser";
+import FindId from "./pages/auth/FindId";
 import FindPw from "./pages/auth/FindPw";
+import SocialSignup from "./pages/auth/SocialSignup";
+import ChartMain from "./pages/charts/ChartMain";
+import GoalCampaign from "./component/charts/GoalCampaign";
+import CategoryCampaign from "./component/charts/CategoryCampaign";
+import CurrentYearCampaign from "./component/charts/CurrentYearCampaign";
+import HistoryCampaign from "./component/charts/HistoryCampaign";
 
 function App() {
 
@@ -62,9 +65,11 @@ function App() {
             <Route path="/" element={<Layout />}>
               <Route path="/login/*" element={authCtx.isLoggedIn ? <Navigate to='/' /> : <Login />}/>
               <Route path="/signup/" element={authCtx.isLoggedIn ? <Navigate to='/' /> : <Signup />} />
-              <Route path="/find/" element={<Find/>}></Route>
-              <Route path="/password/" element={<ChangePassword/>}></Route>
+              <Route path="/socialsignup/" element={authCtx.isLoggedIn ? <Navigate to='/' /> : <SocialSignup />} />
+              <Route path="/findid/" element={<FindId/>}></Route>
               <Route path="/findpw/" element={<FindPw/>}></Route>
+              {/* <Route path="/password/" element={<ChangePassword/>}></Route> */}
+
               <Route path="/myPage" element={authCtx.isLoggedIn ? <MyPage /> : <Navigate to='/' />} children={[
                 <Route key="history" index element={<Navigate to="history" />} />,
                 <Route key="historyPage" path="history" element={<DonationList />} />,
@@ -78,7 +83,7 @@ function App() {
                 <Route key="modify" path="modify" element={<ModifyUser />} />,
                 <Route key="withdraw" path="withdraw" element={<Withdrawal />} />
               ]}/>
-              <Route path="/sendemail" element={<SendEmail/>}></Route>
+              {/* <Route path="/sendemail" element={<SendEmail/>}></Route> */}
 
             <Route path="/">
               <Route index element={<Main />} />
@@ -86,15 +91,21 @@ function App() {
               <Route path="campaign/:campaignCode" element={<CampaignDetail />} />
               <Route path="modify/:campaignCode"element={<CampaignModify />} />
             </Route>
-            <Route path="charts" element={<Charts />} />
+            <Route path="charts" element={decodedToken?.memberRole === "ROLE_ADMIN" ? <ChartMain /> : <Navigate to='/' />} children={[
+              <Route key="goalCampaign" index element={<Navigate to="goalCampaign" />} />,
+              <Route key="goalCampaignPage" path="goalCampaign" element={<GoalCampaign/>} />,
+              <Route key="categoryCampaign" path="categoryCampaign" element={<CategoryCampaign/>} />,
+              <Route key="historyCampaign" path="historyCampaign" element={<HistoryCampaign/>} />,
+              <Route key="currentYearCampaign" path="currentYearCampaign" element={<CurrentYearCampaign/>} />
+            ]} />
             <Route path="reviews">
               <Route index element={<Reviews />} />
               <Route path=":reviewCode" element={<ReviewDetails />} />
               <Route path="reviewRegist">
-                <Route path=":campaignCode" element={<ReviewRegist />} />
+                <Route path=":campaignCode" element={decodedToken?.memberRole === "ROLE_ORG" ? <ReviewRegist /> : <Navigate to='/' />} />
               </Route>
               <Route path="reviewUpdate">
-                <Route path=":reviewCode" element={<ReviewModify />} />
+                <Route path=":reviewCode" element={decodedToken?.memberRole === "ROLE_ORG" ? <ReviewModify /> : <Navigate to='/' />} />
               </Route>
               {/* <Route path="textmessage" element={<TextMessage />}/> */}
             </Route>
@@ -106,7 +117,7 @@ function App() {
               <Route path="fail" element={<Fail />} />
             </Route>
 
-            
+            {/* ADMIN 포인트 신청 조회 */}
             <Route path="exchangeList" element={authCtx.isLoggedIn ? <AllExchanges /> : <Navigate to='/' />} />
             <Route path="exchangeDetail/:exchangeCode" element={authCtx.isLoggedIn ? <ExchangeDetail /> : <Navigate to='/' />} />
             
@@ -121,9 +132,8 @@ function App() {
               // ROLE_ORG의 마이페이지
               <Route key="list" index element={<Navigate to="list" />} />,
               <Route key="listPage" path="list" element={<OrgCamList />} />,
-
               <Route key="review" path="review" element={<Reviews />} />,
-              <Route key="edit" path="edit" element={<OrgEdit />} />,
+              
               <Route key="confirmPwd" path="confirmPwd" element={<PwdConfirm />} />,
               <Route key="modify" path="modify" element={<OrgEdit />} />,
               <Route key="withdraw" path="withdraw" element={<OrgWithdraw />} />,

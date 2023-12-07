@@ -38,15 +38,29 @@ export const signupActionHandler = (email, password, memberName, phone, memberRo
   const response = POST(URL, signupObject, {});
   return response;
 };
+export const socialSignupActionHandler = (email, password, memberName, phone, kakaoTokenId) => {
+  const URL = '/auth/socialSignup';
+  const signupObject = { email, password, memberName, phone, kakaoTokenId };
+  const response = POST(URL, signupObject, {});
+  return response;
+};
 export const loginActionHandler = (email, password) => {
   const URL = '/auth/login';
   const loginObject = { email, password };
   const response = POST(URL, loginObject, {});
   return response;
 };
+export const socialLoginActionHandler = (email, providerId) => {
+  const URL = '/auth/socialLogin';
+  const loginObject = { email, providerId };
+  const response = POST(URL, loginObject, {});
+  return response;
+};
 export const logoutActionHandler = () => {
   localStorage.removeItem('token');
   localStorage.removeItem('expirationTime');
+  localStorage.removeItem('code');
+  localStorage.removeItem('accessToken');
 };
 export const getUserActionHandler = (token) => {
   const URL = '/';

@@ -23,39 +23,36 @@ function OrgEdit() {
     const dispatch = useDispatch();
 
     const fileRef = useRef();
-    const orgEmailInputRef = useRef(null);
     const orgNewPwdInputRef = useRef(null);
     const orgNameInputRef = useRef(null);
     const orgPhoneInputRef = useRef(null);
     const orgIntroInputRef = useRef(null);
 
-    const [orgImg, setOrgImg] = useState(orgInfo.fileName? '/orgImgs/' + orgInfo.fileName : '/campaigns/default/noImage.png');
+    const [orgImg, setOrgImg] = useState(orgInfo.fileName? `/orgImgs/${orgCode}/${orgInfo.fileName}` : '/campaigns/default/noImage.png');
     const [file, setFile] = useState(null);
     const [fileName, setFileName] = useState("");
-    const [orgEmail, setOrgEmail] = useState(orgInfo?.orgEmail || "");
+    const orgEmail = orgInfo?.orgEmail || "";
     const [orgNewPwd, setOrgNewPwd] = useState("");
+    const [passwordConfirm, setPasswordConfirm] = useState('');
     const [orgName, setOrgName] = useState(orgInfo?.orgName || "");
     const [orgPhone, setOrgPhone] = useState(orgInfo?.phone || "");
     const [orgIntro, setOrgIntro] = useState(orgInfo?.description || "");
 
-    const validateOrgEmail = (orgEmail) => {
-        return orgEmail.toLowerCase()
-            .match(/([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/);
-    };
     const validateOrgNewPwd = (orgNewPwd) => {
         return orgNewPwd.toLowerCase()
             .match(/^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{7,24}$/);
     };
     const validateOrgName = (orgName) => {
         return orgName.toLowerCase()
-            .match(/^[ㄱ-ㅎ|가-힣].{2,100}$/);
+        .match(/^[ㄱ-ㅎ|가-힣|a-z|A-Z|].{2,100}$/)
     };
     const validateOrgPhone = (orgPhone) => {
         return orgPhone.match(/^[0-9].{8,10}$/);
     };
 
-    const [orgEmailMsg, setOrgEmailMsg] = useState("");
+    const orgEmailMsg = "이메일은 변경할 수 없습니다. 필요 시 고객센터로 문의 바랍니다.";
     const [orgNewPwdMsg, setOrgNewPwdMsg] = useState("");
+    const [passwordConfirmMsg, setPasswordConfirmMsg] = useState("");
     const [orgNameMsg, setOrgNameMsg] = useState("");
     const [orgPhoneMsg, setOrgPhoneMsg] = useState("");
     const [orgIntroMsg, setOrgIntroMsg] = useState("");
@@ -75,34 +72,35 @@ function OrgEdit() {
             reader.readAsDataURL(file);
         }
     }
-    const handleOrgEmail = useCallback((e) => {
-        const newOrgEmail = e.target.value;
-        setOrgEmail(newOrgEmail);
-        setOrgEmailMsg("");
-        if(!validateOrgEmail(newOrgEmail)){
-            setOrgEmailMsg("이메일 형식이 올바르지 않습니다.")
-        } else {
-            setOrgEmailMsg("올바른 형식의 이메일입니다.")
-        }
-    });
     const handleOrgNewPwd = useCallback((e) => {
         const newOrgPwd = e.target.value;
         setOrgNewPwd(newOrgPwd);
         setOrgNewPwdMsg("");
         if(!validateOrgNewPwd(newOrgPwd)){
-            setOrgNewPwdMsg("영문, 숫자, 특수기호 조합으로 8자리 이상 입력해 주세요.")
+            setOrgNewPwdMsg("영문, 숫자, 특수기호 조합한 8~24자리로 입력해 주세요.")
         } else {
             setOrgNewPwdMsg("안전한 비밀번호입니다.")
         }
     });
+    const handlePasswordConfirm = useCallback((e) => {
+        const currPasswordConfirm = e.target.value;
+        setPasswordConfirm(currPasswordConfirm);
+        if (!validateOrgNewPwd(orgNewPwd)) {
+          setPasswordConfirmMsg("먼저 비밀번호를 영문, 숫자, 특수기호를 조합한 8~24자리로 입력해주세요.")
+        } else if (currPasswordConfirm !== orgNewPwd) {
+          setPasswordConfirmMsg("비밀번호 입력값이 일치하지 않습니다.")
+        } else {
+          setPasswordConfirmMsg("입력값이 일치합니다.")
+        }
+      }, [orgNewPwd])
     const handleOrgName = useCallback((e) => {
         const newOrgName = e.target.value;
         setOrgName(newOrgName);
         setOrgNameMsg("");
         if(!validateOrgName(newOrgName)){
-            setOrgNameMsg("재단명을 한글로 입력해 주세요.")
+            setOrgNameMsg("재단명을 한글 또는 알파벳으로 입력해 주세요.")
         } else {
-            setOrgNameMsg("올바른 형식의 재단명입니다.")
+            setOrgNameMsg("올바른 형식으로 입력되었습니다.")
         }
     });
     const handleOrgPhone = useCallback((e) => {
@@ -112,7 +110,7 @@ function OrgEdit() {
         if(!validateOrgPhone(newOrgPhone)){
             setOrgPhoneMsg("-을 제외한 9~11자리의 숫자만 입력 가능합니다.")
         } else {
-            setOrgPhoneMsg("올바른 형식의 연락처입니다.")
+            setOrgPhoneMsg("올바른 형식으로 입력되었습니다.")
         }
     });
     const handleOrgIntro = useCallback((e) => {
@@ -126,38 +124,38 @@ function OrgEdit() {
     });
 
     const submitHandler = (e) => {
-        if (orgEmail == null || orgEmail == "") {
+        if (orgNewPwd == null || orgNewPwd == "" || !validateOrgNewPwd(orgNewPwd)) {
             Swal.fire({
                 icon: "warning",
                 iconColor: '#1D7151',
-                title: "이메일을 입력해 주세요.",
+                title: "비밀번호를 올바르게 입력해 주세요.",
                 showCancelButton: false,
                 confirmButtonColor: '#1D7151',
                 confirmButtonText: '확인'
             })
-        } else if (orgNewPwd == null || orgNewPwd == "") {
+        } else if (passwordConfirm == null || passwordConfirm == "" || orgNewPwd !== passwordConfirm) {
             Swal.fire({
                 icon: "warning",
                 iconColor: '#1D7151',
-                title: "비밀번호를 입력해 주세요.",
+                title: "비밀번호 확인을 완료해 주세요.",
                 showCancelButton: false,
                 confirmButtonColor: '#1D7151',
                 confirmButtonText: '확인'
             })
-        } else if (orgName == null || orgName == "") {
+        } else if (orgName == null || orgName == "" || !validateOrgName(orgName)) {
             Swal.fire({
                 icon: "warning",
                 iconColor: '#1D7151',
-                title: "기부처명을 입력해 주세요.",
+                title: "기부처명을 올바르게 입력해 주세요.",
                 showCancelButton: false,
                 confirmButtonColor: '#1D7151',
                 confirmButtonText: '확인'
             })
-        } else if (orgPhone == null || orgPhone == "") {
+        } else if (orgPhone == null || orgPhone == "" || !validateOrgPhone(orgPhone)) {
             Swal.fire({
                 icon: "warning",
                 iconColor: '#1D7151',
-                title: "연락처를 입력해 주세요.",
+                title: "연락처를 올바르게 입력해 주세요.",
                 showCancelButton: false,
                 confirmButtonColor: '#1D7151',
                 confirmButtonText: '확인'
@@ -167,7 +165,6 @@ function OrgEdit() {
             if(file){
                 formdata.append("file", file);
             }
-            formdata.append("memberEmail", orgEmail);
             formdata.append("password", orgNewPwd);
             formdata.append("memberName", new Blob([JSON.stringify(orgName)], { type: "application/json", }));
             formdata.append("phone", orgPhone);
@@ -187,7 +184,7 @@ function OrgEdit() {
             <div className="admin-main">
                 <div className="admin-title">
                     <div>
-                        <h1 class="text-primary">기부처 정보 수정</h1><br/>
+                        <h1 class="text-primary">재단 정보 수정</h1><br/>
                         <div id="profileImgArea">
                             <img src={orgImg} className="orgImg" />
                         </div>
@@ -197,7 +194,7 @@ function OrgEdit() {
                         </div>
                         </label>
                         <input type="file" id="file" name="file"
-                            accept=".png, .jpeg, .jpg, .bmp, .svg"
+                            accept=".png, .jpeg, .jpg, .bmp"
                             onChange={handleChangeFile}
                             ref={fileRef}
                             style={{ display: "none" }} />
@@ -205,21 +202,23 @@ function OrgEdit() {
                         <p>5MB 이하의 이미지 파일로 업로드 해주세요.</p>
                     </div>
                     <div id="orgInfo" className="text-left">
-                            <div className="items-container ic1">
-                                <div className="item">
-                                    <label htmlFor="orgEmail">재단 이메일</label><input className="input" type="text" id="orgId" value={orgEmail} onChange={handleOrgEmail} required ref={orgEmailInputRef} />
-                                    <div className="regexMsg">{orgEmailMsg}</div>
-                                    <label htmlFor="orgNewPwd">변경할 비밀번호</label><input className="input" type="password" id="orgNewPwd" value={orgNewPwd} onChange={handleOrgNewPwd} required ref={orgNewPwdInputRef} />
-                                    <div className="regexMsg">{orgNewPwdMsg}</div>
-                                    <label htmlFor="orgName">재단명</label><input className="input" type="text" id="orgName" value={orgName} onChange={handleOrgName} required ref={orgNameInputRef} />
-                                    <div className="regexMsg">{orgNameMsg}</div>
-                                    <label htmlFor="orgPhone">재단 연락처</label><input className="input" type="text" id="orgPhone" value={orgPhone} onChange={handleOrgPhone} required ref={orgPhoneInputRef} />
-                                    <div className="regexMsg">{orgPhoneMsg}</div>
-                                    <label htmlFor="orgIntro">재단 소개</label><textarea className="input" type="text" id="orgIntro" value={orgIntro} onChange={handleOrgIntro} required ref={orgIntroInputRef} />
-                                    <div className="regexMsg">{orgIntroMsg}</div>
-                                </div>
-                                 <button className="button button-primary w-100" onClick={submitHandler}>수정하기</button>
+                        <div className="items-container ic1">
+                            <div className="item">
+                                <label htmlFor="orgEmail">재단 이메일</label><input className="input" type="text" id="orgId" value={orgEmail} disabled />
+                                <div className="regexMsg">{orgEmailMsg}</div>
+                                <label htmlFor="orgNewPwd">변경할 비밀번호</label><input className="input" type="password" id="orgNewPwd" value={orgNewPwd} onChange={handleOrgNewPwd} required ref={orgNewPwdInputRef} />
+                                <div className="regexMsg">{orgNewPwdMsg}</div>
+                                <label htmlFor="passwordConfirm">변경 비밀번호 확인</label><input className="input" type="password" value={passwordConfirm} id="passwordConfirm" onChange={handlePasswordConfirm} />
+                                <div className="regexMsg">{passwordConfirmMsg}</div>
+                                <label htmlFor="orgName">재단명</label><input className="input" type="text" id="orgName" value={orgName} onChange={handleOrgName} required ref={orgNameInputRef} />
+                                <div className="regexMsg">{orgNameMsg}</div>
+                                <label htmlFor="orgPhone">재단 연락처</label><input className="input" type="text" id="orgPhone" value={orgPhone} onChange={handleOrgPhone} required ref={orgPhoneInputRef} />
+                                <div className="regexMsg">{orgPhoneMsg}</div>
+                                <label htmlFor="orgIntro">재단 소개</label><textarea className="textarea" type="text" id="orgIntro" value={orgIntro} onChange={handleOrgIntro} required ref={orgIntroInputRef} />
+                                <div className="regexMsg">{orgIntroMsg}</div>
                             </div>
+                            <button className="button button-primary w-100" onClick={submitHandler}>수정하기</button>
+                        </div>
                     </div>
                 </div>
             </div>

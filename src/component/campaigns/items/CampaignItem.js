@@ -26,16 +26,19 @@ function CampaignItem({ campaign, decodedToken }) {
 
   return (
     <div className="item">
-      <NavLink className="item-thumb rounded-3 mb-1" to={`/campaign/${campaign.campaignCode}?orgCode=${orgCode}`}>
-        <img src={fileSaveName ? `/campaigns/${campaign.campaignDescFileList[0].fileSaveName}` : '/campaigns/default/noImage.png'} alt="캠페인 이미지" />
+      <div className="item-thumb rounded-3 mb-1" style={{width: 100 + "%", height: 200 + "px", overflow: "hidden" + "!important"}}>
+      <NavLink className="" to={`/campaign/${campaign.campaignCode}?orgCode=${orgCode}`}>
+        <img src={fileSaveName ? `/campaigns/${campaign.campaignDescFileList[0].fileSaveName}` : '/campaigns/default/noImage.png'} alt="캠페인 이미지" style={{ width: 100 + "%"}} className=" rounded-3"/>
       </NavLink>
-      <h4 style={{display:"flex", justifyContent:"space-between"}}> 
+      </div>
+
+      <h5 style={{display:"flex", justifyContent:"space-between"}}> 
         {campaign.campaignTitle}
         {campaignStatus < 0 || decodedToken && decodedToken.memberRole === "ROLE_ORG" || decodedToken && decodedToken.memberRole === "ROLE_ADMIN" ?
           "" :
          <HeartButton campaignCode={campaignCode} />
         }
-      </h4>
+      </h5>
       <div>
         {campaign.organization ? campaign.organization.member ? campaign.organization.member.memberName : "무명의 기부자" : "무명의 기부자"}
 

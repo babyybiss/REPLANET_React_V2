@@ -27,7 +27,7 @@
   margin: 0;
   cursor: pointer;
   transition: .2s;
-  padding: 1rem;
+  padding: 1rem 1.5rem;
 }
 
 #comment p {
@@ -42,8 +42,7 @@
   opacity: 1;
   transform: translate(0, 0);
   margin-top: 5px;
-  margin-bottom: 15px;
-  padding: 0 0 0 2rem;
+  padding: 0;
   transition: .3s opacity, .6s max-height;
   hyphens: auto;
   z-index: 2;
@@ -85,27 +84,10 @@
   padding-bottom: 0;
 }
 
-#comment ul li i {
+#comment ul li .caret {
   position: absolute;
-  transform: translate(-6px, 0);
-  margin-top: 2rem;
-  right: 15px;
-}
-
-#comment ul li i:before, ul li i:after {
-  content: "";
-  position: absolute;
-  background-color: var(--color-primary);
-  width: 3px;
-  height: 9px;
-}
-
-#comment ul li i:before {
-  transform: translate(-2px, 0) rotate(45deg);
-}
-
-#comment ul li i:after {
-  transform: translate(2px, 0) rotate(-45deg);
+  margin-top: 1.6rem;
+  right: 1rem;
 }
 
 #comment ul li input[type=checkbox] {
@@ -155,8 +137,8 @@
 } */
 
 .commentI {
-  margin: 1rem;
-  width: 87%;
+  /*margin: 1rem;
+  width: 87%;*/
   height: 5rem;
 }
 
@@ -185,9 +167,9 @@
 }
 
 .commentDisable {
-  width: 95%;
+
   height: 5rem;
-  margin: 1rem;
+
 }
 
 /*return (

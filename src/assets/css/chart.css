@@ -16,3 +16,23 @@
     font-size: 0.9rem;
 }
 */
+
+.chart-navbar {
+    padding: 1rem 0;
+    background-color: var(--color-white);
+}
+.chart-navbar-box {
+    cursor: pointer;
+    border: 2px solid var(--color-light-hover);
+    border-radius: 10px;
+    padding: .7rem;
+    margin: 2rem;
+}
+
+.chart-navbar-box.active,
+.chart-navbar-box:active,
+.chart-navbar-box:focus,
+.chart-navbar-box:hover {
+  background-color: var(--color-primary) !important;
+  color: var(--color-white) !important;
+}

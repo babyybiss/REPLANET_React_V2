@@ -22,13 +22,16 @@
   .container-admin {
     display: grid;
     grid-template-columns: 200px 1fr;
+    background-color: var(--color-light);
   }
   
   
   .admin-sidebar {
-    height: 100vh;
+    height: 100vh!important;
+    overflow-y: auto;
+    overflow-x: hidden;
     width: 200px;
-    border-right: solid 1px var(--color-light-hover);
+
   }
   
   .admin-sidebar-menu {
@@ -52,7 +55,10 @@
   }
   
   .admin-main {
-    padding: 2rem
+    padding: 2rem;
+    min-height: 100vh;
+    background-color: var(--color-white);
+    border-left: solid 1px var(--color-light-hover);
   }
   
   .admin-title {
@@ -64,6 +70,10 @@
   
   .admin-title > * {
     display: inline
+  }
+
+  .admin-title.tabs {
+    width: 50%
   }
 
   .settingBtn {

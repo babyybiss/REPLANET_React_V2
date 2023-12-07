@@ -28,9 +28,7 @@ function CampaignDetail() {
             dispatch(GetCampaignAPI(campaignCode));
             // 첫 번째 API 호출
             if (Object.keys(orgCode).length === 0) return;
-
             await dispatch(GetCampaignByOrgAPI(orgCode, "no"));
-
         };
 
         fetchData();
@@ -41,12 +39,12 @@ function CampaignDetail() {
                 <div className="container-first">
                     <h1>{campaign.campaignTitle} </h1>
                     <div className="container-content">
-                        <table>
+                        <div className='w-100'>
                             <CampaignContent campaign={campaign} />
                             {/* <CampaignPicture campaign={campaign} /> */}
                             <CampaignPlan campaign={campaign} />
                             <ParticipationDetails />
-                        </table>
+                        </div>
                         <CampaignSidebar campaign={campaign} orgList={orgList} />
                     </div>
                 </div>
