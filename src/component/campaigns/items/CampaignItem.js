@@ -21,7 +21,7 @@ function CampaignItem({ campaign, decodedToken }) {
   } else {
     fileSaveName = true;
   }
-  // 기부처 코드  
+  // 재단 코드  
   let orgCode = campaign && campaign.organization.orgCode;
 
   return (

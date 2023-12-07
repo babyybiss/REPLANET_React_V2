@@ -22,7 +22,7 @@ function OrgItem({user, index}) {
     const formattedDate = `${year}-${month}-${day}`;
     const formattedWithdrawDate = `${WDyear}-${WDmonth}-${WDday}`;
 
-    // 기부처의 탈퇴요청이 들어온다면 여기서 탈퇴처리 버튼으로 삭제시킬지 생각해보기
+    // 재단의 탈퇴요청이 들어온다면 여기서 탈퇴처리 버튼으로 삭제시킬지 생각해보기
     // 사실 delete시키는건 아니고 탈퇴여부를 true로 주는거라서 엄밀히 따지면 update이긴함
 
     const [isModalOpen, setIsModalOpen] = useState(false);

@@ -16,6 +16,8 @@ function OrgList() {
     const [showWithdraw, setShowWithdraw] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+
+    const [dataLoaded, setDataLoaded] = useState(false);
     
     const itemsPerPage = 10;
     const indexOfLastItem = currentPage * itemsPerPage;
@@ -36,20 +38,25 @@ function OrgList() {
             console.log("DonationList() useEffect 실행");
             await dispatch(callGetOrgsAPI());
         };
-    
+
         fetchData();
     }, [dispatch]);
     
     useEffect(() => {
-        console.log("totalItems : ", totalItems);
-        console.log("countWithdrawalRequests : ", countWithdrawalRequests);
-    
-        const updatedTotalPages = Math.ceil(
-            (showWithdraw ? countWithdrawalRequests : totalItems) / itemsPerPage
-        );
-        setCurrentPage((currentPage) => Math.min(currentPage, updatedTotalPages));
-        setTotalPages(updatedTotalPages);
-    }, [totalItems, showWithdraw, countWithdrawalRequests]);
+        console.log("OrgList() users changed:", users);
+
+        // users 배열이 비어있지 않고 데이터가 로드되지 않은 경우
+        if (users.length > 0 && !dataLoaded) {
+            const updatedTotalPages = Math.ceil(
+                (showWithdraw ? countWithdrawalRequests : totalItems) / itemsPerPage
+            );
+            setCurrentPage((currentPage) => Math.min(currentPage, updatedTotalPages));
+            setTotalPages(updatedTotalPages);
+
+            // 데이터가 로드되었음을 나타내기 위해 dataLoaded를 true로 설정
+            setDataLoaded(true);
+        }
+    }, [users, dataLoaded, showWithdraw, totalItems, countWithdrawalRequests]);
 
     useEffect(() => {
         console.log("authCtx.isSuccess : ", authCtx.isSuccess);
@@ -67,15 +74,15 @@ function OrgList() {
         <>
                 <div className='admin-title total-amount border-0'>
                     <div>
-                        <span className="pay-color-gray">*총 기부처 수 : </span>
+                        <span className="pay-color-gray">*총 재단 수 : </span>
                         <span className="pay-color-green">{totalItems}</span>
                     </div>
                     <div>
-                        <span>활성 기부처 : </span>
+                        <span>활성 재단 : </span>
                         <span className="pay-color-green">{totalItems - countWithdrawalRequests}</span>
                         &nbsp;
                         &nbsp;
-                        <span>탈퇴 기부처 : </span>
+                        <span>탈퇴 재단 : </span>
                         <span className="pay-color-red">{countWithdrawalRequests}</span>
                     </div>
                 </div>
@@ -84,9 +91,9 @@ function OrgList() {
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>기부처코드</th>
-                            <th>기부처아이디</th>
-                            <th>기부처명</th>
+                            <th>재단코드</th>
+                            <th>재단아이디</th>
+                            <th>재단명</th>
                             <th>등록일자</th>
                             <th>대표번호</th>
                             <th onClick={() => setWithDraw()} className="settingW">{showWithdraw? '전체 목록 보기' : '탈퇴 신청 보기'}</th>
@@ -110,7 +117,7 @@ function OrgList() {
                                         )
                                 )) : (
                                     <tr>
-                                        <td colSpan={7}>탈퇴를 신청한 기부처가 없습니다!</td>
+                                        <td colSpan={7}>탈퇴를 신청한 재단이 없습니다!</td>
                                     </tr>
                                 )
                             ) : (
@@ -124,7 +131,7 @@ function OrgList() {
                             )
                         ) : (
                             <tr>
-                                <td colSpan={7}>등록된 기부처가 없습니다!</td>
+                                <td colSpan={7}>등록된 재단이 없습니다!</td>
                             </tr>
                         )}
                     </tbody>

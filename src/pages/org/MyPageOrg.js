@@ -58,12 +58,12 @@ function MyPageOrg() {
                 <div className="header-admin-menu">
                     <h5>등록한 캠페인 수</h5>
                     <h3 className="text-primary">{campaignCount.ingCount ? campaignCount.ingCount : 0}개</h3>
-                    {/* 기부처의 등록한 캠페인 수 구해야함 */}
+                    {/* 재단의 등록한 캠페인 수 구해야함 */}
                 </div>
                 <div className="header-admin-menu">
                     <h5>종료된 캠페인 수</h5>
                     <h4 className="text-primary">{campaignCount.doneCount ? campaignCount.doneCount : 0}개</h4>
-                    {/* 기부처의 받은 기부금 총액 총합 구해야함 */}
+                    {/* 재단의 받은 기부금 총액 총합 구해야함 */}
                 </div>
             </div>
             <div className='container-admin bg-light'>

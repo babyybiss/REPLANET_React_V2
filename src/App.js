@@ -122,7 +122,7 @@ function App() {
             <Route path="exchangeDetail/:exchangeCode" element={authCtx.isLoggedIn ? <ExchangeDetail /> : <Navigate to='/' />} />
             
             <Route path="org" element={decodedToken?.memberRole === "ROLE_ADMIN" ? <OrgManagement /> : <Navigate to='/' />} children={[
-              // ROLE_ADMIN의 기부처 관리
+              // ROLE_ADMIN의 재단 관리
               <Route key="list" index element={<Navigate to="list" />} />,
               <Route key="listPage" path="list" element={<OrgList />} />,
               <Route key="regist" path="regist" element={<OrgRegist />} />,
