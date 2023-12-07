@@ -70,7 +70,7 @@ export function ReviewListSearchbar({ searchFilter, setSearchFilter, reviewExist
                 </div>
 
                 {memberUI && decodedToken?.memberRole === "ROLE_ADMIN" || orgUI && decodedToken.memberRole === "ROLE_ORG" ?    
-                <div>
+                <div className="ml-1">
                     <select
                     name={reviewExists}
                     value={reviewExists}

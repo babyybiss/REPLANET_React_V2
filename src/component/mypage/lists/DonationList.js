@@ -123,7 +123,7 @@ function DonationList() {
                     <h1 class="text-primary">기부 내역</h1>
                 </div>
                 <div className=''>
-                    <div class="items-container ic4">
+                    <div class="items-container ic3">
                         <div class="item">
                             <input
                                 type='date'
