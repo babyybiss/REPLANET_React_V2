@@ -4,19 +4,30 @@ import '../../assets/css/user.css';
 import '../../assets/css/pay.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from "react-redux";
+import { GetCampaignAPI } from '../../apis/CampaignListAPI';
 
 function Fail() {
+
+    const dispatch = useDispatch();
+    const result = useSelector(state => state.campaignReducer.campaigninfo)
+    const campaignList = result && result.results.campaign;
+    let orgCode = campaignList && campaignList.organization.orgCode;
 
     const navigate = useNavigate();
     const { campaignCode } = useParams();
     const [randomQuote, setRandomQuote] = useState({ quote: '', author: '' });
+
+    useEffect (() => {
+        dispatch(GetCampaignAPI(campaignCode));
+    },[])
 
     const handleBackToMain = () => {
         navigate('/');
     };
 
     const handleGoToCampaign = () => {
-        navigate(`/campaign/${campaignCode}`);
+        navigate(`/campaign/${campaignCode}?orgCode=${orgCode}`);
     };
     
     useEffect(() => {
