@@ -56,7 +56,7 @@ function MyPageOrg() {
             <div className="header-admin">
                 <div className="header-admin-menu bg-primary"><h4>{memberName}님</h4></div>
                 <div className="header-admin-menu">
-                    <h5>등록한 캠페인 수</h5>
+                    <h5>진행중인 캠페인 수</h5>
                     <h3 className="text-primary">{campaignCount.ingCount ? campaignCount.ingCount : 0}개</h3>
                     {/* 재단의 등록한 캠페인 수 구해야함 */}
                 </div>

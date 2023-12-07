@@ -107,7 +107,7 @@ console.log("reviewexists?? ", reviewExists);
             setSearching={setSearching}
           />
         </div>
-        <div class="items-container ic4 g-gap3 campaign-list-container">
+        <div class="items-container ic3 g-gap3 campaign-list-container">
           <ReviewList result={searching ? filteredResult : result} reviewExists={reviewExists} searchFilter={searchFilter} />
         </div>
         </> 
