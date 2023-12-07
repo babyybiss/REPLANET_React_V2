@@ -63,7 +63,7 @@ export function ReviewDetailsIntroductionBox({ review, donors }) {
         
         <div className="item p-2 border">
           <h5>{review.campaign.organization.member.memberName}</h5>
-          <p style={{width:400+"px"}}>{review.campaign.organization.orgDescription}</p>
+          <p>{review.campaign.organization.orgDescription}</p>
         </div>
         <br />
         

@@ -22,11 +22,14 @@
   .container-admin {
     display: grid;
     grid-template-columns: 200px 1fr;
+    background-color: var(--color-light);
   }
   
   
   .admin-sidebar {
     height: 100vh!important;
+    overflow-y: auto;
+    overflow-x: hidden;
     width: 200px;
 
   }
@@ -54,6 +57,8 @@
   .admin-main {
     padding: 2rem;
     min-height: 100vh;
+    background-color: var(--color-white);
+    border-left: solid 1px var(--color-light-hover);
   }
   
   .admin-title {

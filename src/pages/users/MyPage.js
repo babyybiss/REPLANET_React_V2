@@ -97,7 +97,7 @@ function MyPage() {
                         <h4>{currentPoint}P</h4>
                     </div>
                     <NavLink to="history" className='admin-sidebar-menu'>
-                        기부(결제)내역
+                        기부 내역
                     </NavLink>
                     <li className='admin-sidebar-menu' onClick={toggleSubmenu} style={pointMenu}>
                         포인트 전환 및 관리
@@ -114,7 +114,7 @@ function MyPage() {
                         </NavLink>
                     </div>
                     <NavLink to="receipt" className="admin-sidebar-menu">
-                        기부금영수증 안내
+                        기부금 영수증 안내
                     </NavLink>
                     <NavLink to="bookmark" className='admin-sidebar-menu'>
                         북마크 리스트
@@ -125,10 +125,10 @@ function MyPage() {
                     <NavLink to="verifying" 
                         style={modifyMenu} 
                         className="admin-sidebar-menu">
-                        회원정보 수정
+                        회원 정보 수정
                     </NavLink>
                     <NavLink to="withdraw" className="admin-sidebar-menu bg-light">
-                        회원탈퇴
+                        회원 탈퇴
                     </NavLink>
                 </div>
                 <div>

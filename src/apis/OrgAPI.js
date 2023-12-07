@@ -17,7 +17,6 @@ export function VerifyPwdAPI({orgCode, orgPwd}, navigate){
                 icon: "success",
                 iconColor: '#1D7151',
                 title: "정보 수정으로 이동합니다.",
-                text: "임시비밀번호를 수정해주세요.",
                 showCancelButton: false,
                 confirmButtonColor: '#1D7151',
                 confirmButtonText: '확인'

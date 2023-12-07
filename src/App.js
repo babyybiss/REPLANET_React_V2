@@ -2,7 +2,6 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Layout from './layouts/Layout';
 import Main from './pages/Main';
 import CampaignDetail from './pages/campaigns/CampaignDetails';
-import Charts from './pages/charts/Charts';
 import Signup from "./pages/auth/Signup";
 import Login from "./pages/auth/Login";
 import { Reviews } from "./pages/reviews/Reviews";
@@ -48,8 +47,8 @@ import SocialSignup from "./pages/auth/SocialSignup";
 import ChartMain from "./pages/charts/ChartMain";
 import GoalCampaign from "./component/charts/GoalCampaign";
 import CategoryCampaign from "./component/charts/CategoryCampaign";
-import HistoryChart from "./component/charts/HistoryChart";
 import CurrentYearCampaign from "./component/charts/CurrentYearCampaign";
+import HistoryCampaign from "./component/charts/HistoryCampaign";
 
 function App() {
 
@@ -96,7 +95,7 @@ function App() {
               <Route key="goalCampaign" index element={<Navigate to="goalCampaign" />} />,
               <Route key="goalCampaignPage" path="goalCampaign" element={<GoalCampaign/>} />,
               <Route key="categoryCampaign" path="categoryCampaign" element={<CategoryCampaign/>} />,
-              <Route key="historyCampaign" path="historyCampaign" element={<HistoryChart/>} />,
+              <Route key="historyCampaign" path="historyCampaign" element={<HistoryCampaign/>} />,
               <Route key="currentYearCampaign" path="currentYearCampaign" element={<CurrentYearCampaign/>} />
             ]} />
             <Route path="reviews">

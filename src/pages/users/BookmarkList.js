@@ -103,7 +103,7 @@ function BookmarkList() {
     }
     return (
         <>
-            <div className="admin-main">
+            <div className="admin-main border-left">
                 <div className="admin-title">
                     <h1 className="text-primary">
                         북마크 리스트

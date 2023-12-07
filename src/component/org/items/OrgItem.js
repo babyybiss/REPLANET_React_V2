@@ -3,7 +3,7 @@ import { useState } from "react";
 import OrgModal from "./OrgModal";
 import "../../../assets/css/admin.css";
 
-function OrgItem({user}) {
+function OrgItem({user, index}) {
 
     const dispatch = useDispatch();
 
@@ -20,7 +20,7 @@ function OrgItem({user}) {
     const WDday = String(WDdate.getDate()).padStart(2, '0');
 
     const formattedDate = `${year}-${month}-${day}`;
-    const formattedwithdrawDate = `${WDyear}-${WDmonth}-${WDday}`;
+    const formattedWithdrawDate = `${WDyear}-${WDmonth}-${WDday}`;
 
     // 기부처의 탈퇴요청이 들어온다면 여기서 탈퇴처리 버튼으로 삭제시킬지 생각해보기
     // 사실 delete시키는건 아니고 탈퇴여부를 true로 주는거라서 엄밀히 따지면 update이긴함
@@ -36,13 +36,14 @@ function OrgItem({user}) {
     return(
         <>
             <tr className="orgListTr">
+                <td>{ index }</td>
                 <td>{ memberCode }</td>
                 <td>{ memberEmail }</td>
                 <td>{ memberName }</td>
                 <td>{ formattedDate }</td>
                 <td>{ phone }</td>
                 <td>{ wReqDate ? <button className="button-primary-outline orgListBtn" onClick={() => withdrawHandler()}>{withdrawDate? '탈퇴완료' : '신청보기'}</button> : '-'}</td>
-                <td>{ withdrawDate? formattedwithdrawDate : '-' }</td>
+                <td>{ withdrawDate? formattedWithdrawDate : '-' }</td>
             </tr>
             {isModalOpen &&
                 <OrgModal user={user} closeModal={closeModal} />}
