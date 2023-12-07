@@ -157,7 +157,7 @@ function DonationReceipt(){
                     <div className="regexMsg">{nameMsg}</div>
                     <div>
                     <input className="input" type="text" value={front} onChange={handleFrontChange} placeholder="주민등록번호 앞자리" style={{width: "33%"}}/>&nbsp;-&nbsp;
-                    <input className="input" type="text" value={last} onChange={handleLastChange} placeholder="주민등록번호 뒷자리" style={{width: "33%"}}/>
+                    <input className="input" type="password" value={last} onChange={handleLastChange} placeholder="주민등록번호 뒷자리" style={{width: "33%"}}/>
                     </div>
                     <div className="regexMsg">{privacyMsg}</div>
                     <br/>
