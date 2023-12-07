@@ -68,7 +68,7 @@ function responsiveHeader() {
                     @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
                     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossOrigin="anonymous" referrerPolicy="no-referrer" />
                 </style>
-                <a href="/" className="brand">Replanet</a>
+                <NavLink to="/" className="brand">Replanet</NavLink>
                 <div className="menu">
                     {!isLogin && (
                         <>
@@ -76,7 +76,6 @@ function responsiveHeader() {
                             <NavLink onClick={foldMenu} to="/reviews">캠페인후기</NavLink>
                             <NavLink onClick={foldMenu} to='/login'>로그인</NavLink>
                             <NavLink onClick={foldMenu} to='signup' style={{marginRight:"0"}}>회원가입</NavLink>
-
                         </>
                     )}
                     {isLogin && (
@@ -86,9 +85,6 @@ function responsiveHeader() {
                                 <NavLink onClick={foldMenu} to="/reviews">캠페인후기</NavLink>
                                 <NavLink onClick={foldMenu} to='/myPage'>마이페이지</NavLink>
                                 <NavLink onClick={toggleLogoutHandler} style={{marginRight:"0"}}>로그아웃</NavLink>
-                                {/* <a href="javascript:void(0);" className="icon" onClick={responsiveHeader}>
-                                    <i className="fa fa-bars"></i>
-                                </a> */}
                             </>
                         ) ||
                         (memberRole === "ROLE_ADMIN" && (
@@ -105,7 +101,6 @@ function responsiveHeader() {
                             <>
                                 <NavLink onClick={foldMenu} to='/myPageOrg'>마이페이지</NavLink>
                                 <NavLink onClick={toggleLogoutHandler} style={{marginRight:"0"}}>로그아웃</NavLink>
-
                             </>
                         ))
                     )}
