@@ -11,6 +11,9 @@ import { callGetReviewsAPI } from "../../apis/ReviewAPI";
 import { callGetCampaignsWithoutAReview } from "../../apis/ReviewAPI";
 import { callGetOrgReviewAPI } from "../../apis/ReviewAPI";
 import { callGetOrgCampaignsWithoutReview } from "../../apis/ReviewAPI";
+import Loader from '../../component/common/Loader'
+
+import React, { Suspense} from 'react';
 
 
 export function Reviews() {
@@ -22,7 +25,6 @@ export function Reviews() {
   const memberUI = currentUrl.includes('http://localhost:3000/reviews');
   const orgUI = currentUrl.includes('http://localhost:3000/myPageOrg/review');
 
-  const [loading, setLoading] = useState(true); // New loading state
   const [reviews, setReviews] = useState([]);
   const [filteredResult, setFilteredResult] = useState([]);
   const [reviewCampaignCode, setReviewCampaignCode] = useState(0);
@@ -40,22 +42,19 @@ export function Reviews() {
 console.log("reviewexists?? ", reviewExists);
     if (memberUI && reviewExists == false) {
       dispatch(callGetCampaignsWithoutAReview())
-      .finally(() => setLoading(false)); // Set loading to false when data is received
     } else if (memberUI && reviewExists == true) {
       dispatch(callGetReviewsAPI())
-      .finally(() => setLoading(false)); // Set loading to false when data is received
     } else if (orgUI && reviewExists == false) {
         const memberCode = decodedToken.memberCode
       dispatch(callGetOrgCampaignsWithoutReview(memberCode))
-      .finally(() => setLoading(false)); // Set loading to false when data is received
     } else if (orgUI && reviewExists == true) {
         const memberCode = decodedToken.memberCode
         dispatch(callGetOrgReviewAPI(memberCode))
-        .finally(() => setLoading(false)); // Set loading to false when data is received
       console.log("재단 api!");
     };
   }, [reviewExists]);
 
+  
   useEffect(() => {
     if (searching) {
       // Filter reviews based on searchFilter
@@ -85,8 +84,8 @@ console.log("reviewexists?? ", reviewExists);
 
   return (
     <>
-      <div className="container-first bg-white">
-      {loading && <div className="loader"></div>}
+     <Suspense fallback={<Loader/>}>
+      <div className="container-first">
       <>
         {orgUI && 
           <div className="admin-title m-4">
@@ -107,11 +106,12 @@ console.log("reviewexists?? ", reviewExists);
             setSearching={setSearching}
           />
         </div>
-        <div class="items-container ic3 g-gap3 campaign-list-container" style={{}}>
+        <div class="items-container ic4 g-gap3 campaign-list-container">
           <ReviewList result={searching ? filteredResult : result} reviewExists={reviewExists} searchFilter={searchFilter} />
         </div>
         </> 
       </div>
+      </Suspense>
     </>
   );
 }

@@ -38,6 +38,7 @@ function ParticipationDetails() {
   const totalItems = participationList && participationList.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
+
   const handlePageChange = (newPage) => {
     if (newPage >= 1 && newPage <= totalPages) {
       setCurrentPage(newPage);

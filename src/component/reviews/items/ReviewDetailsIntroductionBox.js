@@ -4,7 +4,7 @@ import { callGetReviewThumbnail } from "../../../apis/ReviewAPI";
 import { NavLink, useNavigate } from "react-router-dom";
 import { callDeleteReviewAPI } from "../../../apis/ReviewAPI";
 import { jwtDecode } from 'jwt-decode';
-
+import Swal from 'sweetalert2';
 
 export function ReviewDetailsIntroductionBox({ review, donors }) {
 
@@ -25,9 +25,18 @@ export function ReviewDetailsIntroductionBox({ review, donors }) {
   const deleteReviewHandler = () => {
     if(window.confirm("정말 삭제하시겠습니까? 복구할 수 없습니다.")){
       dispatch(callDeleteReviewAPI(reviewCode, revFileCode))
-      alert('삭제 성공!\n후기 목록으로 이동합니다.');
-      navigate('/reviews');
-      window.location.reload();
+
+      Swal.fire({
+        icon: 'success',
+        title: '해당 댓글 삭제 완료!',
+        confirmButtonColor: '#1D7151',
+        iconColor: '#1D7151'
+      }).then((result) => {
+        if(result.isConfirmed) {
+          navigate('/reviews');
+          window.location.reload();
+        }
+      })
     } else {
       window.location.reload();
     }

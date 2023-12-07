@@ -69,8 +69,8 @@ export function ReviewListSearchbar({ searchFilter, setSearchFilter, reviewExist
                     </button>
                 </div>
 
-                {decodedToken?.memberRole === "ROLE_ADMIN" || decodedToken?.memberRole === "ROLE_ORG" ?    
-                <div className="ml-1">
+                {memberUI && decodedToken?.memberRole === "ROLE_ADMIN" || orgUI && decodedToken.memberRole === "ROLE_ORG" ?    
+                <div>
                     <select
                     name={reviewExists}
                     value={reviewExists}
@@ -83,6 +83,7 @@ export function ReviewListSearchbar({ searchFilter, setSearchFilter, reviewExist
                 </div> :
                 null
                 }
+                
             </div>
         </div>
     );
