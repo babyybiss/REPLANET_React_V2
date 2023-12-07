@@ -117,7 +117,7 @@ function MyPage() {
                         기부금 영수증 안내
                     </NavLink>
                     <NavLink to="bookmark" className='admin-sidebar-menu'>
-                        북마크
+                        북마크 리스트
                     </NavLink>
                     <NavLink to="calculator" className='admin-sidebar-menu'>
                         세액공제 계산기

@@ -108,6 +108,49 @@ function CampaignRegist() {
     // }
     // db 전송
     const submitHandler = async () => {
+        if (inputs.campaignTitle === undefined || inputs.campaignTitle === "") {
+            Swal.fire({
+                icon: 'warning',
+                title: '제목이 비었습니다.',
+                confirmButtonColor: '#1D7151',
+                iconColor: '#1D7151'
+            });
+            return
+        } else if (inputs.campaignCategory === undefined || inputs.campaignCategory === "카테고리를 선택해 주세요.") {
+            Swal.fire({
+                icon: 'warning',
+                title: '카테고리를 선택해주세요.',
+                confirmButtonColor: '#1D7151',
+                iconColor: '#1D7151'
+            });
+            return
+        } else if (inputs.campaignContent === undefined) {
+            Swal.fire({
+                icon: 'warning',
+                title: '내용이 비었습니다.',
+                confirmButtonColor: '#1D7151',
+                iconColor: '#1D7151'
+            });
+            return
+        } else if (inputs.goalBudget === undefined || inputs.goalBudget === "0") {
+            Swal.fire({
+                icon: 'warning',
+                title: '목표금액이 비었습니다.',
+                confirmButtonColor: '#1D7151',
+                iconColor: '#1D7151'
+            });
+            return
+        } else if (inputs.endDate === undefined) {
+            Swal.fire({
+                icon: 'warning',
+                title: '마감일이 비었습니다.',
+                confirmButtonColor: '#1D7151',
+                iconColor: '#1D7151'
+            });
+            return
+        }
+
+
         // 버튼 따닥 방지
         if (isButtonDisabled) return
         setButtonDisabled(true);
@@ -162,7 +205,7 @@ function CampaignRegist() {
                     ))}
                 </select>
                 {/* 제목 & 텍스트 에디터 */}
-                <input className="input mb-1" name="campaignTitle" maxLength="30" placeholder="제목을 입력해 주세요." onChange={onChange} required />
+                <input className="input mb-1" name="campaignTitle" maxLength="30" placeholder="제목을 입력해 주세요." onChange={onChange} />
                 <DraftEditor onChange={onChangeContent} editorState={editorState} />
 
                 <input

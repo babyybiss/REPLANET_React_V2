@@ -28,7 +28,7 @@ function DonationDetailsListTest() {
                     <div className="admin-sidebar-menu">기부(결제)내역</div>
                     <div className="admin-sidebar-menu">포인트 전환 및 관리</div>
                     <div className="admin-sidebar-menu">기부영수증 안내</div>
-                    <div className="admin-sidebar-menu">북마크</div>
+                    <div className="admin-sidebar-menu">북마크리스트</div>
                     <div className="admin-sidebar-menu bg-light">회원정보 수정</div>
                     <div className="admin-sidebar-menu bg-light">회원탈퇴</div>
                 </div>

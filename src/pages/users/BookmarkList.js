@@ -106,7 +106,7 @@ function BookmarkList() {
             <div className="admin-main border-left">
                 <div className="admin-title">
                     <h1 className="text-primary">
-                        북마크
+                        북마크 리스트
                     </h1>
                 </div>
                 <div className='admin-title total-amount border-0'>
@@ -114,7 +114,7 @@ function BookmarkList() {
                         <span className="pay-color-gray">북마크 클릭 시 해당 캠페인으로 이동합니다.</span>
                     </div>
                     <div style={{ padding: 20 }}>
-                        <span>총 관심 기부 갯수 : </span>
+                        <span>총 북마크 개수 : </span>
                         <span className="pay-color-green">{totalItems}개</span>
                     </div>
                 </div>

@@ -25,7 +25,7 @@ export function ReviewDetailsIntroductionBox({ review, donors }) {
   const deleteReviewHandler = () => {
     if(window.confirm("정말 삭제하시겠습니까? 복구할 수 없습니다.")){
       dispatch(callDeleteReviewAPI(reviewCode, revFileCode))
-      alert('삭제 성공!\n리뷰 목록으로 이동합니다.');
+      alert('삭제 성공!\n후기 목록으로 이동합니다.');
       navigate('/reviews');
       window.location.reload();
     } else {
