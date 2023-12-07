@@ -2,7 +2,7 @@ import React, { useState, useRef, useCallback } from "react";
 import '../../assets/css/user.css';
 import Swal from "sweetalert2";
 import axios from 'axios';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 function FindPw() {
 
@@ -299,7 +299,7 @@ function FindPw() {
             <div id="container-user">
                 <div className="items-container ic1">
                     <div className="tabs pb-2">
-                        <a href="/findId"><div className="tab_item ti2" >계정 찾기</div></a>
+                        <Link to="/findId"><div className="tab_item ti2" >계정 찾기</div></Link>
                         <div className="tab_item ti2 active" >비밀번호 찾기</div>
                     </div>
                     <div id="checker" style={isGoResetPw ? {display: 'none'} : {}}>

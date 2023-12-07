@@ -36,7 +36,7 @@ export function GetCampaignAPI(campaignCode) {
         }
     }
 }
-// 기부처별 리스트 조회
+// 재단별 리스트 조회
 export function GetCampaignByOrgAPI({ orgCode }, status) {
     return async (dispatch, getState) => {
         try {
@@ -56,7 +56,7 @@ export function GetCampaignByOrgAPI({ orgCode }, status) {
     }
 }
 
-// 기부처별 캠페인 갯수 조회
+// 재단별 캠페인 갯수 조회
 export function GetCampaignCount({ orgCode }, status) {
     return async (dispatch, getState) => {
         try {
@@ -69,7 +69,7 @@ export function GetCampaignCount({ orgCode }, status) {
     }
 }
 
-// // 상세페이지에서 기부처 목록 리스트 조회
+// // 상세페이지에서 재단 목록 리스트 조회
 // export function GetCampaignsByOrgAPI({ orgCode }) {
 //     return async (dispatch, getState) => {
 //         try {

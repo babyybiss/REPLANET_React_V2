@@ -153,7 +153,7 @@ function OrgRegist() {
     return (
         <>
             <div className="container-first container-centered" style={{padding: "calc(1rem) 5vw", minHeight: "0"}}>
-            <h1>기부처 등록</h1>
+            <h1>재단 등록</h1>
             <div id="container-user" className="text-left">
                 <form onSubmit={submitHandler}>
                     <div className="items-container ic1">
@@ -165,7 +165,7 @@ function OrgRegist() {
                             </div>
                             <div className="regexMsg">{emailMsg}</div>
                             <div id="emailCheckResult"></div>
-                            <label htmlFor="memberName">기부처명</label><input className="input" type="text" id="memberName" value={memberName} onChange={handleMemberName} required ref={memberNameInputRef} placeholder="(필수) 기부처명을 입력해주세요." />
+                            <label htmlFor="memberName">재단명</label><input className="input" type="text" id="memberName" value={memberName} onChange={handleMemberName} required ref={memberNameInputRef} placeholder="(필수) 재단명을 입력해주세요." />
                             <div className="regexMsg">{memberNameMsg}</div>
                             <label htmlFor="phone">대표전화</label>
                             <div className="input-group">
@@ -173,8 +173,8 @@ function OrgRegist() {
                             </div>
                             <div className="regexMsg">{phoneMsg}</div>
                         </div>
-                        <button className="button button-primary w-100" type="submit" disabled={!isAllValid}>기부처등록</button>
-                        <div className="regexMsg">모두 입력 후 기부처등록 버튼을 눌러주세요.</div>
+                        <button className="button button-primary w-100" type="submit" disabled={!isAllValid}>재단등록</button>
+                        <div className="regexMsg">모두 입력 후 재단등록 버튼을 눌러주세요.</div>
                     </div>
                 </form>
             </div>

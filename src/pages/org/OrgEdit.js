@@ -146,7 +146,7 @@ function OrgEdit() {
             Swal.fire({
                 icon: "warning",
                 iconColor: '#1D7151',
-                title: "기부처명을 올바르게 입력해 주세요.",
+                title: "재단명을 올바르게 입력해 주세요.",
                 showCancelButton: false,
                 confirmButtonColor: '#1D7151',
                 confirmButtonText: '확인'

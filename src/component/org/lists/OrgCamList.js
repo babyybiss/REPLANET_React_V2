@@ -18,7 +18,7 @@ function OrgCamList() {
 
     useEffect(() => {
         const fetchData = async () => {
-            // 해당 기부처의 등록한 캠페인 목록 들고오는 dispatch 만들어야함
+            // 해당 재단의 등록한 캠페인 목록 들고오는 dispatch 만들어야함
             setLoading(false);
         };
         fetchData();

@@ -16,17 +16,29 @@
     font-size: 0.9rem;
 }
 */
-
+.chart-title {
+    text-align: center;
+}
+.chart-box {
+    margin: auto;
+    padding-top: 1.5rem;
+    width: 1000px;
+}
+.chart-box h4 {
+    padding-bottom: 0.5rem;
+}
 .chart-navbar {
-    padding: 1rem 0;
+    padding: 3rem 0;
+    text-align: center;
     background-color: var(--color-white);
 }
+
 .chart-navbar-box {
     cursor: pointer;
     border: 2px solid var(--color-light-hover);
     border-radius: 10px;
     padding: .7rem;
-    margin: 2rem;
+    margin: 1rem;
 }
 
 .chart-navbar-box.active,

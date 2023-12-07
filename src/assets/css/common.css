@@ -719,9 +719,6 @@ h6 {
 
 }
 
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {}
-
 
 /*topNav*/
 /* Add a black background color to the top navigation */
@@ -808,10 +805,6 @@ h6 {
   transform: translateX(0);
 }
 
-
-/* Add an active class to highlight the current page */
-.topnav a.active {}
-
 .topnav .brand,
 .topnav .brand a {
   font-family: 'Anton' !important;
@@ -886,8 +879,8 @@ h6 {
 .container-first {
   margin: 0 auto !important;
   max-width: calc(90rem + 10vw);
-  padding: calc(3rem + 50px);
   min-height: calc(100vh);
+  padding: calc(3rem + 50px) 5vw 5rem 5vw;
 }
 
 .container {
@@ -1688,7 +1681,6 @@ input[name="tab_item"] {
   font-weight: 600;
 }
 
-.card-header i {}
 
 .card-body {
   padding: 1rem;
@@ -1900,8 +1892,6 @@ progress {
   border: 1px solid var(--color-primary);
   color: var(--color-white)
 }
-
-.masthead {}
 
 /*footer*/
 footer {

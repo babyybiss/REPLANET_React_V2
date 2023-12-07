@@ -1,5 +1,6 @@
 import React, { useState, useRef, useCallback } from "react";
 import '../../assets/css/user.css';
+import { NavLink } from "react-router-dom";
 
 import Swal from "sweetalert2";
 import axios from 'axios';
@@ -211,7 +212,7 @@ function FindId() {
 
           <div className="tab_item ti2 active" >계정 찾기</div>
 
-          <a href="/findpw"><div className="tab_item ti2" >비밀번호 찾기</div></a>
+          <NavLink to="/findpw"><div className="tab_item ti2" >비밀번호 찾기</div></NavLink>
         </div>
         <div className="">
           <div className="items-container ic1" style={isOnFindEmail ? {display: 'none'} : {}}>

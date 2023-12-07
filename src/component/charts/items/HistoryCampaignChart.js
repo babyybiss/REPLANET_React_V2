@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { VictoryChart, VictoryZoomContainer, VictoryBrushContainer, VictoryLine, VictoryAxis, VictoryScatter, VictoryGroup, VictoryTooltip } from "victory"
 import { dateFormatToKorean } from "../../../utils/DateFormatToKorean";
 import { numberFormatToKorean } from "../../../utils/NumberFormatToKorean";
+import '../../../assets/css/chart.css';
 
 function HistoryCampaignChart(dataProps) {
 
@@ -112,7 +113,7 @@ function HistoryCampaignChart(dataProps) {
     
     /* render */ 
     return (
-        <div className='chartbox'>
+        <div className='chart-box'>
             <h4>월별 모금액 추이</h4>
             <select 
                 value={selectedOption}
