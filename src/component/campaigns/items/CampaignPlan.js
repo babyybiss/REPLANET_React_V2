@@ -33,13 +33,13 @@ function CampaignPlan({ campaign }) {
           {/* <div className="w-100">
                         <div className="card">
                             <div className="card-body">
-                                <h3 className="text-primary">단체 연락처</h3>
+                                <h3 className="text-primary">재단 연락처</h3>
                                 <h5>{campaign.organization ? campaign.organization.member.phone : "익명의 기부자"}</h5>
                             </div>
                         </div>
                     </div> */}
           <div className="card">
-            <div className='card-header bg-primary'>단체정보</div>
+            <div className='card-header bg-primary'>재단 정보</div>
             <div className="card-body d-flex flex-column">
               <h5>{campaign.organization ? campaign.organization.member.memberName : "익명의 기부자"}</h5>
               <h6>{campaign.organization ? campaign.organization.member.phone : "익명의 기부자"}</h6>

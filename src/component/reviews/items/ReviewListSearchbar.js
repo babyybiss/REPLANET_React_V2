@@ -67,10 +67,10 @@ export function ReviewListSearchbar({ searchFilter, setSearchFilter, reviewExist
                         onClick={handleSearchButtonClick}
                     ><i class="fa-solid fa-magnifying-glass"></i>
                     </button>
-                </div>&emsp;
+                </div>
 
                 {decodedToken?.memberRole === "ROLE_ADMIN" || decodedToken?.memberRole === "ROLE_ORG" ?    
-                <div>
+                <div className="ml-1">
                     <select
                     name={reviewExists}
                     value={reviewExists}

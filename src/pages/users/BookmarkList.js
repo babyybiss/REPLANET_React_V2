@@ -103,10 +103,10 @@ function BookmarkList() {
     }
     return (
         <>
-            <div className="admin-main">
+            <div className="admin-main border-left">
                 <div className="admin-title">
                     <h1 className="text-primary">
-                        관심 리스트
+                        북마크
                     </h1>
                 </div>
                 <div className='admin-title total-amount border-0'>
@@ -132,7 +132,7 @@ function BookmarkList() {
                             </th>
                             <th>순번</th>
                             <th>캠페인 이름</th>
-                            <th>단체</th>
+                            <th>재단</th>
                             <th>캠페인 등록일</th>
                         </tr>
                     </thead>

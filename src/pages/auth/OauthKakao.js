@@ -35,7 +35,7 @@ function OauthKakao() {
                         if(error.response.data.redirectTo === '/login') {
                             Swal.fire({
                                 icon: 'warning',
-                                title: '동일한 이메일이 이미 등록 돼있습니다.',
+                                title: '동일한 이메일이 이미 등록되어 있습니다.',
                                 text: '비밀번호 찾기를 진행해 주세요.',
                                 confirmButtonColor: '#1D7151',
                                 iconColor: '#1D7151',

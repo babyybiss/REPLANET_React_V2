@@ -62,7 +62,7 @@ export function ReviewDetail({code}) {
               
                 <ul>
                   <li> - 봉사활동에 참여하면 리플래닛이 기부합니다</li>
-                  <li> - 기부금은 100% 단체에 전달됩니다</li>
+                  <li> - 기부금은 100% 재단에 전달됩니다</li>
                 </ul>
 
 

@@ -63,13 +63,13 @@ export function ReviewDetailsIntroductionBox({ review, donors }) {
         
         <div className="item p-2 border">
           <h5>{review.campaign.organization.member.memberName}</h5>
-          <p style={{width:400+"px"}}>{review.campaign.organization.orgDescription}</p>
+          <p>{review.campaign.organization.orgDescription}</p>
         </div>
         <br />
         
           <ul style={{color: "#898989"}}>
             <li>봉사활동 참여로 지급받으신 포인트를 리플래닛에서 기부하세요.</li>
-            <li>기부금은 100% 단체에 전달됩니다.</li>
+            <li>기부금은 100% 재단에 전달됩니다.</li>
           </ul>
           <div>
 
