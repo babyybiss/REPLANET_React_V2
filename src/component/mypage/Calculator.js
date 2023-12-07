@@ -129,7 +129,7 @@ function Calculator() {
                         </td>
                     </tr>
                     <tr>
-                        <td>총 기부 금액 (연간 기부 금액)</td>
+                        <td>총 기부 금액(연간 기부 금액)</td>
                         <td>
                             <input
                                 id="totalDonation"
@@ -145,20 +145,20 @@ function Calculator() {
                         </td>
                     </tr>
                     <tr>
-                        <td>근로소득금액 ( 총급여액 - 근로소득 공제액 ( 공제한도 2,000만원 ) )</td>
+                        <td>근로소득금액(총급여액 - 근로소득 공제액<small>(공제한도 2,000만 원)</small>)</td>
                         <td style={{ maxWidth: '200px' }}>{earnedIncome.toLocaleString()}원 ({totalSalary.toLocaleString()}원 - {incomeAfterDeduction.toLocaleString()}원)</td>
                     </tr>
                     <tr>
-                        <td>대상금액 ( 한도 = 근로소득금액 )</td>
+                        <td>대상금액(한도 = 근로소득금액)</td>
                         <td>{taxableIncome.toLocaleString()}원</td>
                     </tr>
                     <tr>
-                        <td>세액공제율 ( 일반 세액공제율 적용 )</td>
+                        <td>세액공제율(일반 세액공제율 적용)</td>
                         <td>{taxDeductionRate.toLocaleString() * 100} %</td>
                     </tr>
                     <tr>
-                        <td>세액공제액</td>
-                        <td>{taxDeductionAmount.toLocaleString()}원</td>
+                        <td className="text-bold">세액공제액</td>
+                        <td className="text-bold">{taxDeductionAmount.toLocaleString()}원</td>
                     </tr>
                 </table>
             <div style={{padding: '20px'}}>

@@ -4,7 +4,8 @@ import AuthContext from "../../component/auth/AuthContext";
 import '../../assets/css/user.css';
 import Swal from 'sweetalert2';
 import axios from 'axios';
-
+import PrivacyPolicy from "../../component/users/PrivacyPolicy";
+import Terms from "../../component/users/Terms";
 
 
 
@@ -176,13 +177,15 @@ const Signup = () => {
       );
       setIsOnCheckSmsCode(true);
       setPhoneMsg("휴대전화 인증이 완료되었습니다.");
-    } else {Swal.fire(
-      {
-        icon: 'warning',
-        title: "인증 실패!",
-        text: "인증번호가 일치하지 않습니다."
-      }
-    );}
+    } else {
+      Swal.fire(
+        {
+          icon: 'warning',
+          title: "인증 실패!",
+          text: "인증번호가 일치하지 않습니다."
+        }
+      );
+    }
   };
 
   const onCheckEmail = async () => {
@@ -202,7 +205,7 @@ const Signup = () => {
         console.log('이미 사용 중인 이메일입니다.');
         setEmail("");
         setEmailMsg("이미 사용 중인 이메일입니다.");
-      } 
+      }
       else if (email == null) {
         console.log('이메일이 입력되지 않았습니다.');
         setEmailMsg('이메일이 입력되지 않았습니다.');
@@ -249,7 +252,7 @@ const Signup = () => {
         setPhone("");
         setPhoneMsg("이미 사용 중인 휴대전화 번호입니다.");
         setIsOnCheckPhone(false);
-      } 
+      }
       else {
         Swal.fire(
           {
@@ -312,7 +315,7 @@ const Signup = () => {
     }
   }, [privacyCheck, useCheck]);
 
-  const isAllValid = isEmailValid && isPasswordValid && isPasswordConfirmValid && isMemberNameValid && isPhoneValid && privacyCheck && useCheck && isOnCheckEmail && isOnCheckPhone && isOnCheckSmsCode ;
+  const isAllValid = isEmailValid && isPasswordValid && isPasswordConfirmValid && isMemberNameValid && isPhoneValid && privacyCheck && useCheck && isOnCheckEmail && isOnCheckPhone && isOnCheckSmsCode;
 
   const submitHandler = (e) => {
 
@@ -342,23 +345,23 @@ const Signup = () => {
     //window.location.href = KAKAO_AUTH_URL;
     window.open(KAKAO_AUTH_URL, "_blank", "noopener, noreferrer");
 
-}
+  }
 
   return (
     <>
       <div className="container-first container-centered">
-      <style>
-                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
-            </style>
+        <style>
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+        </style>
         <h1>회원가입</h1>
         <div id="container-user" className="text-left">
-      <div className="items-container ic1">
+          <div className="items-container ic1">
 
-      <div className="tabs pb-2">
-                        <div className="tab_item ti2 active">일반 회원가입</div>
-                        <div className="tab_item ti2" onClick={KakaoLoginHandler}><i className="fa-solid fa-comment"></i> kakao 회원가입</div>
-                    </div>
-      </div>
+            <div className="tabs pb-2">
+              <div className="tab_item ti2 active">일반 회원가입</div>
+              <div className="tab_item ti2" onClick={KakaoLoginHandler}><i className="fa-solid fa-comment"></i> kakao 회원가입</div>
+            </div>
+          </div>
 
 
           <form onSubmit={submitHandler}>
@@ -379,82 +382,70 @@ const Signup = () => {
                 <div className="regexMsg">{memberNameMsg}</div>
                 <label htmlFor="phone">휴대전화</label>
                 <div className="input-group">
-                  <input className="input" type="text" id="phone" required ref={phoneInputRef} value={phone} placeholder="- 없이 휴대폰 번호를 입력해주세요." onChange={handlePhone}/>
+                  <input className="input" type="text" id="phone" required ref={phoneInputRef} value={phone} placeholder="- 없이 휴대폰 번호를 입력해주세요." onChange={handlePhone} />
                   {isOnCheckSmsCode ?
-                  (
-                  <button
-                    type="button"
-                    className="button button-primary-outline"
-                    name="dupCheckButton"
-                    onClick={resetOnCheckSmsCode}
-                    
-                  >다른 번호 사용하기</button>
+                    (
+                      <button
+                        type="button"
+                        className="button button-primary-outline"
+                        name="dupCheckButton"
+                        onClick={resetOnCheckSmsCode}
 
-                  ) : (isOnCheckPhone ? (<button
-                    type="button"
-                    className="button button-primary"
-                    name="dupCheckButton"
-                    onClick={handleSendSMS}
-                    disabled={isOnCheckSmsCode}
-                  >
-                    인증번호 재전송
-                  </button>) :
-                  (<button
-                    type="button"
-                    className="button button-primary"
-                    name="dupCheckButton"
-                    onClick={onCheckPhone}
-                    disabled={!isPhoneValid}
-                  >
-                    인증번호 전송
-                  </button>))}
+                      >다른 번호 사용하기</button>
+
+                    ) : (isOnCheckPhone ? (<button
+                      type="button"
+                      className="button button-primary"
+                      name="dupCheckButton"
+                      onClick={handleSendSMS}
+                      disabled={isOnCheckSmsCode}
+                    >
+                      인증번호 재전송
+                    </button>) :
+                      (<button
+                        type="button"
+                        className="button button-primary"
+                        name="dupCheckButton"
+                        onClick={onCheckPhone}
+                        disabled={!isPhoneValid}
+                      >
+                        인증번호 전송
+                      </button>))}
                 </div>
                 <div className="regexMsg">{phoneMsg}</div>
                 {isOnCheckPhone && (
-                <div className="input-group">
-                  {isOnCheckSmsCode ? (<></>) :(<input
-                    className="input"
-                    type="text"
-                    ref={smsCodeInputRef}
-                    required
-                    placeholder="인증번호 입력"
-                    disabled={isOnCheckSmsCode}
-                    style={{borderRight: '1px solid #cccccc'}}
-                  />)}
-                  {isOnCheckSmsCode ? (<></>) : 
-                  (<button
-                    type="button"
-                    className="button button-primary"
-                    onClick={onCheckSmsCode}
-                    disabled={!isPhoneValid || !isOnCheckPhone}
-                  >
-                    인증하기
-                  </button>)}
-                </div>
+                  <div className="input-group">
+                    {isOnCheckSmsCode ? (<></>) : (<input
+                      className="input"
+                      type="text"
+                      ref={smsCodeInputRef}
+                      required
+                      placeholder="인증번호 입력"
+                      disabled={isOnCheckSmsCode}
+                      style={{ borderRight: '1px solid #cccccc' }}
+                    />)}
+                    {isOnCheckSmsCode ? (<></>) :
+                      (<button
+                        type="button"
+                        className="button button-primary"
+                        onClick={onCheckSmsCode}
+                        disabled={!isPhoneValid || !isOnCheckPhone}
+                      >
+                        인증하기
+                      </button>)}
+                  </div>
                 )}
               </div>
               <div className="item">
                 <div className="container-policy mb-1">
                   <pre>
-                    <h4>개인정보처리방침</h4>
-                    본 이용약관은 개인정보보호위원회(이하‘운영기관’이라 한다)에서 운영하는 “가명정보 활용 종합지원플랫폼”에 대한 이용조건 및 절차, 운영기관과 회원의 권리ㆍ의무, 기타 필요한 사항을 규정함을 목적으로 합니다.
-
-                    제1조 약관의 효력과 변경
-                    1. 회원이 본 이용약관 내용에 동의하는 경우 가명정보 활용 종합지원플랫폼의 서비스 제공 행위 및 회원의 서비스 사용 행위에 대하여는 본 약관이 우선적으로 적용됩니다.
-                    2. 운영기관은 본 이용약관을 사전 고지 없이 변경할 수 있고, 변경된 약관은 가명정보 활용 종합지원플랫폼 내에 공지와 동시에 그 효력이 발생됩니다. 회원이 변경된 약관에 동의하지 않는 경우, 회원은 본인의 회원등록을 취소(회원탈퇴)할 수 있으며 계속 사용의 경우는 약관 변경에 대한 동의로 간주됩니다.
+                  <PrivacyPolicy/>
                   </pre>
                 </div>
                 <input id="policy1" type="checkbox" className="mb-1" checked={privacyCheck} onChange={ageBtnEvent} />
                 <label htmlFor="policy1">개인정보처리방침에 동의합니다.(필수)</label>
                 <div className="container-policy mb-1">
-                  <pre>
-                    <h4>이용약관</h4>
-                    본 이용약관은 개인정보보호위원회(이하‘운영기관’이라 한다)에서 운영하는 “가명정보 활용 종합지원플랫폼”에 대한 이용조건 및 절차, 운영기관과 회원의 권리ㆍ의무, 기타 필요한 사항을 규정함을 목적으로 합니다.
-
-                    제1조 약관의 효력과 변경
-                    1. 회원이 본 이용약관 내용에 동의하는 경우 가명정보 활용 종합지원플랫폼의 서비스 제공 행위 및 회원의 서비스 사용 행위에 대하여는 본 약관이 우선적으로 적용됩니다.
-                    2. 운영기관은 본 이용약관을 사전 고지 없이 변경할 수 있고, 변경된 약관은 가명정보 활용 종합지원플랫폼 내에 공지와 동시에 그 효력이 발생됩니다. 회원이 변경된 약관에 동의하지 않는 경우, 회원은 본인의 회원등록을 취소(회원탈퇴)할 수 있으며 계속 사용의 경우는 약관 변경에 대한 동의로 간주됩니다.
-                  </pre>
+                    <Terms/>
                 </div>
                 <input id="policy2" type="checkbox" className="mb-1" checked={useCheck} onChange={useBtnEvent} />
                 <label htmlFor="policy2">이용약관에 동의합니다.(필수)</label>

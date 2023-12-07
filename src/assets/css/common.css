@@ -65,6 +65,7 @@ body {
   /* Safari and  Chrome */
   -o-animation: fadein 2000ms ease-out;
   /* Opera */
+  overflow-x: hidden!important;
 
 }
 
@@ -122,6 +123,10 @@ body {
 
 pre {
   white-space: pre-line !important
+}
+
+small {
+  font-size: 0.8rem;
 }
 
 .float-right {
@@ -624,19 +629,19 @@ h6 {
   border-color: var(--color-danger) !important;
 }
 .border-top {
-  border-top: solid 1px var(--color-secondary) !important;
+  border-top: solid 1px var(--color-light-hover) !important;
 }
 
 .border-bottom {
-  border-bottom: solid 1px var(--color-secondary) !important;
+  border-bottom: solid 1px var(--color-light-hover) !important;
 }
 
 .border-left {
-  border-left: solid 1px var(--color-secondary) !important;
+  border-left: solid 1px var(--color-light-hover) !important;
 }
 
 .border-right {
-  border-right: solid 1px var(--color-secondary) !important;
+  border-right: solid 1px var(--color-light-hover) !important;
 }
 
 .rounded-0 {

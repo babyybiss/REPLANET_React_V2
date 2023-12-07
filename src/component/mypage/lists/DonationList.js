@@ -165,7 +165,7 @@ function DonationList() {
                         <tr>
                             <th>순번</th>
                             <th>캠페인 이름</th>
-                            <th>단체</th>
+                            <th>재단</th>
                             <th onClick={handleToggleDetailsAll} className="toggle-header">
                                 {showDetailsAll ? '기부금액 (접기)' : '기부금액 (상세보기)'}
                             </th>
