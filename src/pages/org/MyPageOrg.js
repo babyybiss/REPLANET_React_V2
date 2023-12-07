@@ -75,10 +75,10 @@ function MyPageOrg() {
                         리뷰 관리
                     </NavLink>
                     <NavLink to="confirmPwd" className='admin-sidebar-menu' style={modifyMenu}>
-                        정보 수정
+                        재단 정보 수정
                     </NavLink>
                     <NavLink to="withdraw" className='admin-sidebar-menu'>
-                        탈퇴 요청
+                        탈퇴 신청
                     </NavLink>
                 </div>
                 <div>

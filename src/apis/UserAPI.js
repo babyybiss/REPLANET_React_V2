@@ -57,7 +57,17 @@ export function VerifyUserAPI({memberCode, userPwd}, navigate){
             const result = await axios.get(requestURL, {params: {userPwd}});
             console.log('[UserAPI] VerifyUserAPI SUCCESS');
             dispatch({type: GET_VERIFY_USER, payload: result.data});
-            navigate('/myPage/modify');
+            Swal.fire({
+                icon: "success",
+                iconColor: '#1D7151',
+                title: "정보 수정으로 이동합니다.",
+                showCancelButton: false,
+                confirmButtonColor: '#1D7151',
+                confirmButtonText: '확인'
+            }).then(result => {
+                if(result.isConfirmed){
+                    navigate('/myPage/modify');
+            }})
         }catch(error){
             console.log('[UserAPI] VerifyUserAPI FAIL : ', error);
             if(error.response?.data == 'WrongPwd'){
