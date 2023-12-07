@@ -881,7 +881,7 @@ h6 {
 .container-first {
   margin: 0 auto !important;
   max-width: calc(90rem + 10vw);
-  padding: calc(3rem + 80px) 5vw;
+  padding: calc(3rem + 50px);
   min-height: calc(100vh);
 }
 

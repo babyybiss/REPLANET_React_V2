@@ -1,20 +1,17 @@
 import { useEffect, useState } from "react"
 import { VictoryChart, VictoryZoomContainer, VictoryBrushContainer, VictoryLine, VictoryAxis, VictoryScatter, VictoryGroup, VictoryTooltip } from "victory"
-import "../../assets/css/chart.css";
-import { dateFormatToKorean } from "../../utils/DateFormatToKorean";
-import { numberFormatToKorean } from "../../utils/NumberFormatToKorean";
+import { dateFormatToKorean } from "../../../utils/DateFormatToKorean";
+import { numberFormatToKorean } from "../../../utils/NumberFormatToKorean";
 
-function HistoryChart(chartDataListProps) {
+function HistoryCampaignChart(dataProps) {
 
-    /* chartData from API */
-    const { chartDataList } = chartDataListProps;
+    const { donationTimeData } = dataProps;
         
     /* zoom 초기값 설정을 위한 변수 세팅 */ 
     const today = new Date();
     const todayGetMonth = today.getMonth() + 1
     const firstByToday = new Date(today.getFullYear(),today.getMonth(), 1, 0, 0, 0, 0);
     const lastByToday = new Date(today.getFullYear(),today.getMonth() + 1, 0, 23, 59, 59, 999);
-    
     
     const [firstDayOfMonth, setFirstDayOfMonth] = useState(firstByToday);
     const [lastDayOfMonth, setLastDayOfMonth] = useState(lastByToday);
@@ -34,7 +31,6 @@ function HistoryChart(chartDataListProps) {
             const today = new Date();
             today.setMonth(selectedOption - 1);
 
-            console.log('옵션 변경되었으니 이쪽으로 오는거 맞지?', today.setMonth(selectedOption - 1))
             // console.log(today.setMonth(selectedOption - 1))
             const calcFirstDay = new Date(today.getFullYear(), today.getMonth(), 1, 0, 0, 0, 0)
             const calcLastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0, 23, 59, 59, 999)
@@ -66,7 +62,6 @@ function HistoryChart(chartDataListProps) {
         // console.log(filterYFromDomain)
         setZoomDomain(filterYFromDomain);
         setBrushDomain(filterYFromDomain);
-        //console.log('???')
     }
 
     const brushDomainHandler = (domain) => {
@@ -118,7 +113,7 @@ function HistoryChart(chartDataListProps) {
     /* render */ 
     return (
         <div className='chartbox'>
-            <h4>일별 모금액 추이</h4>
+            <h4>월별 모금액 추이</h4>
             <select 
                 value={selectedOption}
                 onChange={optionChangeHandler}
@@ -168,7 +163,7 @@ function HistoryChart(chartDataListProps) {
                             style={toolTipStyle}
                         />
                     }
-                    data={chartDataList}
+                    data={donationTimeData}
                     x={stringX}
                     y={stringY}
                 >
@@ -206,7 +201,7 @@ function HistoryChart(chartDataListProps) {
                 />
                 <VictoryLine
                     style={lineAndScatterStyle}
-                    data={chartDataList}
+                    data={donationTimeData}
                     x={stringX}
                     y={stringY}
                 />
@@ -216,4 +211,4 @@ function HistoryChart(chartDataListProps) {
     );
 }
 
-export default HistoryChart;
+export default HistoryCampaignChart;

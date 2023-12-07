@@ -9,10 +9,13 @@ export const dateFormatToKorean = (dateTime, includeTime = true) => {
 
     if (includeTime) {
         const hours = date.getHours();
+        /*
         const minutes = date.getMinutes();
         const seconds = date.getSeconds();
 
         result += `${hours}시${minutes}분${seconds}초`;
+        */
+        result += `${hours}시`;
     }
 
     return result;

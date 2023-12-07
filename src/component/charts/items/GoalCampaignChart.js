@@ -16,15 +16,10 @@ function CustomFlyout(flyoutComponentProps) {
     );
 }
 function GoalCampaignChart(dataProps) {
-    const { chartDataList } = dataProps;
-    console.log(chartDataList)
+    const { byCategory } = dataProps;
 
-
-    const tickValuesAttributes = chartDataList.map((_, index) => index + 1);
-    const tickFormatAttributes = chartDataList.map(categoryname => categoryname.campaignCategory)
-    
-    console.log(tickValuesAttributes)
-    console.log(tickFormatAttributes)
+    const tickValuesAttributes = byCategory.map((_, index) => index + 1);
+    const tickFormatAttributes = byCategory.map(categoryname => categoryname.campaignCategory)
 
     /* Event function setting */ 
     const mouseEventsHandler = [
@@ -65,10 +60,7 @@ function GoalCampaignChart(dataProps) {
                         {
                             target: "labels",
                             mutation: ({data, index, text}) => {
-                                // const {data, index, text} = eventProps;
                                 const currentBudget = data[index].sumCurrentBudget
-                                // console.log(e);
-                                // console.log(e.data[e.index].campaings);
                                 return text !== `${numberFormatToKorean(currentBudget)}원` ? { text: `${numberFormatToKorean(currentBudget)}원` } : null 
                             }
                         }
@@ -116,7 +108,6 @@ function GoalCampaignChart(dataProps) {
         labels: {
         ...baseFillStyle,
         fontSize: 20
-        //fill: ({ index }) => + index % 2 === 0 ? "#10573C" : "#000000" 
         }
     }
 
@@ -160,7 +151,7 @@ function GoalCampaignChart(dataProps) {
                 style={axisStyle}
             />
             <VictoryBar 
-                data={chartDataList} 
+                data={byCategory} 
                 labels={() => ""}
                 barWidth={40}
                 events={mouseEventsHandler} 
