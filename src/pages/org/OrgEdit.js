@@ -184,7 +184,7 @@ function OrgEdit() {
             <div className="admin-main">
                 <div className="admin-title">
                     <div>
-                        <h1 class="text-primary">기부처 정보 수정</h1><br/>
+                        <h1 class="text-primary">재단 정보 수정</h1><br/>
                         <div id="profileImgArea">
                             <img src={orgImg} className="orgImg" />
                         </div>

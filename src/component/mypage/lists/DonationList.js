@@ -120,7 +120,7 @@ function DonationList() {
         <>
             {loading ? (<div><Loader /></div>) : (<div className="admin-main">
                 <div className="admin-title">
-                    <h1 class="text-primary">기부내역</h1>
+                    <h1 class="text-primary">기부 내역</h1>
                 </div>
                 <div className=''>
                     <div class="items-container ic4">
