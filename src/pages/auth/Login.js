@@ -1,5 +1,5 @@
 import React, { useState, useRef, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 import AuthContext from "../../component/auth/AuthContext";
 import '../../assets/css/user.css';
 import Swal from "sweetalert2";
@@ -81,8 +81,8 @@ const Login = () => {
 
                         <div className="items-container ic2 text-center pt-2">
                             {/*<div className="login-option" style={{cursor:'pointer'}} onClick={KakaoLoginHandler}>Kakao로 가입하기</div>*/}
-                            <a href="./findId" className="login-option">계정 찾기</a>
-                            <a href="./findpw" className="login-option">비밀번호 찾기</a>
+                            <NavLink to="/findId" className="login-option">계정 찾기</NavLink>
+                            <NavLink to="/findpw" className="login-option">비밀번호 찾기</NavLink>
                         </div>
 
                     </div>

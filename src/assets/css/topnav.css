@@ -74,10 +74,7 @@
   .topnav .menu a:active {
 	transform: translateX(0);
   }
-  
-  
-  /* Add an active class to highlight the current page */
-  .topnav a.active {}
+
   
   .topnav .brand,
   .topnav .brand a {
