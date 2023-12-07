@@ -137,14 +137,12 @@ export const AuthContextProvider = (props) => {
                     navigate("/", { replace: true });
                 }
             } else {
-
-                Swal.fire("로그인 실패!", "이메일 또는 비밀번호를 확인해 주세요.")
+                Swal.fire("로그인 실패", "이메일 또는 비밀번호를 확인해 주세요.")
                 console.log('result : ',result);
-
             }
         })
         .catch((error) => {
-            console.error(error);
+            console.error('에러 정보 : ',error);
         });
     };
 
