@@ -281,7 +281,7 @@ function PayForm() {
                 <div className="pay-box">
                     <div className="pay-anno2">
                         <div>
-                            <span className="pay-color-gray">가용포인트 : </span>
+                            <span className="pay-color-gray">보유포인트 : </span>
                             <span className="pay-color-green">
                                 {isNaN(currentPoint) ? '로딩중...' : currentPoint.toLocaleString()}
                             </span>
