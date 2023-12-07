@@ -1,6 +1,7 @@
 import {VictoryVoronoiContainer, VictoryLine, VictoryChart, VictoryAxis, VictoryGroup, VictoryScatter, VictoryTooltip} from 'victory';
 import { CustomFlyoutY1, CustomFlyoutY2, CustomFlyoutY3, CustomFlyoutY4, CustomFlyoutY5, CustomFlyoutY6 } from './currentYearCampaign/CurrentYearTooltips';
 import { lineStyleY1, lineStyleY2, lineStyleY3, lineStyleY4, lineStyleY5, lineStyleY6, scatterStyleY1, scatterStyleY2, scatterStyleY3, scatterStyleY4, scatterStyleY5, scatterStyleY6  } from './currentYearCampaign/CurrentYearDataStyles';
+import '../../../assets/css/chart.css';
 
 function CurrentYearChart(dataProps) {
 
@@ -70,23 +71,27 @@ function CurrentYearChart(dataProps) {
     let startLabelX = (width/6);
     /* 차트 크기 비례 라벨 시작하는 y 좌표 */ 
     let startLabelY = (height/10);
-    /* 고정으로 움직일 x 좌표 */ 
-    let moveXAmount = 80;
-    /* 고정으로 움직일 y 좌표 */ 
-    let moveYAmount = 18;
+    /* 고정으로 움직일 라벨 x 크기 */
+    let labelX = 5;
     /* 표시할 라벨의 갯수 */ 
     let labetAmount = 6;
+
+    /* 툴팁박스 고정으로 움직일 x크기 */ 
+    let moveXAmount = 80;
+    /* 툴팁박스 고정으로 움직일 y크기 */ 
+    let moveYAmount = 18;
     /* 툴팁 박스 간격 */ 
     let tooltipInterval = 35;
     /* tooltipInterval을 적용할 툴팁 박스의 갯수 */
     let tooltipAmount = 4;
+    
 
     const labelLocationXSet = Array.from({ length: labetAmount }, (_, index) => startLabelX + (startLabelX * index));
     const tooltipIntervalXSet = Array.from({ length: tooltipAmount }, (_, index) => tooltipInterval + (tooltipInterval * index));
     
     /* ---------- style setiing end ---------- */
     return (
-        <div className='chartbox'>
+        <div className='chart-box'>
             <h4>당해 등록된 캠페인 수</h4>
             <VictoryChart 
                 width={width} height={height}
@@ -117,7 +122,10 @@ function CurrentYearChart(dataProps) {
                                 fill: dataColorSet[0],
                                 fontSize: 40
                             }}
-                            center={{ x: labelLocationXSet[0], y: startLabelY }}
+                            center={{ 
+                                x: labelLocationXSet[0], 
+                                y: startLabelY 
+                            }}
                             flyoutComponent={
                                 <CustomFlyoutY1
                                     dataColorSet={dataColorSet}
@@ -155,7 +163,10 @@ function CurrentYearChart(dataProps) {
                                 fill: dataColorSet[1],
                                 fontSize: baseToolTipSize
                             }}
-                            center={{x: labelLocationXSet[1], y: startLabelY }}
+                            center={{
+                                x: labelLocationXSet[1]-labelX, 
+                                y: startLabelY 
+                            }}
                             flyoutComponent={
                                 <CustomFlyoutY2
                                     dataColorSet={dataColorSet}
@@ -193,7 +204,10 @@ function CurrentYearChart(dataProps) {
                                 fill: dataColorSet[2],
                                 fontSize: baseToolTipSize
                             }}
-                            center={{ x: labelLocationXSet[2], y: startLabelY }}
+                            center={{ 
+                                x: labelLocationXSet[2]-labelX-tooltipIntervalXSet[0], 
+                                y: startLabelY 
+                            }}
                             flyoutComponent={
                                 <CustomFlyoutY3
                                     dataColorSet={dataColorSet}
@@ -231,7 +245,10 @@ function CurrentYearChart(dataProps) {
                                 fill: dataColorSet[3],
                                 fontSize: baseToolTipSize
                             }}
-                            center={{ x: labelLocationXSet[3], y: startLabelY }}
+                            center={{ 
+                                x: labelLocationXSet[3]-labelX-tooltipIntervalXSet[1], 
+                                y: startLabelY 
+                            }}
                             flyoutComponent={
                                 <CustomFlyoutY4 
                                     dataColorSet={dataColorSet}
@@ -269,7 +286,10 @@ function CurrentYearChart(dataProps) {
                                 fill: dataColorSet[4],
                                 fontSize: baseToolTipSize
                             }}
-                            center={{ x: labelLocationXSet[4], y: startLabelY }}
+                            center={{ 
+                                x: labelLocationXSet[4]-labelX-tooltipIntervalXSet[2], 
+                                y: startLabelY 
+                            }}
                             flyoutComponent={
                                 <CustomFlyoutY5
                                     dataColorSet={dataColorSet}
@@ -307,7 +327,10 @@ function CurrentYearChart(dataProps) {
                                 fill: dataColorSet[5],
                                 fontSize: baseToolTipSize
                             }}
-                            center={{ x: labelLocationXSet[5], y: startLabelY }}
+                            center={{ 
+                                x: labelLocationXSet[5]-labelX-tooltipIntervalXSet[3],
+                                y: startLabelY 
+                            }}
                             flyoutComponent={
                                 <CustomFlyoutY6
                                     dataColorSet={dataColorSet}

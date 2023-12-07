@@ -1,6 +1,6 @@
 export function CustomFlyoutY1(flyoutComponentProps) {
     const { dataColorSet, startLabelY, labelLocationXSet, tooltipIntervalXSet, moveXAmount, moveYAmount, width, height } = flyoutComponentProps;
-    const newX = labelLocationXSet[0] - moveXAmount;
+    const newX = labelLocationXSet[0];
     const newY = startLabelY - moveYAmount;
 
     return (

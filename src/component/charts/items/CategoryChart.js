@@ -1,6 +1,6 @@
 import {VictoryBar, VictoryChart, VictoryLabel, VictoryVoronoiContainer, VictoryPolarAxis, VictoryStack} from 'victory';
-import "../../../assets/css/chart.css";
 import { numberFormatToKorean } from "../../../utils/NumberFormatToKorean";
+import '../../../assets/css/chart.css';
 
 /* chart common figure */
 const width = 1500;
@@ -129,7 +129,7 @@ function CategoryChart(dataProps) {
     /* ---------- style setiing end ---------- */
 
     return (
-        <div className='chartbox'>
+        <div className='chart-box'>
             <h4>카테고리별 목표 모금액 대비 달성률</h4>
             <VictoryChart
                 polar

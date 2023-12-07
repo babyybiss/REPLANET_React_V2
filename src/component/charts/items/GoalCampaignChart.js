@@ -1,5 +1,6 @@
 import {VictoryVoronoiContainer, VictoryBar, VictoryChart, VictoryAxis, VictoryTooltip} from 'victory';
 import { numberFormatToKorean } from '../../../utils/NumberFormatToKorean';
+import '../../../assets/css/chart.css';
 
 function CustomFlyout(flyoutComponentProps) {
     const {x, y} = flyoutComponentProps;
@@ -119,7 +120,7 @@ function GoalCampaignChart(dataProps) {
     }
     */
     return( 
-        <div className='chartbox'>
+        <div className='chart-box'>
         <h4>카테고리별 현재 모금액 합계</h4>
         <VictoryChart 
             domainPadding={100} 
