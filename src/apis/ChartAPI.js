@@ -1,12 +1,32 @@
 import { request } from "./CommonAPI";
-import { getChartlist } from "../modules/ChartModule";
+import { getCategoryData, getDonationTime, getCurrentYear } from "../modules/ChartModule";
 
-export function callGetChartListAPI() {
+export function callGetCategoryDataAPI() {
 
-    return async (dispatch, getState) => {
+    return async (dispatch, _) => {
 
-        const response = await request('GET', '/charts/series');
+        const response = await request('GET', '/charts/series/byCategory');
 
-        dispatch(getChartlist(response));
+        dispatch(getCategoryData(response));
+    }
+}
+
+export function callGetDonationTimeAPI() {
+
+    return async (dispatch, _) => {
+
+        const response = await request('GET', '/charts/series/byDonationTime');
+
+        dispatch(getDonationTime(response));
+    }
+}
+
+export function callGetCurrentYearAPI() {
+
+    return async (dispatch, _) => {
+
+        const response = await request('GET', '/charts/series/byCurrentYear');
+
+        dispatch(getCurrentYear(response))
     }
 }
