@@ -81,12 +81,20 @@ function CampaignSidebar({ campaign, orgList }) {
         }).then(result => {
             if (result.isConfirmed) {
                 if (campaign.currentBudget > 0) {
-                    Swal.fire('', '모금액이 존재하므로 수정이 불가능합니다.')
+                    Swal.fire({
+                        icon: "error",
+                        title: "오류",
+                        text: '모금액 있어서 수정 불가능합니다.',
+                        showCancelButton: false,
+                        confirmButtonColor: '#1D7151',
+                        confirmButtonText: '확인',
+                    })
                     return;
-                } else if (campaignStatus < 0) {
-                    Swal.fire('', '마감 날짜가 지났습니다.')
-                    return;
-                }
+                } 
+                // else if (campaignStatus < 0) {
+                //     Swal.fire('', '마감 날짜가 지났습니다.')
+                //     return;
+                // }
                 navigate(`/modify/${campaignCode}`)
             }
         }

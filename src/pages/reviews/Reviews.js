@@ -73,7 +73,7 @@ console.log("reviewexists?? ", reviewExists);
     } else if (memberUI && reviewExists === true) {
       return state.reviewReducer.reviewList;
     } else if (orgUI && reviewExists === false) {
-        console.log("리뷰 없는 재단꺼!");
+        console.log("후기 없는 재단꺼!");
       return state.reviewReducer.orgReviewNeededCampaign;
     } else if (orgUI && reviewExists === true) {
       console.log("재단꺼!");
@@ -90,7 +90,7 @@ console.log("reviewexists?? ", reviewExists);
       <>
         {orgUI && 
           <div className="admin-title m-4">
-            <h1 class="text-primary">캠페인 리뷰 목록</h1>
+            <h1 class="text-primary">캠페인 후기 목록</h1>
           </div>
         }
         

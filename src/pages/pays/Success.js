@@ -125,7 +125,7 @@ function Success() {
                                     <td><h5>{campaignTitle}</h5></td>
                                 </tr>
                                 <tr className='success-body-row'>
-                                    <td><h5>단체명</h5></td>
+                                    <td><h5>재단명</h5></td>
                                     <td><h5>{orgName}</h5></td>
                                 </tr>
                                 <tr className='success-body-row'>

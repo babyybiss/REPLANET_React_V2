@@ -111,7 +111,7 @@ export function ReviewModify () {
             }));
             Swal.fire({
                 icon: 'success',
-                title: "리뷰 수정 성공!<br/>리뷰 목록으로 이동합니다.",
+                title: "후기 수정 성공!<br/>후기 목록으로 이동합니다.",
                 confirmButtonColor: '#1D7151',
                 iconColor: '#1D7151'
             }).then((result) => {
@@ -228,7 +228,7 @@ export function ReviewModify () {
                         onClick={ onClickReviewRegistrationHandler }
                         className="button button-primary w-20 m-1"
                     >
-                            리뷰 등록
+                            후기 등록
                     </button>
                     </div>
             </div>

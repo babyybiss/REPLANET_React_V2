@@ -25,7 +25,7 @@ export function ReviewDetailsIntroductionBox({ review, donors }) {
   const deleteReviewHandler = () => {
     if(window.confirm("정말 삭제하시겠습니까? 복구할 수 없습니다.")){
       dispatch(callDeleteReviewAPI(reviewCode, revFileCode))
-      alert('삭제 성공!\n리뷰 목록으로 이동합니다.');
+      alert('삭제 성공!\n후기 목록으로 이동합니다.');
       navigate('/reviews');
       window.location.reload();
     } else {
@@ -69,7 +69,7 @@ export function ReviewDetailsIntroductionBox({ review, donors }) {
         
           <ul style={{color: "#898989"}}>
             <li>봉사활동 참여로 지급받으신 포인트를 리플래닛에서 기부하세요.</li>
-            <li>기부금은 100% 단체에 전달됩니다.</li>
+            <li>기부금은 100% 재단에 전달됩니다.</li>
           </ul>
           <div>
 
