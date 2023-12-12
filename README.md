@@ -1,7 +1,7 @@
 # Voluntain-2nd
 
 <div align="center">
-<img width="329" alt="image" src=".github/images/replanet_temp_img.png">
+<img width="600" alt="image" src=".github/images/replanet_temp_img.png">
 
 [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FVoluntain-SKKU%2FVoluntain-2nd&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
 
@@ -41,10 +41,9 @@ $ cd REPLANET_React_V2
 
 ---
 
-## Stacks 🐈
+## Environment 🐈
 
-### Environment
-<img width="329" src=".github/images/replanet_development.png"/>
+<img width="600" src=".github/images/replanet_development.png"/>
 
 ---
 ## 화면 구성 📺
