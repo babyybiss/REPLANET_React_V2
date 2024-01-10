@@ -274,12 +274,7 @@ export function ReviewComment ({ review }) {
   <>
     {comment.revCommentMonitorized === "Y" ?
       (<>
-      {/* <span>
-        <button className="button1 button-danger w-5" onClick={(e) => handleDeleteComment(e, comment.revCommentCode)}>
-          삭제
-        </button>
-      </span>
-      현재는 ROLE_ADMIN의 댓글 삭제 기능이 미완성이므로 숨겨둡니다.*/ }
+      
       </>)
       :
       (decodedToken.memberRole === "ROLE_ADMIN" ?
@@ -343,7 +338,6 @@ export function ReviewComment ({ review }) {
                       type="text"
                       placeholder="일반 회원만 댓글을 작성할 수 있습니다."
                       disabled
-                      // onClick={NavigateToLoginPageHandler}
                     />
                   </p>
                 </form>
@@ -355,7 +349,6 @@ export function ReviewComment ({ review }) {
                     type="text"
                     placeholder="로그인 후 이용 가능한 서비스입니다."
                     disabled
-                    // onClick={NavigateToLoginPageHandler}
                   />
                   </p>
                 </form>
