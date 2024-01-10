@@ -204,7 +204,8 @@ export function ReviewRegist() {
         <>
             <div className="container-first">
                     <h1 className="py-3 container-centered">캠페인 후기 등록</h1>
-                    <h4 className="container-centered">{result && result.results.campaign.organization.member.memberName}</h4>
+                    <h4 className="container-centered">{result && result.results.campaign.campaignTitle}</h4>
+                    <h6 className="container-centered" style={{color: "grey"}}>{result && result.results.campaign.organization.member.memberName}</h6>
                     <div className="text-center">
                         <input 
                             type="text" 

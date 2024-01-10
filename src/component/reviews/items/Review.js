@@ -1,10 +1,8 @@
 import { NavLink } from "react-router-dom";
-//import { stylesheet } from "../../../assets/css/common.css"
 
 export function Review({ review, reviewExists }) {
   const currentDate = new Date();
   const reviewCode = review.reviewCode;
-  // Check if review has endDate and if it's greater than or equal to the current date
   const isEndDateValid = review.campaignEndDate && new Date(review.campaignEndDate) <= currentDate;
 
   const currentUrl = window.location.href;
