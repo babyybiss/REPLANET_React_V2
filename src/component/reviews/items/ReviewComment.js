@@ -231,14 +231,23 @@ export function ReviewComment ({ review }) {
                 {commentBeingModified === comment.revCommentCode ? (
                 // If the comment is being modified, show the input
                 <p className="w-100">
-                  <h5>{comment.memberCode}</h5>
-                  <input
+                  <h5>{decodedToken.email}</h5>
+                  <div className="input-group">
+                  <textarea
                     type="text"
                     name="commentState"
                     value={commentState}
-                    className="commentInput commentI"
+                    className="commentI textarea"
                     onChange={(e) => setCommentState(e.target.value)}
                   />
+                  <button 
+                    className="button-primary p-1" 
+                    style={{borderTopRightRadius: "0.25rem", borderBottomRightRadius: "0.25rem"}}
+                    onClick={() => handleSubmitModifiedComment(comment.revCommentCode, comment.memberCode, comment.reviewCode)}
+                    >
+                    등록
+                  </button>
+                  </div>
                 </p>
               ) : (
                 // Otherwise, show the comment details
@@ -265,9 +274,6 @@ export function ReviewComment ({ review }) {
             </div>
             {commentBeingModified && decodedToken && (decodedToken.memberRole === "ROLE_ADMIN" || decodedToken.memberCode === comment.memberCode) && (
   <span className="mt-1">
-    <button onClick={() => handleSubmitModifiedComment(comment.revCommentCode, comment.memberCode, comment.reviewCode)} className="button1 button-primary w-5">
-      등록
-    </button>
   </span>
 )}
 
@@ -311,7 +317,7 @@ export function ReviewComment ({ review }) {
               <p className="w-100">
               <div className="input-group">
                 <textarea
-                  className="commentInput commentI textarea"
+                className="commentI textarea"
                   name="revCommentContent"
                   type="text"
                   placeholder={review.reviewCommentList ? "댓글을 입력해 주세요!" : "따뜻한 한마디로 첫 응원자가 되어 보세요!"}
