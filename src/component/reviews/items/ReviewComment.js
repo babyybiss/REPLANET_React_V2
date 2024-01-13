@@ -12,7 +12,7 @@ import { callPutSpecificCommentModify } from "../../../apis/ReviewAPI";
 import { useNavigate } from "react-router-dom";
 import { callputMonitoredComment } from "../../../apis/ReviewAPI";
 import Swal from "sweetalert2";
-
+import { format, parseISO } from 'date-fns';
 
 export function ReviewComment ({ review }) {
 
@@ -213,6 +213,7 @@ export function ReviewComment ({ review }) {
   };
 
 
+
   return (
     <ul id="comment" className={commentStyles.commentList}>
       <li>
@@ -248,13 +249,13 @@ export function ReviewComment ({ review }) {
                     <>
                     <h5>{hideEmailCharacters(commentEmail[comment.memberCode])}</h5>
                     <h6 style={{color: "#1D7151", fontWeight: 'bold'}}>부적절한 표현을 감지하여 리플래닛 클린봇에 의해 숨겨진 댓글입니다.</h6>
-                    {endDate}
+                    {format(parseISO(comment.revCommentDate), 'yyyy-MM-dd')}
                     </>
                   ) : (
                     <>
                     <h5>{hideEmailCharacters(commentEmail[comment.memberCode])}</h5>
                     <h6>{comment.revCommentContent}</h6>
-                    {endDate}
+                    {format(parseISO(comment.revCommentDate), 'yyyy-MM-dd')}
                     </>
 
                   )}
@@ -298,14 +299,6 @@ export function ReviewComment ({ review }) {
         </>
       )
     }
-
-    {/*{decodedToken.memberRole === "ROLE_USER" && (decodedToken.memberCode === comment.memberCode) && (
-      <span>
-        <button className="button1 text-danger w-5" onClick={(e) => handleModifyComment(e, comment.revCommentCode, comment.revCommentContent)}>
-          수정
-        </button>
-      </span>
-    )}*/}
   </>
 )}
     </div>
