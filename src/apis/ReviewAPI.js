@@ -70,13 +70,8 @@ export function callGetCompletedCampaign() {
 */
 
 export function callGetSpecificReviewAPI(reviewCode) {
-    console.log('getSpecificReview call...');
-
-    return async (dispatch, getState) => {
-
+    return async (dispatch) => {
         const result = await request('GET', `/reviews/${reviewCode}`);
-        console.log('getSpecificReview result: ', result);
-
         dispatch(getReview(result));
     }
 }

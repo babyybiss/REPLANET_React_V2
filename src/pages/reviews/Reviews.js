@@ -37,20 +37,20 @@ export function Reviews() {
   console.log('Decoded Token:', decodedToken);
 
   useEffect(() => {
-    const isPageReloaded = performance.navigation.type === 1;
-    
-console.log("reviewexists?? ", reviewExists);
     if (memberUI && reviewExists == false) {
       dispatch(callGetCampaignsWithoutAReview())
+      console.log("후기 기본 페이지 후기 없는 캠페인 전체 조회");
     } else if (memberUI && reviewExists == true) {
       dispatch(callGetReviewsAPI())
+      console.log("후기 기본 페이지 후기 전체 조회");
     } else if (orgUI && reviewExists == false) {
-        const memberCode = decodedToken.memberCode
+      const memberCode = decodedToken.memberCode
       dispatch(callGetOrgCampaignsWithoutReview(memberCode))
+      console.log("(마이페이지)로그인한 해당 재단의 후기 없는 캠페인 전체 조회");
     } else if (orgUI && reviewExists == true) {
-        const memberCode = decodedToken.memberCode
-        dispatch(callGetOrgReviewAPI(memberCode))
-      console.log("재단 api!");
+      const memberCode = decodedToken.memberCode
+      dispatch(callGetOrgReviewAPI(memberCode))
+      console.log("(마이페이지)로그인한 해당 재단의 캠페인 후기 전체 조회");
     };
   }, [reviewExists]);
 
@@ -68,14 +68,16 @@ console.log("reviewexists?? ", reviewExists);
 
   const result = useSelector((state) => {
     if (memberUI && reviewExists === false) {
+      console.log("후기 기본 페이지 후기 없는 캠페인 전체 조회");
       return state.reviewReducer.getReviewNeededCampaign;
     } else if (memberUI && reviewExists === true) {
+      console.log("후기 기본 페이지 후기 전체 조회");
       return state.reviewReducer.reviewList;
     } else if (orgUI && reviewExists === false) {
-        console.log("후기 없는 재단꺼!");
+      console.log("(마이페이지)로그인한 해당 재단의 후기 없는 캠페인 전체 조회");
       return state.reviewReducer.orgReviewNeededCampaign;
     } else if (orgUI && reviewExists === true) {
-      console.log("재단꺼!");
+      console.log("(마이페이지)로그인한 해당 재단의 캠페인 후기 전체 조회");
       return state.reviewReducer.orgReviewList;
     }
   });

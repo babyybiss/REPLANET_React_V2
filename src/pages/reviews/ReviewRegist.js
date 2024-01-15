@@ -98,7 +98,7 @@ export function ReviewRegist() {
         if(formData.get("reviewTitle") == "" || formData.get("description") == "") {
             Swal.fire({
                 icon: 'warning',
-                title: '입력안하니',
+                title: '전체 입력 부탁드립니다.',
                 confirmButtonColor: '#1D7151',
                 iconColor: '#1D7151'
             });
@@ -112,7 +112,6 @@ export function ReviewRegist() {
             });
             return;
         } else {
-            console.log("뭐징ㅇㅇㅇㅇ: ", formData)
             dispatch(callPostReview({
             form: formData
             }));                                                                                                

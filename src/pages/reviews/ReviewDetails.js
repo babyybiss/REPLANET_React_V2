@@ -21,13 +21,12 @@ export function ReviewDetails() {
   }, []);
 
   useEffect(() => {
-  if(review) {
-       // const campaignCode = review.campaign.campaignCode;
-       dispatch(callGetDonationByCampaignCodeAPI({
+    if(review) {
+        dispatch(callGetDonationByCampaignCodeAPI({
         campaignCode : review.campaign.campaignCode
-      }))
-  }
-},[review]);
+        }))
+    }
+  },[review]);
   
 const donors = participationList?.length;
 console.log("how many donors? : ", donors);

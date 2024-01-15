@@ -52,10 +52,8 @@ export function ReviewComment ({ review }) {
 
     const handleCommentSubmit = async (e) => {
       e.preventDefault();
-      await dispatch(callPostReviewComment({ form: formData, reviewCode }));
-      // Fetch the updated comments without reloading the page
-      await dispatch(callGetReviewComments(reviewCode));
-      // Clear the comment input field
+      dispatch(callPostReviewComment({ form: formData, reviewCode }));
+      dispatch(callGetReviewComments(reviewCode));
       setForm({
         ...form,
         revCommentContent: '',
@@ -76,14 +74,13 @@ export function ReviewComment ({ review }) {
       setModify(true);
       setCommentBeingModified(revCommentCode);
       setCommentState(existingCommentContent);
-      
     }
 
     const handleDeleteComment = async (e, revCommentCode) => {
       e.preventDefault();
     
       if (decodedToken && decodedToken.memberRole === 'ROLE_ADMIN') {
-        await dispatch(callputMonitoredComment(reviewCode, revCommentCode));
+        dispatch(callputMonitoredComment(reviewCode, revCommentCode));
         Swal.fire({
           icon: 'success',
           title: '해당 댓글 숨김 완료!',
@@ -95,7 +92,7 @@ export function ReviewComment ({ review }) {
           }
         })
       } else {
-        await dispatch(callDeleteReviewComment(revCommentCode, reviewCode));
+        dispatch(callDeleteReviewComment(revCommentCode, reviewCode));
         Swal.fire({
           icon: 'success',
           title: '해당 댓글 삭제 완료!',
@@ -108,9 +105,7 @@ export function ReviewComment ({ review }) {
         })
 
       }
-    
-      // Fetch the updated comments without reloading the page
-      await dispatch(callGetReviewComments(reviewCode));
+      dispatch(callGetReviewComments(reviewCode));
     };
 
     const handleSubmitModifiedComment = async (revCommentCode, memberCode, reviewCode) => {
@@ -120,10 +115,8 @@ export function ReviewComment ({ review }) {
       formData.append('revCommentCode', revCommentCode);
       formData.append('reviewCode', reviewCode);
     
-      await dispatch(callPutSpecificCommentModify({ form: formData }));
-      // Fetch the updated comments without reloading the page
-      await dispatch(callGetReviewComments(reviewCode));
-      // Reset the modification state
+      dispatch(callPutSpecificCommentModify({ form: formData }));
+      dispatch(callGetReviewComments(reviewCode));
       setModify(false);
       setCommentBeingModified(null);
 
@@ -257,13 +250,13 @@ export function ReviewComment ({ review }) {
                   {comment.revCommentMonitorized === "Y" ? (
                     <>
                     <h5>{hideEmailCharacters(commentEmail[comment.memberCode])}</h5>
-                    <h6 style={{color: "#1D7151", fontWeight: 'bold'}}>부적절한 표현을 감지하여 리플래닛 클린봇에 의해 숨겨진 댓글입니다.</h6>
+                    <p style={{color: "#1D7151", fontWeight: 'bold'}}>부적절한 표현을 감지하여 리플래닛 클린봇에 의해 숨겨진 댓글입니다.</p><br/>
                     {format(parseISO(comment.revCommentDate), 'yyyy-MM-dd')}
                     </>
                   ) : (
                     <>
                     <h5>{hideEmailCharacters(commentEmail[comment.memberCode])}</h5>
-                    <h6>{comment.revCommentContent}</h6>
+                    <p>{comment.revCommentContent}</p><br/>
                     {format(parseISO(comment.revCommentDate), 'yyyy-MM-dd')}
                     </>
 
@@ -280,9 +273,13 @@ export function ReviewComment ({ review }) {
 {!commentBeingModified && decodedToken && (decodedToken.memberRole === "ROLE_ADMIN" || (decodedToken.memberRole === "ROLE_USER" && decodedToken.memberCode === comment.memberCode)) && (
   <>
     {comment.revCommentMonitorized === "Y" ?
-      (<>
-      
-      </>)
+      (
+        <span>
+          <button className="button1 button-danger w-5" onClick={(e) => handleDeleteComment(e, comment.revCommentCode)}>
+            삭제
+          </button>
+        </span>
+      )
       :
       (decodedToken.memberRole === "ROLE_ADMIN" ?
         <span>

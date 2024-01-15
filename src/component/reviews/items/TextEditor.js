@@ -7,8 +7,6 @@ export function TextEditor({ onContentChange, existingReviewDescription }) {
   const maxSizeInBytes = 1048576; // 1 MB
   const handleEditorChange = (content, editor) => {    
     onContentChange(content);
-
-    console.log(content);
   };
 
   const updateImageSrc = (fileName, content, iframeDoc) => {
@@ -33,20 +31,14 @@ export function TextEditor({ onContentChange, existingReviewDescription }) {
   const imageUploadHandler = (blobInfo, content) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
-      console.log("imageUploadHandler 들어옴1");
-  
-      // Wait for the file to be loaded
       reader.onloadend = () => {
         const binaryString = reader.result;
         const arrayBuffer = new Uint8Array(binaryString);
         const file = new File([arrayBuffer], blobInfo.filename(), { type: blobInfo.blob().type });
           if(file.size > maxSizeInBytes){
-            console.log("너무 크다");
             reject(new Error("이미지 용량이 1MB를 초과합니다."));
             return;
           }
-        console.log("들어옴2");
-  
         const formData = new FormData();
         formData.append('file', file);
   
@@ -57,36 +49,23 @@ export function TextEditor({ onContentChange, existingReviewDescription }) {
             const fileName = responseData.imageUrl;
             console.log("file name? : ", fileName);
   
-            // Get the TinyMCE editor iframe
             const iframe = document.querySelector('iframe');
             const iframeDoc = iframe.contentDocument;
-  
-            // Find the defaultImg element in the iframe
             const defaultImg = iframeDoc.querySelector('img[src^="data:"]') || iframeDoc.querySelector('img[src^="blob:"]');
-  
-            if (defaultImg) {
-              // Change the src attribute
+              if (defaultImg) {
               defaultImg.setAttribute('src', fileName);
-  
               for (let i = 0; i < 10; i++) {
-                // Optionally, set the alt attribute
                 defaultImg.setAttribute('alt', `reviewImg[${i}]`);
               }
-
               updateImageSrc(fileName, content, iframeDoc);
-  
-              // Resolve the promise with the response data
               resolve(res.data);
             }
           })
           .catch((error) => {
             console.error('Error during image upload:', error);
-            // Reject the promise with an error message
             reject(new Error('Image upload failed.'));
           });
       };
-  
-      // Start reading the blob
       reader.readAsArrayBuffer(blobInfo.blob());
     });
   };
